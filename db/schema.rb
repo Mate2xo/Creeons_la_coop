@@ -27,8 +27,10 @@ ActiveRecord::Schema.define(version: 2018_12_03_194451) do
   create_table "adresses_missions", id: false, force: :cascade do |t|
     t.bigint "adress_id", null: false
     t.bigint "mission_id", null: false
-    t.index ["adress_id", "mission_id"], name: "index_adresses_missions_on_adress_id_and_mission_id"
-    t.index ["mission_id", "adress_id"], name: "index_adresses_missions_on_mission_id_and_adress_id"
+    t.bigint "adresses_id"
+    t.bigint "missions_id"
+    t.index ["adresses_id"], name: "index_adresses_missions_on_adresses_id"
+    t.index ["missions_id"], name: "index_adresses_missions_on_missions_id"
   end
 
   create_table "infos", force: :cascade do |t|
