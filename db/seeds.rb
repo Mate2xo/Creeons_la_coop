@@ -7,9 +7,6 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 require 'faker'
 Mission.destroy_all
-Member.destroy_all
-Productor.destroy_all
-Info.destroy_all
 
 10.times do
     Mission.create!(
