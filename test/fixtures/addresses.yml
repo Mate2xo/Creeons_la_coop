@@ -1,13 +1,22 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  postal_code: 1
+no_postal:
   city: MyString
   street_name_1: MyString
   street_name_2: MyString
 
-two:
+no_city:
   postal_code: 1
+  street_name_1: MyString
+  street_name_2: MyString
+
+no_street_line_1:
+  postal_code: 1
+  city: MyString
+  street_name_2: MyString
+
+valid_address:
+  postal_code: 60500
   city: MyString
   street_name_1: MyString
   street_name_2: MyString
