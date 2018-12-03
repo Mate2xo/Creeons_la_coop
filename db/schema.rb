@@ -10,15 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 2018_12_03_175726) do
+ActiveRecord::Schema.define(version: 2018_12_03_194451) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "addresses", force: :cascade do |t|
-
-    t.integer "postal_code"
+    t.string "postal_code"
     t.string "city"
     t.string "street_name_1"
     t.string "street_name_2"
@@ -26,9 +24,16 @@ ActiveRecord::Schema.define(version: 2018_12_03_175726) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "adresses_missions", id: false, force: :cascade do |t|
+    t.bigint "adress_id", null: false
+    t.bigint "mission_id", null: false
+    t.index ["adress_id", "mission_id"], name: "index_adresses_missions_on_adress_id_and_mission_id"
+    t.index ["mission_id", "adress_id"], name: "index_adresses_missions_on_mission_id_and_adress_id"
+  end
+
   create_table "infos", force: :cascade do |t|
+    t.string "content"
     t.string "title"
-    t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -54,7 +59,6 @@ ActiveRecord::Schema.define(version: 2018_12_03_175726) do
     t.datetime "due_date"
     t.string "member"
     t.string "author"
-
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
