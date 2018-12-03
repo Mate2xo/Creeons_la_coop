@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2018_12_03_160947) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.string "adresse"
+    t.string "adress"
     t.string "phone_number"
     t.string "biography"
     t.datetime "created_at", null: false
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 2018_12_03_160947) do
     t.string "name"
     t.string "description"
     t.datetime "due_date"
-    t.string "membre"
+    t.string "member"
     t.string "author"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -4,7 +4,7 @@ class CreateMissions < ActiveRecord::Migration[5.2]
       t.string :name
       t.string :description
       t.datetime :due_date
-      t.string :membre
+      t.string :member
       t.string :author
       t.timestamps
     end

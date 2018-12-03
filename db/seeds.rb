@@ -5,3 +5,21 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+require 'faker'
+Mission.destroy_all
+Member.destroy_all
+Productor.destroy_all
+Info.destroy_all
+
+10.times do
+    Mission.create!(
+        name: Faker::GreekPhilosophers.name,
+        description: Faker::Food.dish,
+        due_date: Faker::Date.forward(20),
+        member: Faker::DrWho.character,
+        author: Faker::Artist.name
+    )
+end
+
+end
+
