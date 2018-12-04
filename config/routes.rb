@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :members
   root 'static_pages#home'
-  get 'static_pages/dashboard'
+  get 'dashboard', to: "static_pages#dashboard"
   resources :productors, only: [:index, :show, :edit]
   resources :infos, only: [:index, :show, :edit]
   resources :missions, only: [:index, :show, :edit]
