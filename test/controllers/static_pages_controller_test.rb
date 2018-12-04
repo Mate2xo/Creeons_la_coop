@@ -1,14 +1,14 @@
 require 'test_helper'
 
 class StaticPagesControllerTest < ActionDispatch::IntegrationTest
-  test "should get home" do
-    get static_pages_home_url
+  test "tout le monde peus accéder à la home" do
+    get root_url
     assert_response :success
   end
 
-  test "should get dashboard" do
+  test "les visiteurs ne peuvent pas accéder au dashboard des membres, et doivent être redirigés" do
     get static_pages_dashboard_url
-    assert_response :success
+    assert_response :redirect
   end
 
 end
