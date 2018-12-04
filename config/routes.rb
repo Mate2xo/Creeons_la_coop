@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  get 'static_pages/home'
+  devise_for :members
+  root 'static_pages#home'
   get 'static_pages/dashboard'
   get 'productors/index'
   get 'productors/show'

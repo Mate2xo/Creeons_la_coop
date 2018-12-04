@@ -20,3 +20,4 @@ valid_address:
   city: MyString
   street_name_1: MyString
   street_name_2: MyString
+

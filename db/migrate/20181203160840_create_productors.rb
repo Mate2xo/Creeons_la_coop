@@ -4,7 +4,6 @@ class CreateProductors < ActiveRecord::Migration[5.2]
       t.string :name
       t.text :description
       t.string :phone_number
-
       t.timestamps
     end
   end
