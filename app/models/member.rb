@@ -4,7 +4,7 @@ class Member < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :missions
-  has_one :adress
-  has_many :infos
+  #has_many :missions
+  #has_one :adress
+  #has_many :infos
 end
