@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 2018_12_04_091518) do
   end
 
   create_table "infos", force: :cascade do |t|
-    t.string "content"
+    t.text "content"
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 2018_12_04_091518) do
 
   create_table "missions", force: :cascade do |t|
     t.string "name"
-    t.string "description"
+    t.text "description"
     t.datetime "due_date"
     t.string "member"
     t.string "author"
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 2018_12_04_091518) do
 
   create_table "productors", force: :cascade do |t|
     t.string "name"
-    t.string "description"
+    t.text "description"
     t.string "phone_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
