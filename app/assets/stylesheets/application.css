@@ -19,4 +19,5 @@
 *= require css/jquery.fancybox.min
 *= require css/boomerang.min
 *= require css/custom-style
+*= require _navbar
  */
