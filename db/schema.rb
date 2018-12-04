@@ -24,15 +24,6 @@ ActiveRecord::Schema.define(version: 2018_12_04_091518) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "adresses_missions", id: false, force: :cascade do |t|
-    t.bigint "adress_id", null: false
-    t.bigint "mission_id", null: false
-    t.bigint "adresses_id"
-    t.bigint "missions_id"
-    t.index ["adresses_id"], name: "index_adresses_missions_on_adresses_id"
-    t.index ["missions_id"], name: "index_adresses_missions_on_missions_id"
-  end
-
   create_table "infos", force: :cascade do |t|
     t.text "content"
     t.string "title"
