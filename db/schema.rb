@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_03_160947) do
+ActiveRecord::Schema.define(version: 2018_12_04_091518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 2018_12_03_160947) do
   end
 
   create_table "infos", force: :cascade do |t|
-    t.string "content"
+    t.text "content"
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -37,9 +37,10 @@ ActiveRecord::Schema.define(version: 2018_12_03_160947) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.string "adresse"
+    t.string "first_name"
+    t.string "last_name"
+    t.text "biography"
     t.string "phone_number"
-    t.string "biography"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_members_on_email", unique: true
@@ -48,17 +49,15 @@ ActiveRecord::Schema.define(version: 2018_12_03_160947) do
 
   create_table "missions", force: :cascade do |t|
     t.string "name"
-    t.string "description"
+    t.text "description"
     t.datetime "due_date"
-    t.string "membre"
-    t.string "author"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "productors", force: :cascade do |t|
     t.string "name"
-    t.string "description"
+    t.text "description"
     t.string "phone_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
