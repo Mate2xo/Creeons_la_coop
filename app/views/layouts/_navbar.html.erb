@@ -45,11 +45,20 @@
             </ul>
 
             <ul class="navbar-nav ml-lg-auto">
-                <li class="nav-item">
-                    <%= link_to 'Sign Up', new_member_registration_path, class: "nav-link"  %>
-                </li>
-                <li class="nav-item">
-                    <%= link_to 'Sign In', new_member_session_path, class: "nav-link"  %>
+                <% if member_signed_in? %>
+                  <li class="nav-item">
+                    <%= link_to  "profil de #{current_member.id}", edit_member_path(current_member.id), class:"nav-link" %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link_to  "Déconnection", destroy_member_session_url, method:"delete", class:"nav-link" %>
+                  </li>
+                <% else %> 
+                    <li class="nav-item">
+                        <%= link_to "S'incrire", new_member_registration_path, class: "nav-link"  %>
+                    </li>
+                    <li class="nav-item">
+                        <%= link_to "Se connecter", new_member_session_path, class: "nav-link"  %>
+                <% end %>
                 </li>
             </ul>
         </div>
