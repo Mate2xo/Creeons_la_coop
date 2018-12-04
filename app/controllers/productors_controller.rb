@@ -4,6 +4,21 @@ class ProductorsController < ApplicationController
   end
 
   def show
+		require "addressable/uri"
+		@valide = "addresse invalide"
+		url = "7 rue de la haute pierre 78620"
+		if (@address = Addressable::URI.parse(url).normalize.to_str) != ""
+		response = RestClient.get (("https://maps.googleapis.com/maps/api/geocode/json?address=" + @address + "+france&key=AIzaSyCzGvZfemye0TE-2dCRM7VNXhSzms-PqCw")), {accept: :json}
+		response = JSON.parse(response.body)
+		if response["results"][0]
+			@lat = response["results"][0]["geometry"]["location"]["lat"]
+			@lng = response["results"][0]["geometry"]["location"]["lng"]
+			puts @lat
+			puts @lng
+			@valide = "addresse valide"
+		end
+
+		end
   end
 
   def edit
