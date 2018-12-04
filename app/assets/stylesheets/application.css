@@ -21,4 +21,7 @@
  *= require css/custom-style
  *= require _navbar
  *= require _footer
+ *= require static_pages
+ *= require session
  */
+
