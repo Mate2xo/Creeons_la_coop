@@ -24,5 +24,8 @@
  *= require static_pages
  *= require session
  *= require productors
+ *= require infos
+ *= require missions
+
  */
 
