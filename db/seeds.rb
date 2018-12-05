@@ -12,51 +12,51 @@ Member.destroy_all
 Productor.destroy_all
 Address.destroy_all 
 
-# 30.times do
-#   Address.create!(
-#     postal_code: Faker::Address.zip,
-#     city: Faker::Address.city,
-#     street_name_1: Faker::Address.street_address,
-#     street_name_2: Faker::Address.secondary_address
-#   )
-# end
+30.times do
+  Address.create!(
+    postal_code: Faker::Address.zip,
+    city: Faker::Address.city,
+    street_name_1: Faker::Address.street_address,
+    street_name_2: Faker::Address.secondary_address
+  )
+end
 
-# 10.times do
-#   first_name = Faker::Name.first_name
-#   last_name = Faker::Name.last_name
-#   member = Member.create(
-#     email: Faker::Internet.free_email(first_name),
-#     first_name: first_name,
-#     last_name: last_name,
-#     biography: Faker::RickAndMorty.quote,
-#     phone_number: Faker::PhoneNumber.phone_number
-#   )
-#   member.address = Address.find( rand((Address.first.id)..(Address.first.id + 9)) )
-# end
+10.times do
+  first_name = Faker::Name.first_name
+  last_name = Faker::Name.last_name
+  member = Member.create(
+    email: Faker::Internet.free_email(first_name),
+    password: "password",
+    first_name: first_name,
+    last_name: last_name,
+    biography: Faker::RickAndMorty.quote,
+    phone_number: Faker::PhoneNumber.phone_number
+  )
+  member.address = Address.find( rand((Address.first.id)..(Address.first.id + 9)) )
+end
 
-# 10.times do
-#   productor = Productor.create(
-#     name: Faker::Company.name,
-#     description: Faker::Company.bs,
-#     phone_number: Faker::PhoneNumber.phone_number
-#   )
-#   productor.address = Address.find( rand((Address.first.id + 10)..(Address.first.id + 19)) )
-# end
+10.times do
+  productor = Productor.create(
+    name: Faker::Company.name,
+    description: Faker::Company.bs,
+    phone_number: Faker::PhoneNumber.phone_number
+  )
+  productor.address = Address.find( rand((Address.first.id + 10)..(Address.first.id + 19)) )
+end
 
-# 10.times do
-#   mission = Mission.create!(
-#     name: Faker::Movie.quote,
-#     description: "Get some #{Faker::Food.vegetables}, and some #{Faker::Food.fruits}",
-#     due_date: Faker::Date.forward(20),
-#     author: Member.find( rand((Member.first.id)..(Member.last.id)) )
-#   )
-#   mission.address = Address.find( rand((Address.first.id + 10)..(Address.first.id + 29)) )
-#   mission.members << Member.take( rand(Member.count) )
-# end
+10.times do
+  mission = Mission.create!(
+    name: Faker::Movie.quote,
+    description: "Get some #{Faker::Food.vegetables}, and some #{Faker::Food.fruits}",
+    due_date: Faker::Date.forward(20),
+  )
+  mission.addresses << Address.find( rand((Address.first.id + 10)..(Address.first.id + 29)) )
+  mission.members << Member.take( rand(Member.count) )
+end
 
-# 5.times do
-#   Info.create!(
-#     title: Faker::Lorem.sentence,
-#     content: Faker::Lorem.paragraphs
-#   )
-# end
+5.times do
+  Info.create!(
+    title: Faker::Lorem.sentence,
+    content: Faker::Lorem.paragraphs
+  )
+end
