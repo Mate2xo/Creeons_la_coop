@@ -3,7 +3,7 @@
 one:
   name: MyProductorPlace
   description: MyText
-  phone_number: MyPhoneNumber2
+  phone_number: MyPhoneNumber
 
 two:
   name: MyProductorPlace2

@@ -1,6 +1,5 @@
 class Mission < ApplicationRecord
-    #has_many :members
-    #has_many :productors
-    #has_and_belongs_to_many :adresses
-    #has_many :infos
+    has_and_belongs_to_many :members
+    has_and_belongs_to_many :productors
+    has_and_belongs_to_many :addresses
 end

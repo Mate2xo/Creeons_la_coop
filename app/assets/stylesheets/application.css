@@ -12,4 +12,17 @@
  *
  *= require_tree .
  *= require_self
+ *= require css/bootstrap.min
+ *= require css/swiper.min
+ *= require hamburgers.min
+ *= require animate.min
+ *= require css/jquery.fancybox.min
+ *= require css/boomerang.min
+ *= require css/custom-style
+ *= require _navbar
+ *= require _footer
+ *= require static_pages
+ *= require session
+ *= require productors
  */
+
