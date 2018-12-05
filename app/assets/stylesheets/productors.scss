@@ -1,8 +1,20 @@
-// Place all the styles related to the productors controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
 
 #map {
 height: 400px; 
 width: 100%;
 }
+
+.btn-base-1 {
+	color: #e2bbbc !important;
+	background-color: #006030 !important;
+	border-radius: 5px !important;
+	font-weight: bold !important;
+	border-color: #006030 !important;
+	border-width: 2px !important;
+}
+
+.block--style-3 {
+	margin-left: 30px !important;
+		
+}
+
