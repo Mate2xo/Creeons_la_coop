@@ -5,7 +5,7 @@ class InfosController < ApplicationController
   end
 
   def show
-    @infos = Info.find(params[:id])
+    @info = Info.find(params[:id])
   end
 
   def edit

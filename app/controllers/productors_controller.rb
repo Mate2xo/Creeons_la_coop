@@ -4,7 +4,8 @@ class ProductorsController < ApplicationController
 		@productors = Productor.all
   end
 
-  def show
+	def show
+		@productor = Productor.find(params[:id])
 		require "addressable/uri"
 		@valide = "addresse invalide"
 		url = "7 rue de la haute pierre 78620"

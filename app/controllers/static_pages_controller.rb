@@ -4,5 +4,7 @@ class StaticPagesController < ApplicationController
 
   def dashboard
     redirect_to new_member_session_path unless member_signed_in?
+    @infos
+    @missions
   end
 end
