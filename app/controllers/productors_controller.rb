@@ -1,6 +1,7 @@
 class ProductorsController < ApplicationController
   before_action :authenticate_member!
-  def index
+	def index
+		@productors = Productor.all
   end
 
   def show
