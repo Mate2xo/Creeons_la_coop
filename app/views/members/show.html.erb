@@ -1,2 +1,11 @@
 <h1>Members#show</h1>
 <p>Find me in app/views/members/show.html.erb</p>
+<ul>
+    <% @members.each do |member| %>
+        <li><%= member.first_name %></li>
+        <li><%= member.last_name %></li>
+        <li><%= member.biography %></li>
+        <li><%= member.phone_number %></li>
+        <li><%= member.email %></li>
+    <% end %>
+</ul>

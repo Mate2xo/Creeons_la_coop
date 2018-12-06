@@ -1,6 +1,14 @@
 <h1>Productors#show</h1>
 <p>Find me in app/views/productors/show.html.erb</p>
 
+<ul>
+    <% @productors.each do |productor| %>
+        <li><%= productor.name %></li>
+        <li><%= productor.description %></li>
+        <li><%= productor.phone_number %></li>
+    <% end %>
+</ul>
+
     <h3>My Google Maps lat = <%=@lat%>; lng = <%=@lng%>; address = <%=@address%>; <%=@valide%> </h3>
     <!--The div element for the map -->
     <div id="map"></div>

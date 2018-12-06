@@ -1,2 +1,9 @@
 <h1>Missions#show</h1>
 <p>Find me in app/views/missions/show.html.erb</p>
+<ul>
+    <% @missions.each do |mission| %>
+        <li><%= mission.name %></li>
+        <li><%= mission.due_date %></li>
+        <li><%= mission.description %></li>
+    <% end %>
+</ul>

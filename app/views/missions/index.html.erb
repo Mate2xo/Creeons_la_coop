@@ -22,8 +22,16 @@
                     </thead>
                     <!-- Faire each pour missions -->
                     <tbody>
+                        <ul>
+                            <% @missions.each do |mission| %>
+                                <li><%= mission.name %></li>
+                                <li><%= mission.due_date %></li>
+                                <li><%= mission.description %></li>
+                            <% end %>
+                        </ul>
+
                         <tr>
-            
+
                             <td>
                                 <a href="#">titre-missions</a>
                             </td>
