@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   get 'dashboard', to: "static_pages#dashboard"
 
   get 'admin', to: "admin#show"
-
+  post 'admin/delete/:class/:id', to: "admin#destroy"
+  post 'admin/role/:role/:id', to: "admin#role"
 
   resources :productors, only: [:index, :show, :edit]
   resources :infos, only: [:index, :show, :edit]

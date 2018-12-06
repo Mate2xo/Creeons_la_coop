@@ -62,7 +62,7 @@ end
     last_name: last_name,
     biography: Faker::RickAndMorty.quote,
     phone_number: Faker::PhoneNumber.phone_number,
-    role: "user"  
+    role: "membre"  
   )
   member.address = Address.find( rand((Address.first.id)..(Address.first.id + 9)) )
 end
