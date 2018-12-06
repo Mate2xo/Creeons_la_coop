@@ -12,4 +12,14 @@ class MembersController < ApplicationController
     redirect_to members_path if current_member.id != params[:id].to_i
   end
 
+  def create
+    @member = Member.new(member_params)
+    if @member.save
+      flash[:success] = "Bienvenue "
+      redirect_to @member
+    else
+      render 'new'
+    end
+  end
+
 end
