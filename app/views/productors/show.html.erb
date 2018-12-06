@@ -1,33 +1,59 @@
-<h1>Productors#show</h1>
-<p>Find me in app/views/productors/show.html.erb</p>
+ <section class="slice ct-color-1">
+  <div class="container">
+      <div class="row row-no-padding">
+        <div class="col-lg-12">
+          <h3 class="heading heading-3 strong-400 mb-4 mt-4">Producteur info</h3>
 
-    <h3>My Google Maps lat = <%=@lat%>; lng = <%=@lng%>; address = <%=@address%>; <%=@valide%> </h3>
-    <!--The div element for the map -->
-    <div id="map"></div>
-    <script>
-// Initialize and add the map
-function initMap() {
-  // The location of Uluru
-  var station_f = {lat: 48.833921, lng: 2.371345};
-  var station_f2 = {lat: <%=@lat%> , lng: <%=@lng%>};
+          <div class="card border">
+            <div class="row align-items-center cols-md-delimited cols-lg-delimited">
+              <div class="block block--style-3 col-md-4">
+                <div class="profile-picture profile-picture--style-2">
+                  <img src="https://resize-elle.ladmedia.fr/r/625,,forcex/crop/625,804,center-middle,forcex,ffffff/img/var/plain_site/storage/images/loisirs/sorties/news/madame-claude-mere-maquerelle-et-mythomane/15232741-1-fre-FR/Madame-Claude-mere-maquerelle-et-mythomane.jpg", class="profil-img" >
+                </div>
+
+                <div class="block-body text-center">
+                  <h3 class="heading heading-6 strong-600 mb-0 mb-0">Sonia</h3>
+                  <br />
+                   <h3 class="heading heading-light heading-sm strong-300">210 rue des 8 arpents</h3>
+                  <h3 class="heading heading-light heading-sm strong-300">Les Ageux 60700</h3>
+                  <h2 class="heading heading-3 heading-sm strong-300">0611061106</h2>
+                  <h2 class="heading heading-3 heading-sm strong-300">soparisbandit@gmail.com</h2>
+                 
+                </div>
+              </div>
+              <div class="col-md-8 ">
+                <h3><% @lat %><% @lng %><% @address %><% @valide %> </h3>
+                <!--The div element for the map -->
+                <div id="map"></div>
+                <script>
+          // Initialize and add the map
+          function initMap() {
+            // The location of Uluru
+            var station_f = {lat: 48.833921, lng: 2.371345};
+            var station_f2 = {lat: <%=@lat%> , lng: <%=@lng%>};
+           // The map, centered at Uluru
+           var map = new google.maps.Map(
+            document.getElementById('map'), {zoom: 17, center: station_f2});
+              // The marker, positioned at Uluru
+              var marker = new google.maps.Marker({position: station_f, map: map});
+              var marker = new google.maps.Marker({position: station_f2, map: map});
+            }
+          </script>
+            <!--Load the API from the specified URL
+                * The async attribute allows the browser to render the page while the API loads
+                * The key parameter will contain your own API key (which is not needed for this tutorial)
+                * The callback parameter executes the initMap() function-->
+                <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials[:google_key] %>&callback=initMap">
+              </script>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
 
 
 
-
-
-  // The map, centered at Uluru
-  var map = new google.maps.Map(
-      document.getElementById('map'), {zoom: 17, center: station_f2});
-  // The marker, positioned at Uluru
-  var marker = new google.maps.Marker({position: station_f, map: map});
-  var marker = new google.maps.Marker({position: station_f2, map: map});
-}
-    </script>
-    <!--Load the API from the specified URL
-    * The async attribute allows the browser to render the page while the API loads
-    * The key parameter will contain your own API key (which is not needed for this tutorial)
-    * The callback parameter executes the initMap() function
-    -->
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials[:google_key] %>&callback=initMap">
-    </script>
