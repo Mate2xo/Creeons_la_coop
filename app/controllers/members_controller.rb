@@ -7,6 +7,9 @@ class MembersController < ApplicationController
   end
 
   def edit
-    redirect_to members_path if current_member.id != params[:id].to_i
+	if current_member.id == params[:id].to_i || current_member.role == "super_admin"
+	else
+		redirect_to members_path 
+  	end
   end
 end
