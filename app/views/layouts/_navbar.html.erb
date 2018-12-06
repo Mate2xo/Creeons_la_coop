@@ -46,6 +46,11 @@
 
             <ul class="navbar-nav ml-lg-auto">
                 <% if member_signed_in? %>
+                    <% if current_member.role == "super_admin" || current_member.role == "admin"  %>
+                      <li class="nav-item">
+                        <%= link_to  "gestion admin", admin_url, class:"nav-link" %>
+                      </li>
+                    <% end %>
                   <li class="nav-item">
                     <%= link_to  "profil de #{current_member.id}", edit_member_path(current_member.id), class:"nav-link" %>
                   </li>

@@ -1,0 +1,10 @@
+<% Member.all.each do |t| %>
+   <%=  t.email %>
+   <%=  t.first_name %>
+   <%=  t.last_name %>
+   <%=  t.phone_number %>
+   <%=  time_tag(t.created_at) %>
+   <%=  t.role %>
+   passer en admin 
+<br>
+<% end %>
