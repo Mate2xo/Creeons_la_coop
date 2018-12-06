@@ -1,2 +1,9 @@
 <h1>Infos#show</h1>
 <p>Find me in app/views/infos/show.html.erb</p>
+
+<ul>
+    <% @infos.each do |info| %>
+        <li><%= info.title %></li>
+        <li><%= info.content %></li>
+    <% end %>
+</ul>
