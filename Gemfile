@@ -65,6 +65,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'faker'
 # Users login management
 gem "devise", "~> 4.5"
+# Production Mailer API
+gem 'mailjet'
 
 gem 'bootstrap', '~> 4.1.3'
 gem 'jquery-rails'
