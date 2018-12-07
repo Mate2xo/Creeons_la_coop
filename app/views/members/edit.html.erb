@@ -1,12 +1,10 @@
-<h1>Members#edit</h1>
 <%= image_tag current_member.avatar.service_url if current_member.avatar.attached? %>
-<p>Find me in app/views/members/edit.html.erb</p>
 
-	<h2>Modifier le potin</h2>
+	<h2>Modifier le profil</h2>
 	<form action=/test method="POST">
 	<input type="file" name="avatar" key="avatar">
 
-	  <button type="submit" class="btn btn-primary mb-2">Modifier le potin</button>
+	  <button type="submit" class="btn btn-primary mb-2">Modifier le profil</button>
 
 	  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 	</form>

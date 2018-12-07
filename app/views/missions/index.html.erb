@@ -21,29 +21,20 @@
                             <th><!-- Btn Show --></th>
                         </tr>
                     </thead>
-                    <!-- Faire each pour missions -->
                     <tbody>
-                        <ul>
-                            <% @missions.each do |mission| %>
-                                <li><%= mission.name %></li>
-                                <li><%= mission.due_date %></li>
-                                <li><%= mission.description %></li>
-                            <% end %>
-                        </ul>
-
+                        <% @missions.each do |mission| %>
                         <tr>
 
-                            <td>titre-missions</td>
-                            <td>Creil</td>
+                            <td><%= mission.name %></td>
+                            <td><!-- ajouter CITY de la mission --></td>
 
-                            <td>06/08/2018</td>
+                            <td><%= mission.created_at %></td>
+                            <td><%= mission.due_date %></td>
                             <td>
-                                06/08/2028
-                            </td>
-                            <td>
-                                <button class="btn btn-dark">Voir</button>
+                                <%= link_to "Voir", mission_path(mission.id), class: "btn btn-dark" %>
                             </td>
                         </tr>
+                        <% end %>
                     </tbody>
                 </table>
             </div>

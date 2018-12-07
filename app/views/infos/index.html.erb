@@ -24,25 +24,19 @@
                     </thead>
 
                     <tbody>
-                        <!-- Faire each pour Infos -->
-                        <ul>
-                            <% @infos.each do |info| %>
-        					    <li><%= info.title %></li>
-        					    <li><%= info.content %></li>
-    					    <% end %>
-                        </ul>
-
+                         <% @infos.each do |info| %>
                         <tr>
                             <td>
-                                <a href="#">(Titre Infos)</a>
+                                <%= info.title %>
                             </td>
                             <td>
-                                (Contenu Infos)
+                                <%= info.content %>
                             </td>
                             <td>
-                                <button class="btn btn-dark">voir</button>
+                                <%= link_to "Voir", info_path(info.id), class: "btn btn-dark" %>
                             </td>
                         </tr>
+                        <% end %>
                     </tbody>
                 </table>
             </div>

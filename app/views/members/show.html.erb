@@ -5,7 +5,7 @@
       <div class="col-lg-5">
         <div class="block block--style-3">         
           <div class="profile-picture profile-picture--style-2">
-            <img src="<%= @member.avatar if @member.avatar.attached? %>", class="profil-img" >
+            <img src="<%= @member.avatar if @member.avatar.attached? %>" class="profil-img" >
           </div>
           
           <div class="block-body text-center">
@@ -23,7 +23,7 @@
           </h3><hr class="mt-0 mb-0">
 
           <p class="text-lg-7 line-height-1_8 mt-4">
-            @member.biography
+            <%= @member.biography %>
           </p>
         </div>
       </div>
