@@ -10,10 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_04_091518) do
+ActiveRecord::Schema.define(version: 2018_12_06_230818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
 
   create_table "addresses", force: :cascade do |t|
     t.string "postal_code"
@@ -22,6 +43,15 @@ ActiveRecord::Schema.define(version: 2018_12_04_091518) do
     t.string "street_name_2"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "productor_id"
+    t.bigint "member_id"
+    t.index ["member_id"], name: "index_addresses_on_member_id"
+    t.index ["productor_id"], name: "index_addresses_on_productor_id"
+  end
+
+  create_table "addresses_missions", id: false, force: :cascade do |t|
+    t.bigint "mission_id", null: false
+    t.bigint "address_id", null: false
   end
 
   create_table "infos", force: :cascade do |t|
@@ -43,8 +73,14 @@ ActiveRecord::Schema.define(version: 2018_12_04_091518) do
     t.string "phone_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "role", default: "user"
     t.index ["email"], name: "index_members_on_email", unique: true
     t.index ["reset_password_token"], name: "index_members_on_reset_password_token", unique: true
+  end
+
+  create_table "members_missions", id: false, force: :cascade do |t|
+    t.bigint "member_id", null: false
+    t.bigint "mission_id", null: false
   end
 
   create_table "missions", force: :cascade do |t|
@@ -55,6 +91,11 @@ ActiveRecord::Schema.define(version: 2018_12_04_091518) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "missions_productors", id: false, force: :cascade do |t|
+    t.bigint "mission_id", null: false
+    t.bigint "productor_id", null: false
+  end
+
   create_table "productors", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -63,4 +104,6 @@ ActiveRecord::Schema.define(version: 2018_12_04_091518) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "addresses", "members"
+  add_foreign_key "addresses", "productors"
 end
