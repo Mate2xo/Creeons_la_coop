@@ -7,6 +7,16 @@
                         <img src="../../assets/images/prv/people/person-1.jpg" >
                     </div>
 
+                    <ul>
+                        <% @members.each do |member| %>
+                            <li><%= member.first_name %></li>
+                            <li><%= member.last_name %></li>
+                            <li><%= member.biography %></li>
+                            <li><%= member.phone_number %></li>
+                            <li><%= member.email %></li>
+                        <% end %>
+                    </ul>
+
                     <div class="block-body text-center">
                         <h3 class="heading heading-6 strong-600 mb-0 mb-0">Nom</h3><br />
                         <h3 class="heading heading-light heading-sm strong-300">Email</h3>

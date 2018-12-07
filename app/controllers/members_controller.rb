@@ -1,9 +1,11 @@
 class MembersController < ApplicationController
   before_action :authenticate_member!
   def index
+    @members = Member.all
   end
 
   def show
+    @member = Member.find(params[:id])
   end
 
   def edit
@@ -25,8 +27,3 @@ class MembersController < ApplicationController
 		redirect_to members_path 
   	end
   end
-
-
-
-
-end

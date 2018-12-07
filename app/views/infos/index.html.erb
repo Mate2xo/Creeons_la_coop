@@ -25,6 +25,13 @@
 
                     <tbody>
                         <!-- Faire each pour Infos -->
+                        <ul>
+                            <% @infos.each do |info| %>
+        					    <li><%= info.title %></li>
+        					    <li><%= info.content %></li>
+    					    <% end %>
+                        </ul>
+
                         <tr>
                             <td>
                                 <a href="#">(Titre Infos)</a>

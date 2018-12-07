@@ -1,9 +1,11 @@
 class MissionsController < ApplicationController
   before_action :authenticate_member!
   def index
+    @missions = Mission.all
   end
 
   def show
+    @mission = Mission.find(params[:id])
   end
 
   def edit

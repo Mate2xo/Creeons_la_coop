@@ -1,9 +1,11 @@
 class InfosController < ApplicationController
   before_action :authenticate_member!
   def index
+    @infos = Info.all
   end
 
   def show
+    @info = Info.find(params[:id])
   end
 
   def edit
