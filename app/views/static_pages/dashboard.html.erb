@@ -1,2 +1,29 @@
 <h1>StaticPages#dashboard</h1>
 <p>Find me in app/views/static_pages/dashboard.html.erb</p>
+                        
+<ul> 
+    <% @members.each do |member| %>
+        <li><%= member.first_name %></li>
+        <li><%= member.last_name %></li>
+        <li><%= member.biography %></li>
+        <li><%= member.phone_number %></li>
+        <li><%= member.email %></li>
+    <% end %>
+    
+    <% @missions.each do |mission| %>
+        <li><%= mission.name %></li>
+        <li><%= mission.due_date %></li>
+        <li><%= mission.description %></li>
+    <% end %>
+
+    <% @productors.each do |productor| %>
+        <li><%= productor.name %></li>
+        <li><%= productor.description %></li>
+        <li><%= productor.phone_number %></li>
+    <% end %>
+
+    <% @infos.each do |info| %>
+        <li><%= info.title %></li>
+        <li><%= info.content %></li>
+    <% end %>
+</ul>

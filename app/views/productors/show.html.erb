@@ -14,16 +14,22 @@
                   <img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
                   <% end %>
                 </div>
-
+                
                 <div class="block-body text-center">
-                  <h3 class="heading heading-6 strong-600 mb-0 mb-0"><%= @producteur.first.name %></h3>
+
+                  <h3 class="heading heading-6 strong-600 mb-0 mb-0"><%= @productor.name %></h3>
                   <br />
-                   <h3 class="heading heading-light heading-sm strong-300"><%= @producteur.first.phone_number %></h3>
-                  <h3 class="heading heading-light heading-sm strong-300"><%= @producteur.first.description %></h3>                 
+                   <h3 class="heading heading-light heading-sm strong-300"><%= productor.address.street_name_1 %></h3>
+                  <h3 class="heading heading-light heading-sm strong-300"><%= productor.address.city %> <%= productor.address.postal_code %></h3>
+                  <h2 class="heading heading-3 heading-sm strong-300"><%= productor.phone_number %></h2>
+                  <h2 class="heading heading-3 heading-sm strong-300">soparisbandit@gmail.com</h2>
+                  <%= productor.description %>
+
                 </div>
               </div>
+              
               <div class="col-md-8 ">
-                <h3><% @lat %><% @lng %><% @address %><% @valide %> </h3>
+                <h3><%= @lat %><%= @lng %><%= @address %><%= @valide %> </h3>
                 <!--The div element for the map -->
                 <div id="map"></div>
                 <script>

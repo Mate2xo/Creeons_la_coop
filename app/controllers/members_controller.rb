@@ -1,10 +1,12 @@
 class MembersController < ApplicationController
   before_action :authenticate_member!
   def index
+    @members = Member.all
   end
 
   def show
   	@member = Member.where(id: params[:id])
+
   end
 
   def edit

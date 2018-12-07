@@ -14,6 +14,15 @@
                         <% end %>
 					</div>
 
+					<ul>
+    					<% @productors.each do |productor| %>
+        					<li><%= productor.name %></li>
+        					<li><%= productor.description %></li>
+        					<li><%= productor.phone_number %></li>
+    					<% end %>
+					</ul>
+
+
 					<div class="block-body text-center">
 						<h3 class="heading heading-6 strong-600 mb-0 mb-0"><%= t.name %></h3>
 						<br />
