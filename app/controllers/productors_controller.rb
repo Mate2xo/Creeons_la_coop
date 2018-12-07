@@ -19,14 +19,17 @@ class ProductorsController < ApplicationController
 			puts @lng
 			@valide = "addresse valide"
 		end
-
+		@producteur = Productor.where(id: params[:id])
 		end
   end
 
 
 
   def edit
-    # décommenter le reste de la ligne suivante quand les admins seront crées
-    redirect_to productors_path # unless admin_signed_in?
+	if current_member.role == "super_admin" || current_member.role == "admin"  
+		@producteur = Productor.where(id: params[:id])
+	else
+		redirect_to productors_path 
+  	end
   end
 end
