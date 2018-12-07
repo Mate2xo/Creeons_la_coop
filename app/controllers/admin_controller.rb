@@ -16,11 +16,13 @@ class AdminController < ApplicationController
 		elsif params[:class] == "productor" &&  member_signed_in? && current_member.role == "super_admin"
 	    Productor.destroy(params[:id])	
 		end
+		flash[:success] = params[:class].to_s + " a bien été supprimé"
 	end
 
 	def role 
 		if member_signed_in? && current_member.role == "super_admin"
  			Member.where(id: params[:id]).update(:role => params[:role])
+ 			flash[:success] = "l'utilisateur a bien changer de role"
 		end
 	end
 end
