@@ -1,4 +1,5 @@
 class AdminController < ApplicationController
+	 before_action :authenticate_member!
 	def show
 		if member_signed_in? && current_member.role == "super_admin"
 		else
