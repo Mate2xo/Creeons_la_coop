@@ -27,3 +27,4 @@ class MembersController < ApplicationController
 		redirect_to members_path 
   	end
   end
+end
