@@ -12,7 +12,7 @@ class ProductorsController < ApplicationController
 		if (@address = Addressable::URI.parse(url).normalize.to_str) != ""
 		response = RestClient.get ("https://maps.googleapis.com/maps/api/geocode/json?address=" + @address + "+france&key=" + Rails.application.credentials[:google_key] ), {accept: :json}
 		response = JSON.parse(response.body)
-		if response["results"][0]
+		if response["status"] == "OK" && response["results"][0]
 			@lat = response["results"][0]["geometry"]["location"]["lat"]
 			@lng = response["results"][0]["geometry"]["location"]["lng"]
 			puts @lat
@@ -22,6 +22,8 @@ class ProductorsController < ApplicationController
 
 		end
   end
+
+
 
   def edit
     # décommenter le reste de la ligne suivante quand les admins seront crées

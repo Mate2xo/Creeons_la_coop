@@ -21,6 +21,37 @@ Address.destroy_all
   )
 end
 
+1.times do
+  first_name = Faker::Name.first_name
+  last_name = Faker::Name.last_name
+  member = Member.create(
+    email: "admin@admin.fr",
+    password: "password",
+    first_name: first_name,
+    last_name: last_name,
+    biography: Faker::RickAndMorty.quote,
+    phone_number: Faker::PhoneNumber.phone_number,
+    role: "admin"  
+  )
+  member.address = Address.find( rand((Address.first.id)..(Address.first.id + 9)) )
+end
+
+1.times do
+  first_name = Faker::Name.first_name
+  last_name = Faker::Name.last_name
+  member = Member.create(
+    email: "super@admin.fr",
+    password: "password",
+    first_name: first_name,
+    last_name: last_name,
+    biography: Faker::RickAndMorty.quote,
+    phone_number: Faker::PhoneNumber.phone_number,
+    role: "super_admin"  
+  )
+  member.address = Address.find( rand((Address.first.id)..(Address.first.id + 9)) )
+end
+
+
 10.times do
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
@@ -30,7 +61,8 @@ end
     first_name: first_name,
     last_name: last_name,
     biography: Faker::RickAndMorty.quote,
-    phone_number: Faker::PhoneNumber.phone_number
+    phone_number: Faker::PhoneNumber.phone_number,
+    role: "membre"  
   )
   member.address = Address.find( rand((Address.first.id)..(Address.first.id + 9)) )
 end
