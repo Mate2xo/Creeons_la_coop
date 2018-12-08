@@ -18,7 +18,16 @@
 
   <body>
     <%= render 'layouts/navbar' %>
+
+    <% if flash[:notice] %>
+      <div class="alert alert-success text-center"><%= flash[:notice]%></div> 
+    <% end %>
+    <% if flash[:alert] %>
+      <div class="alert alert-warning text-center"><%= flash[:alert]%></div> 
+    <% end %>
+
     <%= yield %>
-  </body>
+
     <%= render 'layouts/footer' %>
+  </body>
 </html>
