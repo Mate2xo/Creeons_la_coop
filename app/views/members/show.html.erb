@@ -6,32 +6,31 @@
  				<div class="col-lg-5">
  					<div class="block block--style-3">
  						<div class="profile-picture profile-picture--style-2">
-                                  <% if @member.first.avatar.attached? %>
-                                  <%= image_tag @member.first.avatar %>
-                                  <% else %>
-                                  <img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
-                                  <% end %>
- 						</div>
-						<div class="block-body text-center">
- 							<h3 class="heading heading-6 strong-600 mb-0 mb-0"><%= @member.first.first_name %> <%= @member.first.last_name %></h3><br />
- 							<h3 class="heading heading-light heading-sm strong-300"><%= @member.first.email %></h3>
- 							<h3 class="heading heading-light heading-sm strong-300"><%= @member.first.phone_number %></h3>
- 						</div>
- 					</div>
- 				</div>
- 				<div class="col-lg-7 lg-auto order-lg-2 mt-5">
-                    <div class="px-inline-only-2">
-                    	<h3 class="heading heading-2 strong-500">
-                    		Biographie
-                    	</h3><hr class="mt-0 mb-0">
+              <% if @member.first.avatar.attached? %>
+              <%= image_tag @member.first.avatar %>
+              <% else %>
+              <img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
+              <% end %>
+            </div>
+            <div class="block-body text-center">
+              <h3 class="heading heading-6 strong-600 mb-0 mb-0"><%= @member.first.first_name %> <%= @member.first.last_name %></h3><br />
+              <h3 class="heading heading-light heading-sm strong-300"><%= @member.first.email %></h3>
+              <h3 class="heading heading-light heading-sm strong-300"><%= @member.first.phone_number %></h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-7 lg-auto order-lg-2 mt-5">
+          <div class="px-inline-only-2">
+           <h3 class="heading heading-2 strong-500">
+            Biographie
+          </h3><hr class="mt-0 mb-0">
 
-                    	<p class="text-lg-7 line-height-1_8 mt-4">
-                              <%= @member.first.biography %>
-                    	</p>
-                    </div>
-                </div>
- 			</div>
- 		</div>
- 	</div>
- </section>
-
+          <p class="text-lg-7 line-height-1_8 mt-4">
+            <%= @member.first.biography %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+ </div>
+</section>

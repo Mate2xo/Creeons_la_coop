@@ -4,12 +4,12 @@
  			<div class="col-lg-8 ml-lg-auto order-lg-2">
  				<div class="px-inline-only-2">
  					<h3 class="heading heading-2 strong-500">
- 						Get to know us better
+ 						Description :
  					</h3>
 
  					<p class="text-lg line-height-1_8 mt-4">
-            <%= @mission.description %>
-          </p>
+          			 	<%= @mission.description %>
+          			</p>
  				</div>
  			</div>
 
@@ -34,7 +34,7 @@
  					<div class="progress-wrapper mt-4">            
  						<h4 class="progress-label text-capitalize text-md strong-600">Lieu:</h4>
  						<h4><%= address.street_name_1 %> </h4>
- 						<h4><%= address.postal_code %> - <% address.city %></h4>
+ 						<h4><%= address.postal_code %> - <%= address.city %></h4>
           </div>
           <% end %>
  				</div>
