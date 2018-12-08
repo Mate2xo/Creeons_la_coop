@@ -12,7 +12,7 @@ class ProductorsController < ApplicationController
 		require "addressable/uri"
 		@valide = "addresse invalide"
 		url = "7 rue de la haute pierre 78620"
-		if (@address = Addressable::URI.parse(url).normalize.to_str) != ""
+		if (@address = Addressable::URI.parse(url).normalize.to_str) != (nil || "")
 		response = RestClient.get ("https://maps.googleapis.com/maps/api/geocode/json?address=" + @address + "+france&key=" + Rails.application.credentials[:google_key] ), {accept: :json}
 		response = JSON.parse(response.body)
 			if response["status"] == "OK" && response["results"][0]
