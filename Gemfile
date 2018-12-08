@@ -68,6 +68,8 @@ gem 'faker'
 gem "devise", "~> 4.5"
 # Production Mailer API
 gem 'mailjet'
+# URI management for Google Maps API Implementation
+gem 'addressable'
 
 gem 'bootstrap', '~> 4.1.3'
 gem 'jquery-rails'
