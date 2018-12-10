@@ -1,2 +1,21 @@
+
+<%= image_tag current_member.avatar.service_url if current_member.avatar.attached? %>
+
+	<h2>Modifier le profil</h2>
+	<form action=/test method="POST">
+	<input type="file" name="avatar" key="avatar">
+
+	  <button type="submit" class="btn btn-primary mb-2">Modifier le profil</button>
+
+	  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+	</form>
+
 <h1>Members#edit</h1>
-<p>Find me in app/views/members/edit.html.erb</p>
+
+<div class="profile-picture profile-picture--style-2">
+	<% if @member.first.avatar.attached? %>
+		<%= image_tag @member.first.avatar %>
+	<% else %>
+		<img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
+	<% end %>
+</div>

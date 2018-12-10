@@ -10,9 +10,9 @@ Info.destroy_all
 Mission.destroy_all
 Member.destroy_all
 Productor.destroy_all
-Address.destroy_all 
+Address.destroy_all
 
-30.times do
+60.times do
   Address.create!(
     postal_code: Faker::Address.zip,
     city: Faker::Address.city,
@@ -30,9 +30,40 @@ end
     first_name: first_name,
     last_name: last_name,
     biography: Faker::RickAndMorty.quote,
-    phone_number: Faker::PhoneNumber.phone_number
+    phone_number: Faker::PhoneNumber.phone_number,
+    role: "admin"
   )
   member.address = Address.find( rand((Address.first.id)..(Address.first.id + 9)) )
+end
+
+1.times do
+  first_name = Faker::Name.first_name
+  last_name = Faker::Name.last_name
+  member = Member.create(
+    email: "super@admin.fr",
+    password: "password",
+    first_name: first_name,
+    last_name: last_name,
+    biography: Faker::RickAndMorty.quote,
+    phone_number: Faker::PhoneNumber.phone_number,
+    role: "super_admin"
+  )
+  member.address = Address.find( rand((Address.first.id)..(Address.first.id + 9)) )
+end
+
+30.times do
+  first_name = Faker::Name.first_name
+  last_name = Faker::Name.last_name
+  member = Member.create(
+    email: Faker::Internet.free_email(first_name),
+    password: "password",
+    first_name: first_name,
+    last_name: last_name,
+    biography: Faker::RickAndMorty.quote,
+    phone_number: Faker::PhoneNumber.phone_number,
+    role: "member"
+  )
+  member.address = Address.find( rand((Address.first.id + 10)..(Address.first.id + 39)) )
 end
 
 10.times do
@@ -41,22 +72,27 @@ end
     description: Faker::Company.bs,
     phone_number: Faker::PhoneNumber.phone_number
   )
-  productor.address = Address.find( rand((Address.first.id + 10)..(Address.first.id + 19)) )
+  productor.address = Address.find( rand((Address.first.id + 40)..(Address.first.id + 49)) )
+  productor.managers << Member.where(role: 'admin').take( rand(1..3) )
 end
 
 10.times do
-  mission = Mission.create!(
+  mission = Mission.new(
     name: Faker::Movie.quote,
     description: "Get some #{Faker::Food.vegetables}, and some #{Faker::Food.fruits}",
     due_date: Faker::Date.forward(20),
   )
-  mission.addresses << Address.find( rand((Address.first.id + 10)..(Address.first.id + 29)) )
+  mission.addresses << Address.find( rand((Address.first.id + 50)..(Address.first.id + 59)) )
   mission.members << Member.take( rand(Member.count) )
+  mission.author = Member.find( rand((Member.first.id)..(Member.last.id)) )
+  mission.save
 end
 
 5.times do
-  Info.create!(
+  info = Info.new(
     title: Faker::Lorem.sentence,
     content: Faker::Lorem.paragraphs
   )
+  info.author = Member.where(role: "admin")[rand(0..9)]
+  info.save
 end

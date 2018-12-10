@@ -4,17 +4,12 @@
  			<div class="col-lg-8 ml-lg-auto order-lg-2">
  				<div class="px-inline-only-2">
  					<h3 class="heading heading-2 strong-500">
- 						Get to know us better
+ 						Description :
  					</h3>
 
  					<p class="text-lg line-height-1_8 mt-4">
- 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc vehicula lacinia.
- 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc vehicula lacinia.
- 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc vehicula lacinia.
- 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc vehicula lacinia.
- 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc vehicula lacinia.
- 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc vehicula lacinia.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc vehicula lacinia.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc vehicula lacinia.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc vehicula lacinia.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc vehicula lacinia.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc vehicula lacinia.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc vehicula lacinia.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc vehicula lacinia.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc vehicula lacinia.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc vehicula lacinia.
- 					</p>
+          			 	<%= @mission.description %>
+          			</p>
  				</div>
  			</div>
 
@@ -22,27 +17,26 @@
  				<div class="">
  					<div class="progress-wrapper">
  						<h4 class="progress-label text-capitalize text-md strong-600">Nom:</h4>
- 						<h4> NomDeMaMission </h4>
+ 						<h4> <%= @mission.name %> </h4>
  						<hr class="mt-0 mb-0">
  					</div>
 					<div class="progress-wrapper mt-4">
  						<h4 class="progress-label text-capitalize text-md strong-600">Crée le:</h4>
- 						<h4> 06/12/18 </h4>
+ 						<h4> <%= @mission.created_at %> </h4>
  						<hr class="mt-0 mb-0">
  					</div>
-
  					<div class="progress-wrapper mt-4">
  						<h4 class="progress-label text-capitalize text-md strong-600">Date Limite:</h4>
- 						<h4> 06/12/19</h4>
+ 						<h4> <%= @mission.due_date %></h4>
  						<hr class="mt-0 mb-0">
  					</div>
-
- 					<div class="progress-wrapper mt-4">
- 						<h4 class="progress-label text-capitalize text-md strong-600">Lieu:</h4>
- 						<h4> 210 rue des 8 arpents </h4>
- 						<h4>60700 - Les Ageux</h4>
-
- 					</div>
+          			<% @mission.addresses.each do |address| %>
+ 					<div class="progress-wrapper mt-4">            
+ 						<h4 class="progress-label text-capitalize text-md strong-600">Lieux:</h4>
+ 						<h4><%= address.street_name_1 %> </h4>
+ 						<h4><%= address.postal_code %> - <%= address.city %></h4>
+          </div>
+          <% end %>
  				</div>
  			</div>
  		</div>
