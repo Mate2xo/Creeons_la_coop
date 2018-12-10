@@ -21,7 +21,10 @@ Address.destroy_all
   )
 end
 
-10.times do
+# i is a counter that helps assigning distinct addresses
+i = Address.first.id
+
+9.times do
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
   member = Member.create(
@@ -33,9 +36,11 @@ end
     phone_number: Faker::PhoneNumber.phone_number,
     role: "admin"
   )
-  member.address = Address.find( rand((Address.first.id)..(Address.first.id + 9)) )
+  member.address = Address.find(i)
+  i += 1
 end
 
+# i += 10
 1.times do
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
@@ -48,9 +53,11 @@ end
     phone_number: Faker::PhoneNumber.phone_number,
     role: "super_admin"
   )
-  member.address = Address.find( rand((Address.first.id)..(Address.first.id + 9)) )
+  member.address = Address.find(i)
+  i += 1
 end
 
+# i += 11
 30.times do
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
@@ -63,26 +70,31 @@ end
     phone_number: Faker::PhoneNumber.phone_number,
     role: "member"
   )
-  member.address = Address.find( rand((Address.first.id + 10)..(Address.first.id + 39)) )
+  member.address = Address.find(i)
+  i += 1
 end
 
+# i += 41
 10.times do
-  productor = Productor.create(
+  productor = Productor.new(
     name: Faker::Company.name,
     description: Faker::Company.bs,
     phone_number: Faker::PhoneNumber.phone_number
   )
-  productor.address = Address.find( rand((Address.first.id + 40)..(Address.first.id + 49)) )
+  productor.address = Address.find(i)
   productor.managers << Member.where(role: 'admin').take( rand(1..3) )
+  productor.save
+  i += 1
 end
 
+# i += 51
 10.times do
   mission = Mission.new(
     name: Faker::Movie.quote,
     description: "Get some #{Faker::Food.vegetables}, and some #{Faker::Food.fruits}",
     due_date: Faker::Date.forward(20),
   )
-  mission.addresses << Address.find( rand((Address.first.id + 50)..(Address.first.id + 59)) )
+  mission.addresses << Address.find( rand((Productor.first.address.id)..(Productor.first.address.id)) )
   mission.members << Member.take( rand(Member.count) )
   mission.author = Member.find( rand((Member.first.id)..(Member.last.id)) )
   mission.save

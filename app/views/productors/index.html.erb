@@ -2,25 +2,25 @@
 	<div class="row-wrapper">
 		<div class="row cols-md-space cols-sm-space cols-xs-space">
 
-            <% Productor.all.each do |t| %>
+			<% Productor.all.each do |productor| %>
 			<div class="col-lg-4 mb-2">
 				<div class="block block--style-3">
 					<div class="profile-picture profile-picture--style-2">
-                        <% if t.avatar.attached? %>
-                        <%= image_tag t.avatar %>
-                        <% else %>
-                        <img src="https://image.flaticon.com/icons/svg/0/93.svg" >
-                        <% end %>
+						<% if productor.avatar.attached? %>
+						<%= image_tag productor.avatar %>
+						<% else %>
+						<img src="https://image.flaticon.com/icons/svg/0/93.svg" >
+						<% end %>
 					</div>
 
 					<div class="block-body text-center">
-						<h3 class="heading heading-6 strong-600 mb-0 mb-0"><%= t.name %></h3>
+						<h3 class="heading heading-6 strong-600 mb-0 mb-0"><%= productor.name %></h3>
 						<br />
-						<h3 class="heading heading-light heading-sm strong-300"><%= t.description %></h3>
-						<h3 class="heading heading-light heading-sm strong-300"><%= t.phone_number %></h3>
-						<h3 class="heading heading-light heading-sm strong-300"><!-- ajouter la CITY du producteur --></h3>
+						<h3 class="heading heading-light heading-sm strong-300"><%= productor.description %></h3>
+						<h3 class="heading heading-light heading-sm strong-300"><%= productor.phone_number %></h3>
+						<h3 class="heading heading-light heading-sm strong-300"><%= productor.address.city %></h3>
                        
-						<%= link_to "Voir Producteur", productor_path(t.id) , class: "btn btn-base-1 btn-shadow btn-circle px-4 mt-2" %>
+						<%= link_to "Voir Producteur", productor_path(productor.id) , class: "btn btn-base-1 btn-shadow btn-circle px-4 mt-2" %>
 					</div>
 				</div>
 			</div>
