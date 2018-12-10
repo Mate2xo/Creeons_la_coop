@@ -4,7 +4,7 @@ class Member < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_one :address, dependent: :nullify
+  has_one :address, dependent: :destroy
   has_and_belongs_to_many :missions
   has_and_belongs_to_many :managed_productors, class_name: "Productor"
   has_one_attached :avatar

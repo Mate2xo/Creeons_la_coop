@@ -28,6 +28,9 @@
 
                             <td><%= mission.created_at %></td>
                             <td><%= mission.due_date %></td>
+                            <td><% mission.addresses.each do |address| %>
+                                <%= address.city %> 
+                            <% end %></td>
                             <td>
                                 <%= link_to "Voir", mission_path(mission.id), class: "btn btn-dark" %>
                             </td>
