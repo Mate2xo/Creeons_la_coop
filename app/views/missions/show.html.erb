@@ -30,9 +30,9 @@
  						<h4> <%= @mission.due_date %></h4>
  						<hr class="mt-0 mb-0">
  					</div>
-          <% @mission.addresses.each do |address| %>
+          			<% @mission.addresses.each do |address| %>
  					<div class="progress-wrapper mt-4">            
- 						<h4 class="progress-label text-capitalize text-md strong-600">Lieu:</h4>
+ 						<h4 class="progress-label text-capitalize text-md strong-600">Lieux:</h4>
  						<h4><%= address.street_name_1 %> </h4>
  						<h4><%= address.postal_code %> - <%= address.city %></h4>
           </div>

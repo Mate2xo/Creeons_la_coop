@@ -2,9 +2,8 @@
   <div class="container">
     <div class="row row-no-padding">
       <div class="col-lg-12">
-        <h3 class="heading heading-3 strong-400 mb-4 mt-4">Producteur info</h3>
 
-        <div class="card border">
+        <div class="card no-border">
           <div class="row align-items-center cols-md-delimited cols-lg-delimited">
             <div class="block block--style-3 col-md-4">
               <div class="profile-picture profile-picture--style-2">
@@ -19,12 +18,13 @@
 
                 <h3 class="heading heading-6 strong-600 mb-0 mb-0"><%= @productor.name %></h3>
                 <br />
+                <h2 class="heading heading-3 heading-sm strong-300"><%= @productor.description %></h2>
+                <h2 class="heading heading-3 heading-sm strong-300"><%= @productor.phone_number %></h2>
+
                 <% if @productor.address.present? %>
                   <h3 class="heading heading-light heading-sm strong-300"><%= @productor.address.street_name_1 %></h3>
                   <h3 class="heading heading-light heading-sm strong-300"><%= @productor.address.city %> <%= @productor.address.postal_code %></h3>
-                  <h2 class="heading heading-3 heading-sm strong-300"><%= @productor.phone_number %></h2>
-                  <h2 class="heading heading-3 heading-sm strong-300">soparisbandit@gmail.com</h2>
-                  <%= @productor.description %>
+
                 <% else %>
                   <h3 class="heading heading-light heading-sm strong-300">Adressse non renseignée</h3>
                 <% end %>
@@ -33,7 +33,7 @@
             </div>
             
             <div class="col-md-8 ">
-              <h3><%= @lat %><%= @lng %><%= @address %><%= @valide %> </h3>
+              <h3><% @lat %><% @lng %><% @address %><% @valide %> </h3>
               <!--The div element for the map -->
               <div id="map"></div>
               <script>
