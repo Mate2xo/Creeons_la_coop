@@ -14,6 +14,14 @@ class DbAssociationsTest < ActionDispatch::IntegrationTest
     assert new_member.missions
   end
 
+  test "un admin peut se voir associer des producteurs à gérer" do
+    new_member = members(:one)
+    new_member.role = 'admin'
+    new_member.managed_productors << productors(:one)
+    new_member.managed_productors << productors(:two)
+    assert new_member.managed_productors
+  end
+
   # Associations sur les productors
   test "un productor peut se voir associer une address" do
     new_productor = productors(:one)
@@ -25,6 +33,15 @@ class DbAssociationsTest < ActionDispatch::IntegrationTest
     new_productor = productors(:one)
     new_productor.missions << missions(:one)
     assert new_productor.missions
+  end
+
+  test "Un productor peut être géré par plusieurs admins" do
+    new_productor = productors(:one)
+    admin_1 = members(:one)
+    admin_2 = members(:two)
+    new_productor.managers << admin_1
+    new_productor.managers << admin_2
+    assert new_productor.managers
   end
 
   # Associations sur les missions
@@ -46,6 +63,12 @@ class DbAssociationsTest < ActionDispatch::IntegrationTest
     assert new_mission.productors
   end 
 
+  test "Une mission peut se faire associer un author" do
+    new_mission = missions(:one)
+    new_mission.author = members(:one)
+    assert new_mission.author
+  end 
+
   # Associations sur les addresses
   test "une address peut se voir associer juste à un member" do
     new_address = addresses(:valid_address)
@@ -63,6 +86,13 @@ class DbAssociationsTest < ActionDispatch::IntegrationTest
     new_address = addresses(:valid_address)
     new_address.missions << missions(:one)
     assert new_address.missions
+  end
+
+  # Associations sur les Infos
+  test "une info peut se voir associer un author" do
+    new_info = infos(:one)
+    new_info.author = members(:one)
+    assert new_info.author
   end
 
 end
