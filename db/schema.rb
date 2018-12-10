@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_06_230818) do
+ActiveRecord::Schema.define(version: 2018_12_10_093234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,8 @@ ActiveRecord::Schema.define(version: 2018_12_06_230818) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "author_id"
+    t.index ["author_id"], name: "index_infos_on_author_id"
   end
 
   create_table "members", force: :cascade do |t|
@@ -83,12 +85,19 @@ ActiveRecord::Schema.define(version: 2018_12_06_230818) do
     t.bigint "mission_id", null: false
   end
 
+  create_table "members_productors", id: false, force: :cascade do |t|
+    t.bigint "member_id", null: false
+    t.bigint "productor_id", null: false
+  end
+
   create_table "missions", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.datetime "due_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "author_id"
+    t.index ["author_id"], name: "index_missions_on_author_id"
   end
 
   create_table "missions_productors", id: false, force: :cascade do |t|
@@ -106,4 +115,6 @@ ActiveRecord::Schema.define(version: 2018_12_06_230818) do
 
   add_foreign_key "addresses", "members"
   add_foreign_key "addresses", "productors"
+  add_foreign_key "infos", "members", column: "author_id"
+  add_foreign_key "missions", "members", column: "author_id"
 end
