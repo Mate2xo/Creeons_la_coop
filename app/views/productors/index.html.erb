@@ -1,8 +1,9 @@
 <div class="widget mt-4">
 	<div class="row-wrapper">
+			<%= link_to  "Ajouter un producteur", new_productor_path, class:"btn btn-primary" %>
 		<div class="row cols-md-space cols-sm-space cols-xs-space">
 
-			<% Productor.all.each do |productor| %>
+			<% @productors.each do |productor| %>
 			<div class="col-lg-4 mb-2">
 				<div class="block block--style-3">
 					<div class="profile-picture profile-picture--style-2">
@@ -18,7 +19,7 @@
 						<br />
 						<h3 class="heading heading-light heading-sm strong-300"><%= productor.description %></h3>
 						<h3 class="heading heading-light heading-sm strong-300"><%= productor.phone_number %></h3>
-						<h3 class="heading heading-light heading-sm strong-300"><%= productor.address.city %></h3>
+						<h3 class="heading heading-light heading-sm strong-300"><%= productor.address.city unless productor.address.nil? %></h3>
                        
 						<%= link_to "Voir Producteur", productor_path(productor.id) , class: "btn btn-base-1 btn-shadow btn-circle px-4 mt-2" %>
 					</div>

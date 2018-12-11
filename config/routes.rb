@@ -7,9 +7,9 @@ Rails.application.routes.draw do
   post 'admin/delete/:class/:id', to: "admin#destroy"
   post 'admin/role/:role/:id', to: "admin#role"
 
-  resources :productors, only: [:index, :show, :edit]
-  resources :infos, only: [:index, :show, :edit]
-  resources :missions, only: [:index, :show, :edit]
-  resources :members, only: [:index, :show, :edit]
+  resources :productors
+  resources :infos
+  resources :missions
+  resources :members, only: [:index, :show, :edit, :update]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

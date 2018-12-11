@@ -3,7 +3,27 @@ class ProductorsController < ApplicationController
 
 	def index
 		@productors = Productor.all
-  end
+	end
+	
+	def new
+		if current_member.role == "super_admin" || current_member.role == "admin"  
+			@productor = Productor.new
+		else
+			redirect_to productors_path 
+		end
+	end
+
+	def create
+		@productor = Productor.new(permitted_params)
+		if @productor.save
+			flash[:notice] = "Le producteur a bien été créé"
+			redirect_to @productor
+		else
+			flash[:error] = "Une erreur est survenue, veuillez recommencer l'opération"
+			redirect_to new_productor_path
+		end
+	end
+	
 
 	def show
 		@productor = Productor.find(params[:id])
@@ -25,13 +45,29 @@ class ProductorsController < ApplicationController
 		end
   end
 
-
-
   def edit
 		if current_member.role == "super_admin" || current_member.role == "admin"  
-			@productor = Productor.where(id: params[:id])
+			@productor = Productor.find(params[:id])
 		else
 			redirect_to productors_path 
   	end
-  end
+	end
+	
+	def update
+		@productor = Productor.find(params[:id])
+			if @productor.update_attributes(permitted_params)
+				flash[:notice] = "Le producteur a bien été mis à jour"
+				redirect_to @productor
+			else
+				flash[:error] = "Une erreur est survenue, veuillez recommencer l'opération"
+				redirect_to edit_productor_path(@productor.id)
+			end
+	end
+	
+
+	private
+
+	def permitted_params
+		params.require(:productor).permit(:name, :description, :phone_number)
+	end
 end
