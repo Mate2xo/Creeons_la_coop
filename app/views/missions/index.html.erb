@@ -8,6 +8,7 @@
                 </div>
             </div>
         </div>
+        <%= link_to  "Créer une nouvelle mission", new_mission_path, class:"btn btn-primary" %>
         <!-- Order history table -->
         <div class="card no-border">
             <div>
@@ -28,6 +29,9 @@
 
                             <td><%= mission.created_at %></td>
                             <td><%= mission.due_date %></td>
+                            <td><% mission.addresses.each do |address| %>
+                                <%= address.city %> 
+                            <% end %></td>
                             <td>
                                 <%= link_to "Voir", mission_path(mission.id), class: "btn btn-dark" %>
                             </td>

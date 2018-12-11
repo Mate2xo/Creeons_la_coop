@@ -1,0 +1,25 @@
+<h1>Missions#new</h1>
+<%= form_with model: @mission, local: true do |f| %>
+  <%= f.label :name, "Nom de la mission" %>
+  <%= f.text_field :name %>
+
+  <%= f.label :description, "Description" %>
+  <%= f.text_area :description %>
+
+  <%= f.label :due_date, "Date limite" %>
+  <%= f.date_field :due_date %>
+
+  <!-- the following nested field will be generated 2 times (via missions_controller.rb) -->
+  <%= f.fields_for :addresses do |address| %>
+    <%= address.label :postal_code %>
+    <%= address.text_field :postal_code %>
+    <%= address.label :city %>
+    <%= address.text_field :city %>
+    <%= address.label :street_name_1 %>
+    <%= address.text_field :street_name_1 %>
+    <%= address.label :street_name_2 %>
+    <%= address.text_field :street_name_2 %>
+    <% end %>
+
+  <%= f.submit %>
+<% end %>

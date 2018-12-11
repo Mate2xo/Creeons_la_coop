@@ -1,21 +1,19 @@
-
-<%= image_tag current_member.avatar.service_url if current_member.avatar.attached? %>
-
-	<h2>Modifier le profil</h2>
-	<form action=/test method="POST">
-	<input type="file" name="avatar" key="avatar">
-
-	  <button type="submit" class="btn btn-primary mb-2">Modifier le profil</button>
-
-	  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-	</form>
-
-<h1>Members#edit</h1>
-
+<h1>Members#edit</h1> 
 <div class="profile-picture profile-picture--style-2">
-	<% if @member.first.avatar.attached? %>
-		<%= image_tag @member.first.avatar %>
+	<% if @member.avatar.attached? %>
+		<%= image_tag @member.avatar %>
 	<% else %>
 		<img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
 	<% end %>
 </div>
+
+<h2>Modifier le profil</h2>
+<%= form_with model: @member, local: true do |form| %>
+  <%= form.text_field :email %>
+  <%= form.text_field :first_name %>
+  <%= form.text_field :last_name %>
+	<%= form.file_field(:avatar, key: "avatar") %>
+  <%= form.submit "Sauvegarder les changements", class: "btn btn-primary" %>
+<% end %>
+
+<%= link_to  "Modifier votre mot de passe", edit_member_registration_path, class:"btn btn-warning" %>

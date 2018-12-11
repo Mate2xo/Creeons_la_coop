@@ -1,0 +1,11 @@
+<h1>Infos#new</h1>
+
+<%= form_with model: @info, local: true do |f| %>
+  <%= f.label :title, "Titre" %>
+  <%= f.text_field :title %>
+
+  <%= f.label :content, "Contenu" %>
+  <%= f.text_area :content %>
+
+  <%= f.submit "Créer l'info", class: "btn btn-primary" %>
+  <% end %>

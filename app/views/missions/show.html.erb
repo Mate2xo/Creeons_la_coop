@@ -49,7 +49,15 @@
  						<h4 class="progress-label text-capitalize text-md strong-600">Date Limite:</h4>
  						<h4> <%= @mission.due_date %></h4>
  					</div>
- 				</div>
+					<% @mission.addresses.each do |address| %>
+ 					<div class="progress-wrapper mt-4">            
+ 						<h4 class="progress-label text-capitalize text-md strong-600">Lieux:</h4>
+ 						<h4><%= address.street_name_1 %> </h4>
+ 						<h4><%= address.postal_code %> - <%= address.city %></h4>
+         			 </div>
+          			<% end %>
+				</div>
+				<%= link_to  "Éditer", edit_mission_path(@mission.id), class: "btn btn-success" %>
  			</div>
  		</div>
  		<div class="row align-items-center pt-5 ml-2">
