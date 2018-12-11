@@ -5,15 +5,35 @@
  				<div class="px-inline-only-2">
  					<h3 class="heading heading-2 strong-500">
  						Description :
+ 						<hr class="mt-0 mb-0">
  					</h3>
 
  					<p class="text-lg line-height-1_8 mt-4">
-          			 	<%= @mission.description %>
+ 						<h5><%= @mission.description %></h5>	
           			</p>
+ 				</div>
+
+ 				<div class="px-inline-only-2">
+ 					<h3 class="heading heading-2 strong-500">
+ 						Lieux :
+ 						<hr class="mt-0 mb-0">
+ 					</h3>
+
+ 					
+ 					<p class="text-lg line-height-1_8 mt-4">  
+ 					<ul>   
+ 					<% @mission.addresses.each do |address| %>    
+ 						<li>
+ 							<%= address.street_name_1 %>, 
+ 							<%= address.postal_code %> - <%= address.city %> 
+ 						</li>
+ 					<% end %>
+ 					</ul>
+          			</p>	
  				</div>
  			</div>
 
- 			<div class="col-lg-4 order-lg-1">
+ 			<div class="col-lg-4 order-lg-1 border">
  				<div class="">
  					<div class="progress-wrapper">
  						<h4 class="progress-label text-capitalize text-md strong-600">Nom:</h4>
@@ -28,17 +48,15 @@
  					<div class="progress-wrapper mt-4">
  						<h4 class="progress-label text-capitalize text-md strong-600">Date Limite:</h4>
  						<h4> <%= @mission.due_date %></h4>
- 						<hr class="mt-0 mb-0">
  					</div>
-          			<% @mission.addresses.each do |address| %>
- 					<div class="progress-wrapper mt-4">            
- 						<h4 class="progress-label text-capitalize text-md strong-600">Lieux:</h4>
- 						<h4><%= address.street_name_1 %> </h4>
- 						<h4><%= address.postal_code %> - <%= address.city %></h4>
-          </div>
-          <% end %>
  				</div>
  			</div>
  		</div>
+ 		<div class="row align-items-center pt-5 ml-2">
+		<div class="col-6">
+			<%= link_to " Retour", missions_path, class: "fas fa-arrow-left" %>
+		</div>
+	</div>
  	</div>
  </section>
+
