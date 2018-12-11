@@ -1,11 +1,7 @@
-
-<%= image_tag current_member.avatar.service_url if current_member.avatar.attached? %>
-
-<h1>Members#edit</h1>
-
+<h1>Members#edit</h1> 
 <div class="profile-picture profile-picture--style-2">
 	<% if @member.avatar.attached? %>
-		<%= image_tag @member.first.avatar %>
+		<%= image_tag @member.avatar %>
 	<% else %>
 		<img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
 	<% end %>
