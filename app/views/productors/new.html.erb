@@ -6,5 +6,7 @@
 <%= f.text_area :description %>
 <%= f.label :phone_number, "Numéro de téléphone" %>
 <%= f.text_field :phone_number %>
+<%= f.label :avatar %>
+<%= f.file_field :avatar %>
 <%= f.submit "Créer le producteur", class: "btn btn-primary" %>
 <% end %>

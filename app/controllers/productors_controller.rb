@@ -28,15 +28,17 @@ class ProductorsController < ApplicationController
 	def show
 		require "addressable/uri"
 		@productor = Productor.find(params[:id])
-		url = @productor.address.postal_code + " " + @productor.address.city + " " + @productor.address.street_name_1 + " " + @productor.address.street_name_2
-		@valide = "addresse invalide"
-		if (@address = Addressable::URI.parse(url).normalize.to_str) != (nil || "")
-			response = RestClient.get ("https://maps.googleapis.com/maps/api/geocode/json?address=" + @address + "+france&key=" + Rails.application.credentials[:google_key] ), {accept: :json}
-			response = JSON.parse(response.body)
-			if response["status"] == "OK" && response["results"][0]
-				@lat = response["results"][0]["geometry"]["location"]["lat"]
-				@lng = response["results"][0]["geometry"]["location"]["lng"]
-				@valide = "addresse valide"
+		if @productor.address
+			url = @productor.address.postal_code + " " + @productor.address.city + " " + @productor.address.street_name_1 + " " + @productor.address.street_name_2
+			@valide = "addresse invalide"
+			if (@address = Addressable::URI.parse(url).normalize.to_str) != (nil || "")
+				response = RestClient.get ("https://maps.googleapis.com/maps/api/geocode/json?address=" + @address + "+france&key=" + Rails.application.credentials[:google_key] ), {accept: :json}
+				response = JSON.parse(response.body)
+				if response["status"] == "OK" && response["results"][0]
+					@lat = response["results"][0]["geometry"]["location"]["lat"]
+					@lng = response["results"][0]["geometry"]["location"]["lng"]
+					@valide = "addresse valide"
+				end
 			end
 		end
   end
@@ -64,6 +66,6 @@ class ProductorsController < ApplicationController
 	private
 
 	def permitted_params
-		params.require(:productor).permit(:name, :description, :phone_number)
+		params.require(:productor).permit(:name, :description, :phone_number, :avatar)
 	end
 end
