@@ -22,6 +22,7 @@
 
                 <% if @productor.address.present? %>
                   <h3 class="heading heading-light heading-sm strong-300"><%= @productor.address.street_name_1 %></h3>
+                  <h4 class="heading heading-light heading-sm strong-300"><%= @productor.address.street_name_2 %></h4>
                   <h3 class="heading heading-light heading-sm strong-300"><%= @productor.address.city %> <%= @productor.address.postal_code %></h3>
 
                 <% else %>

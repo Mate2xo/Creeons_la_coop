@@ -8,8 +8,9 @@ class ProductorsController < ApplicationController
 	def new
 		if current_member.role == "super_admin" || current_member.role == "admin"  
 			@productor = Productor.new
+			@productor_address = @productor.build_address
 		else
-			redirect_to productors_path 
+			redirect_to productors_path
 		end
 	end
 
@@ -68,6 +69,6 @@ class ProductorsController < ApplicationController
 	private
 
 	def permitted_params
-		params.require(:productor).permit(:name, :description, :phone_number)
+		params.require(:productor).permit(:name, :description, :phone_number, address_attributes: [:postal_code, :city, :street_name_1, :street_name_2])
 	end
 end
