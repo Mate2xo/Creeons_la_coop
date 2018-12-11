@@ -10,6 +10,24 @@
  					<p class="text-lg line-height-1_8 mt-4">
           			 	<%= @mission.description %>
           			</p>
+					<% @mission.addresses.each do |address| %>
+		              <!--The div element for the map -->
+		              <div id="map"></div>
+		              <script>
+		                // Initialize and add the map
+		                function initMap() {
+		                  // The location of Uluru
+		                  var station_f = {lat: 48.833921, lng: 2.371345};
+		                  var station_f2 = <%= address.coordonnee %>;
+		                  // The map, centered at Uluru
+		                  var map = new google.maps.Map(
+		                  document.getElementById('map'), {zoom: 17, center: station_f2});
+		                  // The marker, positioned at Uluru
+		                  var marker = new google.maps.Marker({position: station_f, map: map});
+		                  var marker = new google.maps.Marker({position: station_f2, map: map});
+		                }
+		              </script>
+					<% end %>
  				</div>
  			</div>
 
@@ -42,4 +60,7 @@
  			</div>
  		</div>
  	</div>
+   	<script async defer
+   		src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials[:google_key] %>&callback=initMap">
+  	</script>
  </section>
