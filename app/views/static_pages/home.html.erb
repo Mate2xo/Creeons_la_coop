@@ -1,13 +1,108 @@
-<section class="swiper-js-container background-image-holder">
-	<div class="swiper-container" data-swiper-autoplay="true" data-swiper-effect="fade" data-swiper-autoheight="true">
+<section class="swiper-js-container background-image-holder" data-holder-type="fullscreen" data-holder-offset=".navbar">
+	<div class="swiper-container" data-swiper-autoplay="true" data-swiper-effect="slide" data-swiper-items="1" data-swiper-space-between="0">
 		<div class="swiper-wrapper">
 			<!-- Slide -->
-			<div class="swiper-slide">
-				<div class="holder-item sct-color-2 slice-xl pb-0">
+			<div class="swiper-slide" data-swiper-autoplay="6000">
+				<div class="slice holder-item holder-item-light has-bg-cover bg-size-cover" style="background-image: url( <%= asset_path('shop.jpg') %>); background-position: bottom center;">
+					<span class="mask mask-dark--style-3"></span>
 					<div class="container d-flex align-items-center">
-						<div class="row cols-xs-space cols-sm-space cols-md-space">
-							<div class="col-lg-5 text-center text-lg-left align-self-center">
-								<%= image_tag "banner-coop.png", class: " banner-coop" %>
+						<div class="col">
+							<div class="row row-cols-xs-spaced align-items-center py-5">
+								<div class="col-12 col-sm-7 col-md-6">
+									<h2 class="heading heading-1 strong-500 animated" data-animation-in="bounceInDown" data-animation-delay="200">
+										Vous souhaitez changer votre mode de consommation ?
+									</h2>
+									<p class="heading heading-4 mt-4 animated" data-animation-in="fadeInUp" data-animation-delay="1800">
+										La Coop souhaite rendre accessible des produits alimentaires sains et de qualité avec l'ouverture d'un supermarché coopératif.
+									</p>
+
+									<a href="#" class="btn btn-styled btn-base-1 btn-circle mt-4 animated" data-animation-in="bounceInUp" data-animation-delay="2600" data-scroll-to="#scrollToSection">En savoir plus</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Slide -->
+			<div class="swiper-slide" data-swiper-autoplay="8000">
+				<div class="slice holder-item holder-item-light has-bg-cover bg-size-cover" style="background-image: url(<%= asset_path('stand.jpg') %>); background-position: bottom center;">
+					<span class="mask mask-dark--style-3"></span>
+					<div class="container d-flex align-items-center">
+						<div class="col">
+							<div class="row text-center">
+								<div class="col-12">
+									<h2 class="heading heading-xl strong-400 text-uppercase animated" data-animation-in="fadeInDownBig" data-animation-delay="200">
+										Créons ensemble la Coop
+									</h2>
+										<%= link_to "Devenir membre", new_member_registration_path, class: "btn btn-lg btn-base-1 btn-circle btn-styled mt-3 animated" %>		
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+			<!-- Add Pagination -->
+		<div class="swiper-pagination"></div>
+	</div>
+</section>
+
+
+<section class="slice sct-color-1" id="scrollToSection">
+	<div class="container">
+		<div class="row cols-xs-space cols-sm-space cols-md-space">
+			<div class="col-lg-4 col-12">
+				<div class="card card-colored bg-color-vert">
+					<div class="card-body px-4">
+						<div class="icon-block--style-1-v5 text-center">
+							<div class="block-icon-lg c-white mt-3">
+								<i class="fas fa-store "></i>
+							</div>
+							<div class="block-content mt-3">
+								<h2 class="heading heading-4 strong-500 text-capitalize ">Crée Une Epicerie Coopérative</h2>
+								<p class="px-2 mt-1 ">
+									Mettre en place un mode de consommation coopératif et alternatif.
+								</p>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-12">
+				<div class="card card-colored bg-color-white border aubergine">
+					<div class="card-body px-4 aubergine">
+						<div class="icon-block--style-1-v5 text-center">
+							<div class="block-icon-lg c-white mt-3">
+								<i class="fas fa-map-marker-alt text-vert"></i>
+							</div>
+							<div class="block-content mt-3 ">
+								<h3 class="heading heading-4 strong-500 text-capitalize text-vert">
+								Soutenir les agriculteurs locaux</h3>
+								<p class="px-2 mt-1 text-vert">
+									Promouvoir l'accès à des produits de qualité, de saisons et issus de l'agriculture locale.
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-12">
+				<div class="card card-colored bg-color-vert">
+					<div class="card-body px-4">
+						<div class="icon-block--style-1-v5 text-center">
+							<div class="block-icon-lg c-white mt-3">
+								<i class="fas fa-handshake "></i>
+							</div>
+							<div class="block-content mt-3">
+								<h3 class="heading heading-4 strong-500 text-capitalize ">
+								Créer de l'emploi local</h3>
+								<p class="px-2 mt-1 ">
+									Et favoriser l'accès à l'emploi de personnes en réinsertion professionnelle.
+								</p>
 							</div>
 						</div>
 					</div>
@@ -17,47 +112,7 @@
 	</div>
 </section>
 
-<section class="slice-lg pb-2 sct-color-1 border-top">
-	<div class="container">
-		<div class="row cols-xs-space cols-sm-space">
-			<div class="col-lg-4">
-				<div class="icon-block icon-block--style-2-v2 text-center">
-					<div class="block-icon rounded">
-						<i class="fas fa-store"></i>
-					</div>
-					<h2 class="heading heading-5 strong-600">Epicerie Coopérative</h2>
-					<p class="px-2 mt-1">
-						Mettre en place un mode de consommation coopératif et alternatif.
-					</p>
-				</div>
-			</div>
-			<div class="col-lg-4">
-				<div class="icon-block icon-block--style-2-v2 text-center">
-					<div class="block-icon rounded">
-						<i class="fas fa-map-marker-alt"></i>
-					</div>
-					<h2 class="heading heading-5 strong-600">Soutenir les agriculteurs locaux</h2>
-					<p class="px-2 mt-1">
-						Promouvoir l'accès à des produits de qualité, de saisons et issus de l'agriculture locale.
-					</p>
-				</div>
-			</div>
-			<div class="col-lg-4">
-				<div class="icon-block icon-block--style-2-v2 text-center">
-					<div class="block-icon rounded">
-						<i class="fas fa-handshake"></i>
-					</div>
-					<h2 class="heading heading-5 strong-600">Créer de l'emploi local</h2>
-					<p class="px-2 mt-1">
-						Et favoriser l'accès à l'emploi de personnes en réinsertion professionnelle.
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
 
-<div class="">
 	<div class="container">
 		<div class="delimiter--style-1">
 			<div class="delimiter-title-wrapper">
@@ -75,17 +130,18 @@
 			<div class="row row-no-padding">
 				<div class="col-lg-6">
 					<div class="block block-image-holder">
-						<div class="block-image has-solid-shadow-right">
-							<%= image_tag "orgine.jpg", class: "img-fluid img-center" %>
+						<div class="block-image has-solid-shadow-right mt-4">
+							<%= image_tag "terre1.jpg", class: "img-fluid img-center" %>
 						</div>
 					</div>
 				</div>
 
 				<div class="col-lg-5 ml-auto align-self-lg-end">
 					<div class="col-wrapper--spaced">
-						<h3 class="heading heading-3 text-normal strong-600 mt-4">
+						<h3 class="heading heading-3 text-normal strong-600">
 							Origine du Projet
 						</h3>
+						<hr class="mt-0 mb-2">
 						<p class="mt-2">
 									Inspiré par le film documentaire « FoodCoop », un groupe de citoyens du bassin Creillois issu de tous horizons a décidé de se réunir autour d'une association commune appelée « Créons la Coop », qui a ainsi vu le jour le 10 juillet 2017
 									et compte parmis elle, plus de 70 adhérents à ce jour.
@@ -96,52 +152,34 @@
 
 			<span class="space-xs-xl"></span>
 
+
 			<div class="row row-no-padding">
 				<div class="col-lg-6 order-lg-2 ml-lg-auto">
 					<div class="block block-image-holder">
-						<div class="block-image has-solid-shadow-left">
-								<img src="https://www.eco.ca/wp-content/uploads/Tree-Planter-720x480.jpg" class="img-fluid img-center">
+						<div class="block-image has-solid-shadow-left mt-4">
+								<%= image_tag "salade.jpg", class: "img-fluid img-center" %>
 						</div>
 					</div>
 				</div>
 
 				<div class="col-lg-5 order-lg-1 align-self-lg-end ">
 					<div class="col-wrapper--spaced">
-						<h3 class="heading heading-3 text-normal strong-600 mt-4">
+						<h3 class="heading heading-3 text-normal strong-600">
 							Nos Objectifs
 						</h3>
+						<hr class="mt-0 mb-2">
 						<p class="mt-2">
-							<ul class="ul-objectifs">
-								<li>
-									Créer et faire vivre un supermarché coopératif
-								</li>
-								<li>
-									Sensibiliser à un mode de vie raisonné, éco-responsable,
-									participatif et lutter contre le gaspillage
-								</li>
-								<li>
-									Mettre en place un mode de consommation coopératif et
-									alternatif.
-								</li>
-								<li>
-									Soutenir l’agriculture et les agriculteurs locaux
-								</li>
-								<li>
-									Promouvoir l’accès à des produits de qualité, de saison
-									issus de l’agriculture locale, biologique ou raisonnée, ainsi
-									que des produits exotiques issus du commerce équitable
-								</li>
-								<li>
-									Favoriser l’inclusion, la mixité sociale et devenir un lieu d’échange intergénérationnel et interculturel
-								</li>
-								<li>
-									Intégrer et auto-former les adhérents de façon active à la
-									gestion du supermarché coopératif
-								</li>
-								<li>
-									Créer de l’emploi local
-								</li>
-							</ul>		
+									- Créer et faire vivre un supermarché coopératif
+									- Sensibiliser à un mode de vie raisonné, éco-responsable et  participatif. <br/ >
+									- Mettre en place un mode de consommation coopératif et alternatif. <br/ >
+									- Soutenir les agriculteurs locaux.
+									- Promouvoir l’accès à des produits de qualité, de saison, issus de l’agriculture locale, biologique ou raisonnée, ainsi que des produits exotiques issus du commerce équitable.<br />
+									- Favoriser l’inclusion, la mixité sociale et devenir un lieu d’échange intergénérationnel et interculturel. <br />
+									- Auto-former les adhérents de façon active à la gestion du supermarché coopératif. 
+									<br />
+									- Créer de l’emploi local.
+								
+									
 						</p>
 					</div>
 				</div>
@@ -152,17 +190,18 @@
 			<div class="row row-no-padding">
 				<div class="col-lg-6">
 					<div class="block block-image-holder">
-						<div class="block-image has-solid-shadow-right">
-								<%= image_tag "achat-coop.jpg", class: "img-fluid img-center" %>
+						<div class="block-image has-solid-shadow-right mt-4">
+								<%= image_tag "navet.jpg", class: "img-fluid img-center" %>
 						</div>
 					</div>
 				</div>
 
 				<div class="col-lg-5 ml-auto align-self-lg-end">
 					<div class="col-wrapper--spaced">
-						<h3 class="heading heading-3 text-normal strong-600 mt-4">
+						<h3 class="heading heading-3 text-normal strong-600">
 							Nos Ambitions
 						</h3>
+						<hr class="mt-0 mb-2">
 						<p class="mt-2">
 							<ul>
 								<li>
@@ -185,29 +224,6 @@
 					</div>
 				</div>
 			</div>
-
-			<span class="space-xs-xl"></span>
-
-			<div class="row row-no-padding">
-				<div class="col-lg-6 order-lg-2 ml-lg-auto">
-					<div class="block block-image-holder">
-						<div class="block-image has-solid-shadow-left">
-							<%= image_tag "shop-coop.jpg", class: "img-fluid img-center" %>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-lg-5 order-lg-1 align-self-lg-end">
-					<div class="col-wrapper--spaced">
-						<h3 class="heading heading-3 text-normal strong-600 mt-4">
-							<a href="#">The nine principles of design implementation</a>
-						</h3>
-						<p class="mt-2">
-							One morning when Gregor Samsa woke from troubled dreams he found himself transformed in his bed into a horrible vermin he lay on his armour-like back.
-						</p>
-					</div>
-				</div>
-			</div>
 		</div>
 	</section>
 
@@ -220,8 +236,8 @@
 						<div class="sct-inner ">
 							<div class="container">
 								<div class="text-center">
-									<h1 class="heading heading-3 text-normal c-base-text-1 strong-400">
-
+									<h1 class="heading heading-1 text-normal c-base-text-1 strong-600">
+										<%= link_to "DEVENEZ MEMBRE", new_member_registration_path, class: "banner-end" %>
 									</h1>
 								</div>
 							</div>
