@@ -41,6 +41,34 @@
                 </table>
             </div>
         </div>
-
     </div>
 </div>
+
+
+            <div class="col-md-8 ">
+              <!--The div element for the map -->
+              <div id="map"></div>
+              <script>
+                // Initialize and add the map
+                function initMap() {
+                  // The location of Uluru
+                  var creil = {lat: 49.2667, lng: 2.4833};
+                  // The map, centered at Uluru
+                  var map = new google.maps.Map(
+                  document.getElementById('map'), {zoom: 10, center: creil});
+                  // The marker, positioned at Uluru
+                <% @missions.each do |mission| %>
+                    <% mission.addresses.each do |address| %>
+                        var marker = new google.maps.Marker({position: <%= address.coordonnee %>, map: map});
+                    <% end %>
+                <% end %>
+                }
+              </script>
+              <!--Load the API from the specified URL
+              * The async attribute allows the browser to render the page while the API loads
+              * The key parameter will contain your own API key (which is not needed for this tutorial)
+              * The callback parameter executes the initMap() function-->
+              <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials[:google_key] %>&callback=initMap">
+            </script>
+            </div>
