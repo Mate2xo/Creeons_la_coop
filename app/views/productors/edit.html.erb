@@ -8,5 +8,15 @@
 <%= f.text_area :description %>
 <%= f.label :phone_number, "Numéro de téléphone" %>
 <%= f.text_field :phone_number %>
+  <%= f.fields_for :address, @productor_address do |address| %>
+    <%= address.label :postal_code %>
+    <%= address.text_field :postal_code %>
+    <%= address.label :city %>
+    <%= address.text_field :city %>
+    <%= address.label :street_name_1 %>
+    <%= address.text_field :street_name_1 %>
+    <%= address.label :street_name_2 %>
+    <%= address.text_field :street_name_2 %>
+    <% end %>
 <%= f.submit "Sauvegarder les changements", class: "btn btn-primary" %>
 <% end %>

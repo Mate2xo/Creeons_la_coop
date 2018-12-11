@@ -49,6 +49,7 @@ class ProductorsController < ApplicationController
   def edit
 		if current_member.role == "super_admin" || current_member.role == "admin"  
 			@productor = Productor.find(params[:id])
+			@productor_address = @productor.address || @productor.build_address
 		else
 			redirect_to productors_path 
   	end
@@ -69,6 +70,6 @@ class ProductorsController < ApplicationController
 	private
 
 	def permitted_params
-		params.require(:productor).permit(:name, :description, :phone_number, address_attributes: [:postal_code, :city, :street_name_1, :street_name_2])
+		params.require(:productor).permit(:name, :description, :phone_number, address_attributes: [:id, :postal_code, :city, :street_name_1, :street_name_2])
 	end
 end
