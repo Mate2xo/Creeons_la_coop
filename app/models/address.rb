@@ -31,7 +31,7 @@ class Address < ApplicationRecord
 			if response["status"] == "OK" && response["results"][0]
 				lat = response["results"][0]["geometry"]["location"]["lat"]
 				lng = response["results"][0]["geometry"]["location"]["lng"]
-				coordonnee = {lat: lat , lng: lng};
+				coordonnee = "{lat: " + lat.to_s + " , lng: " + lng.to_s + "};"
 			end
 		end
 		self.coordonnee = coordonnee
