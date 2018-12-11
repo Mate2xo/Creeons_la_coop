@@ -16,7 +16,7 @@ class ProductorsController < ApplicationController
 	def create
 		@productor = Productor.new(permitted_params)
 		if @productor.save
-			flash[:success] = "Le producteur a bien été créé"
+			flash[:notice] = "Le producteur a bien été créé"
 			redirect_to @productor
 		else
 			flash[:error] = "Une erreur est survenue, veuillez recommencer l'opération"
@@ -56,7 +56,7 @@ class ProductorsController < ApplicationController
 	def update
 		@productor = Productor.find(params[:id])
 			if @productor.update_attributes(permitted_params)
-				flash[:success] = "Le producteur a bien été mis à jour"
+				flash[:notice] = "Le producteur a bien été mis à jour"
 				redirect_to @productor
 			else
 				flash[:error] = "Une erreur est survenue, veuillez recommencer l'opération"

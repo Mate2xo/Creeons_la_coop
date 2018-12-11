@@ -29,6 +29,7 @@
                 <% end %>
 
               </div>
+              <%= link_to  "Éditer", edit_productor_path, class:"btn btn-success" %>
             </div>
             
             <div class="col-md-8 ">
@@ -49,17 +50,17 @@
                   var marker = new google.maps.Marker({position: station_f2, map: map});
                 }
               </script>
-          <!--Load the API from the specified URL
+              <!--Load the API from the specified URL
               * The async attribute allows the browser to render the page while the API loads
               * The key parameter will contain your own API key (which is not needed for this tutorial)
               * The callback parameter executes the initMap() function-->
               <script async defer
                 src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials[:google_key] %>&callback=initMap">
             </script>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </section>

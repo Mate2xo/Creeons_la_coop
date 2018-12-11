@@ -1,5 +1,6 @@
 class MissionsController < ApplicationController
   before_action :authenticate_member!
+
   def index
     @missions = Mission.all
   end
@@ -12,10 +13,10 @@ class MissionsController < ApplicationController
     @mission = Mission.new(permitted_params)
     @mission.author = current_member
     if @mission.save
-      flash[:success] = "Mission successfully created"
+      flash[:notice] = "La mission a été créée"
       redirect_to @mission
     else
-      flash[:error] = "Something went wrong"
+      flash[:error] = "La création de mission a échoué"
       redirect_to new_mission_path
     end
   end
@@ -32,10 +33,10 @@ class MissionsController < ApplicationController
   def update
     @mission = Mission.find(params[:id])
       if @mission.update_attributes(permitted_params)
-        flash[:success] = "Mission was successfully updated"
+        flash[:notice] = "La mission a été mise à jour"
         redirect_to @mission
       else
-        flash[:error] = "Something went wrong"
+        flash[:error] = "La mise à jour de la misison a échoué"
         redirect_to edit_mission_path(@mission.id)
       end
   end

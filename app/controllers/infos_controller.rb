@@ -1,5 +1,6 @@
 class InfosController < ApplicationController
   before_action :authenticate_member!
+
   def index
     @infos = Info.all
   end
@@ -12,10 +13,10 @@ class InfosController < ApplicationController
     @info = Info.new(permitted_params)
     @info.author = current_member
     if @info.save
-      flash[:success] = "Info successfully created"
+      flash[:notice] = "L'info a été créée"
       redirect_to @info
     else
-      flash[:error] = "Something went wrong"
+      flash[:error] = "La création de l'info a échoué"
       redirect_to new_info_path
     end
   end
