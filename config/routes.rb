@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   post 'admin/delete/:class/:id', to: "admin#destroy"
   post 'admin/role/:role/:id', to: "admin#role"
 
-  resources :productors, only: [:index, :show, :edit]
+  resources :productors
   resources :infos, only: [:index, :show, :edit]
   resources :missions, only: [:index, :show, :edit]
   resources :members, only: [:index, :show, :edit, :update]
