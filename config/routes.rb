@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   resources :productors
   resources :infos, only: [:index, :show, :edit]
-  resources :missions, only: [:index, :show, :edit]
+  resources :missions
   resources :members, only: [:index, :show, :edit, :update]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
