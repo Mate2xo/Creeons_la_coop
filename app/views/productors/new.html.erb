@@ -1,6 +1,4 @@
-<h1>Productors#edit</h1>
-<p>Find me in app/views/productors/edit.html.erb</p>
-
+<h1>Productors#new</h1>
 <%= form_with model: @productor, local:true do |f| %>
 <%= f.label :name, "Nom du producteur" %>
 <%= f.text_field :name %>
@@ -10,5 +8,5 @@
 <%= f.text_field :phone_number %>
 <%= f.label :avatar %>
 <%= f.file_field :avatar %>
-<%= f.submit "Sauvegarder les changements", class: "btn btn-primary" %>
+<%= f.submit "Créer le producteur", class: "btn btn-primary" %>
 <% end %>
