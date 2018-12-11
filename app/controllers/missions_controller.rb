@@ -7,6 +7,9 @@ class MissionsController < ApplicationController
 
   def new
     @mission = Mission.new
+
+    # address form generator
+    2.times {@mission.addresses.build}
   end
   
   def create
@@ -28,6 +31,10 @@ class MissionsController < ApplicationController
 
   def edit
     @mission = Mission.find(params[:id])
+
+    # address form generator
+    1.times {@mission.addresses.build}
+    @mission_addresses = @mission.addresses || @mission.addresses.build
   end
 
   def update
@@ -45,6 +52,6 @@ class MissionsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:mission).permit(:name, :description,:due_date)
+    params.require(:mission).permit(:name, :description,:due_date, addresses_attributes: [:id, :postal_code, :city, :street_name_1, :street_name_2])
   end
 end
