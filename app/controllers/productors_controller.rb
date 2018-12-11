@@ -8,6 +8,8 @@ class ProductorsController < ApplicationController
 	def new
 		if current_member.role == "super_admin" || current_member.role == "admin"  
 			@productor = Productor.new
+
+			# address form generator
 			@productor_address = @productor.build_address
 		else
 			redirect_to productors_path
@@ -49,6 +51,8 @@ class ProductorsController < ApplicationController
   def edit
 		if current_member.role == "super_admin" || current_member.role == "admin"  
 			@productor = Productor.find(params[:id])
+
+			# address form generator
 			@productor_address = @productor.address || @productor.build_address
 		else
 			redirect_to productors_path 

@@ -7,6 +7,8 @@ class MissionsController < ApplicationController
 
   def new
     @mission = Mission.new
+
+    # address form generator
     2.times {@mission.addresses.build}
   end
   
@@ -29,7 +31,10 @@ class MissionsController < ApplicationController
 
   def edit
     @mission = Mission.find(params[:id])
-    # @mission_addresses = @mission.addresses
+
+    # address form generator
+    1.times {@mission.addresses.build}
+    @mission_addresses = @mission.addresses || @mission.addresses.build
   end
 
   def update

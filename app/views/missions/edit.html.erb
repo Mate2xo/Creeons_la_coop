@@ -12,7 +12,7 @@
   <%= f.date_field :due_date %>
 
   <!-- The following nested field will be repeated for each address in the mission -->
-  <%= f.fields_for :addresses, @mission.addresses do |address| %>
+  <%= f.fields_for :addresses, @mission_addresses do |address| %>
     <%= address.label :postal_code %>
     <%= address.text_field :postal_code %>
     <%= address.label :city %>
