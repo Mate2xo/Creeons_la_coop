@@ -5,11 +5,14 @@
             <div class="col-lg-4 mb-2">
                 <div class="block block--style-3">
                     <div class="profile-picture profile-picture--style-2">
+
+
                         <% if t.avatar.attached? %>
                         <%= image_tag t.avatar %>
                         <% else %>
                         <img src="https://image.flaticon.com/icons/svg/0/93.svg" >
                         <% end %>
+
                     </div>
 
                     <div class="block-body text-center">
