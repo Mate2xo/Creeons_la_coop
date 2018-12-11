@@ -1,5 +1,4 @@
-<h1>Infos#edit</h1>
-<p>Find me in app/views/infos/edit.html.erb</p>
+<h1>Infos#new</h1>
 
 <%= form_with model: @info, local: true do |f| %>
   <%= f.label :title, "Titre" %>
@@ -8,5 +7,5 @@
   <%= f.label :content, "Contenu" %>
   <%= f.text_area :content %>
 
-  <%= f.submit "Valider les changements", class: "btn btn-primary" %>
+  <%= f.submit "Créer l'info", class: "btn btn-primary" %>
   <% end %>

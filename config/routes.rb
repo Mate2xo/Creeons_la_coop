@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   post 'admin/role/:role/:id', to: "admin#role"
 
   resources :productors
-  resources :infos, only: [:index, :show, :edit]
+  resources :infos
   resources :missions
   resources :members, only: [:index, :show, :edit, :update]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
