@@ -56,7 +56,10 @@
           </div>
           <% end %>
 				 </div>
+				 <% if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Mission.find(params[:id]).author_id  %>
 				 <%= link_to  "Éditer", edit_mission_path(@mission.id), class: "btn btn-success" %>
+				 <%= link_to  "Suprimer", edit_mission_path(@mission.id), class: "btn btn-danger" %>
+				 <% end %>
  			</div>
  		</div>
  	</div>
