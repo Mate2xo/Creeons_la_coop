@@ -10,9 +10,9 @@
                 </div>
             </div>
         </div>
-
-        <%= link_to  "Créer une info", new_info_path, class:"btn btn-primary" %>
-
+        <% if current_member.role == "super_admin" || current_member.role == "admin" %>
+            <%= link_to  "Créer une info", new_info_path, class:"btn btn-primary" %>
+        <% end %>
         <!-- Order history table -->
         <div class="card  no-border">
             <div>

@@ -12,7 +12,7 @@
         </p>
 			</div>
 		</div>
-		<% if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Info.find(params[:id]).author_id  %>
+		<% if current_member.role == "super_admin" || current_member.role == "admin" %>
 			<%= link_to  "Éditer", edit_info_path(@info.id), class: "btn btn-success" %>
 			<%= link_to 'Suprimer', info_path(@info.id), method: :delete, class: "btn btn-danger" %>
 		<% end %>
