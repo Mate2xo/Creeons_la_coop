@@ -52,7 +52,12 @@
                 <% end %>
 
               </div>
-              <%= link_to  "Éditer", edit_productor_path, class:"btn btn-success" %>
+               <% if current_member.role == "super_admin" || current_member.role == "admin" %>
+
+               <%= link_to  "Éditer", edit_productor_path(@productor.id), class: "btn btn-success" %>
+               <%= link_to 'Suprimer', productor_path(@productor.id), method: :delete, class: "btn btn-danger" %>
+
+               <% end %>
             </div>
 
             <div class="col-md-8 ">

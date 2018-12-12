@@ -15,18 +15,22 @@ class MembersController < ApplicationController
       @member = Member.find(params[:id])
       @member_address = @member.address || @member.build_address
     else
-      redirect_to members_path
+      redirect_to "/members"
     end
   end
 
   def update
-    @member = Member.find(params[:id])
-    if @member.update_attributes(permitted_params)
-      flash[:notice] = "Votre profil a été mis à jour"
-      redirect_to @member
+    if current_member.id == params[:id].to_i || current_member.role == "super_admin"
+      @member = Member.find(params[:id])
+      if @member.update_attributes(permitted_params)
+        flash[:notice] = "Votre profil a été mis à jour"
+        redirect_to @member
+      else
+        flash[:error] = "Une erreur est survenue, l'opération a été annulée"
+        redirect_to edit_member_path(@member.id)
+      end
     else
-      flash[:error] = "Une erreur est survenue, l'opération a été annulée"
-      redirect_to edit_member_path(@member.id)
+    redirect_to "/members"
     end
   end
 

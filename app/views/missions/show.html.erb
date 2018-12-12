@@ -59,19 +59,27 @@
  						<h4> <%= @mission.created_at %> </h4>
  						<hr class="mt-0 mb-0">
  					</div>
+ 					<% if @mission.due_date %>
  					<div class="progress-wrapper mt-4">
  						<h4 class="progress-label text-capitalize text-md strong-600">Date Limite:</h4>
- 						<h4> <%= @mission.due_date %></h4>
+ 						<h4><%=  time_tag(@mission.due_date) %>
  					</div>
+ 					<% end %>
 					<% @mission.addresses.each do |address| %>
  					<div class="progress-wrapper mt-4">            
  						<h4 class="progress-label text-capitalize text-md strong-600">Lieux:</h4>
  						<h4><%= address.street_name_1 %> </h4>
  						<h4><%= address.postal_code %> - <%= address.city %></h4>
-         			 </div>
+          </div>
           			<% end %>
-				</div>
-				<%= link_to  "Éditer", edit_mission_path(@mission.id), class: "btn btn-success" %>
+				 </div>
+
+				 <% if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Mission.find(params[:id]).author_id  %>
+
+				 <%= link_to  "Éditer", edit_mission_path(@mission.id), class: "btn btn-success" %>
+				 <%= link_to 'Suprimer', mission_path(@mission.id), method: :delete, class: "btn btn-danger" %>
+
+				 <% end %>
  			</div>
  		</div>
  		<div class="row align-items-center pt-5 ml-2">

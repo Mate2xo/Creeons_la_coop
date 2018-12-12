@@ -12,7 +12,11 @@
         </p>
 			</div>
 		</div>
-		<%= link_to  "Éditer", edit_info_path, class:"btn btn-success" %>
+		<% if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Info.find(params[:id]).author_id  %>
+			<%= link_to  "Éditer", edit_info_path(@info.id), class: "btn btn-success" %>
+			<%= link_to 'Suprimer', info_path(@info.id), method: :delete, class: "btn btn-danger" %>
+		<% end %>
+
 	</div>
 	<div class="row align-items-center pt-5 ml-2">
 		<div class="col-6">
@@ -21,3 +25,4 @@
 
 	</div>
 </section>
+

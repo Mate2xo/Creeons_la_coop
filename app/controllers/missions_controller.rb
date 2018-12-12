@@ -32,22 +32,37 @@ class MissionsController < ApplicationController
   end
 
   def edit
-    @mission = Mission.find(params[:id])
-
-    # address form generator
-    1.times { @mission.addresses.build }
-    @mission_addresses = @mission.addresses || @mission.addresses.build
+    if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Mission.find(params[:id]).author_id
+      @mission = Mission.find(params[:id])
+      # address form generator
+      1.times {@mission.addresses.build}
+      @mission_addresses = @mission.addresses || @mission.addresses.build
+    else 
+        redirect_to mission_path
+    end
   end
 
   def update
-    @mission = Mission.find(params[:id])
-    if @mission.update_attributes(permitted_params)
-      flash[:notice] = "La mission a été mise à jour"
-      redirect_to @mission
+    if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Mission.find(params[:id]).author_id
+      @mission = Mission.find(params[:id])
+      if @mission.update_attributes(permitted_params)
+        flash[:notice] = "La mission a été mise à jour"
+        redirect_to @mission
+      else
+        flash[:error] = "La mise à jour de la misison a échoué"
+        redirect_to edit_mission_path(@mission.id)
+      end
     else
-      flash[:error] = "La mise à jour de la misison a échoué"
-      redirect_to edit_mission_path(@mission.id)
+      redirect_to mission_path
     end
+  end
+
+  def destroy
+    if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Mission.find(params[:id]).author_id
+      Mission.find(params[:id]).destroy
+    end
+    flash[:notice] = "La mission a été suprimer"
+    redirect_to "/missions"
   end
 
   private
