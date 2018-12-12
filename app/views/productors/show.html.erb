@@ -1,4 +1,13 @@
- <section class="slice ct-color-1">
+<!-- Launch Google Maps -->
+<% provide :head_tags do %>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    initMap(<%= @productor.address.coordonnee %>)
+    });
+</script>
+<% end %>
+
+<section class="slice ct-color-1">
   <div class="container">
     <div class="row row-no-padding">
       <div class="col-lg-12">
@@ -8,59 +17,61 @@
             <div class="block block--style-3 col-md-4">
               <div class="profile-picture profile-picture--style-2">
                 <% if @productor.avatar.attached? %>
-                  <%= image_tag @productor.avatar %>
+                <%= image_tag @productor.avatar %>
                 <% else %>
-                  <img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
+                <img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
                 <% end %>
               </div>
-              
-              <div class="block-body text-center"> 
-                <h3 class="heading heading-6 strong-600 mb-0 mb-0"><%= @productor.name %></h3>
+
+              <div class="block-body text-center">
+                <h3 class="heading heading-6 strong-600 mb-0 mb-0">
+                  <%= @productor.name %>
+                </h3>
                 <br />
-                <h2 class="heading heading-3 heading-sm strong-300"><%= @productor.description %></h2>
-                <h2 class="heading heading-3 heading-sm strong-300"><%= @productor.phone_number %></h2>
+                <h2 class="heading heading-3 heading-sm strong-300">
+                  <%= @productor.description %>
+                </h2>
+                <h2 class="heading heading-3 heading-sm strong-300">
+                  <%= @productor.phone_number %>
+                </h2>
 
                 <% if @productor.address.present? %>
-                  <h3 class="heading heading-light heading-sm strong-300"><%= @productor.address.street_name_1 %></h3>
-                  <h4 class="heading heading-light heading-sm strong-300"><%= @productor.address.street_name_2 %></h4>
-                  <h3 class="heading heading-light heading-sm strong-300"><%= @productor.address.city %> <%= @productor.address.postal_code %></h3>
+                <h3 class="heading heading-light heading-sm strong-300">
+                  <%= @productor.address.street_name_1 %>
+                </h3>
+                <h4 class="heading heading-light heading-sm strong-300">
+                  <%= @productor.address.street_name_2 %>
+                </h4>
+                <h3 class="heading heading-light heading-sm strong-300">
+                  <%= @productor.address.city %>
+                  <%= @productor.address.postal_code %>
+                </h3>
 
                 <% else %>
-                  <h3 class="heading heading-light heading-sm strong-300">Adressse non renseignée</h3>
+                <h3 class="heading heading-light heading-sm strong-300">Adressse non renseignée</h3>
                 <% end %>
 
               </div>
-              <%= link_to  "Éditer", edit_productor_path, class:"btn btn-success" %>
+               <% if current_member.role == "super_admin" || current_member.role == "admin" %>
+
+               <%= link_to  "Éditer", edit_productor_path(@productor.id), class: "btn btn-success" %>
+               <%= link_to 'Suprimer', productor_path(@productor.id), method: :delete, class: "btn btn-danger" %>
+
+               <% end %>
             </div>
-            
+
             <div class="col-md-8 ">
               <!--The div element for the map -->
               <div id="map"></div>
-              <script>
-                // Initialize and add the map
-                function initMap() {
-                  // The location of Uluru
-                  var station_f = {lat: 48.833921, lng: 2.371345};
-                  var station_f2 = <%= @productor.address.coordonnee %>;
-                  // The map, centered at Uluru
-                  var map = new google.maps.Map(
-                  document.getElementById('map'), {zoom: 17, center: station_f2});
-                  // The marker, positioned at Uluru
-                  var marker = new google.maps.Marker({position: station_f, map: map});
-                  var marker = new google.maps.Marker({position: station_f2, map: map});
-                }
-              </script>
-              <!--Load the API from the specified URL
-              * The async attribute allows the browser to render the page while the API loads
-              * The key parameter will contain your own API key (which is not needed for this tutorial)
-              * The callback parameter executes the initMap() function-->
-              <script async defer
-                src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials[:google_key] %>&callback=initMap">
-            </script>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="row align-items-center pt-5 ml-2">
+    <div class="col-6">
+      <%= link_to " Retour", productors_path, class: "fas fa-arrow-left" %>
     </div>
   </div>
 </section>

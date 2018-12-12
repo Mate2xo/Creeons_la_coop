@@ -138,7 +138,11 @@
                             <td><%=  t.name %></td>
                             <td><%=  t.description %></td>
                             <td><%=  time_tag(t.created_at) %></td>
-                            <td><%=  time_tag(t.due_date) %></td>
+                            <td><% if t.due_date %>
+                                <%=  time_tag(t.due_date) %>
+                                <% else %>
+                                date non renseigné
+                                <% end %></td>
                             <td>
 	                            <form action="admin/delete/mission/<%= t.id%>" method="post">                            	
                                 <a href="/missions/<%= t.id%>" class="btn btn-dark">Voir</a>

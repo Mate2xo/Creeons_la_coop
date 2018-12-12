@@ -1,3 +1,4 @@
+# Newsfeeds, creatable by admins
 class InfosController < ApplicationController
   before_action :authenticate_member!
 
@@ -21,17 +22,21 @@ class InfosController < ApplicationController
     end
   end
 
-
   def show
     @info = Info.find(params[:id])
   end
 
   def edit
-    @info = Info.find(params[:id])
+    if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Info.find(params[:id]).author_id
+      @info = Info.find(params[:id])
+    else
+      redirect_to "/infos"
+    end
   end
 
   def update
-    @info = Info.find(params[:id])
+    if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Info.find(params[:id]).author_id
+      @info = Info.find(params[:id])
       if @info.update_attributes(permitted_params)
         flash[:notice] = "L'info a été mise à jour"
         redirect_to @info
@@ -39,6 +44,17 @@ class InfosController < ApplicationController
         flash[:error] = "Une erreur est survenue. Veuillez réessayer ou contacter votre administrateur"
         redirect_to edit_info_path(@info.id)
       end
+    else
+      redirect_to "/infos"
+    end
+  end
+
+  def destroy
+    if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Info.find(params[:id]).author_id
+      Info.find(params[:id]).destroy
+    end
+      flash[:notice] = "La mission a été suprimer"
+      redirect_to "/infos"
   end
 
   private

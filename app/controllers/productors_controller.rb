@@ -1,3 +1,6 @@
+# Ressource for the members to get products from (vegetables...), and are managed by the 'Aprovisionnement/Commande' team
+# Can be CRUDed by an admin, R by members
+# Available methods: #address, #name, #description, #managers
 class ProductorsController < ApplicationController
 	before_action :authenticate_member!
 
@@ -17,16 +20,17 @@ class ProductorsController < ApplicationController
 	end
 
 	def create
-		@productor = Productor.new(permitted_params)
-		if @productor.save
-			flash[:notice] = "Le producteur a bien été créé"
-			redirect_to @productor
-		else
-			flash[:error] = "Une erreur est survenue, veuillez recommencer l'opération"
-			redirect_to new_productor_path
+		if current_member.role == "super_admin" || current_member.role == "admin"  
+			@productor = Productor.new(permitted_params)
+			if @productor.save
+				flash[:notice] = "Le producteur a bien été créé"
+				redirect_to @productor
+			else
+				flash[:error] = "Une erreur est survenue, veuillez recommencer l'opération"
+				redirect_to new_productor_path
+			end
 		end
 	end
-	
 
 	def show
 		@productor = Productor.find(params[:id])
@@ -44,7 +48,8 @@ class ProductorsController < ApplicationController
 	end
 	
 	def update
-		@productor = Productor.find(params[:id])
+		if current_member.role == "super_admin" || current_member.role == "admin"  
+			@productor = Productor.find(params[:id])
 			if @productor.update_attributes(permitted_params)
 				flash[:notice] = "Le producteur a bien été mis à jour"
 				redirect_to @productor
@@ -52,8 +57,16 @@ class ProductorsController < ApplicationController
 				flash[:error] = "Une erreur est survenue, veuillez recommencer l'opération"
 				redirect_to edit_productor_path(@productor.id)
 			end
+		end
 	end
 	
+	def destroy
+	    if current_member.role == "super_admin" || current_member.role == "admin"
+	      Productor.find(params[:id]).destroy
+	    end
+	    flash[:notice] = "Le producteur a été suprimer"
+	    redirect_to "/productors"
+  	end
 
 	private
 
