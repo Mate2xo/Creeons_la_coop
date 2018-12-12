@@ -1,3 +1,4 @@
+# Newsfeeds, creatable by admins
 class InfosController < ApplicationController
   before_action :authenticate_member!
 
@@ -21,7 +22,6 @@ class InfosController < ApplicationController
     end
   end
 
-
   def show
     @info = Info.find(params[:id])
   end
@@ -32,13 +32,13 @@ class InfosController < ApplicationController
 
   def update
     @info = Info.find(params[:id])
-      if @info.update_attributes(permitted_params)
-        flash[:notice] = "L'info a été mise à jour"
-        redirect_to @info
-      else
-        flash[:error] = "Une erreur est survenue. Veuillez réessayer ou contacter votre administrateur"
-        redirect_to edit_info_path(@info.id)
-      end
+    if @info.update_attributes(permitted_params)
+      flash[:notice] = "L'info a été mise à jour"
+      redirect_to @info
+    else
+      flash[:error] = "Une erreur est survenue. Veuillez réessayer ou contacter votre administrateur"
+      redirect_to edit_info_path(@info.id)
+    end
   end
 
   private

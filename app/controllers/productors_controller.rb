@@ -1,3 +1,6 @@
+# Ressource for the members to get products from (vegetables...), and are managed by the 'Aprovisionnement/Commande' team
+# Can be CRUDed by an admin, R by members
+# Available methods: #address, #name, #description, #managers
 class ProductorsController < ApplicationController
 	before_action :authenticate_member!
 
@@ -26,7 +29,6 @@ class ProductorsController < ApplicationController
 			redirect_to new_productor_path
 		end
 	end
-	
 
 	def show
 		require "addressable/uri"
@@ -44,7 +46,7 @@ class ProductorsController < ApplicationController
 				end
 			end
 		end
-  end
+	end
 
   def edit
 		if current_member.role == "super_admin" || current_member.role == "admin"  

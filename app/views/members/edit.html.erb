@@ -1,4 +1,4 @@
-<h1>Members#edit</h1> 
+<h1>Members#edit</h1>
 <div class="profile-picture profile-picture--style-2">
 	<% if @member.avatar.attached? %>
 		<%= image_tag @member.avatar %>
@@ -9,11 +9,30 @@
 
 <h2>Modifier le profil</h2>
 <%= form_with model: @member, local: true do |form| %>
-  <%= form.text_field :email %>
-  <%= form.text_field :first_name %>
-  <%= form.text_field :last_name %>
+	<%= form.label :email, "Email" %>
+	<%= form.text_field :email %>
+
+	<%= form.label :first_name, "Prénom" %>
+	<%= form.text_field :first_name %>
+
+	<%= form.label :last_name, "Nom" %>
+	<%= form.text_field :last_name %>
+
+	<%= form.label :avatar, "Photo de profil" %>
 	<%= form.file_field(:avatar, key: "avatar") %>
-  <%= form.submit "Sauvegarder les changements", class: "btn btn-primary" %>
+
+	<%= form.fields_for :address, @member.address do |address| %>
+		<%= address.label :postal_code, "Code postal" %>
+		<%= address.text_field :postal_code %>
+		<%= address.label :city, "Ville" %>
+		<%= address.text_field :city %>
+		<%= address.label :street_name_1, "n° et nom de voie" %>
+		<%= address.text_field :street_name_1 %>
+		<%= address.label :street_name_2, "Complément d'adresse" %>
+		<%= address.text_field :street_name_2 %>
+	<% end %>
+
+	<%= form.submit "Sauvegarder les changements", class: "btn btn-primary" %>
 <% end %>
 
 <%= link_to  "Modifier votre mot de passe", edit_member_registration_path, class:"btn btn-warning" %>
