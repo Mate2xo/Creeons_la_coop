@@ -1,5 +1,6 @@
 <!-- Launch Google Maps -->
 <% provide :head_tags do %>
+<meta name="turbolinks-visit-control" content="reload">
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     initMap(<%= @productor.address.coordonnee %>)
