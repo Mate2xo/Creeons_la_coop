@@ -1,3 +1,6 @@
+# Ressource for the members to get products from (vegetables...), and are managed by the 'Aprovisionnement/Commande' team
+# Can be CRUDed by an admin, R by members
+# Available methods: #address, #name, #description, #managers
 class ProductorsController < ApplicationController
 	before_action :authenticate_member!
 
@@ -26,25 +29,10 @@ class ProductorsController < ApplicationController
 			redirect_to new_productor_path
 		end
 	end
-	
 
 	def show
-		require "addressable/uri"
 		@productor = Productor.find(params[:id])
-		if @productor.address
-			url = @productor.address.postal_code + " " + @productor.address.city + " " + @productor.address.street_name_1 + " " + @productor.address.street_name_2
-			@valide = "addresse invalide"
-			if (@address = Addressable::URI.parse(url).normalize.to_str) != (nil || "")
-				response = RestClient.get ("https://maps.googleapis.com/maps/api/geocode/json?address=" + @address + "+france&key=" + Rails.application.credentials[:google_key] ), {accept: :json}
-				response = JSON.parse(response.body)
-				if response["status"] == "OK" && response["results"][0]
-					@lat = response["results"][0]["geometry"]["location"]["lat"]
-					@lng = response["results"][0]["geometry"]["location"]["lng"]
-					@valide = "addresse valide"
-				end
-			end
-		end
-  end
+	end
 
   def edit
 		if current_member.role == "super_admin" || current_member.role == "admin"  

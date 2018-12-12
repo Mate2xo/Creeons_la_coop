@@ -1,3 +1,6 @@
+# A Mission is an activity that has to be done for the Supermaket Team to function properly.
+# Every member can create a mission
+# Available methods: #addresses, #author, #due_date, #name, #description
 class MissionsController < ApplicationController
   before_action :authenticate_member!
 
@@ -9,9 +12,9 @@ class MissionsController < ApplicationController
     @mission = Mission.new
 
     # address form generator
-    2.times {@mission.addresses.build}
+    2.times { @mission.addresses.build }
   end
-  
+
   def create
     @mission = Mission.new(permitted_params)
     @mission.author = current_member
@@ -23,7 +26,6 @@ class MissionsController < ApplicationController
       redirect_to new_mission_path
     end
   end
-  
 
   def show
     @mission = Mission.find(params[:id])
@@ -33,25 +35,24 @@ class MissionsController < ApplicationController
     @mission = Mission.find(params[:id])
 
     # address form generator
-    1.times {@mission.addresses.build}
+    1.times { @mission.addresses.build }
     @mission_addresses = @mission.addresses || @mission.addresses.build
   end
 
   def update
     @mission = Mission.find(params[:id])
-      if @mission.update_attributes(permitted_params)
-        flash[:notice] = "La mission a été mise à jour"
-        redirect_to @mission
-      else
-        flash[:error] = "La mise à jour de la misison a échoué"
-        redirect_to edit_mission_path(@mission.id)
-      end
+    if @mission.update_attributes(permitted_params)
+      flash[:notice] = "La mission a été mise à jour"
+      redirect_to @mission
+    else
+      flash[:error] = "La mise à jour de la misison a échoué"
+      redirect_to edit_mission_path(@mission.id)
+    end
   end
-  
 
   private
 
   def permitted_params
-    params.require(:mission).permit(:name, :description,:due_date, addresses_attributes: [:id, :postal_code, :city, :street_name_1, :street_name_2])
+    params.require(:mission).permit(:name, :description, :due_date, addresses_attributes: [:id, :postal_code, :city, :street_name_1, :street_name_2])
   end
 end
