@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2018_12_10_093234) do
     t.datetime "updated_at", null: false
     t.bigint "productor_id"
     t.bigint "member_id"
+    t.string "coordonnee"
     t.index ["member_id"], name: "index_addresses_on_member_id"
     t.index ["productor_id"], name: "index_addresses_on_productor_id"
   end
