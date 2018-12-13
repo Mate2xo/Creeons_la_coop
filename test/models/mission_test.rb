@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class MissionTest < ActiveSupport::TestCase
@@ -21,5 +23,5 @@ class MissionTest < ActiveSupport::TestCase
       description: "blablabla"
     )
     assert new_mission.save
-  end 
+  end
 end
