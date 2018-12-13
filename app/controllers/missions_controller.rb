@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A Mission is an activity that has to be done for the Supermaket Team to function properly.
 # Every member can create a mission
 # Available methods: #addresses, #author, #due_date, #name, #description
@@ -35,10 +37,10 @@ class MissionsController < ApplicationController
     if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Mission.find(params[:id]).author_id
       @mission = Mission.find(params[:id])
       # address form generator
-      1.times {@mission.addresses.build}
+      1.times { @mission.addresses.build }
       @mission_addresses = @mission.addresses || @mission.addresses.build
-    else 
-        redirect_to mission_path
+    else
+      redirect_to mission_path
     end
   end
 
@@ -61,7 +63,7 @@ class MissionsController < ApplicationController
     if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Mission.find(params[:id]).author_id
       Mission.find(params[:id]).destroy
     end
-    flash[:notice] = "La mission a été suprimer"
+    flash[:notice] = "La mission a été supprimée"
     redirect_to "/missions"
   end
 

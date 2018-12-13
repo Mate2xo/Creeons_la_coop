@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Newsfeeds, creatable by admins
 class InfosController < ApplicationController
   before_action :authenticate_member!
@@ -45,7 +47,7 @@ class InfosController < ApplicationController
   end
 
   def update
-    if current_member.role == "super_admin" || current_member.role == "admin" 
+    if current_member.role == "super_admin" || current_member.role == "admin"
       @info = Info.find(params[:id])
       if @info.update_attributes(permitted_params)
         flash[:notice] = "L'info a été mise à jour"
@@ -60,11 +62,11 @@ class InfosController < ApplicationController
   end
 
   def destroy
-    if current_member.role == "super_admin" || current_member.role == "admin" 
+    if current_member.role == "super_admin" || current_member.role == "admin"
       Info.find(params[:id]).destroy
     end
-      flash[:notice] = "La mission a été suprimer"
-      redirect_to "/infos"
+    flash[:notice] = "La mission a été supprimée"
+    redirect_to "/infos"
   end
 
   private
