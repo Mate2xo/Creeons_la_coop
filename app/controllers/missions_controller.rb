@@ -2,7 +2,7 @@
 
 # A Mission is an activity that has to be done for the Supermaket Team to function properly.
 # Every member can create a mission
-# Available methods: #addresses, #author, #due_date, #name, #description
+# Available methods: #addresses, #author, #due_date, #name, #description, #members
 class MissionsController < ApplicationController
   before_action :authenticate_member!
 
@@ -66,6 +66,23 @@ class MissionsController < ApplicationController
     flash[:notice] = "La mission a été supprimée"
     redirect_to "/missions"
   end
+
+  def enroll
+    @mission = Mission.find(params[:id])
+    unless @mission.members.where(id: current_member.id).present?
+      @mission.members << current_member 
+    end 
+    flash[:notice] = "Vous vous êtes inscrit à cette mission"
+    redirect_to mission_path(params[:id])
+  end
+
+  def disenroll
+    @mission = Mission.find(params[:id])
+    @mission.members.destroy(current_member.id)
+    flash[:alert] = "Vous vous êtes désinscrit de cette mission"
+    redirect_to mission_path(params[:id])
+  end
+  
 
   private
 

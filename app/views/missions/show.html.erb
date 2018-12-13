@@ -1,17 +1,17 @@
 <!-- Launch Google Maps -->
 <% provide :head_tags do %>
-<meta name="turbolinks-visit-control" content="reload">
-<% unless @mission.addresses.nil? %>
-<script>
-	document.addEventListener("DOMContentLoaded", function() {
-		initMap(
-					<% @mission.addresses.each do |address| %>
-						<%= "#{address.coordonnee}, " unless address.coordonnee.nil? %>
-					<% end %>
-				);
-		});
-</script>
-<% end %>
+	<meta name="turbolinks-visit-control" content="reload">
+	<% unless @mission.addresses.nil? %>
+		<script>
+			document.addEventListener("DOMContentLoaded", function() {
+				initMap(
+							<% @mission.addresses.each do |address| %>
+								<%= "#{address.coordonnee}, " unless address.coordonnee.nil? %>
+							<% end %>
+						);
+				});
+		</script>
+	<% end %>
 <% end %>
 
 <section class="slice-xl sct-color-1">
@@ -28,6 +28,11 @@
 						<h5>
 							<%= @mission.description %>
 						</h5>
+						<% if @mission.members.where(id: current_member.id).present? %> 
+							<%= link_to "Désinscription", enroll_in_mission_path, method: "DELETE", class:"btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %> 
+						<% else %>
+							<%= link_to "Participer", enroll_in_mission_path, method: "POST", class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4"%>
+						<% end %>
 					</p>
 				</div>
 
