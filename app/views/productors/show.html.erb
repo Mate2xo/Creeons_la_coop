@@ -3,7 +3,7 @@
 <meta name="turbolinks-visit-control" content="reload">
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    initMap(<%= @productor.address.coordonnee %>)
+    initMap(<%= @productor.address.coordonnee unless @productor.address.nil? %>)
     });
 </script>
 <% end %>
