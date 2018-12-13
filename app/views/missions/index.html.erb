@@ -54,7 +54,7 @@
                                 <td><% if mission.due_date %>
                                     <%=  time_tag(mission.due_date) %>
                                     <% else %>
-                                    date non renseigné
+                                    date non renseignée
                                     <% end %></td>
                                     <td><% mission.addresses.each do |address| %>
                                         <%= address.city %> 
