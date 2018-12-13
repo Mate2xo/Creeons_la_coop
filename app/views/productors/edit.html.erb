@@ -48,7 +48,7 @@
                   <div class="col-lg-12">
                     <div class="field">
                       <%= f.fields_for :address, @productor_address do |address| %>
-                        <%= address.label :street_name_1, "Adresse" %><br />
+                        <%= address.label :street_name_1, "n° et nom de voie" %><br />
                         <%= address.text_field :street_name_1, class: "form-control form-control-lg" %><br />
                     </div>
                   </div>
@@ -66,7 +66,7 @@
                   </div>
                   <div class="col-lg-12">
                     <div class="field">
-                      <%= address.label :postal_code %><br />
+                      <%= address.label :postal_code, "Code Postal" %><br />
                       <%= address.text_field :postal_code, class: "form-control form-control-lg" %><br />
                     </div>
                   </div>
