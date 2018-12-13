@@ -10,16 +10,18 @@ class AdminController < ApplicationController
   end
 
   def destroy
-    if params[:class] == "member" && member_signed_in? && current_member.role == "super_admin"
-      Member.destroy(params[:id])
-    elsif params[:class] == "info" && member_signed_in? && current_member.role == "super_admin"
-      Info.destroy(params[:id])
-    elsif params[:class] == "mission" && member_signed_in? && current_member.role == "super_admin"
-      Mission.destroy(params[:id])
-    elsif params[:class] == "productor" && member_signed_in? && current_member.role == "super_admin"
-      Productor.destroy(params[:id])
+    if member_signed_in? && current_member.role == "super_admin"
+      if params[:class] == "member" && member_signed_in? && current_member.role == "super_admin"
+        Member.destroy(params[:id])
+      elsif params[:class] == "info" && member_signed_in? && current_member.role == "super_admin"
+        Info.destroy(params[:id])
+      elsif params[:class] == "mission" && member_signed_in? && current_member.role == "super_admin"
+        Mission.destroy(params[:id])
+      elsif params[:class] == "productor" && member_signed_in? && current_member.role == "super_admin"
+        Productor.destroy(params[:id])
+      end
+      flash[:success] = params[:class].to_s + " a bien été supprimé"
     end
-    flash[:success] = params[:class].to_s + " a bien été supprimé"
   end
 
   def role
