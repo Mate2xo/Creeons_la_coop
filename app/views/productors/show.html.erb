@@ -51,14 +51,14 @@
                 <% else %>
                 <h3 class="heading heading-light heading-sm strong-300">Adressse non renseignée</h3>
                 <% end %>
+                 <% if current_member.role == "super_admin" || current_member.role == "admin" %>
 
-              </div>
-               <% if current_member.role == "super_admin" || current_member.role == "admin" %>
-
-               <%= link_to  "Éditer", edit_productor_path(@productor.id), class: "btn btn-success" %>
-               <%= link_to 'Suprimer', productor_path(@productor.id), method: :delete, class: "btn btn-danger" %>
+               <%= link_to  "Éditer", edit_productor_path(@productor.id), class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %>
+               <%= link_to 'Suprimer', productor_path(@productor.id), method: :delete, class: "btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %>
 
                <% end %>
+
+              </div>
             </div>
 
             <div class="col-md-8 ">
