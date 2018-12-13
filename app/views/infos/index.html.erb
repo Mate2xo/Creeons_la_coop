@@ -11,7 +11,7 @@
             </div>
         </div>
 
-        <%= link_to  "Créer une info", new_info_path, class:"btn btn-primary" %>
+        <%= link_to  "Créer une info", new_info_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 ml-2 mb-4" %>
 
         <!-- Order history table -->
         <div class="card  no-border">
@@ -35,7 +35,7 @@
                                 <%= info.content %>
                             </td>
                             <td>
-                                <%= link_to "Voir", info_path(info.id), class: "btn btn-dark" %>
+                                <%= link_to "Voir", info_path(info.id), class: "btn btn-base-1 btn-shadow btn-circle px-4" %>
                             </td>
                         </tr>
                         <% end %>
