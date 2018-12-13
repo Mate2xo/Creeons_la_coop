@@ -76,6 +76,17 @@
 					<% end %>
 					<% @mission.addresses.each do |address| %>
 					<div class="progress-wrapper mt-4">
+ 						<h4 class="progress-label text-capitalize text-md strong-600">Crée le:</h4>
+ 						<h4> <%= time_tag(@mission.created_at) %> </h4>
+ 						<hr class="mt-0 mb-0">
+ 					</div>
+ 					<% if @mission.due_date %>
+ 					<div class="progress-wrapper mt-4">
+ 						<h4 class="progress-label text-capitalize text-md strong-600">Date Limite:</h4>
+ 						<h4><%=  time_tag(@mission.due_date) %>
+ 					</div>
+ 					<% end %>
+				 </div>
 						<h4 class="progress-label text-capitalize text-md strong-600">Lieux:</h4>
 						<h4>
 							<%= address.street_name_1 %>
