@@ -1,3 +1,8 @@
+<!-- Force turbolinks reload to load the banner properly on navigation -->
+<% provide :head_tags do %>
+<meta name="turbolinks-visit-control" content="reload"> 
+<% end %>
+
 <section class="swiper-js-container background-image-holder" data-holder-type="fullscreen" data-holder-offset=".navbar">
 	<div class="swiper-container" data-swiper-autoplay="true" data-swiper-effect="slide" data-swiper-items="1" data-swiper-space-between="0">
 		<div class="swiper-wrapper">
