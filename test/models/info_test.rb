@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class InfoTest < ActiveSupport::TestCase
@@ -21,5 +23,5 @@ class InfoTest < ActiveSupport::TestCase
       content: "blablabla"
     )
     assert new_info.save
-  end 
+  end
 end
