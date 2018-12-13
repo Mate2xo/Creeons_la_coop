@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class ProductorTest < ActiveSupport::TestCase
@@ -21,5 +23,5 @@ class ProductorTest < ActiveSupport::TestCase
       description: "blablabla"
     )
     assert new_productor.save
-  end 
+  end
 end

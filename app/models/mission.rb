@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A Mission is an activity that has to be done for the Supermaket Team to function properly.
 # Every member can create a mission
 # Available methods: #addresses, #author, #due_date, #name, #description

@@ -1,26 +1,29 @@
 <div class="widget mt-4">
     <div class="row-wrapper">
         <div class="row cols-md-space cols-sm-space cols-xs-space">
-            <% Member.all.each do |t| %>
+            <% Member.all.each do |member| %>
             <div class="col-lg-4 mb-2">
                 <div class="block block--style-3">
                     <div class="profile-picture profile-picture--style-2">
-
-
-                        <% if t.avatar.attached? %>
-                        <%= image_tag t.avatar %>
+                        <% if member.avatar.attached? %>
+                            <%= image_tag member.avatar %>
                         <% else %>
-                        <img src="https://image.flaticon.com/icons/svg/0/93.svg" >
+                            <img src="https://image.flaticon.com/icons/svg/0/93.svg">
                         <% end %>
-
                     </div>
 
                     <div class="block-body text-center">
-                        <h3 class="heading heading-6 strong-600 mb-0 mb-0"><%=  t.first_name %> <%=  t.last_name %></h3><br />
-                        <h3 class="heading heading-light heading-sm strong-300"><%=  t.email %></h3>
-                        <h3 class="heading heading-light heading-sm strong-300"><%=  t.phone_number %></h3>
+                        <h3 class="heading heading-6 strong-600 mb-0 mb-0">
+                            <%=  member.first_name %> <%=  member.last_name %>
+                        </h3><br />
+                        <h3 class="heading heading-light heading-sm strong-300">
+                            <%=  member.email %>
+                        </h3>
+                        <h3 class="heading heading-light heading-sm strong-300">
+                            <%=  member.address.city unless member.address.nil? %>
+                        </h3>
 
-                        <%= link_to "Voir Membre", member_path(t.id), class: "btn btn-base-1 btn-shadow btn-circle px-4 mt-2" %>
+                        <%= link_to "Voir Membre", member_path(member.id), class: "btn btn-base-1 btn-shadow btn-circle px-4 mt-2" %>
                     </div>
                 </div>
             </div>
