@@ -1,4 +1,10 @@
 function initMap() {
+  // Cancel launch if there is no argument
+  if (arguments.length == 0) {
+    return
+  }
+
+  // Get addresses from arguments
   var addresses = [];
   for (let i = 0; i < arguments.length; i++) {
     addresses[i] = arguments[i];

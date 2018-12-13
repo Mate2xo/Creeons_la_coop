@@ -1,3 +1,8 @@
+<!-- Force turbolinks reload to load the banner properly on navigation -->
+<% provide :head_tags do %>
+<meta name="turbolinks-visit-control" content="reload"> 
+<% end %>
+
 <section class="swiper-js-container background-image-holder" data-holder-type="fullscreen" data-holder-offset=".navbar">
 	<div class="swiper-container" data-swiper-autoplay="true" data-swiper-effect="slide" data-swiper-items="1" data-swiper-space-between="0">
 		<div class="swiper-wrapper">
@@ -9,14 +14,14 @@
 						<div class="col">
 							<div class="row row-cols-xs-spaced align-items-center py-5">
 								<div class="col-12 col-sm-7 col-md-6">
-									<h2 class="heading heading-1 strong-500 animated" data-animation-in="bounceInDown" data-animation-delay="200">
+									<h2 class="heading heading-1 strong-500 animated text-light" data-animation-in="bounceInDown" data-animation-delay="200">
 										Vous souhaitez changer votre mode de consommation ?
 									</h2>
-									<p class="heading heading-4 mt-4 animated" data-animation-in="fadeInUp" data-animation-delay="1800">
+									<p class="heading heading-4 mt-4 animated text-light" data-animation-in="fadeInUp" data-animation-delay="1800">
 										La Coop souhaite rendre accessible des produits alimentaires sains et de qualité avec l'ouverture d'un supermarché coopératif.
 									</p>
 
-									<a href="#" class="btn btn-styled btn-base-1 btn-circle mt-4 animated" data-animation-in="bounceInUp" data-animation-delay="2600" data-scroll-to="#scrollToSection">En savoir plus</a>
+									<%= link_to "Créons la Coop Ensemble", ensavoirplus_path, class: "btn btn-lg btn-base-1 btn-circle btn-styled mt-4 animated" %>	
 								</div>
 							</div>
 						</div>
@@ -33,8 +38,13 @@
 							<div class="row text-center">
 								<div class="col-12">
 									<h2 class="heading heading-xl strong-400 text-uppercase animated" data-animation-in="fadeInDownBig" data-animation-delay="200">
-										Créons ensemble la Coop
+										S'engager pour la coopérative
 									</h2>
+									<p class="heading heading-4 mt-4 animated text-light" data-animation-in="fadeInUp" data-animation-delay="1800">
+										Les membres bénéficient de produits responsables et de qualité à des prix parmi les plus bas du marché <br />
+										<p class="text-light heading heading-3 mt-4 animated" data-animation-in="fadeInUp" data-animation-delay="1800">
+										20 à 40 % moins cher que dans la grande distibution</p>
+									</p>
 										<%= link_to "Devenir membre", new_member_registration_path, class: "btn btn-lg btn-base-1 btn-circle btn-styled mt-3 animated" %>		
 								</div>
 							</div>
@@ -95,13 +105,14 @@
 					<div class="card-body px-4">
 						<div class="icon-block--style-1-v5 text-center">
 							<div class="block-icon-lg c-white mt-3">
-								<i class="fas fa-handshake "></i>
+								<i class="fas fa-users"></i>
 							</div>
 							<div class="block-content mt-3">
-								<h3 class="heading heading-4 strong-500 text-capitalize ">
-								Créer de l'emploi local</h3>
+								<h3 class="heading heading-4 strong-500 text-capitalize ">Engagez Vous
+								</h3>
 								<p class="px-2 mt-1 ">
-									Et favoriser l'accès à l'emploi de personnes en réinsertion professionnelle.
+									Pour 10€/ans, devenez sociètaire et décidons Ensemble.
+									<br />
 								</p>
 							</div>
 						</div>
@@ -117,7 +128,7 @@
 		<div class="delimiter--style-1">
 			<div class="delimiter-title-wrapper">
 				<div class="delimiter-title">
-					<h3 class="heading heading-xs mb-0 text-uppercase strong-600">Qui Sommes Nous ? <h3>
+					<h3 class="heading heading-xs mb-0 text-uppercase strong-600">En savoir plus <h3>
 					</div>
 				</div>
 			</div>

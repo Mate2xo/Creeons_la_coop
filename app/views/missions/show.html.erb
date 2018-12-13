@@ -1,15 +1,17 @@
 <!-- Launch Google Maps -->
 <% provide :head_tags do %>
-<meta name="turbolinks-visit-control" content="reload">
-<script>
-	document.addEventListener("DOMContentLoaded", function () {
-		initMap(
-				<% @mission.addresses.each do | address | %>
-					<%= "#{address.coordonnee}, " unless address.coordonnee.nil? %>
-				<% end %>
-			);
-	});
-</script>
+	<meta name="turbolinks-visit-control" content="reload">
+	<% unless @mission.addresses.nil? %>
+		<script>
+			document.addEventListener("DOMContentLoaded", function() {
+				initMap(
+							<% @mission.addresses.each do |address| %>
+								<%= "#{address.coordonnee}, " unless address.coordonnee.nil? %>
+							<% end %>
+						);
+				});
+		</script>
+	<% end %>
 <% end %>
 
 <section class="slice-xl sct-color-1">
@@ -26,27 +28,31 @@
 						<h5>
 							<%= @mission.description %>
 						</h5>
+						<% if @mission.members.where(id: current_member.id).present? %> 
+							<%= link_to "Désinscription", enroll_in_mission_path, method: "DELETE", class:"btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %> 
+						<% else %>
+							<%= link_to "Participer", enroll_in_mission_path, method: "POST", class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4"%>
+						<% end %>
 					</p>
 				</div>
 
 				<div class="px-inline-only-2">
 					<h3 class="heading heading-2 strong-500">
-						Lieux :
+						Participants :
 						<hr class="mt-0 mb-0">
 					</h3>
 
+					<div class="my-4 text-lg line-height-1_8 mt-4">
+						<% @mission.members.each do |member| %>
+						<%= link_to  "#{member.first_name} #{member.last_name}", member_path(member.id), class: "" %>,
+						<% end %>
+					</div>
+				</div>
 
-					<p class="text-lg line-height-1_8 mt-4">
-						<ul>
-							<% @mission.addresses.each do |address| %>
-							<li>
-								<%= address.street_name_1 %>,
-								<%= address.postal_code %> -
-								<%= address.city %>
-							</li>
-							<% end %>
-						</ul>
-					</p>
+				<div class="px-inline-only-2">
+					<h3 class="heading heading-2 strong-500">
+						<hr class="mt-0 mb-0">
+					</h3>
 					<div class="" id="map"></div> <!-- Google Map -->
 				</div>
 			</div>
@@ -60,33 +66,33 @@
 						</h4>
 						<hr class="mt-0 mb-0">
 					</div>
+
 					<div class="progress-wrapper mt-4">
-						<h4 class="progress-label text-capitalize text-md strong-600">Crée le:</h4>
+						<h4 class="progress-label text-capitalize text-md strong-600">Crée par:</h4>
 						<h4>
-							<%= @mission.created_at %>
+							<%= link_to  "#{@mission.author.first_name}", member_path(@mission.author.id), class:"" %>
 						</h4>
 						<hr class="mt-0 mb-0">
 					</div>
+
 					<% if @mission.due_date %>
 					<div class="progress-wrapper mt-4">
 						<h4 class="progress-label text-capitalize text-md strong-600">Date Limite:</h4>
 						<h4>
 							<%=  time_tag(@mission.due_date) %>
+						</h4>
 					</div>
 					<% end %>
+					<div class="progress-wrapper mt-4">
+						<h4 class="progress-label text-capitalize text-md strong-600">Crée le:</h4>
+						<h4>
+							<%= time_tag(@mission.created_at) %>
+						</h4>
+						<hr class="mt-0 mb-0">
+					</div>
+
 					<% @mission.addresses.each do |address| %>
 					<div class="progress-wrapper mt-4">
- 						<h4 class="progress-label text-capitalize text-md strong-600">Crée le:</h4>
- 						<h4> <%= time_tag(@mission.created_at) %> </h4>
- 						<hr class="mt-0 mb-0">
- 					</div>
- 					<% if @mission.due_date %>
- 					<div class="progress-wrapper mt-4">
- 						<h4 class="progress-label text-capitalize text-md strong-600">Date Limite:</h4>
- 						<h4><%=  time_tag(@mission.due_date) %>
- 					</div>
- 					<% end %>
-				 </div>
 						<h4 class="progress-label text-capitalize text-md strong-600">Lieux:</h4>
 						<h4>
 							<%= address.street_name_1 %>
@@ -95,22 +101,25 @@
 							<%= address.postal_code %> -
 							<%= address.city %>
 						</h4>
+						<hr class="mt-0 mb-0">
 					</div>
 					<% end %>
+					<div class="progress-wrapper mt-4 d-flex justify-content-between">
+					<% if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Mission.find(params[:id]).author_id  %>
+
+					<%= link_to 'Supprimer', mission_path(@mission.id), method: :delete, class: "btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %>
+					<%= link_to  "Éditer", edit_mission_path(@mission.id), class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %>
+
+					<% end %>
+					</div>
 				</div>
-
-				<% if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Mission.find(params[:id]).author_id  %>
-
-				<%= link_to  "Éditer", edit_mission_path(@mission.id), class: "btn btn-success" %>
-				<%= link_to 'Suprimer', mission_path(@mission.id), method: :delete, class: "btn btn-danger" %>
-
-				<% end %>
 			</div>
 		</div>
-		<div class="row align-items-center pt-5 ml-2">
-			<div class="col-6">
-				<%= link_to " Retour", missions_path, class: "fas fa-arrow-left" %>
-			</div>
+
+	</div>
+	<div class="row align-items-center pt-5 ml-2">
+		<div class="col-6">
+			<%= link_to " Retour", missions_path, class: "fas fa-arrow-left" %>
 		</div>
 	</div>
 </section>
