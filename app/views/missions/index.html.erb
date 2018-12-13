@@ -21,10 +21,10 @@
             <div class="row align-items-center">
                 <div class="col-lg-12 col-12">
                     <h2 class="heading-missions heading heading heading-2 text-uppercase border-bottom border-dark strong-800 mt-5 mb-5">missions</h2>
+                    <%= link_to  "Créer une nouvelle mission", new_mission_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 ml-2 mb-4" %>
                 </div>
             </div>
         </div>
-        <%= link_to  "Créer une nouvelle mission", new_mission_path, class:"btn btn-primary" %>
         <!-- Order history table -->
         <div class="card no-border">
             <div>
@@ -34,6 +34,7 @@
                             <th>Nom</th>
                             <th>Date Creation</th>
                             <th>Date Limite</th>
+                            <th>Ville</th>
                             <th><!-- Btn Show --></th>
                         </tr>
                     </thead>
@@ -53,7 +54,7 @@
                                 <%= address.city %> 
                             <% end %></td>
                             <td>
-                                <%= link_to "Voir", mission_path(mission.id), class: "btn btn-dark" %>
+                                <%= link_to "Voir", mission_path(mission.id), class: "btn btn-base-1 btn-shadow btn-circle px-4" %>
                             </td>
                         </tr>
                         <% end %>
