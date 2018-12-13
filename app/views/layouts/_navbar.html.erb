@@ -54,13 +54,13 @@
             <% end %>
             <ul class="navbar-nav ml-lg-auto">
                 <% if member_signed_in? %>
-                <% if current_member.role == "super_admin" || current_member.role == "admin"  %>
+                <% if current_member.role == "super_admin"  %>
                 <li class="nav-item">
                     <%= link_to  "gestion admin", admin_url, class:"nav-link" %>
                 </li>
                 <% end %>
                 <li class="nav-item">
-                    <%= link_to  "profil de #{current_member.id}", edit_member_path(current_member.id), class:"nav-link" %>
+                    <%= link_to  "profil de #{current_member.first_name} #{current_member.last_name}", edit_member_path(current_member.id), class:"nav-link" %>
                 </li>
                 <li class="nav-item">
                     <%= link_to  "Déconnection", destroy_member_session_url, method:"delete", class:"nav-link" %>

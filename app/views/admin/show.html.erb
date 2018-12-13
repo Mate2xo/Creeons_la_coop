@@ -10,14 +10,14 @@
         <!-- Order history table -->
         <div class="card no-border">
             <div>
-                <table class="table table-sm table-hover">
+                <table class="table table-sm table-hover ">
                     <thead>
                         <tr>
-                            <th>nom</th>
-                            <th>email</th>
-                            <th>tel</th>
-                            <th>date de creation</th>
-                            <th>role</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Tel</th>
+                            <th>Créer le</th>
+                            <th>Role</th>
                             <th><!-- Btn Show --></th>
                         </tr>
                     </thead>
@@ -32,30 +32,34 @@
                             <td><%=  t.role %> </td>
                             <td>                               
                             	<%if t.id != current_member.id%>
-                            	<form action="admin/delete/member/<%= t.id%>" method="post">
+                            	<form action="admin/delete/member/<%= t.id%>" method="post" class="mt-5">
                             	<% end %>
-                                <a href="/members/<%= t.id%>" class="btn btn-dark">Voir</a>
-                                <a href="/members/<%= t.id%>/edit" class="btn btn-dark">Editer</a>
+                                <a href="/members/<%= t.id%>" class="btn btn-base-1 ">Voir</a>
+                                <a href="/members/<%= t.id%>/edit" class="btn btn-base-1 ">Editer</a>
                                 <%if t.id != current_member.id%>
 	                                	<input name="authenticity_token" type="hidden" value="token_value">
-	                                	<button class="btn btn-dark">Suprimer</button>
+	                                	<button class="btn btn-danger">Suprimer</button>
 	                            	</form>
+                                    <br />
+
 	                            	<% if t.role != "membre"%>
 	                                	<form action="admin/role/membre/<%= t.id%>" method="post">
 	                                		<input name="authenticity_token" type="hidden" value="token_value">
-	                                		<button class="btn btn-danger">passer en MEMBRE</button>
+	                                		<button class="btn btn-outline-danger">passer en MEMBRE</button>
 	                                	</form>
+                                        <br />
 	                            	<% end %>
 	                            	<% if t.role != "admin"%>
 	                                	<form action="admin/role/admin/<%= t.id%>" method="post">
 	                                		<input name="authenticity_token" type="hidden" value="token_value">
-	                                		<button class="btn btn-danger">passer en ADMIN</button>
+	                                		<button class="btn btn-outline-danger">passer en ADMIN</button>
 	                                	</form>
+                                        <br />
 	                            	<% end %> 
 	                            	<% if t.role != "super-admin"%>
 	                                	<form action="admin/role/super-admin/<%= t.id%>" method="post">
 	                                		<input name="authenticity_token" type="hidden" value="token_value">
-	                                		<button class="btn btn-danger">passer en SUPER-ADMIN</button>
+	                                		<button class="btn btn-outline-danger">passer en SUPER-ADMIN</button>
 	                                	</form>
 	                            	<% end %>
                             	<% end %>
@@ -64,6 +68,7 @@
                         <% end %>
                     </tbody>
                 </table>
+                <hr class="mt-0 mb-0">
             </div>
         </div>
         <div class="page-title">
@@ -99,10 +104,10 @@
                             <td><%=  time_tag(t.created_at) %></td>
                             <td>
 	                            <form action="admin/delete/info/<%= t.id%>" method="post">
-                                <a href="/infos/<%= t.id%>" class="btn btn-dark">Voir</a>
-                                <a href="/infos/<%= t.id%>/edit" class="btn btn-dark">Editer</a>
+                                <a href="/infos/<%= t.id%>" class="btn btn-base-1 ">Voir</a>
+                                <a href="/infos/<%= t.id%>/edit" class="btn btn-base-1 ">Editer</a>
 	                                <input name="authenticity_token" type="hidden" value="token_value">
-	                                <button class="btn btn-dark">Suprimer</button>
+	                                <button class="btn btn-danger mt-2 ml-3">Suprimer</button><br />
 	                           	</form>
                             </td>
                         </tr>
@@ -138,13 +143,17 @@
                             <td><%=  t.name %></td>
                             <td><%=  t.description %></td>
                             <td><%=  time_tag(t.created_at) %></td>
-                            <td><%=  time_tag(t.due_date) %></td>
+                            <td><% if t.due_date %>
+                                <%=  time_tag(t.due_date) %>
+                                <% else %>
+                                date non renseigné
+                                <% end %></td>
                             <td>
 	                            <form action="admin/delete/mission/<%= t.id%>" method="post">                            	
-                                <a href="/missions/<%= t.id%>" class="btn btn-dark">Voir</a>
-                                <a href="/missions/<%= t.id%>/edit" class="btn btn-dark">Editer</a>
+                                <a href="/missions/<%= t.id%>" class="btn btn-base-1 ">Voir</a>
+                                <a href="/missions/<%= t.id%>/edit" class="btn btn-base-1 ">Editer</a>
 	                                <input name="authenticity_token" type="hidden" value="token_value">
-	                                <button class="btn btn-dark">Suprimer</button>
+	                                <button class="btn btn-danger mt-2 ml-3">Suprimer</button><br />
 	                           	</form>
                             </td>
                         </tr>
@@ -183,10 +192,10 @@
                             <td><%=  time_tag(t.created_at) %></td>
                             <td>	                            
                             	<form action="admin/delete/productor/<%= t.id%>" method="post">
-                               <a href="/productors/<%= t.id%>" class="btn btn-dark">Voir</a>
-                                <a href="/productors/<%= t.id%>/edit" class="btn btn-dark">Editer</a>
+                               <a href="/productors/<%= t.id%>" class="btn btn-base-1 ">Voir</a>
+                                <a href="/productors/<%= t.id%>/edit" class="btn btn-base-1 ">Editer</a>
 	                                <input name="authenticity_token" type="hidden" value="token_value">
-	                                <button class="btn btn-dark">Suprimer</button>
+	                                <button class="btn btn-danger">Suprimer</button><br />
 	                           	</form>
                             </td>
                         </tr>

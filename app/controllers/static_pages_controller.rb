@@ -7,4 +7,7 @@ class StaticPagesController < ApplicationController
     @infos
     @missions
   end
+
+  def shop 
+  end
 end

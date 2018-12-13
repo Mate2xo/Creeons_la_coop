@@ -13,6 +13,10 @@
 
         <%= link_to  "Créer une info", new_info_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 ml-2 mb-4" %>
 
+        <% if current_member.role == "super_admin" || current_member.role == "admin" %>
+            <%= link_to  "Créer une info", new_info_path, class:"btn btn-primary" %>
+        <% end %>
+        
         <!-- Order history table -->
         <div class="card  no-border">
             <div>

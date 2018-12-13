@@ -1,3 +1,17 @@
+<!-- Launch Google Maps -->
+<% provide :head_tags do %>
+<meta name="turbolinks-visit-control" content="reload">
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+		initMap(
+				<% @mission.addresses.each do |address| %>
+					<%= address.coordonnee %>,
+				<% end %>
+			);
+	});
+</script>
+<% end %>
+
  <section class="slice-xl sct-color-1">
  	<div class="container">
  		<div class="row align-items cols-xs-space cols-sm-space cols-md-space">
@@ -5,7 +19,8 @@
  				<div class="px-inline-only-2">
  					<h3 class="heading heading-2 strong-500">
  						Description :
- 						<hr class="mt-0 mb-0">
+						 <hr class="mt-0 mb-0">
+						 <div class="" id="map"></div> <!-- Google Map -->
  					</h3>
 
  					<p class="text-lg line-height-1_8 mt-4">
@@ -66,12 +81,27 @@
  						<h4> <%= @mission.created_at %> </h4>
  						<hr class="mt-0 mb-0">
  					</div>
+ 					<% if @mission.due_date %>
  					<div class="progress-wrapper mt-4">
  						<h4 class="progress-label text-capitalize text-md strong-600">Date Limite:</h4>
- 						<h4> <%= @mission.due_date %></h4>
+ 						<h4><%=  time_tag(@mission.due_date) %>
  					</div>
-				</div>
-				<%= link_to  "Éditer", edit_mission_path(@mission.id), class: "btn btn-base-1 btn-shadow btn-circle px-4 mt-4" %>
+ 					<% end %>
+					<% @mission.addresses.each do |address| %>
+ 					<div class="progress-wrapper mt-4">            
+ 						<h4 class="progress-label text-capitalize text-md strong-600">Lieux:</h4>
+ 						<h4><%= address.street_name_1 %> </h4>
+ 						<h4><%= address.postal_code %> - <%= address.city %></h4>
+          </div>
+          			<% end %>
+				 </div>
+
+				 <% if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Mission.find(params[:id]).author_id  %>
+
+				 <%= link_to  "Éditer", edit_mission_path(@mission.id), class: "btn btn-success" %>
+				 <%= link_to 'Suprimer', mission_path(@mission.id), method: :delete, class: "btn btn-danger" %>
+
+				 <% end %>
  			</div>
  		</div>
  		<div class="row align-items-center pt-5 ml-2">

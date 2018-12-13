@@ -1,6 +1,8 @@
 <div class="widget mt-4">
 	<div class="row-wrapper">
-			<%= link_to  "Ajouter un producteur", new_productor_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 ml-2 mb-4" %>
+		<% if current_member.role == "super_admin" || current_member.role == "admin" %>
+			<%= link_to  "Ajouter un producteur", new_productor_path, class:"btn btn-primary" %>
+        <% end %>
 		<div class="row cols-md-space cols-sm-space cols-xs-space">
 
 			<% @productors.each do |productor| %>

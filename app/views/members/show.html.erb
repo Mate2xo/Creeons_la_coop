@@ -17,6 +17,9 @@
               <h3 class="heading heading-light heading-sm strong-300"><%= @member.email %></h3>
               <h3 class="heading heading-light heading-sm strong-300"><%= @member.phone_number %></h3>
             </div>
+            <% if current_member.role == "super_admin" || current_member.id == params[:id].to_i  %>
+            <%= link_to  "Éditer", edit_member_path(@member.id), class: "btn btn-success" %>
+            <% end %>
           </div>
         </div>
         <div class="col-lg-7 lg-auto order-lg-2 mt-5">
