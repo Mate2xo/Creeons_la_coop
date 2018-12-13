@@ -1,13 +1,13 @@
-<section class="slice-xl slice--offset-top has-bg-cover bg-size-cover" style="background-image: url(<%= asset_path('ardoise.jpg') %>); background-position: bottom center;">
-    <span class="mask mask-light--style-4"></span>
+<section class="slice-xl slice--offset-top has-bg-cover bg-size-cover" style="background-image: url(<%= asset_path('coop5.jpg') %>); background-position: bottom center;">
+    <span class="mask mask-dark--style-3"></span>
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="py-5">
-                    <h2 class="heading heading-inverse heading-xl strong-800 text-capitalize line-height-1_2 animated text-center" data-animation-in="fadeInDownBig" data-animation-delay="200">
+                    <h2 class="heading heading-inverse heading-xl strong-900 text-capitalize line-height-1_2 animated text-center" data-animation-in="fadeInDownBig" data-animation-delay="200">
                         La Coop
                     </h2>
-                    <p class="lead c-white animated mt-3" data-animation-in="fadeInUpBig" data-animation-delay="200">
+                    <p class="lead c-white animated mt-3 heading heading-3 strong-900" data-animation-in="fadeInUpBig" data-animation-delay="200">
                         Tout est à créer, tout est à rever.
                     </p>
                 </div>
@@ -121,3 +121,24 @@
         </div>
     </div>
 </section>
+
+<% if member_signed_in? == false %>
+        <section class="cta-wrapper mt-4">
+                <div class="slice cta-inner bg-color-vert">
+                    <div class="flex flex-items-xs-middle">
+                        <div class="flex-wrap-item">
+                            <div class="sct-inner ">
+                                <div class="container">
+                                    <div class="text-center">
+                                        <h1 class="heading heading-1 text-normal c-base-text-1 strong-600">
+                                            <%= link_to "S'ENGAGER POUR LA COOP", new_member_registration_path, class: "banner-end" %>
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </section>
+    <% end %>
