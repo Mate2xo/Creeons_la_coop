@@ -16,10 +16,10 @@
               <h3 class="heading heading-6 strong-600 mb-0 mb-0"><%= @member.first_name %> <%= @member.last_name %></h3><br />
               <h3 class="heading heading-light heading-sm strong-300"><%= @member.email %></h3>
               <h3 class="heading heading-light heading-sm strong-300"><%= @member.phone_number %></h3>
-            </div>
-            <% if current_member.role == "super_admin" || current_member.id == params[:id].to_i  %>
-            <%= link_to  "Éditer", edit_member_path(@member.id), class: "btn btn-success" %>
+              <% if current_member.role == "super_admin" || current_member.id == params[:id].to_i  %>
+            <%= link_to  "Éditer", edit_member_path(@member.id), class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %>
             <% end %>
+            </div>
           </div>
         </div>
         <div class="col-lg-7 lg-auto order-lg-2 mt-5">
