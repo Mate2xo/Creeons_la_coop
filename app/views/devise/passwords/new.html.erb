@@ -1,0 +1,46 @@
+<div class="body-wrap">
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+  <%= devise_error_messages! %>
+    <section class="slice sct-color-2">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-5">
+                    <div class="card form-card form-card--style-1">
+                        <div class="form-header text-center">
+                            <div class="form-header-icon">
+                                <i class="fas fa-user-lock fa-3x"></i>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="text-center px-2">
+                                <h4 class="heading heading-4 strong-400 mb-4">Mot de passe perdu ?</h4>
+                                <p> Saisissez l'adresse e-mail associé à votre compte </p>
+                            </div>
+                            <form class="form-default" role="form">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="field">
+    										<%= f.label :email %><br />
+   											 <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-lg" %>
+  										</div>
+                                      <br />
+                                    </div>
+                                </div>
+                                <div class="actions">
+    								<%= f.submit "Continuer", class: "btn-update btn btn-styled btn-lg btn-block btn-base-1 mt-4" %>
+  								</div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  <% end %>
+</div>
+
+
+
+
+
+

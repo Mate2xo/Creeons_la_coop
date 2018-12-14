@@ -1,0 +1,205 @@
+<div class="col-lg-12 mb-5">
+    <div class="main-content container">
+        <div class="page-title">
+            <div class="row align-items-center">
+                <div class="col-lg-12 col-12">
+                    <h2 class="heading-missions heading heading heading-2 text-uppercase border-bottom border-dark strong-800 mt-5 mb-5">Membre</h2>
+                </div>
+            </div>
+        </div>
+        <!-- Order history table -->
+        <div class="card no-border">
+            <div>
+                <table class="table table-sm table-hover ">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Tel</th>
+                            <th>Créé le</th>
+                            <th>Role</th>
+                            <th><!-- Btn Show --></th>
+                        </tr>
+                    </thead>
+                    <!-- Faire each pour missions -->
+                    <tbody>
+                    	<% Member.all.each do |member| %>
+                        <tr>
+                            <td><%=  member.first_name %> <%=  member.last_name %></td>
+                            <td><%=  member.email %></td>
+                            <td><%=  member.phone_number %></td>
+                            <td><%=  time_tag(member.created_at) %></td>
+                            <td><%=  member.role %> </td>
+                            <td>                               
+                            	<%if member.id != current_member.id%>
+                            	<form action="admin/delete/member/<%= member.id%>" method="post" class="mt-5">
+                            	<% end %>
+                                <a href="/members/<%= member.id%>" class="btn btn-base-1 ">Voir</a>
+                                <a href="/members/<%= member.id%>/edit" class="btn btn-base-1 ">Éditer</a>
+                                <%if member.id != current_member.id%>
+	                                	<input name="authenticity_token" type="hidden" value="token_value">
+	                                	<button class="btn btn-danger">Supprimer</button>
+	                            	</form>
+                                    <br />
+
+	                            	<% if member.role != "member"%>
+	                                	<form action="admin/role/membre/<%= member.id%>" method="post">
+	                                		<input name="authenticity_token" type="hidden" value="token_value">
+	                                		<button class="btn btn-outline-danger">passer en MEMBRE</button>
+	                                	</form>
+                                        <br />
+	                            	<% end %>
+	                            	<% if member.role != "admin"%>
+	                                	<form action="admin/role/admin/<%= member.id%>" method="post">
+	                                		<input name="authenticity_token" type="hidden" value="token_value">
+	                                		<button class="btn btn-outline-danger">passer en ADMIN</button>
+	                                	</form>
+                                        <br />
+	                            	<% end %> 
+	                            	<% if member.role != "super_admin"%>
+	                                	<form action="admin/role/super-admin/<%= member.id%>" method="post">
+	                                		<input name="authenticity_token" type="hidden" value="token_value">
+	                                		<button class="btn btn-outline-danger">passer en SUPER-ADMIN</button>
+	                                	</form>
+	                            	<% end %>
+                            	<% end %>
+                            </td>
+                        </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+                <hr class="mt-0 mb-0">
+            </div>
+        </div>
+        <div class="page-title">
+            <div class="row align-items-center">
+                <div class="col-lg-12 col-12">
+                    <h2 class="heading-missions heading heading heading-2 text-uppercase border-bottom border-dark strong-800 mt-5 mb-5">info</h2>
+                </div>
+            </div>
+        </div>
+        <!-- Order history table -->
+        <div class="card no-border">
+            <div>
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>title</th>
+                            <th>content</th>
+                            <th>date de creation</th>
+                            <th><!-- Btn Show --></th>
+                        </tr>
+                    </thead>
+                    <!-- Faire each pour missions -->
+                    <tbody>
+                    	<% Info.all.each do |info| %>
+                        <tr>
+                            <td><%=  info.title %></td>
+                            <td>
+                            	<%= info.content %> 
+                            </td>
+                            <td><%=  time_tag(info.created_at) %></td>
+                            <td>
+	                            <form action="admin/delete/info/<%= info.id%>" method="post">
+                                <a href="/infos/<%= info.id%>" class="btn btn-base-1 ">Voir</a>
+                                <a href="/infos/<%= info.id%>/edit" class="btn btn-base-1 ">Editer</a>
+	                                <input name="authenticity_token" type="hidden" value="token_value">
+	                                <button class="btn btn-danger mt-2 ml-3">Suprimer</button><br />
+	                           	</form>
+                            </td>
+                        </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="page-title">
+            <div class="row align-items-center">
+                <div class="col-lg-12 col-12">
+                    <h2 class="heading-missions heading heading heading-2 text-uppercase border-bottom border-dark strong-800 mt-5 mb-5">missions</h2>
+                </div>
+            </div>
+        </div>
+        <!-- Order history table -->
+        <div class="card no-border">
+            <div>
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>nom</th>
+                            <th>description</th>
+                            <th>date de creation</th>
+                            <th>date de fin</th>
+                            <th><!-- Btn Show --></th>
+                        </tr>
+                    </thead>
+                    <!-- Faire each pour missions -->
+                    <tbody>
+                    	<% Mission.all.each do |mission| %>
+                        <tr>
+                            <td><%=  mission.name %></td>
+                            <td><%=  mission.description %></td>
+                            <td><%=  time_tag(mission.created_at) %></td>
+                            <td><% if mission.due_date %>
+                                <%=  time_tag(mission.due_date) %>
+                                <% else %>
+                                date non renseigné
+                                <% end %></td>
+                            <td>
+	                            <form action="admin/delete/mission/<%= mission.id%>" method="post">                            	
+                                <a href="/missions/<%= mission.id%>" class="btn btn-base-1 ">Voir</a>
+                                <a href="/missions/<%= mission.id%>/edit" class="btn btn-base-1 ">Editer</a>
+	                                <input name="authenticity_token" type="hidden" value="token_value">
+	                                <button class="btn btn-danger mt-2 ml-3">Suprimer</button><br />
+	                           	</form>
+                            </td>
+                        </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="page-title">
+            <div class="row align-items-center">
+                <div class="col-lg-12 col-12">
+                    <h2 class="heading-missions heading heading heading-2 text-uppercase border-bottom border-dark strong-800 mt-5 mb-5">productors</h2>
+                </div>
+            </div>
+        </div>
+        <!-- Order history table -->
+        <div class="card no-border">
+            <div>
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>nom</th>
+                            <th>description</th>
+                            <th>tel</th>
+                            <th>date de creation</th>
+                            <th><!-- Btn Show --></th>
+                        </tr>
+                    </thead>
+                    <!-- Faire each pour missions -->
+                    <tbody>
+                    	<% Productor.all.each do |productor| %>
+                        <tr>
+                            <td><%=  productor.name %></td>
+                            <td><%=  productor.description %></td>
+                            <td><%=  productor.phone_number %></td>
+                            <td><%=  time_tag(productor.created_at) %></td>
+                            <td>	                            
+                            	<form action="admin/delete/productor/<%= productor.id%>" method="post">
+                               <a href="/productors/<%= productor.id%>" class="btn btn-base-1 ">Voir</a>
+                                <a href="/productors/<%= productor.id%>/edit" class="btn btn-base-1 ">Editer</a>
+	                                <input name="authenticity_token" type="hidden" value="token_value">
+	                                <button class="btn btn-danger">Suprimer</button><br />
+	                           	</form>
+                            </td>
+                        </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

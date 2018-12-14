@@ -4,12 +4,38 @@
     <title>CreonsLaCoop</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <!-- Google Maps connection -->
+    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+Rails.application.credentials.google_key %>
+
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800|Roboto:400,500,700" rel="stylesheet"> 
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+    <!-- # receive code from the selected views (used for Google Maps) -->
+    <%= yield(:head_tags) %>
   </head>
 
   <body>
+    <%= render 'layouts/navbar' %>
+
+    <% if flash[:notice] %>
+      <div class="alert alert-success text-center"><%= flash[:notice]%></div> 
+    <% end %>
+    <% if flash[:alert] %>
+      <div class="alert alert-warning text-center"><%= flash[:alert]%></div> 
+    <% end %>
+    <% if flash[:error] %>
+      <div class="alert alert-danger text-center"><%= flash[:error]%></div> 
+    <% end %>
+
     <%= yield %>
+
+    <%= render 'layouts/footer' %>
   </body>
 </html>

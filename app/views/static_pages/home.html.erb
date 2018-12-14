@@ -1,0 +1,244 @@
+<!-- Force turbolinks reload to load the banner properly on navigation -->
+<% provide :head_tags do %>
+<meta name="turbolinks-visit-control" content="reload"> 
+<% end %>
+
+<section class="swiper-js-container background-image-holder" data-holder-type="fullscreen" data-holder-offset=".navbar">
+	<div class="swiper-container" data-swiper-autoplay="true" data-swiper-effect="slide" data-swiper-items="1" data-swiper-space-between="0">
+		<div class="swiper-wrapper">
+			<!-- Slide -->
+			<div class="swiper-slide" data-swiper-autoplay="8000">
+				<div class="slice holder-item holder-item-light has-bg-cover bg-size-cover" style="background-image: url( <%= asset_path('shop.jpg') %>); background-position: bottom center;">
+					<span class="mask mask-dark--style-3"></span>
+					<div class="container d-flex align-items-center">
+						<div class="col">
+							<div class="row row-cols-xs-spaced align-items-center py-5">
+								<div class="col-12 col-sm-7 col-md-6">
+									<h2 class="heading heading-1 strong-500 animated text-light" data-animation-in="bounceInDown" data-animation-delay="200">
+										Vous souhaitez changer votre mode de consommation ?
+									</h2>
+									<p class="heading heading-4 mt-4 animated text-light" data-animation-in="fadeInUp" data-animation-delay="1800">
+										La Coop souhaite rendre accessible des produits alimentaires sains et de qualité avec l'ouverture d'un supermarché coopératif.
+									</p>
+
+									<%= link_to "Créons la Coop Ensemble", ensavoirplus_path, class: "btn btn-lg btn-base-1 btn-circle btn-styled mt-4 animated" %>	
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Slide -->
+			<div class="swiper-slide" data-swiper-autoplay="8000">
+				<div class="slice holder-item holder-item-light has-bg-cover bg-size-cover" style="background-image: url(<%= asset_path('stand.jpg') %>); background-position: bottom center;">
+					<span class="mask mask-dark--style-3"></span>
+					<div class="container d-flex align-items-center">
+						<div class="col">
+							<div class="row text-center">
+								<div class="col-12">
+									<h2 class="heading heading-xl strong-400 text-uppercase animated" data-animation-in="fadeInDownBig" data-animation-delay="200">
+										S'engager pour la coopérative
+									</h2>
+									<p class="heading heading-4 mt-4 animated text-light" data-animation-in="fadeInUp" data-animation-delay="1800">
+										Les membres bénéficient de produits responsables et de qualité à des prix parmi les plus bas du marché <br />
+										<p class="text-light heading heading-3 mt-4 animated" data-animation-in="fadeInUp" data-animation-delay="1800">
+										20 à 40 % moins cher que dans la grande distibution</p>
+									</p>
+										<%= link_to "Devenir membre", new_member_registration_path, class: "btn btn-lg btn-base-1 btn-circle btn-styled mt-3 animated" %>		
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+			<!-- Add Pagination -->
+		<div class="swiper-pagination"></div>
+	</div>
+</section>
+
+
+<section class="slice sct-color-1" id="scrollToSection">
+	<div class="container">
+		<div class="row cols-xs-space cols-sm-space cols-md-space">
+			<div class="col-lg-4 col-12">
+				<div class="card card-colored bg-color-vert">
+					<div class="card-body px-4">
+						<div class="icon-block--style-1-v5 text-center">
+							<div class="block-icon-lg c-white mt-3">
+								<i class="fas fa-store "></i>
+							</div>
+							<div class="block-content mt-3">
+								<h2 class="heading heading-4 strong-500 text-capitalize ">Crée Une Epicerie Coopérative</h2>
+								<p class="px-2 mt-1 ">
+									Mettre en place un mode de consommation coopératif et alternatif.
+								</p>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-12">
+				<div class="card card-colored bg-color-white border aubergine">
+					<div class="card-body px-4 aubergine">
+						<div class="icon-block--style-1-v5 text-center">
+							<div class="block-icon-lg c-white mt-3">
+								<i class="fas fa-map-marker-alt text-vert"></i>
+							</div>
+							<div class="block-content mt-3 ">
+								<h3 class="heading heading-4 strong-500 text-capitalize text-vert">
+								Soutenir les agriculteurs locaux</h3>
+								<p class="px-2 mt-1 text-vert">
+									Promouvoir l'accès à des produits de qualité, de saisons et issus de l'agriculture locale.
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-12">
+				<div class="card card-colored bg-color-vert">
+					<div class="card-body px-4">
+						<div class="icon-block--style-1-v5 text-center">
+							<div class="block-icon-lg c-white mt-3">
+								<i class="fas fa-users"></i>
+							</div>
+							<div class="block-content mt-3">
+								<h3 class="heading heading-4 strong-500 text-capitalize ">Engagez Vous
+								</h3>
+								<p class="px-2 mt-1 ">
+									Pour 10€/ans, devenez sociètaire et décidons Ensemble.
+									<br />
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+	<div class="container">
+		<div class="delimiter--style-1">
+			<div class="delimiter-title-wrapper">
+				<div class="delimiter-title">
+					<h3 class="heading heading-xs mb-0 text-uppercase strong-600">En savoir plus <h3>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<section class="slice-lg sct-color-1">
+		<div class="container">
+			<div class="row row-no-padding">
+				<div class="col-lg-6">
+					<div class="block block-image-holder">
+						<div class="block-image has-solid-shadow-right mt-4">
+							<%= image_tag "terre1.jpg", class: "img-fluid img-center" %>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-5 ml-auto align-self-lg-end">
+					<div class="col-wrapper--spaced">
+						<h3 class="heading heading-3 text-normal strong-600">
+							Origine du Projet
+						</h3>
+						<hr class="mt-0 mb-2">
+						<p class="mt-2">
+									Inspiré par le film documentaire « FoodCoop », un groupe de citoyens du bassin Creillois issu de tous horizons a décidé de se réunir autour d'une association commune appelée « Créons la Coop », qui a ainsi vu le jour le 10 juillet 2017
+									et compte parmis elle, plus de 70 adhérents à ce jour.
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<span class="space-xs-xl"></span>
+
+
+			<div class="row row-no-padding">
+				<div class="col-lg-6 order-lg-2 ml-lg-auto">
+					<div class="block block-image-holder">
+						<div class="block-image has-solid-shadow-left mt-4">
+								<%= image_tag "salade.jpg", class: "img-fluid img-center" %>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-5 order-lg-1 align-self-lg-end ">
+					<div class="col-wrapper--spaced">
+						<h3 class="heading heading-3 text-normal strong-600">
+							Nos Objectifs
+						</h3>
+						<hr class="mt-0 mb-2">
+						<p class="mt-2">
+									 Créer et faire vivre un supermarché coopératif afin de sensibiliser à un mode de vie raisonné, éco-responsable et  participatif. <br/ >
+									 Nous voulons également mettre en place un mode de consommation coopératif et alternatif pour pouvoir soutenir les agriculteurs locaux et promouvoir l’accès à des produits de qualité, de saison, issus évidement de l’agriculture locale, biologique ou raisonnée, ainsi que des produits exotiques issus du commerce équitable.<br />
+									 Notre but est aussi de favoriser l’inclusion, la mixité sociale et devenir un lieu d’échange intergénérationnel et interculturel. <br />
+									 Chaque adhérents sera intégrer et auto-former de façon active à la gestion du supermarché coopératif, ce qui nous permettra également de pouvoir créer de l’emploi local.
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<span class="space-xs-xl"></span>
+
+			<div class="row row-no-padding">
+				<div class="col-lg-6">
+					<div class="block block-image-holder">
+						<div class="block-image has-solid-shadow-right mt-4">
+								<%= image_tag "navet.jpg", class: "img-fluid img-center" %>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-5 ml-auto align-self-lg-end">
+					<div class="col-wrapper--spaced">
+						<h3 class="heading heading-3 text-normal strong-600">
+							Nos Ambitions
+						</h3>
+						<hr class="mt-0 mb-2">
+						<p class="mt-2">
+									Devenir un lieu citoyen ouvert à tous autour du « Mieux
+									manger, mieux consommer ». <br />
+									Proposer une gamme de produits de qualité, à prix accessible
+									et adaptée à des besoins de consommation diversifiés. <br />
+									S’implanter sur le territoire de Creil dans un secteur qui
+									répond aux critères de mixité, diversité et dynamisme sociale
+									Rassembler 400 membres pour la création de l’épicerie.		
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<% if member_signed_in? == false %>
+		<section class="cta-wrapper">
+				<div class="slice cta-inner bg-color-vert">
+					<div class="flex flex-items-xs-middle">
+						<div class="flex-wrap-item">
+							<div class="sct-inner ">
+								<div class="container">
+									<div class="text-center">
+										<h1 class="heading heading-1 text-normal c-base-text-1 strong-600">
+											<%= link_to "DEVENEZ MEMBRE", new_member_registration_path, class: "banner-end" %>
+										</h1>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</a>
+		</section>
+	<% end %>

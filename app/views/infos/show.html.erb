@@ -1,0 +1,25 @@
+<div class="mt-4 ml-4">
+	<div class="col-6">
+		<%= link_to " Retour", infos_path, class: "fas fa-arrow-left link-retour" %>
+	</div>
+</div>
+<section class="slice sct-color-1">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-8">
+				<h3 class="heading heading-1 strong-800 mb-3">
+					<%= @info.title %>
+				</h3>
+				<hr class="mt-0 mb-4">
+				<p class="text-md">
+          			<%= @info.content %>
+        		</p>
+        		<% if current_member.role == "super_admin" || current_member.role == "admin" %>
+			<%= link_to  "Éditer", edit_info_path(@info.id), class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %>
+			<%= link_to 'Suprimer', info_path(@info.id), method: :delete, class: "btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %>
+		<% end %>
+			</div>
+		</div>
+	</div>
+</section>
+
