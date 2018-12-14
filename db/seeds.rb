@@ -26,11 +26,11 @@ end
 # i is a counter that helps assigning distinct addresses
 i = Address.first.id
 
-9.times do
+9.times.with_index do |index|
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
-  member = Member.create(
-    email: Faker::Internet.free_email(first_name),
+  member = Member.new(
+    email: "admin#{index}@admin.com",
     password: "password",
     first_name: first_name,
     last_name: last_name,
@@ -39,6 +39,8 @@ i = Address.first.id
     role: "admin"
   )
   member.address = Address.find(i)
+  member.skip_confirmation!
+  member.save
   i += 1
 end
 
@@ -46,8 +48,8 @@ end
 1.times do
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
-  member = Member.create(
-    email: "super@admin.fr",
+  member = Member.new(
+    email: "super@admin.com",
     password: "password",
     first_name: first_name,
     last_name: last_name,
@@ -56,6 +58,7 @@ end
     role: "super_admin"
   )
   member.address = Address.find(i)
+  member.skip_confirmation!
   i += 1
 end
 
@@ -63,7 +66,7 @@ end
 30.times do
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
-  member = Member.create(
+  member = Member.new(
     email: Faker::Internet.free_email(first_name),
     password: "password",
     first_name: first_name,
@@ -73,6 +76,7 @@ end
     role: "member"
   )
   member.address = Address.find(i)
+  member.skip_confirmation!
   i += 1
 end
 
@@ -81,7 +85,8 @@ end
   productor = Productor.new(
     name: Faker::Company.name,
     description: Faker::Company.bs,
-    phone_number: Faker::PhoneNumber.phone_number
+    phone_number: Faker::PhoneNumber.phone_number,
+    website_url: Faker::Internet.url
   )
   productor.address = Address.find(i)
   productor.managers << Member.where(role: 'admin').take( rand(1..3) )
