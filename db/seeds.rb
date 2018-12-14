@@ -85,7 +85,8 @@ end
   productor = Productor.new(
     name: Faker::Company.name,
     description: Faker::Company.bs,
-    phone_number: Faker::PhoneNumber.phone_number
+    phone_number: Faker::PhoneNumber.phone_number,
+    website_url: Faker::Internet.url
   )
   productor.address = Address.find(i)
   productor.managers << Member.where(role: 'admin').take( rand(1..3) )
