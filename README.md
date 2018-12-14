@@ -21,10 +21,10 @@ Une association Picarde (Créons La Coop') est en train de monter une coopérati
 
 ### Comment ?
 
-- liste de membres pour contacts rapide
-- liste de producteurs pour contacts rapide
-- liste de missions pour une organisation claire et facile
-- listes d'infos générales concernant l'association
+- liste de membres pour contacter quelqu'un rapidement
+- liste de producteurs pour les contacter rapidement
+- liste de missions pour une organisation claire et facile entre les membres
+- listes d'infos générales concernant l'association (compte rendus réunions plénières, etc)
 
 
 ### Où ? 
@@ -35,11 +35,11 @@ Une association Picarde (Créons La Coop') est en train de monter une coopérati
 
 ## Fonctionnalités de l'application: 
 
-- CRUD
+- CRUD sur les modèles Productor, Member, Info, Mission
 - Gestion des membres (membres, admin, super-admin)
-- Intégration Gmaps
-- Intégration Active Storage
-- Créer et Participer aux missions
+- Intégration Gmaps (missions, producteurs) si l'on entre une adresse
+- Intégration Active Storage pour upload d'avatars
+- Créer et Participer à des missions
 
 
 ## Versions: 
@@ -50,8 +50,7 @@ Une association Picarde (Créons La Coop') est en train de monter une coopérati
 
 ## Lien Heroku (site en prod): 
 
-https://creeons-coop-staging.herokuapp.com/
-
+https://creeons-la-coop.herokuapp.com/
 
 ## La TEAM: :fire:  
 
