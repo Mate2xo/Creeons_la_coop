@@ -28,14 +28,7 @@
                 </form>
             </div>
 
-            <!-- Navbar links -->
-             <ul class="navbar-nav">
-                <li class="nav-item dropdown megamenu">
-
-                    <%= link_to 'En savoir plus', ensavoirplus_path, class: "nav-link" %>
-                </li>
-            </ul>
-
+            <!-- Navbar links --> 
             <% if member_signed_in? %>
             <ul class="navbar-nav">
                 <li class="nav-item dropdown megamenu">
@@ -51,16 +44,23 @@
                     <%= link_to 'Infos', infos_path, class: "nav-link"  %>
                 </li>
             </ul>
+            <% else %> 
+             <ul class="navbar-nav">
+                <li class="nav-item dropdown megamenu">
+
+                    <%= link_to 'En savoir plus', ensavoirplus_path, class: "nav-link" %>
+                </li>
+            </ul>
             <% end %>
             <ul class="navbar-nav ml-lg-auto">
                 <% if member_signed_in? %>
                 <% if current_member.role == "super_admin"  %>
                 <li class="nav-item">
-                    <%= link_to  "gestion admin", admin_url, class:"nav-link" %>
+                    <%= link_to  "Gestion admin", admin_url, class:"nav-link" %>
                 </li>
                 <% end %>
                 <li class="nav-item">
-                    <%= link_to  "profil de #{current_member.first_name} #{current_member.last_name}", edit_member_path(current_member.id), class:"nav-link" %>
+                    <%= link_to  "Profil de #{current_member.first_name} #{current_member.last_name}", edit_member_path(current_member.id), class:"nav-link" %>
                 </li>
                 <li class="nav-item">
                     <%= link_to  "Déconnexion", destroy_member_session_url, method:"delete", class:"nav-link" %>

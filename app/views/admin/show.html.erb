@@ -1,5 +1,5 @@
 <div class="col-lg-12 mb-5">
-    <div class="main-content">
+    <div class="main-content container">
         <div class="page-title">
             <div class="row align-items-center">
                 <div class="col-lg-12 col-12">
@@ -16,48 +16,48 @@
                             <th>Nom</th>
                             <th>Email</th>
                             <th>Tel</th>
-                            <th>Créer le</th>
+                            <th>Créé le</th>
                             <th>Role</th>
                             <th><!-- Btn Show --></th>
                         </tr>
                     </thead>
                     <!-- Faire each pour missions -->
                     <tbody>
-                    	<% Member.all.each do |t| %>
+                    	<% Member.all.each do |member| %>
                         <tr>
-                            <td><%=  t.first_name %> <%=  t.last_name %></td>
-                            <td><%=  t.email %></td>
-                            <td><%=  t.phone_number %></td>
-                            <td><%=  time_tag(t.created_at) %></td>
-                            <td><%=  t.role %> </td>
+                            <td><%=  member.first_name %> <%=  member.last_name %></td>
+                            <td><%=  member.email %></td>
+                            <td><%=  member.phone_number %></td>
+                            <td><%=  time_tag(member.created_at) %></td>
+                            <td><%=  member.role %> </td>
                             <td>                               
-                            	<%if t.id != current_member.id%>
-                            	<form action="admin/delete/member/<%= t.id%>" method="post" class="mt-5">
+                            	<%if member.id != current_member.id%>
+                            	<form action="admin/delete/member/<%= member.id%>" method="post" class="mt-5">
                             	<% end %>
-                                <a href="/members/<%= t.id%>" class="btn btn-base-1 ">Voir</a>
-                                <a href="/members/<%= t.id%>/edit" class="btn btn-base-1 ">Editer</a>
-                                <%if t.id != current_member.id%>
+                                <a href="/members/<%= member.id%>" class="btn btn-base-1 ">Voir</a>
+                                <a href="/members/<%= member.id%>/edit" class="btn btn-base-1 ">Éditer</a>
+                                <%if member.id != current_member.id%>
 	                                	<input name="authenticity_token" type="hidden" value="token_value">
-	                                	<button class="btn btn-danger">Suprimer</button>
+	                                	<button class="btn btn-danger">Supprimer</button>
 	                            	</form>
                                     <br />
 
-	                            	<% if t.role != "membre"%>
-	                                	<form action="admin/role/membre/<%= t.id%>" method="post">
+	                            	<% if member.role != "member"%>
+	                                	<form action="admin/role/membre/<%= member.id%>" method="post">
 	                                		<input name="authenticity_token" type="hidden" value="token_value">
 	                                		<button class="btn btn-outline-danger">passer en MEMBRE</button>
 	                                	</form>
                                         <br />
 	                            	<% end %>
-	                            	<% if t.role != "admin"%>
-	                                	<form action="admin/role/admin/<%= t.id%>" method="post">
+	                            	<% if member.role != "admin"%>
+	                                	<form action="admin/role/admin/<%= member.id%>" method="post">
 	                                		<input name="authenticity_token" type="hidden" value="token_value">
 	                                		<button class="btn btn-outline-danger">passer en ADMIN</button>
 	                                	</form>
                                         <br />
 	                            	<% end %> 
-	                            	<% if t.role != "super-admin"%>
-	                                	<form action="admin/role/super-admin/<%= t.id%>" method="post">
+	                            	<% if member.role != "super_admin"%>
+	                                	<form action="admin/role/super-admin/<%= member.id%>" method="post">
 	                                		<input name="authenticity_token" type="hidden" value="token_value">
 	                                		<button class="btn btn-outline-danger">passer en SUPER-ADMIN</button>
 	                                	</form>
@@ -92,20 +92,17 @@
                     </thead>
                     <!-- Faire each pour missions -->
                     <tbody>
-                    	<% Info.all.each do |t| %>
+                    	<% Info.all.each do |info| %>
                         <tr>
-                            <td><%=  t.title %></td>
+                            <td><%=  info.title %></td>
                             <td>
-                            	<%= t.content[2..230] %> 
-                            	<% if  t.content.length > 230 %>
-                            	<a href="/">voir la suite</a> 
-                            	<% end %>
+                            	<%= info.content %> 
                             </td>
-                            <td><%=  time_tag(t.created_at) %></td>
+                            <td><%=  time_tag(info.created_at) %></td>
                             <td>
-	                            <form action="admin/delete/info/<%= t.id%>" method="post">
-                                <a href="/infos/<%= t.id%>" class="btn btn-base-1 ">Voir</a>
-                                <a href="/infos/<%= t.id%>/edit" class="btn btn-base-1 ">Editer</a>
+	                            <form action="admin/delete/info/<%= info.id%>" method="post">
+                                <a href="/infos/<%= info.id%>" class="btn btn-base-1 ">Voir</a>
+                                <a href="/infos/<%= info.id%>/edit" class="btn btn-base-1 ">Editer</a>
 	                                <input name="authenticity_token" type="hidden" value="token_value">
 	                                <button class="btn btn-danger mt-2 ml-3">Suprimer</button><br />
 	                           	</form>
@@ -138,20 +135,20 @@
                     </thead>
                     <!-- Faire each pour missions -->
                     <tbody>
-                    	<% Mission.all.each do |t| %>
+                    	<% Mission.all.each do |mission| %>
                         <tr>
-                            <td><%=  t.name %></td>
-                            <td><%=  t.description %></td>
-                            <td><%=  time_tag(t.created_at) %></td>
-                            <td><% if t.due_date %>
-                                <%=  time_tag(t.due_date) %>
+                            <td><%=  mission.name %></td>
+                            <td><%=  mission.description %></td>
+                            <td><%=  time_tag(mission.created_at) %></td>
+                            <td><% if mission.due_date %>
+                                <%=  time_tag(mission.due_date) %>
                                 <% else %>
                                 date non renseigné
                                 <% end %></td>
                             <td>
-	                            <form action="admin/delete/mission/<%= t.id%>" method="post">                            	
-                                <a href="/missions/<%= t.id%>" class="btn btn-base-1 ">Voir</a>
-                                <a href="/missions/<%= t.id%>/edit" class="btn btn-base-1 ">Editer</a>
+	                            <form action="admin/delete/mission/<%= mission.id%>" method="post">                            	
+                                <a href="/missions/<%= mission.id%>" class="btn btn-base-1 ">Voir</a>
+                                <a href="/missions/<%= mission.id%>/edit" class="btn btn-base-1 ">Editer</a>
 	                                <input name="authenticity_token" type="hidden" value="token_value">
 	                                <button class="btn btn-danger mt-2 ml-3">Suprimer</button><br />
 	                           	</form>
@@ -184,16 +181,16 @@
                     </thead>
                     <!-- Faire each pour missions -->
                     <tbody>
-                    	<% Productor.all.each do |t| %>
+                    	<% Productor.all.each do |productor| %>
                         <tr>
-                            <td><%=  t.name %></td>
-                            <td><%=  t.description %></td>
-                            <td><%=  t.phone_number %></td>
-                            <td><%=  time_tag(t.created_at) %></td>
+                            <td><%=  productor.name %></td>
+                            <td><%=  productor.description %></td>
+                            <td><%=  productor.phone_number %></td>
+                            <td><%=  time_tag(productor.created_at) %></td>
                             <td>	                            
-                            	<form action="admin/delete/productor/<%= t.id%>" method="post">
-                               <a href="/productors/<%= t.id%>" class="btn btn-base-1 ">Voir</a>
-                                <a href="/productors/<%= t.id%>/edit" class="btn btn-base-1 ">Editer</a>
+                            	<form action="admin/delete/productor/<%= productor.id%>" method="post">
+                               <a href="/productors/<%= productor.id%>" class="btn btn-base-1 ">Voir</a>
+                                <a href="/productors/<%= productor.id%>/edit" class="btn btn-base-1 ">Editer</a>
 	                                <input name="authenticity_token" type="hidden" value="token_value">
 	                                <button class="btn btn-danger">Suprimer</button><br />
 	                           	</form>
