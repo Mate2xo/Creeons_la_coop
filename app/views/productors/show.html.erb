@@ -38,7 +38,7 @@
                   <%= @productor.description %>
                 </h2>
                 <h2 class="heading heading-3 heading-sm strong-300">
-                  <%= @productor.phone_number %>
+                  <%= @productor.phone_number if @productor.phone_number.present? %>
                 </h2>
 
                 <% if @productor.address.present? %>
@@ -56,11 +56,16 @@
                 <% else %>
                 <h3 class="heading heading-light heading-sm strong-300">Adressse non renseignée</h3>
                 <% end %>
-                 <% if current_member.role == "super_admin" || current_member.role == "admin" %>
 
-               <%= link_to  "Éditer", edit_productor_path(@productor.id), class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %>
-               <%= link_to 'Suprimer', productor_path(@productor.id), method: :delete, class: "btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %>
+                <h3 class="heading heading-light heading-sm strong-300">
+                  <% if @productor.website_url.present? %>
+                    <%= link_to  @productor.website_url, @productor.website_url, class:"" %>
+                  <% end %>
+                </h3>
 
+                <% if current_member.role == "super_admin" || current_member.role == "admin" %> 
+                  <%= link_to  "Éditer", edit_productor_path(@productor.id), class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %>
+                  <%= link_to 'Suprimer', productor_path(@productor.id), method: :delete, class: "btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %> 
                <% end %>
 
               </div>
