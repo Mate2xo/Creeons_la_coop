@@ -8,6 +8,11 @@
 </script>
 <% end %>
 
+<div class="mt-4 ml-4">
+  <div class="col-6">
+    <%= link_to " Retour", productors_path, class: "fas fa-arrow-left link-retour" %>
+  </div>
+</div>
 <section class="slice ct-color-1">
   <div class="container">
     <div class="row row-no-padding">
@@ -29,6 +34,9 @@
                   <%= @productor.name %>
                 </h3>
                 <br />
+                <h2 class="heading heading-3 heading-sm strong-300">
+                  <%= @productor.description %>
+                </h2>
                 <h2 class="heading heading-3 heading-sm strong-300">
                   <%= @productor.phone_number %>
                 </h2>
@@ -57,10 +65,7 @@
 
               </div>
             </div>
-
-            <h2 class="heading heading-3 heading-sm strong-300">
-              <%= @productor.description %>
-            </h2>
+            
             <div class="col-md-8 ">
               <!--The div element for the map -->
               <div id="map"></div>
@@ -68,11 +73,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="row align-items-center pt-5 ml-2">
-    <div class="col-6">
-      <%= link_to " Retour", productors_path, class: "fas fa-arrow-left" %>
     </div>
   </div>
 </section>
