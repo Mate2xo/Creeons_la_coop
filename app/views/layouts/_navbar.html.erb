@@ -63,7 +63,7 @@
                     <%= link_to  "profil de #{current_member.first_name} #{current_member.last_name}", edit_member_path(current_member.id), class:"nav-link" %>
                 </li>
                 <li class="nav-item">
-                    <%= link_to  "Déconnection", destroy_member_session_url, method:"delete", class:"nav-link" %>
+                    <%= link_to  "Déconnexion", destroy_member_session_url, method:"delete", class:"nav-link" %>
                 </li>
                 <% else %>
                 <li class="nav-item">

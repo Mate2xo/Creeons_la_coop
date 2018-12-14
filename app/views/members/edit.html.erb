@@ -7,7 +7,7 @@
 						<div class="form-header text-center">
 							<div class="profile-picture profile-picture--style-2">
 								<% if @member.avatar.attached? %>
-									<%= image_tag @member.avatar %>
+									<%= image_tag @member.avatar.variant(resize: '140x140').processed %>
 									<% else %>
 									<img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
 								<% end %>
@@ -17,15 +17,12 @@
 							<div class="text-center px-2">
 								<h4 class="heading heading-4 strong-400 mb-0"><h2>Modifier le profil</h2></h4>
 							</div>
-
-							<form class="form-default mt-4" data-toggle="validator" role="form">
-
-
+							<div class="form-default mt-4" >
+								<%= form_with model: @member, local: true do |form| %>
 								<div class="col">
 									<div class="col-lg-12">
 										<div class="field">
-											<%= form_with model: @member, local: true do |form| %>
-											<%= form.label :email, "Email" %><br />
+											<%= form.label :email, "E-mail" %><br />
 											<%= form.text_field :email, class: "form-control form-control-lg" %>
 
 										</div>
@@ -49,11 +46,10 @@
 									</div>
 								</div>
 								<br />
-
+								<%= form.fields_for :address, @member.address do |address| %>
 								<div class="col">
 									<div class="col-lg-12">
 										<div class="field">
-											<%= form.fields_for :address, @member.address do |address| %>
 											<%= address.label :postal_code, "Code postal" %><br />
 											<%= address.text_field :postal_code, class: "form-control form-control-lg" %>
 										</div>
@@ -82,8 +78,9 @@
 								<div class="actions">
 									<%= form.submit "Sauvegarder les changements", class: "btn-update btn btn-styled btn-lg btn-block btn-base-1 mt-4" %>
 								</div><br />
-							</form>
-					
+								<% end %>
+								<% end %>
+							</div>
 							<%= link_to  "Modifier votre mot de passe", edit_member_registration_path, class: "btn-cancel btn btn-styled btn-lg btn-block btn-danger mt-4"%>
 						</div>
 					</div>
@@ -91,7 +88,5 @@
 			</div>
 		</div>
 	</section>
-	<% end %>
-	<% end %>
 </div><!-- END: body-wrap -->
 

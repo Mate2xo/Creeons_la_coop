@@ -14,13 +14,12 @@
                 <h4 class="heading heading-4 strong-400 mb-0"><h2>Editer Mission</h2></h4>
               </div>
 
-              <form class="form-default mt-4" data-toggle="validator" role="form">
+              <div class="form-default mt-4">
 
-
+                <%= form_with model: @mission, local: true do |f| %>
                 <div class="col">
                   <div class="col-lg-12">
                     <div class="field">
-                    <%= form_with model: @mission, local: true do |f| %>
                     <%= f.label :name, "Nom de la mission" %><br />
                     <%= f.text_field :name, class: "form-control form-control-lg" %>
                     </div><br />
@@ -35,11 +34,10 @@
                   </div>
                 </div>
                 <br />
-
+                <%= f.fields_for :addresses, @mission_addresses do |address| %>
                 <div class="col">
                   <div class="col-lg-12">
                     <div class="field">
-                      <%= f.fields_for :addresses, @mission_addresses do |address| %>
                       <%= address.label :street_name_1, "N° et nom de voie" %><br />
                       <%= address.text_field :street_name_1, class: "form-control form-control-lg" %><br />
                     </div>
@@ -67,16 +65,16 @@
           
                 <div class="actions">
                   <%= f.submit "Valider les changements", class: "btn-update btn btn-styled btn-lg btn-block btn-base-1 mt-4" %>
+                <% end %>
+                <% end %>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <% end %>
-  <% end %>
 </div><!-- END: body-wrap -->
 
 

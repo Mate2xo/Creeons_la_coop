@@ -73,6 +73,6 @@ class ProductorsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:productor).permit(:name, :description, :phone_number, address_attributes: [:id, :postal_code, :city, :street_name_1, :street_name_2])
+    params.require(:productor).permit(:name, :description, :phone_number, :avatar, address_attributes: [:id, :postal_code, :city, :street_name_1, :street_name_2])
   end
 end
