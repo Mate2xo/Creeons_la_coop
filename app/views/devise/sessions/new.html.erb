@@ -56,10 +56,11 @@
                     <div class="form-user-footer-links pt-2">
                         <div class="row">
                             <div class="col-6">
-                                <a href="recover-1.html" class="">Recover password</a>
+                                <%= link_to  "Mot de passe perdu?", new_member_password_path, class:"" %>
                             </div>
                             <div class="col-6 text-right">
-                                 <%= link_to "Créer un compte", new_member_registration_path %>
+
+                                 <%= link_to "Créer un nouveau compte", new_member_registration_path %>
                             </div>
                         </div>
                     </div>
