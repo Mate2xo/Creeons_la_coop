@@ -59,6 +59,7 @@ end
   )
   member.address = Address.find(i)
   member.skip_confirmation!
+  member.save
   i += 1
 end
 
