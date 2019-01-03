@@ -34,7 +34,7 @@ class MissionsController < ApplicationController
   end
 
   def edit
-    if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Mission.find(params[:id]).author_id
+    if super_admin? || admin? || current_member.id == Mission.find(params[:id]).author_id
       @mission = Mission.find(params[:id])
       # address form generator
       1.times { @mission.addresses.build }
@@ -45,7 +45,7 @@ class MissionsController < ApplicationController
   end
 
   def update
-    if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Mission.find(params[:id]).author_id
+    if super_admin? || admin? || current_member.id == Mission.find(params[:id]).author_id
       @mission = Mission.find(params[:id])
       if @mission.update_attributes(permitted_params)
         flash[:notice] = "La mission a été mise à jour"
@@ -60,7 +60,7 @@ class MissionsController < ApplicationController
   end
 
   def destroy
-    if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Mission.find(params[:id]).author_id
+    if super_admin? || admin? || current_member.id == Mission.find(params[:id]).author_id
       Mission.find(params[:id]).destroy
     end
     flash[:notice] = "La mission a été supprimée"
