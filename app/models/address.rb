@@ -5,7 +5,7 @@ class Address < ApplicationRecord
   belongs_to :member, optional: true
   has_and_belongs_to_many :missions
 
-  before_save :assign_coordonnee, on: [:create, :update]
+  # before_save :assign_coordonnee, on: [:create, :update]
 
   validates :city, :postal_code, presence: true
 
