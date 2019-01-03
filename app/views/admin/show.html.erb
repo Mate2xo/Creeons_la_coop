@@ -33,11 +33,7 @@
                           	<%if member.id != current_member.id%>
                               <a href="/members/<%= member.id%>" class="btn btn-base-1 ">Voir</a>
                               <a href="/members/<%= member.id%>/edit" class="btn btn-base-1 ">Éditer</a>
-                          	<form action="admin/delete/member/<%= member.id%>" method="post" class="mt-5">
-                            	<input name="authenticity_token" type="hidden" value="token_value">
-                            	<submit class="btn btn-danger">Supprimer</submit>
-                          	</form>
-                          	<%= link_to "Supprimer", "admin/delete/member/" + member.id.to_s, method: :post %>
+                          	<%= link_to "Supprimer", "admin/delete/member/" + member.id.to_s, method: :post, class: "btn btn-danger" %>
                             <br />
 
                             	<% if member.role != "member"%>
