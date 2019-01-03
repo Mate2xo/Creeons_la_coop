@@ -24,47 +24,48 @@
                     <tbody>
                     	<% @members.each do |member| %>
                         <tr>
-                            <td><%=  member.first_name %> <%=  member.last_name %></td>
-                            <td><%=  member.email %></td>
-                            <td><%=  member.phone_number %></td>
-                            <td><%=  time_tag(member.created_at) %></td>
-                            <td><%=  member.role %> </td>
-                            <td>                               
-                            	<%if member.id != current_member.id%>
-                            	<form action="admin/delete/member/<%= member.id%>" method="post" class="mt-5">
-                            	<% end %>
-                                <a href="/members/<%= member.id%>" class="btn btn-base-1 ">Voir</a>
-                                <a href="/members/<%= member.id%>/edit" class="btn btn-base-1 ">Éditer</a>
-                                <%if member.id != current_member.id%>
-	                                	<input name="authenticity_token" type="hidden" value="token_value">
-	                                	<button class="btn btn-danger">Supprimer</button>
-	                            	</form>
-                                    <br />
+                          <td><%=  member.first_name %> <%=  member.last_name %></td>
+                          <td><%=  member.email %></td>
+                          <td><%=  member.phone_number %></td>
+                          <td><%=  time_tag(member.created_at) %></td>
+                          <td><%=  member.role %> </td>
+                          <td>                               
+                          	<%if member.id != current_member.id%>
+                          	<form action="admin/delete/member/<%= member.id%>" method="post" class="mt-5">
+                              <a href="/members/<%= member.id%>" class="btn btn-base-1 ">Voir</a>
+                              <a href="/members/<%= member.id%>/edit" class="btn btn-base-1 ">Éditer</a>
+                            	<input name="authenticity_token" type="hidden" value="token_value">
+                            	<button class="btn btn-danger">Supprimer</button>
+                          	</form>
+                            <br />
 
-	                            	<% if member.role != "member"%>
-	                                	<form action="admin/role/membre/<%= member.id%>" method="post">
-	                                		<input name="authenticity_token" type="hidden" value="token_value">
-	                                		<button class="btn btn-outline-danger">passer en MEMBRE</button>
-	                                	</form>
-                                        <br />
-	                            	<% end %>
-	                            	<% if member.role != "admin"%>
-	                                	<form action="admin/role/admin/<%= member.id%>" method="post">
-	                                		<input name="authenticity_token" type="hidden" value="token_value">
-	                                		<button class="btn btn-outline-danger">passer en ADMIN</button>
-	                                	</form>
-                                        <br />
-	                            	<% end %> 
-	                            	<% if member.role != "super_admin"%>
-	                                	<form action="admin/role/super-admin/<%= member.id%>" method="post">
-	                                		<input name="authenticity_token" type="hidden" value="token_value">
-	                                		<button class="btn btn-outline-danger">passer en SUPER-ADMIN</button>
-	                                	</form>
-	                            	<% end %>
+                            	<% if member.role != "member"%>
+                                	<form action="admin/role/membre/<%= member.id%>" method="post">
+                                		<input name="authenticity_token" type="hidden" value="token_value">
+                                		<button class="btn btn-outline-danger">passer en MEMBRE</button>
+                                	</form>
+                                      <br />
                             	<% end %>
-                            </td>
+                            	
+                            	<% if member.role != "admin"%>
+                                	<form action="admin/role/admin/<%= member.id%>" method="post">
+                                		<input name="authenticity_token" type="hidden" value="token_value">
+                                		<button class="btn btn-outline-danger">passer en ADMIN</button>
+                                	</form>
+                                      <br />
+                            	<% end %> 
+                            	
+                            	<% if member.role != "super_admin"%>
+                                	<form action="admin/role/super-admin/<%= member.id%>" method="post">
+                                		<input name="authenticity_token" type="hidden" value="token_value">
+                                		<button class="btn btn-outline-danger">passer en SUPER-ADMIN</button>
+                                	</form>
+                            	<% end %>
+                            	
+                          	<% end %>
+                          </td>
                         </tr>
-                        <% end %>
+                      <% end %>
                     </tbody>
                 </table>
                 <hr class="mt-0 mb-0">
@@ -140,7 +141,7 @@
                             <td><% if mission.due_date %>
                                 <%=  time_tag(mission.due_date) %>
                                 <% else %>
-                                date non renseigné
+                                date non renseignée
                                 <% end %></td>
                             <td>
 	                            <form action="admin/delete/mission/<%= mission.id%>" method="post">                            	
