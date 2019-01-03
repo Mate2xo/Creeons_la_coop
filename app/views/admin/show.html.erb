@@ -31,12 +31,13 @@
                           <td><%=  member.role %> </td>
                           <td>                               
                           	<%if member.id != current_member.id%>
-                          	<form action="admin/delete/member/<%= member.id%>" method="post" class="mt-5">
                               <a href="/members/<%= member.id%>" class="btn btn-base-1 ">Voir</a>
                               <a href="/members/<%= member.id%>/edit" class="btn btn-base-1 ">Éditer</a>
+                          	<form action="admin/delete/member/<%= member.id%>" method="post" class="mt-5">
                             	<input name="authenticity_token" type="hidden" value="token_value">
-                            	<button class="btn btn-danger">Supprimer</button>
+                            	<submit class="btn btn-danger">Supprimer</submit>
                           	</form>
+                          	<%= link_to "Supprimer", "admin/delete/member/" + member.id.to_s, method: :post %>
                             <br />
 
                             	<% if member.role != "member"%>
