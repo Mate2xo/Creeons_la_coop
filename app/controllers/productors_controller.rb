@@ -11,7 +11,7 @@ class ProductorsController < ApplicationController
   end
 
   def new
-    if current_member.role == "super_admin" || current_member.role == "admin"
+    if super_admin? || admin?
       @productor = Productor.new
 
       # address form generator
@@ -22,7 +22,7 @@ class ProductorsController < ApplicationController
   end
 
   def create
-    if current_member.role == "super_admin" || current_member.role == "admin"
+    if super_admin? || admin?
       @productor = Productor.new(permitted_params)
       if @productor.save
         flash[:notice] = "Le producteur a bien été créé"
@@ -39,7 +39,7 @@ class ProductorsController < ApplicationController
   end
 
   def edit
-    if current_member.role == "super_admin" || current_member.role == "admin"
+    if super_admin? || admin?
       @productor = Productor.find(params[:id])
 
       # address form generator
@@ -50,7 +50,7 @@ class ProductorsController < ApplicationController
    end
 
   def update
-    if current_member.role == "super_admin" || current_member.role == "admin"
+    if super_admin? || admin?
       @productor = Productor.find(params[:id])
       if @productor.update_attributes(permitted_params)
         flash[:notice] = "Le producteur a bien été mis à jour"
@@ -63,7 +63,7 @@ class ProductorsController < ApplicationController
   end
 
   def destroy
-    if current_member.role == "super_admin" || current_member.role == "admin"
+    if super_admin? || admin?
       Productor.find(params[:id]).destroy
     end
     flash[:notice] = "Le producteur a été supprimé"
