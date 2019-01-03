@@ -109,12 +109,11 @@
 						<hr class="mt-0 mb-0">
 					</div>
 					<% end %>
+					
 					<div class="progress-wrapper mt-4 d-flex justify-content-between">
-					<% if current_member.role == "super_admin" || current_member.role == "admin" || current_member.id == Mission.find(params[:id]).author_id  %>
-
-					<%= link_to 'Supprimer', mission_path(@mission.id), method: :delete, class: "btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %>
-					<%= link_to  "Éditer", edit_mission_path(@mission.id), class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %>
-
+					<% if super_admin? || admin? || current_member.id == @mission.author_id  %>
+						<%= link_to 'Supprimer', mission_path(@mission.id), method: :delete, class: "btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %>
+						<%= link_to  "Éditer", edit_mission_path(@mission.id), class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %> 
 					<% end %>
 					</div>
 				</div>

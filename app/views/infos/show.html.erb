@@ -12,12 +12,12 @@
 				</h3>
 				<hr class="mt-0 mb-4">
 				<p class="text-md">
-          			<%= @info.content %>
-        		</p>
-        		<% if current_member.role == "super_admin" || current_member.role == "admin" %>
-			<%= link_to  "Éditer", edit_info_path(@info.id), class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %>
-			<%= link_to 'Suprimer', info_path(@info.id), method: :delete, class: "btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %>
-		<% end %>
+    			<%= @info.content %>
+    		</p>
+        <% if super_admin? || admin? %>
+					<%= link_to  "Éditer", edit_info_path(@info.id), class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %>
+					<%= link_to 'Suprimer', info_path(@info.id), method: :delete, class: "btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %>
+				<% end %>
 			</div>
 		</div>
 	</div>
