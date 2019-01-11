@@ -63,7 +63,7 @@
                   <% end %>
                 </h3>
 
-                <% if current_member.role == "super_admin" || current_member.role == "admin" %> 
+                <% if super_admin? || admin? %> 
                   <%= link_to  "Éditer", edit_productor_path(@productor.id), class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %>
                   <%= link_to 'Suprimer', productor_path(@productor.id), method: :delete, class: "btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %> 
                <% end %>

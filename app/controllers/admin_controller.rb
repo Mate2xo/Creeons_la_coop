@@ -2,32 +2,34 @@
 
 class AdminController < ApplicationController
   before_action :authenticate_member!
+  
   def show
-    if member_signed_in? && current_member.role == "super_admin"
+   if super_admin?
+      @members = Member.all
+      @infos = Info.all
+      @missions = Mission.all
+      @productors = Productor.all
     else
       redirect_to "/"
     end
   end
 
   def destroy
-    if member_signed_in? && current_member.role == "super_admin"
-      if params[:class] == "member" && member_signed_in? && current_member.role == "super_admin"
-        Member.destroy(params[:id])
-      elsif params[:class] == "info" && member_signed_in? && current_member.role == "super_admin"
-        Info.destroy(params[:id])
-      elsif params[:class] == "mission" && member_signed_in? && current_member.role == "super_admin"
-        Mission.destroy(params[:id])
-      elsif params[:class] == "productor" && member_signed_in? && current_member.role == "super_admin"
-        Productor.destroy(params[:id])
+    if super_admin? 
+      case params[:class]
+        when 'member' then Member.destroy(params[:id])
+        when 'info' then Info.destroy(params[:id])
+        when 'mission' then Mission.destroy(params[:id])
+        when 'productor' then Productor.destroy(params[:id])
       end
       flash[:success] = params[:class].to_s + " a bien été supprimé"
     end
   end
 
   def role
-    if member_signed_in? && current_member.role == "super_admin"
+    if super_admin?
       Member.where(id: params[:id]).update(role: params[:role])
-      flash[:success] = "l'utilisateur a bien changé de role"
+      flash[:success] = "l'utilisateur a bien changé de rôle"
     end
   end
 end

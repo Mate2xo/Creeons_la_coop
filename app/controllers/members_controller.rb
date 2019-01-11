@@ -11,7 +11,7 @@ class MembersController < ApplicationController
   end
 
   def edit
-    if current_member.id == params[:id].to_i || current_member.role == "super_admin"
+    if current_member.id == params[:id].to_i || super_admin?
       @member = Member.find(params[:id])
       @member_address = @member.address || @member.build_address
     else
@@ -20,7 +20,7 @@ class MembersController < ApplicationController
   end
 
   def update
-    if current_member.id == params[:id].to_i || current_member.role == "super_admin"
+    if current_member.id == params[:id].to_i || super_admin?
       @member = Member.find(params[:id])
       if @member.update_attributes(permitted_params)
         flash[:notice] = "Votre profil a été mis à jour"
