@@ -17,10 +17,11 @@ class InfoTest < ActiveSupport::TestCase
     assert_not new_info.save
   end
 
-  test "une info est valide si elle contient le title et le content" do
+  test "une info est valide si elle contient l'author, le title et le content" do
     new_info = Info.new(
       title: "titre",
-      content: "blablabla"
+      content: "blablabla",
+      author: members(:one)
     )
     assert new_info.save
   end

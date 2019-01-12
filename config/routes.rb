@@ -16,6 +16,6 @@ Rails.application.routes.draw do
 
   resources :productors
   resources :infos
-  resources :members, only: [:index, :show, :edit, :update]
+  resources :members, only: %i[index show edit update]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
