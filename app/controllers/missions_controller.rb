@@ -70,8 +70,8 @@ class MissionsController < ApplicationController
   def enroll
     @mission = Mission.find(params[:id])
     unless @mission.members.where(id: current_member.id).present?
-      @mission.members << current_member 
-    end 
+      @mission.members << current_member
+    end
     flash[:notice] = "Vous vous êtes inscrit à cette mission"
     redirect_to mission_path(params[:id])
   end
@@ -82,11 +82,10 @@ class MissionsController < ApplicationController
     flash[:alert] = "Vous vous êtes désinscrit de cette mission"
     redirect_to mission_path(params[:id])
   end
-  
 
   private
 
   def permitted_params
-    params.require(:mission).permit(:name, :description, :due_date, addresses_attributes: [:id, :postal_code, :city, :street_name_1, :street_name_2])
+    params.require(:mission).permit(:name, :description, :due_date, addresses_attributes: %i[id postal_code city street_name_1 street_name_2])
   end
 end

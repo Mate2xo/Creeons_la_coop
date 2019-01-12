@@ -17,10 +17,11 @@ class MissionTest < ActiveSupport::TestCase
     assert_not new_mission.save
   end
 
-  test "une mission est valide si elle contient le name et le description" do
+  test "une mission est valide si elle contient, l'author, le name et le description" do
     new_mission = Mission.new(
       name: "titre",
-      description: "blablabla"
+      description: "blablabla",
+      author: members(:one)
     )
     assert new_mission.save
   end

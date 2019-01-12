@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The websites users. Their 'role' attributes determines if fhey're an unvalidated user, a member, admin or super-admmin
 class MembersController < ApplicationController
   before_action :authenticate_member!
@@ -30,7 +32,7 @@ class MembersController < ApplicationController
         redirect_to edit_member_path(@member.id)
       end
     else
-    redirect_to "/members"
+      redirect_to "/members"
     end
   end
 
