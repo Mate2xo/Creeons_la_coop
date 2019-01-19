@@ -35,5 +35,5 @@ class Address < ApplicationRecord
       end
     end
     self.coordonnee = coordonnee
-   end
+  end
 end

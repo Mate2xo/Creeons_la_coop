@@ -22,15 +22,14 @@ class ProductorsController < ApplicationController
   end
 
   def create
-    if super_admin? || admin?
-      @productor = Productor.new(permitted_params)
-      if @productor.save
-        flash[:notice] = "Le producteur a bien été créé"
-        redirect_to @productor
-      else
-        flash[:error] = "Une erreur est survenue, veuillez recommencer l'opération"
-        redirect_to new_productor_path
-      end
+    return redirect_to productors_path unless super_admin? || admin?
+
+    @productor = Productor.new(permitted_params)
+    if @productor.save
+      flash[:notice] = "Le producteur a bien été créé"
+      redirect_to @productor
+    else
+      flash[:error] = "Une erreur est survenue, veuillez recommencer l'opération"
     end
   end
 
@@ -46,28 +45,30 @@ class ProductorsController < ApplicationController
       @productor_address = @productor.address || @productor.build_address
     else
       redirect_to productors_path
-   end
-   end
+    end
+  end
 
   def update
-    if super_admin? || admin?
-      @productor = Productor.find(params[:id])
-      if @productor.update_attributes(permitted_params)
-        flash[:notice] = "Le producteur a bien été mis à jour"
-        redirect_to @productor
-      else
-        flash[:error] = "Une erreur est survenue, veuillez recommencer l'opération"
-        redirect_to edit_productor_path(@productor.id)
-      end
+    return redirect_to '/' unless super_admin? || admin?
+
+    @productor = Productor.find(params[:id])
+    if @productor.update_attributes(permitted_params)
+      flash[:notice] = "Le producteur a bien été mis à jour"
+      redirect_to @productor
+    else
+      flash[:error] = "Une erreur est survenue, veuillez recommencer l'opération"
+      redirect_to edit_productor_path(@productor.id)
     end
   end
 
   def destroy
     if super_admin? || admin?
       Productor.find(params[:id]).destroy
+      flash[:notice] = "Le producteur a été supprimé"
+    else
+      flash[:error] = "Opération échouée, une erreur est survenue"
     end
-    flash[:notice] = "Le producteur a été supprimé"
-    redirect_to "/productors"
+    redirect_to productors_path
   end
 
   private
