@@ -41,10 +41,10 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console
-  gem 'pry-byebug', '~> 3.6' 
   gem 'factory_bot_rails', '~> 4.0'
-  gem 'rspec-rails', '~> 3.7', '>= 3.7.2'
   gem 'guard-rspec', require: false
+  gem 'pry-byebug', '~> 3.6'
+  gem 'rspec-rails', '~> 3.7', '>= 3.7.2'
 end
 
 group :development do
@@ -54,10 +54,9 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  
+
   gem 'rubocop', '~> 0.63.0', require: false
   gem 'rubocop-rspec', '~> 1.31.0'
-
 end
 
 group :test do
@@ -67,9 +66,9 @@ group :test do
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
   # Easy database + association testing
-  gem 'shoulda-matchers', '4.0.0.rc1'
-  gem 'rails-controller-testing' # If you are using Rails 5.x
   gem 'database_cleaner'
+  gem 'rails-controller-testing' # If you are using Rails 5.x
+  gem 'shoulda-matchers', '4.0.0.rc1'
   gem 'simplecov', require: false
 end
 
