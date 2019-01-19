@@ -44,6 +44,7 @@ group :development, :test do
   gem 'pry-byebug', '~> 3.6' 
   gem 'factory_bot_rails', '~> 4.0'
   gem 'rspec-rails', '~> 3.7', '>= 3.7.2'
+  gem 'guard-rspec', require: false
 end
 
 group :development do
