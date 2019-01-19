@@ -39,10 +39,10 @@ class DbAssociationsTest < ActionDispatch::IntegrationTest
 
   test "Un productor peut être géré par plusieurs admins" do
     new_productor = productors(:one)
-    admin_1 = members(:one)
-    admin_2 = members(:two)
-    new_productor.managers << admin_1
-    new_productor.managers << admin_2
+    admin1 = members(:one)
+    admin2 = members(:two)
+    new_productor.managers << admin1
+    new_productor.managers << admin2
     assert new_productor.managers
   end
 
