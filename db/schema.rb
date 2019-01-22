@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_181_214_113_334) do
+ActiveRecord::Schema.define(version: 2019_01_19_151715) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -39,7 +38,7 @@ ActiveRecord::Schema.define(version: 20_181_214_113_334) do
 
   create_table "addresses", force: :cascade do |t|
     t.string "postal_code"
-    t.string "city"
+    t.string "city", null: false
     t.string "street_name_1"
     t.string "street_name_2"
     t.datetime "created_at", null: false
@@ -98,8 +97,8 @@ ActiveRecord::Schema.define(version: 20_181_214_113_334) do
   end
 
   create_table "missions", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
+    t.string "name", null: false
+    t.text "description", null: false
     t.datetime "due_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
