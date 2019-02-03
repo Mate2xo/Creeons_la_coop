@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe PagePolicy, type: :policy do
+RSpec.describe ActiveAdmin::PagePolicy, type: :policy do
   let(:user) { User.new }
 
   subject { described_class }
