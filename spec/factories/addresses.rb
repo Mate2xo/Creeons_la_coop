@@ -16,7 +16,6 @@ FactoryBot.define do
     end
 
     trait :for_missions do
-<<<<<<< HEAD
       transient do
         missions_count {2}
       end
@@ -24,9 +23,6 @@ FactoryBot.define do
         create_list(:mission, evaluator.missions_count, addresses: [address])
       end
       # association :missions, factory: :mission
-=======
-      association :mission, factory: :mission
->>>>>>> 4c865edb1fa2bc352c01ea23de9f12701c95cba1
     end
 
     factory :productor_address, traits: [:for_productor]
