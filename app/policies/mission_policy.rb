@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class InfoPolicy < ApplicationPolicy
+class MissionPolicy < ApplicationPolicy
   def index?
     true
   end
@@ -10,11 +10,11 @@ class InfoPolicy < ApplicationPolicy
   end
 
   def create?
-    user.role == 'super_admin'
+    true
   end
 
   def update?
-    user.role == 'super_admin'
+    (user == record.author) || (user.role == 'super_admin')
   end
 
   def destroy?
