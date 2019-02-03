@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 
-class InfoPolicy < ApplicationPolicy
+class ProductorPolicy < ApplicationPolicy
   def index?
     true
   end
 
   def show?
-    user
+    true
   end
 
   def create?
-    admin? || super_admin?
+    user.role == 'super_admin'
   end
 
   def update?
-    admin? || super_admin?
+    user.role == 'super_admin'
   end
 
   def destroy?
-    super_admin?
+    user.role == 'super_admin'
   end
 
   class Scope < Scope

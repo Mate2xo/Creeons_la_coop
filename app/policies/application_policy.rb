@@ -56,4 +56,18 @@ class ApplicationPolicy
       scope.all
     end
   end
+
+  private
+
+  def super_admin?
+    user.role == "super_admin"
+  end
+
+  def admin?
+    user.role == "admin"
+  end
+
+  def member?
+    user.role == "member"
+  end
 end
