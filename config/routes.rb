@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :members, ActiveAdmin::Devise.config
+  devise_for :members
   ActiveAdmin.routes(self)
   root 'static_pages#home'
   get 'dashboard', to: "static_pages#dashboard"
   get 'ensavoirplus', to: "static_pages#ensavoirplus"
 
-  get 'admin', to: "admin#show"
+  get 'administration', to: "admin#show"
   post 'admin/delete/:class/:id', to: "admin#destroy"
   post 'admin/role/:role/:id', to: "admin#role"
 

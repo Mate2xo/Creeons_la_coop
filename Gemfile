@@ -41,6 +41,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 # Admin interface
 gem 'activeadmin'
+# Authorization management
+gem 'pundit'
 
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console
