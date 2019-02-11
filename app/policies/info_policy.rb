@@ -2,7 +2,7 @@
 
 class InfoPolicy < ApplicationPolicy
   def index?
-    true
+    user
   end
 
   def show?
@@ -18,7 +18,7 @@ class InfoPolicy < ApplicationPolicy
   end
 
   def destroy?
-    super_admin?
+    super_admin? || record.author == user
   end
 
   class Scope < Scope

@@ -51,18 +51,25 @@ RSpec.describe InfoPolicy, type: :policy do
   end
 
   permissions :destroy? do
+    let(:info) { build(:info) }
     it "denies access to a regular member" do
-      expect(subject).not_to permit member
+      expect(subject).not_to permit member, info
     end
 
     it "denies access to an admin" do
       member.role = "admin"
-      expect(subject).not_to permit(member)
+      expect(subject).not_to permit(member, info)
     end
 
-    it "allows access to an super_admin" do
+    it "allows access to the info author (admin)" do
+      member.role = "admin"
+      info.author = member
+      expect(subject).to permit(member, info)
+    end
+
+    it "allows access to a super_admin" do
       member.role = "super_admin"
-      expect(subject).to permit(member)
+      expect(subject).to permit(member, info)
     end
   end
 end
