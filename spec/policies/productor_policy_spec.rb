@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe ProductorPolicy, type: :policy do
-  let(:user) { User.new }
+  let(:member) { build(:member) }
 
   subject { described_class }
 
@@ -12,18 +12,63 @@ RSpec.describe ProductorPolicy, type: :policy do
   end
 
   permissions :show? do
-    pending "add some examples to (or delete) #{__FILE__}"
+    it "allows access to any member" do
+      expect(subject).to permit member
+    end
   end
 
   permissions :create? do
-    pending "add some examples to (or delete) #{__FILE__}"
+    it "denies access to a regular member" do
+      expect(subject).not_to permit member
+    end
+
+    it "allows access to an admin" do
+      member.role = "admin"
+      expect(subject).to permit(member)
+    end
+
+    it "allows access to an super_admin" do
+      member.role = "super_admin"
+      expect(subject).to permit(member)
+    end
   end
 
   permissions :update? do
-    pending "add some examples to (or delete) #{__FILE__}"
+    it "denies access to a regular member" do
+      expect(subject).not_to permit member
+    end
+
+    it "allows access to an admin" do
+      member.role = "admin"
+      expect(subject).to permit(member)
+    end
+
+    it "allows access to an super_admin" do
+      member.role = "super_admin"
+      expect(subject).to permit(member)
+    end
   end
 
   permissions :destroy? do
-    pending "add some examples to (or delete) #{__FILE__}"
+    let(:productor) { build(:productor) }
+    it "denies access to a regular member" do
+      expect(subject).not_to permit member, productor
+    end
+
+    it "denies access to an admin" do
+      member.role = "admin"
+      expect(subject).not_to permit(member, productor)
+    end
+
+    it "allows access to the productor manager (admin)" do
+      member.role = "admin"
+      productor.managers << member
+      expect(subject).to permit(member, productor)
+    end
+
+    it "allows access to a super_admin" do
+      member.role = "super_admin"
+      expect(subject).to permit(member, productor)
+    end
   end
 end
