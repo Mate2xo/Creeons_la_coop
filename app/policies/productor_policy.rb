@@ -10,15 +10,15 @@ class ProductorPolicy < ApplicationPolicy
   end
 
   def create?
-    user.role == 'super_admin'
+    super_admin? || admin?
   end
 
   def update?
-    user.role == 'super_admin'
+    super_admin? || admin?
   end
 
   def destroy?
-    user.role == 'super_admin'
+    super_admin?
   end
 
   class Scope < Scope

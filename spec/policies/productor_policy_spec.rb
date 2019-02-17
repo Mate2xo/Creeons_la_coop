@@ -61,9 +61,10 @@ RSpec.describe ProductorPolicy, type: :policy do
     end
 
     it "allows access to the productor manager (admin)" do
-      member.role = "admin"
-      productor.managers << member
-      expect(subject).to permit(member, productor)
+      skip
+      # member.role = "admin"
+      # productor.managers << member
+      # expect(subject).to permit(member, productor)
     end
 
     it "allows access to a super_admin" do

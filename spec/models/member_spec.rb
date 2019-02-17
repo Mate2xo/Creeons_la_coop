@@ -14,7 +14,7 @@ RSpec.describe Member, type: :model do
       it { is_expected.to have_db_column(:last_name).of_type(:string) }
       it { is_expected.to have_db_column(:biography).of_type(:text) }
       it { is_expected.to have_db_column(:phone_number).of_type(:string) }
-      it { is_expected.to have_db_column(:role).of_type(:string).with_options(default: 'user') }
+      it { is_expected.to have_db_column(:role).of_type(:string).with_options(default: 'member') }
       it { is_expected.to have_db_column(:confirmation_token).of_type(:string) }
       it { is_expected.to have_db_index(:confirmation_token) }
       it { is_expected.to have_db_index(:email).unique }
