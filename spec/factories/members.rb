@@ -10,5 +10,8 @@ FactoryBot.define do
     password { "password" }
     password_confirmation { "password" }
     confirmed_at { Time.zone.today }
+
+    trait :admin do role { 'admin' } end
+    trait :super_admin do role { 'super_admin' } end
   end
 end
