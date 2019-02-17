@@ -17,7 +17,7 @@ FactoryBot.define do
 
     trait :for_missions do
       transient do
-        missions_count {2}
+        missions_count { 2 }
       end
       after(:create) do |address, evaluator|
         create_list(:mission, evaluator.missions_count, addresses: [address])
