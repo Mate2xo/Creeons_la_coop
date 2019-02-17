@@ -16,9 +16,15 @@ RSpec.describe Address, type: :model do
     end
 
     describe 'associations' do
+      let(:productor_address) { build_stubbed(:productor_address) }
+      let(:member_address) { build_stubbed(:member_address) }
+      let(:missions_address) { create(:missions_address) }
       it { is_expected.to belong_to(:productor).optional }
+      it { expect(productor_address.productor).to be_valid }
       it { is_expected.to belong_to(:member).optional }
+      it { expect(member_address.member).to be_valid }
       it { is_expected.to have_and_belong_to_many(:missions) }
+      it { expect(missions_address.missions).to be_truthy }
     end
   end
   # TODO: #assign_coordonee
