@@ -13,9 +13,7 @@ RSpec.describe Admin::MembersController, type: :controller do
 
   let(:valid_attributes) { attributes_for(:member) }
 
-  let(:invalid_attributes) do
-    { first_name: '' }
-  end
+  let(:invalid_attributes) { { first_name: '' } }
 
   describe "GET index" do
     it 'returns http success' do
@@ -66,132 +64,128 @@ RSpec.describe Admin::MembersController, type: :controller do
     #   end
   end
 
-  # describe "POST create" do
-  #   context "with valid params" do
-  #     it "creates a new Member" do
-  #       expect {
-  #         post :create, params: { member: valid_attributes }
-  #       }.to change(Member, :count).by(1)
-  #     end
+  describe "POST create" do
+    context "with valid params" do
+      it "creates a new Member" do
+        expect {
+          post :create, params: { member: valid_attributes }
+        }.to change(Member, :count).by(1)
+      end
 
-  #     it "assigns a newly created person as @person" do
-  #       post :create, params: { person: valid_attributes }
-  #       expect(assigns(:person)).to be_a(Person)
-  #       expect(assigns(:person)).to be_persisted
-  #     end
+      it "assigns a newly created person as @person" do
+        post :create, params: { member: valid_attributes }
+        expect(assigns(:member)).to be_a(Member)
+        expect(assigns(:member)).to be_persisted
+      end
 
-  #     it "redirects to the created person" do
-  #       post :create, params: { person: valid_attributes }
-  #       expect(response).to have_http_status(:redirect)
-  #       expect(response).to redirect_to(admin_person_path(Person.last))
-  #     end
+      it "redirects to the created member" do
+        post :create, params: { member: valid_attributes }
+        expect(response).to have_http_status(:redirect)
+        expect(response).to redirect_to(admin_member_path(Member.last))
+      end
 
-  #     it 'should create the person' do
-  #       post :create, params: { person: valid_attributes }
-  #       person = Person.last
+      it 'should create the member' do
+        post :create, params: { member: valid_attributes }
+        member = Member.last
 
-  #       expect(person.first_name).to eq(valid_attributes[:first_name])
-  #       expect(person.last_name).to  eq(valid_attributes[:last_name])
-  #       expect(person.email).to      eq(valid_attributes[:email])
-  #     end
-  # end
+        expect(member.first_name).to eq(valid_attributes[:first_name])
+        expect(member.last_name).to  eq(valid_attributes[:last_name])
+        expect(member.email).to      eq(valid_attributes[:email])
+      end
+    end
 
-  #   context "with invalid params" do
-  #     it 'invalid_attributes return http success' do
-  #       post :create, params: { person: invalid_attributes }
-  #       expect(response).to have_http_status(:success)
-  #     end
+    context "with invalid params" do
+      it 'invalid_attributes return http success' do
+        post :create, params: { member: invalid_attributes }
+        expect(response).to have_http_status(:success)
+      end
 
-  #     it "assigns a newly created but unsaved person as @person" do
-  #       post :create, params: { person: invalid_attributes }
-  #       expect(assigns(:person)).to be_a_new(Person)
-  #     end
+      it "assigns a newly created but unsaved member as @member" do
+        post :create, params: { member: invalid_attributes }
+        expect(assigns(:member)).to be_a_new(Member)
+      end
 
-  #     it 'invalid_attributes do not create a Person' do
-  #       expect do
-  #         post :create, params: { person: invalid_attributes }
-  #       end.not_to change(Person, :count)
-  #     end
-  #   end
-  # end
+      it 'invalid_attributes do not create a Member' do
+        expect do
+          post :create, params: { member: invalid_attributes }
+        end.not_to change(Member, :count)
+      end
+    end
+  end
 
-  # describe "GET edit" do
-  #   before do
-  #     get :edit, params: { id: person.id }
-  #   end
-  #   it 'returns http success' do
-  #     expect(response).to have_http_status(:success)
-  #   end
-  #   it 'assigns the person' do
-  #     expect(assigns(:person)).to eq(person)
-  #   end
-  #   it "should render the form elements" do
-  #     expect(page).to have_field('First name', with: person.first_name)
-  #     expect(page).to have_field('Last name', with: person.last_name)
-  #     expect(page).to have_field('Email', with: person.email)
-  #   end
-  # end
+  describe "GET edit" do
+    before { get :edit, params: { id: member.id } }
 
-  # describe "PUT update" do
-  #   context 'with valid params' do
-  #     before do
-  #       put :update, params: { id: person.id, person: valid_attributes }
-  #     end
-  #     it 'assigns the person' do
-  #       expect(assigns(:person)).to eq(person)
-  #     end
-  #     it 'returns http redirect' do
-  #       expect(response).to have_http_status(:redirect)
-  #       expect(response).to redirect_to(admin_person_path(person))
-  #     end
-  #     it "should update the person" do
-  #       person.reload
+    it 'returns http success' do
+      expect(response).to have_http_status(:success)
+    end
+    it 'assigns the member' do
+      expect(assigns(:member)).to eq(member)
+    end
+    it "should render the form elements" do
+      expect(page).to have_field('First name', with: member.first_name)
+      expect(page).to have_field('Last name', with: member.last_name)
+      expect(page).to have_field('Email', with: member.email)
+    end
+  end
 
-  #       expect(person.last_name).to  eq(valid_attributes[:last_name])
-  #       expect(person.first_name).to eq(valid_attributes[:first_name])
-  #       expect(person.email).to      eq(valid_attributes[:email])
-  #     end
-  #   end
-  #   context 'with invalid params' do
-  #     it 'returns http success' do
-  #       put :update, params: { id: person.id, person: invalid_attributes }
-  #       expect(response).to have_http_status(:success)
-  #     end
-  #     it 'does not change person' do
-  #       expect do
-  #         put :update, params: { id: person.id, person: invalid_attributes }
-  #       end.not_to change { person.reload.first_name }
-  #     end
-  #   end
-  # end
+  describe "PUT update" do
+    context 'with valid params' do
+      before { put :update, params: { id: member.id, member: valid_attributes } }
 
-  # describe "GET show" do
-  #   before do
-  #     get :show, params: { id: person.id }
-  #   end
-  #   it 'returns http success' do
-  #     expect(response).to have_http_status(:success)
-  #   end
-  #   it 'assigns the person' do
-  #     expect(assigns(:person)).to eq(person)
-  #   end
-  #   it "should render the form elements" do
-  #     expect(page).to have_content(person.last_name)
-  #     expect(page).to have_content(person.first_name)
-  #     expect(page).to have_content(person.email)
-  #   end
-  # end
+      it 'assigns the member' do
+        expect(assigns(:member)).to eq(member)
+      end
+      it 'returns http redirect' do
+        expect(response).to have_http_status(:redirect)
+        expect(response).to redirect_to(admin_member_path(member))
+      end
+      it "should update the member" do
+        member.reload
+        expect(member.last_name).to  eq(valid_attributes[:last_name])
+        expect(member.first_name).to eq(valid_attributes[:first_name])
+        # expect(member.email).to      eq(valid_attributes[:email])
+      end
+    end
+    context 'with invalid params' do
+      it 'returns http success' do
+        put :update, params: { id: member.id, member: invalid_attributes }
+        expect(response).to have_http_status(:success)
+      end
+      it 'does not change member' do
+        expect {
+          put :update, params: { id: member.id, member: invalid_attributes }
+        }.not_to change(member.reload.first_name, :methods)
+      end
+    end
+  end
 
-  # describe "DELETE #destroy" do
-  #   it "destroys the requested select_option" do
-  #     expect {
-  #       delete :destroy, params: { id: person.id }
-  #     }.to change(Person, :count).by(-1)
-  #   end
+  describe "GET show" do
+    before { get :show, params: { id: member.id } }
 
-  #   it "redirects to the field" do
-  #     delete :destroy, params: { id: person.id }
-  #     expect(response).to redirect_to(admin_persons_path)
-  #   end
-  # end
+    it 'returns http success' do
+      expect(response).to have_http_status(:success)
+    end
+    it 'assigns the member' do
+      expect(assigns(:member)).to eq(member)
+    end
+    it "should render the form elements" do
+      expect(page).to have_content(member.last_name)
+      expect(page).to have_content(member.first_name)
+      expect(page).to have_content(member.email)
+    end
+  end
+
+  describe "DELETE #destroy" do
+    it "destroys the requested select_option" do
+      expect {
+        delete :destroy, params: { id: member.id }
+      }.to change(Member, :count).by(-1)
+    end
+
+    it "redirects to the field" do
+      delete :destroy, params: { id: member.id }
+      expect(response).to redirect_to(admin_members_path)
+    end
+  end
 end

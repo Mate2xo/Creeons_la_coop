@@ -109,9 +109,9 @@ RSpec.describe Admin::InfosController, type: :controller do
       end
 
       it 'invalid_attributes do not create a Info' do
-        expect do
+        expect {
           post :create, params: { info: invalid_attributes }
-        end.not_to change(Info, :count)
+        }.not_to change(Info, :count)
       end
     end
   end
@@ -158,9 +158,9 @@ RSpec.describe Admin::InfosController, type: :controller do
         expect(response).to have_http_status(:success)
       end
       it 'does not change info' do
-        expect do
+        expect {
           put :update, params: { id: info.id, info: invalid_attributes }
-        end.not_to change { info.reload.title }
+        }.not_to change(info.reload.title, :methods)
       end
     end
   end

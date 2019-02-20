@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Member do
-  permit_params :email, :encrypted_password, :first_name, :last_name, :biography, :phone_number, :role
+  permit_params :email, :encrypted_password, :first_name, :last_name, :biography, :phone_number, :role, :confirmed_at, :password, :password_confirmation
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
