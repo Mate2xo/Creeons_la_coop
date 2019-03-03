@@ -20,16 +20,17 @@ RSpec.describe Admin::MembersController, type: :controller do
       get :index
       expect(response).to have_http_status(:success)
     end
-    it 'assigns the person' do
+    it 'assigns the member' do
       get :index
       expect(assigns(:members)).to include(member)
     end
-    #   it "should render the expected columns" do
-    #     get :index
-    #     expect(page).to have_content(person.first_name)
-    #     expect(page).to have_content(person.last_name)
-    #     expect(page).to have_content(person.email)
-    #   end
+    it "should render the expected columns" do
+      get :index
+      expect(page).to have_content(member.first_name)
+      expect(page).to have_content(member.last_name)
+      expect(page).to have_content(member.email)
+      expect(page).to have_content(member.role)
+    end
     #   let(:filters_sidebar) { page.find('#filters_sidebar_section') }
     #   it "filter Name exists" do
     #     get :index
@@ -56,12 +57,16 @@ RSpec.describe Admin::MembersController, type: :controller do
       get :new
       expect(assigns(:member)).to be_a_new(Member)
     end
-    #   it "should render the form elements" do
-    #     get :new
-    #     expect(page).to have_field('First name')
-    #     expect(page).to have_field('Last name')
-    #     expect(page).to have_field('Email')
-    #   end
+    it "should render the form elements" do
+      get :new
+      expect(page).to have_field('First name')
+      expect(page).to have_field('Last name')
+      expect(page).to have_field('Email')
+      expect(page).to have_field('Phone number')
+      expect(page).to have_field('Password')
+      expect(page).to have_field('Password confirmation')
+      expect(page).to have_field('Biography')
+    end
   end
 
   describe "POST create" do
@@ -144,7 +149,6 @@ RSpec.describe Admin::MembersController, type: :controller do
         member.reload
         expect(member.last_name).to  eq(valid_attributes[:last_name])
         expect(member.first_name).to eq(valid_attributes[:first_name])
-        # expect(member.email).to      eq(valid_attributes[:email])
       end
     end
     context 'with invalid params' do
