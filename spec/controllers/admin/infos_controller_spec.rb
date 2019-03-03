@@ -129,7 +129,7 @@ RSpec.describe Admin::InfosController, type: :controller do
     it "should render the form elements" do
       expect(page).to have_field('Title', with: info.title)
       expect(page).to have_field('Content', with: info.content)
-      # expect(page).to have_field('Author', with: info.author)
+      expect(page).to have_select('Author', with_options: [info.author.email])
     end
   end
 
