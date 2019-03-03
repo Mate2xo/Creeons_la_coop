@@ -56,7 +56,7 @@
                 <% if member_signed_in? %>
                 <% if current_member.role == "super_admin"  %>
                 <li class="nav-item">
-                    <%= link_to  "Gestion admin", administration_path, class:"nav-link" %>
+                    <%= link_to  "Gestion admin", admin_members_path, class:"nav-link" %>
                 </li>
                 <% end %>
                 <li class="nav-item">
