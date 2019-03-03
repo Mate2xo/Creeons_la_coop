@@ -1,0 +1,32 @@
+# require: rubocop-rspec
+
+inherit_from:
+  - http://relaxed.ruby.style/rubocop.yml
+
+AllCops:
+  DisplayStyleGuide: true
+  DisplayCopNames: true
+  Exclude:
+    - 'db/schema.rb'
+    - 'vendor/**/*'
+    - 'config/environments/*.rb'
+    - 'bin/*'
+
+# Rails:
+#   Enabled: true
+
+# Rails/Output:
+#   Enabled: false
+
+# Style/DateTime:
+#   Enabled: true
+
+# Metrics/LineLength:
+#   Max: 120
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'test/**/*.rb'
+    - 'Guardfile'
+    - 'vendor/bundle'

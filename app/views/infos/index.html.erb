@@ -11,8 +11,17 @@
             </div>
         </div>
 
+        <ul class="nav nav-tabs justify-content-center mb-5">
+        <li class="nav-item">
+            <a class="nav-link active" href="#">Annonces</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Documents</a>
+        </li>
+        </ul>
+
         <% if super_admin? || admin? %>
-            <%= link_to  "Créer une info", new_info_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 ml-2 mb-4" %>
+            <%= link_to  "Créer une annonce", new_info_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 ml-2 mb-4" %>
         <% end %>
         
         <div class="card  no-border">

@@ -1,16 +1,25 @@
 <div class="container">
 <div class="widget mt-4">
     <div class="row-wrapper">
+        <ul class="nav nav-tabs justify-content-center mb-5">
+        <li class="nav-item">
+            <a class="nav-link active" href="#">Membres</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Groupe étude</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Groupe communication</a>
+        </li>
+        </ul>
+
         <div class="row cols-md-space cols-sm-space cols-xs-space">
+
             <% @members.each do |member| %>
             <div class="col-lg-4 mb-2">
                 <div class="block block--style-3">
                     <div class="profile-picture profile-picture--style-2">
-                        <% if member.avatar.attached? %>
-                            <%= image_tag member.avatar.variant(resize: '140x140').processed %>
-                        <% else %>
                             <img src="https://image.flaticon.com/icons/svg/0/93.svg">
-                        <% end %>
                     </div>
 
                     <div class="block-body text-center">

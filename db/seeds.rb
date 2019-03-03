@@ -26,7 +26,7 @@ end
 # i is a counter that helps assigning distinct addresses
 i = Address.first.id
 
-9.times.with_index do |index|
+9.times do |index|
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
   member = Member.new(

@@ -2,11 +2,12 @@
 
 Rails.application.routes.draw do
   devise_for :members
+  ActiveAdmin.routes(self)
   root 'static_pages#home'
   get 'dashboard', to: "static_pages#dashboard"
   get 'ensavoirplus', to: "static_pages#ensavoirplus"
 
-  get 'admin', to: "admin#show"
+  get 'administration', to: "admin#show"
   post 'admin/delete/:class/:id', to: "admin#destroy"
   post 'admin/role/:role/:id', to: "admin#role"
 
@@ -16,6 +17,6 @@ Rails.application.routes.draw do
 
   resources :productors
   resources :infos
-  resources :members, only: [:index, :show, :edit, :update]
+  resources :members, only: %i[index show edit update]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
