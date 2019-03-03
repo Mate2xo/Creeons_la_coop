@@ -27,12 +27,12 @@ RSpec.describe Admin::InfosController, type: :controller do
       get :index
       expect(assigns(:infos)).to include(info)
     end
-    #   it "should render the expected columns" do
-    #     get :index
-    #     expect(page).to have_content(person.first_name)
-    #     expect(page).to have_content(person.last_name)
-    #     expect(page).to have_content(person.email)
-    #   end
+    it "should render the expected columns" do
+      get :index
+      expect(page).to have_content(info.content)
+      expect(page).to have_content(info.title)
+      expect(page).to have_content(info.author.email)
+    end
     #   let(:filters_sidebar) { page.find('#filters_sidebar_section') }
     #   it "filter Name exists" do
     #     get :index
@@ -59,12 +59,12 @@ RSpec.describe Admin::InfosController, type: :controller do
       get :new
       expect(assigns(:info)).to be_a_new(Info)
     end
-    #   it "should render the form elements" do
-    #     get :new
-    #     expect(page).to have_field('First name')
-    #     expect(page).to have_field('Last name')
-    #     expect(page).to have_field('Email')
-    #   end
+    it "should render the form elements" do
+      get :new
+      expect(page).to have_field('Title')
+      expect(page).to have_field('Content')
+      expect(page).to have_field('Author')
+    end
   end
 
   describe "POST create" do
@@ -126,11 +126,11 @@ RSpec.describe Admin::InfosController, type: :controller do
     it 'assigns the info' do
       expect(assigns(:info)).to eq(info)
     end
-    #   it "should render the form elements" do
-    #     expect(page).to have_field('First name', with: person.first_name)
-    #     expect(page).to have_field('Last name', with: person.last_name)
-    #     expect(page).to have_field('Email', with: person.email)
-    #   end
+    it "should render the form elements" do
+      expect(page).to have_field('Title', with: info.title)
+      expect(page).to have_field('Content', with: info.content)
+      # expect(page).to have_field('Author', with: info.author)
+    end
   end
 
   describe "PUT update" do
@@ -175,11 +175,11 @@ RSpec.describe Admin::InfosController, type: :controller do
     it 'assigns the info' do
       expect(assigns(:info)).to eq(info)
     end
-    #   it "should render the form elements" do
-    #     expect(page).to have_content(info.title)
-    #     expect(page).to have_content(info.content)
-    #     expect(page).to have_content(info.author.first_name)
-    #   end
+    it "should render the form elements" do
+      expect(page).to have_content(info.title)
+      expect(page).to have_content(info.content)
+      expect(page).to have_content(info.author.email)
+    end
   end
 
   describe "DELETE #destroy" do
