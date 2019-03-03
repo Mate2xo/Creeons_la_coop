@@ -33,12 +33,12 @@ RSpec.describe Admin::ProductorsController, type: :controller do
       expect(page).to have_content(productor.website_url)
       expect(page).to have_content(productor.phone_number)
     end
-    #   let(:filters_sidebar) { page.find('#filters_sidebar_section') }
-    #   it "filter Name exists" do
-    #     get :index
-    #     expect(filters_sidebar).to have_css('label[for="q_first_name_or_last_name_cont"]', text: 'Name')
-    #     expect(filters_sidebar).to have_css('input[name="q[first_name_or_last_name_cont]"]')
-    #   end
+    # let(:filters_sidebar) { page.find('#filters_sidebar_section') }
+    # it "filter Email exists" do
+    #   get :index
+    #   expect(filters_sidebar).to have_css('label[for="q_email"]', text: 'Email')
+    #   expect(filters_sidebar).to have_css('input[email="q[email]"]')
+    # end
     #   it "filter Name works" do
     #     matching_person = Fabricate :person, first_name: 'ABCDEFG'
     #     non_matching_person = Fabricate :person, first_name: 'HIJKLMN'

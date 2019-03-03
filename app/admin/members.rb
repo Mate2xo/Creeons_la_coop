@@ -13,15 +13,13 @@ ActiveAdmin.register Member do
   end
 
   form do |f|
-    f.inputs do
-      f.input :first_name
-      f.input :last_name
-      f.input :email
-      f.input :password
-      f.input :password_confirmation
-      f.input :phone_number
-      f.input :biography
-    end
+    f.inputs :first_name, :last_name, :email, :password, :password_confirmation, :phone_number, :biography
     actions
   end
+
+  filter :email
+  filter :first_name
+  filter :last_name
+  filter :email
+  filter :role
 end
