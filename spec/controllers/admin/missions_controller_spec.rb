@@ -27,6 +27,7 @@ RSpec.describe Admin::MissionsController, type: :controller do
     end
     it "should render the expected columns" do
       get :index
+      expect(page).to have_content(mission.author.email)
       expect(page).to have_content(mission.name)
       expect(page).to have_content(mission.description)
       expect(page).to have_content(mission.due_date.to_s(:long))
@@ -59,6 +60,7 @@ RSpec.describe Admin::MissionsController, type: :controller do
     end
     it "should render the form elements" do
       get :new
+      expect(page).to have_field('Author')
       expect(page).to have_field('Name')
       expect(page).to have_field('Description')
       expect(page).to have_field('Due date')
@@ -125,6 +127,7 @@ RSpec.describe Admin::MissionsController, type: :controller do
       expect(assigns(:mission)).to eq(mission)
     end
     it "should render the form elements" do
+      expect(page).to have_select('Author', with_options: [mission.author.email])
       expect(page).to have_field('Name', with: mission.name)
       expect(page).to have_field('Description', with: mission.description)
       expect(page).to have_select('Due date')
