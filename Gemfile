@@ -53,6 +53,8 @@ group :development, :test do
 end
 
 group :development do
+  gem 'annotate', '~> 2.7', '>= 2.7.4'
+  gem 'better_errors', '~> 2.5', '>= 2.5.1'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'web-console', '>= 3.3.0'
@@ -60,6 +62,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 
+  gem 'husky', '~> 0.5.15'
   gem 'rubocop', '~> 0.63.0', require: false
   gem 'rubocop-rspec', '~> 1.31.0'
 end
@@ -91,3 +94,4 @@ gem 'addressable'
 
 gem 'bootstrap', '~> 4.1.3'
 gem 'jquery-rails'
+gem 'nyan-cat-formatter', '~> 0.12.0'
