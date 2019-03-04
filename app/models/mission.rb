@@ -1,5 +1,18 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: missions
+#
+#  id          :bigint(8)        not null, primary key
+#  name        :string           not null
+#  description :text             not null
+#  due_date    :datetime
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  author_id   :bigint(8)
+#
+
 # A Mission is an activity that has to be done for the Supermaket Team to function properly.
 # Every member can create a mission
 # Available methods: #addresses, #author, #due_date, #name, #description

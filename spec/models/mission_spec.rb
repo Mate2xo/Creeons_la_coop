@@ -1,5 +1,18 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: missions
+#
+#  id          :bigint(8)        not null, primary key
+#  name        :string           not null
+#  description :text             not null
+#  due_date    :datetime
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  author_id   :bigint(8)
+#
+
 require 'rails_helper'
 
 RSpec.describe Mission, type: :model do
