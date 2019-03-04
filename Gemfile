@@ -53,13 +53,13 @@ group :development, :test do
 end
 
 group :development do
+  gem 'annotate', '~> 2.7', '>= 2.7.4'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-
   gem 'rubocop', '~> 0.63.0', require: false
   gem 'rubocop-rspec', '~> 1.31.0'
 end
@@ -75,6 +75,7 @@ group :test do
   gem 'rails-controller-testing' # If you are using Rails 5.x
   gem 'shoulda-matchers', '4.0.0.rc1'
   gem 'simplecov', require: false
+  gem 'nyan-cat-formatter', '~> 0.12.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -89,5 +90,5 @@ gem 'mailjet'
 # URI management for Google Maps API Implementation
 gem 'addressable'
 
-gem 'bootstrap', '~> 4.1.3'
+gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
