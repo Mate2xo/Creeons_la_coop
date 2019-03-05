@@ -11,6 +11,7 @@ jobs:
         environment:
           PGHOST: 127.0.0.1
           PGUSER: postgres
+          RAILS_ENV: test
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
