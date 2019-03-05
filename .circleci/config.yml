@@ -11,7 +11,6 @@ jobs:
         environment:
           PGHOST: 127.0.0.1
           PGUSER: postgres
-          RAILS_ENV: test
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -52,7 +51,7 @@ jobs:
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
               circleci tests split --split-by=timings)"
 
-            bundle exec rspec \
+            rspec \
               --format progress \
               --format RspecJunitFormatter \
               --out /tmp/test-results/rspec.xml \
