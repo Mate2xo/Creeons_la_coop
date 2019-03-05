@@ -10,6 +10,7 @@ jobs:
       - image: circleci/ruby:2.5.1-node-browsers-legacy
         environment:
           PGHOST: 127.0.0.1
+          PGUSER: postgres
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
