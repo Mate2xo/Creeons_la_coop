@@ -1,22 +1,24 @@
-# README Créons la Coop :ear_of_rice: 
+# README Créons la Coop :ear_of_rice:
 
 
-## Description de l'association: 
+## Description de l'association:
 
 Une association Picarde (Créons La Coop') est en train de monter une coopérative. Son activité sera d'acheter en gros des fruits, légumes et viandes aux producteurs locaux afin de les revendre à ses membres.
+Modèle inspiré par le modèle du supermarché coopératif Park Slope Food Coop :
+https://fr.wikipedia.org/wiki/Park_Slope_Food_Coop
 
 
-## Détails de l'application: 
+## Détails de l'application:
 
 
-### Pour Qui ? 
+### Pour Qui ?
 
-- Plateforme de communication entre les membres de l'association 
+- Plateforme de communication entre les membres de l'association
 
 
 ### Pourquoi ?
 
-- Crée un supermarché coopératif, vendant des produits bio, locaux, à prix réduits 
+- Crée un supermarché coopératif, vendant des produits bio, locaux, à prix réduits
 
 
 ### Comment ?
@@ -27,13 +29,12 @@ Une association Picarde (Créons La Coop') est en train de monter une coopérati
 - listes d'infos générales concernant l'association (compte rendus réunions plénières, etc)
 
 
-### Où ? 
+### Où ?
 
 - Régional: 60km autour de la ville de Creil
 
 
-
-## Fonctionnalités de l'application: 
+## Fonctionnalités de l'application:
 
 - CRUD sur les modèles Productor, Member, Info, Mission
 - Gestion des membres (membres, admin, super-admin)
@@ -42,17 +43,17 @@ Une association Picarde (Créons La Coop') est en train de monter une coopérati
 - Créer et Participer à des missions
 
 
-## Versions: 
+## Versions:
 
-- rails => 2.5.1
-- ruby => 5.2.1
+- Ruby => 2.5.1
+- Rails => 5.2.1
 
 
-## Lien Heroku (site en prod): 
+## Lien Heroku (site en prod):
 
 https://creeons-la-coop.herokuapp.com/
 
-## La TEAM: :fire:  
+## La TEAM: :fire:
 
 - Timothee Bullen
 - Jérôme Delfosse
@@ -60,6 +61,6 @@ https://creeons-la-coop.herokuapp.com/
 - Sonia Hemami
 - Margaux Mahias
 
-### Mentor: :+1: 
+### Mentor: :+1:
 
 - Showner (Jean-Baptiste Malhadas)
