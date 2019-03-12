@@ -49,15 +49,9 @@ https://fr.wikipedia.org/wiki/Park_Slope_Food_Coop
 - Rails => 5.2.1
 
 
-## Lien Heroku (site en prod):
-
-https://creeons-la-coop.herokuapp.com/
-
 ## La TEAM: :fire:
 
 - Timothee Bullen
-- Jérôme Delfosse
-- Corentin Nadaud
 - Sonia Hemami
 - Margaux Mahias
 
