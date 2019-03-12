@@ -54,6 +54,7 @@ https://fr.wikipedia.org/wiki/Park_Slope_Food_Coop
 - Timothee Bullen
 - Sonia Hemami
 - Margaux Mahias
+- Yué Yin
 
 ### Mentor: :+1:
 
