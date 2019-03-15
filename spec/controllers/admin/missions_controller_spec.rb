@@ -137,6 +137,7 @@ RSpec.describe Admin::MissionsController, type: :controller do
   describe "PUT update" do
     context 'with valid params' do
       before do
+        # binding.pry
         put :update, params: { id: mission.id, mission: valid_attributes }
       end
       it 'assigns the mission' do
@@ -152,6 +153,11 @@ RSpec.describe Admin::MissionsController, type: :controller do
         expect(mission.name).to eq(valid_attributes["name"])
         expect(mission.description).to eq(valid_attributes["description"])
         expect(mission.due_date).to eq(valid_attributes["due_date"])
+      end
+      it 'should update the regular column' do
+        # binding.pry
+        put :update, params: { id: mission.id, mission: { regular: true } }
+        expect(mission.reload.regular).to eq true
       end
     end
     context 'with invalid params' do
