@@ -191,5 +191,14 @@ RSpec.describe Admin::MembersController, type: :controller do
       delete :destroy, params: { id: member.id }
       expect(response).to redirect_to(admin_members_path)
     end
+
+    context "when a member has created a ressource" do
+      it " gets deleted even if the member has previously created an info" do
+        create(:info, author_id: member.id)
+        expect {
+          delete :destroy, params: { id: member.id }
+        }.to change(Member, :count).by(-1)
+      end
+    end
   end
 end
