@@ -19,17 +19,6 @@
 
               <form class="form-default mt-4" data-toggle="validator" role="form">
 
-
-                <div class="col">
-                  <div class="col-lg-12">
-                    <div class="field">
-                      <%= f.label :avatar, "Photo de profil" %><br />
-                      <%= f.file_field :avatar, class: "form-control form-control-lg" %><br />
-                    </div>
-                  </div>
-                </div>
-
-
                 <div class="col">
                   <div class="col-lg-12">
                     <div class="field">
@@ -38,7 +27,6 @@
                     </div>
                   </div>
                 </div>
-
 
                 <div class="col">
                   <div class="col-lg-12">
@@ -49,12 +37,11 @@
                   </div>
                 </div>
 
-
                 <div class="col">
                   <div class="col-lg-12">
                     <div class="field">
-                      <%= f.label :phone_number, "Numéro de téléphone" %><br />
-                      <%= f.text_field :phone_number, class: "form-control form-control-lg" %><br />
+                      <%= f.label :email, "E-mail" %><br />
+                      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-lg" %><br />
                     </div>
                   </div>
                 </div>
@@ -62,8 +49,8 @@
                 <div class="col">
                   <div class="col-lg-12">
                     <div class="field">
-                      <%= f.label :email, "E-mail" %><br />
-                      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-lg" %><br />
+                      <%= f.label :phone_number, "Numéro de téléphone" %><br />
+                      <%= f.text_field :phone_number, class: "form-control form-control-lg" %><br />
                     </div>
                   </div>
                 </div>
