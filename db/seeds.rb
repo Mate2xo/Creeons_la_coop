@@ -97,11 +97,25 @@ end
 end
 
 # i += 51
-10.times do
+5.times do
   mission = Mission.new(
     name: Faker::Movie.quote,
     description: "Get some #{Faker::Food.vegetables}, and some #{Faker::Food.fruits}",
     due_date: Faker::Date.forward(20),
+    regular: true
+  )
+  mission.addresses << Address.find( rand((Productor.first.address.id)..(Productor.first.address.id)) )
+  mission.members << Member.take( rand(Member.count) )
+  mission.author = Member.find( rand((Member.first.id)..(Member.last.id)) )
+  mission.save
+end
+
+5.times do
+  mission = Mission.new(
+    name: Faker::Movie.quote,
+    description: "Get some #{Faker::Food.vegetables}, and some #{Faker::Food.fruits}",
+    due_date: Faker::Date.forward(20),
+    regular: false
   )
   mission.addresses << Address.find( rand((Productor.first.address.id)..(Productor.first.address.id)) )
   mission.members << Member.take( rand(Member.count) )
