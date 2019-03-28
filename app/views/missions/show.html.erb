@@ -79,6 +79,16 @@
 						</h4>
 						<hr class="mt-0 mb-0">
 					</div>
+					
+					<div class="progress-wrapper mt-4">
+						<h4 class="progress-label text-capitalize text-md strong-600">Type de mission :</h4>
+					<% if @mission.regular %>
+						<h4>Reguliere</h4>
+					<% else %>
+						<h4>Ponctuelle</h4>
+					<% end %>
+					</div>
+					
 
 					<% if @mission.due_date %>
 					<div class="progress-wrapper mt-4">

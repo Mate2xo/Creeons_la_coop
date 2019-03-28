@@ -86,6 +86,6 @@ class MissionsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:mission).permit(:name, :description, :due_date, addresses_attributes: %i[id postal_code city street_name_1 street_name_2])
+    params.require(:mission).permit(:name, :description, :regular, :due_date, addresses_attributes: %i[id postal_code city street_name_1 street_name_2])
   end
 end
