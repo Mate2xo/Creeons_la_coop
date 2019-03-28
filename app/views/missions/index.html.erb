@@ -1,17 +1,6 @@
 <!-- Launch Google Maps -->
 <% provide :head_tags do %>
 <meta name="turbolinks-visit-control" content="reload">
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-      initMap(
-        <% @missions.each do |mission| %>
-        <% mission.addresses.each do |address| %>
-        <%= "#{address.coordonnee}, " unless address.coordonnee.nil? %>
-        <% end %>
-        <% end %>
-        );
-  });
-</script>
 <% end %>
 
 <div class="container">
@@ -27,13 +16,6 @@
             
             <div class="card no-border">
                 <div>
-                    <section class="sct-color-1">
-                        <!-- Map canvas -->
-                        <div class="col-lg-12 mb-4">
-                            <!-- Google Map -->
-                            <div id="map"></div>
-                        </div>
-                    </section>
 
                     <ul class="nav nav-tabs justify-content-center mb-5">
                     <li class="nav-item">
