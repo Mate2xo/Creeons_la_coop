@@ -4,10 +4,11 @@ document.addEventListener('turbolinks:load', function() {
     plugins: ['dayGrid'],
     locale: 'fr',
     header: {
-      left:   'title',
-      center: 'dayGridMonth, dayGridWeek, dayGridDay',
-      right:  'today prev,next'
-    }
+      left: 'dayGridMonth, dayGridWeek, dayGridDay',
+      center: 'title',
+      right: 'today prev,next'
+    },
+    events: '/missions.json'
   });
 
   calendar.render();
