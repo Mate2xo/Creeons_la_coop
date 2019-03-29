@@ -46,10 +46,10 @@
 //= require viewportchecker.min
 //= require wow.min
 //= require isotope.min
-//= require imagesloaded.pkgd.min
 //= require boomerang.min
 //= require full_calendar/core/main.min
 //= require full_calendar/core/locale/fr.js
 //= require full_calendar/daygrid/main.min
 //= require full_calendar/bootstrap/main.min
 //= require_tree .
+//= require imagesloaded.pkgd.min
