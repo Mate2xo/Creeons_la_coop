@@ -26,6 +26,8 @@
  *= require productors
  *= require infos
  *= require missions
+ *= require full_calendar/core/main.min
+ *= require full_calendar/daygrid/main.min
 
  */
 
