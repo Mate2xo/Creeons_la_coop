@@ -1,7 +1,8 @@
 document.addEventListener('turbolinks:load', function() {
   var calendarEl = document.getElementById('calendar');
   var calendar = new FullCalendar.Calendar(calendarEl, {
-    plugins: ['dayGrid'],
+    plugins: ['dayGrid', 'bootstrap'],
+    themeSystem: 'bootstrap',
     locale: 'fr',
     header: {
       left: 'dayGridMonth, dayGridWeek, dayGridDay',

@@ -13,7 +13,6 @@
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
-//= require_tree .
 //= require jquery/jquery.min
 //= require popper.min
 //= require bootstrap.min
@@ -52,3 +51,5 @@
 //= require full_calendar/core/main.min
 //= require full_calendar/core/locale/fr.js
 //= require full_calendar/daygrid/main.min
+//= require full_calendar/bootstrap/main.min
+//= require_tree .
