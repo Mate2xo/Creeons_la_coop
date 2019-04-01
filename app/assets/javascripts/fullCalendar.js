@@ -5,11 +5,15 @@ document.addEventListener('turbolinks:load', function() {
     themeSystem: 'bootstrap',
     locale: 'fr',
     header: {
-      left: 'dayGridMonth, dayGridWeek, dayGridDay',
+      left: 'dayGridMonth,dayGridWeek,dayGridDay',
       center: 'title',
       right: 'today prev,next'
     },
-    events: '/missions.json'
+    events: '/missions.json',
+    
+    eventClick: function(info) {
+      $.get(info.event.show_url)
+    }
   });
 
   calendar.render();
