@@ -10,8 +10,8 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
  *= require_self
+ *= require_tree .
  *= require css/bootstrap.min
  *= require css/swiper.min
  *= require hamburgers.min
@@ -26,6 +26,10 @@
  *= require productors
  *= require infos
  *= require missions
+ *= require full_calendar/core/main.min
+ *= require full_calendar/daygrid/main.min
+ *= require full_calendar/timegrid/main.min
+ *= require full_calendar/bootstrap/main.min
 
  */
 

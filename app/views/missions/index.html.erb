@@ -1,64 +1,26 @@
-<!-- Launch Google Maps -->
 <% provide :head_tags do %>
 <meta name="turbolinks-visit-control" content="reload">
 <% end %>
 
-<div class="container">
-    <div class="col-lg-12 mb-5">
-        <div class="main-content">
-            <div class="page-title">
-                <div class="row align-items-center">
-                    <div class="col-lg-12 col-12">
-                        <h2 class="heading-missions heading heading heading-2 text-uppercase border-bottom border-dark strong-800 mt-5 mb-5">missions</h2>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card no-border">
-                <div>
+<div class="container"> 
+  <div class="col-lg-12 mb-5">
+    <div class="main-content">
+          
+      <div class="page-title">
+        <div class="row align-items-center">
+          <div class="col-lg-12 col-12">
+            <h2 class="heading-missions heading heading heading-2 text-uppercase border-bottom border-dark strong-800 mt-5 mb-5">
+                  missions</h2>
+          </div>
+        </div>
+      </div>
 
-                    <ul class="nav nav-tabs justify-content-center mb-5">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Ponctuelles</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Régulières</a>
-                    </li>
-                    </ul>
-                            
-                     <%= link_to  "Créer une nouvelle mission", new_mission_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 ml-2 mb-4" %>
-                    <table class="table table-sm table-hover">
-                        <thead>
-                            <tr>
-                                <th>Nom</th>
-                                <th>Date Limite</th>
-                                <th>Ville</th>
-                                <th><!-- Btn Show --></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% @missions.each do |mission| %>
-                            <tr>
+      <!--Events are feed into the calendar via fullCalendar.js-->
+      <div id="calendar"></div>
 
-                                <td><%= mission.name %></td>
-
-                                <td><% if mission.due_date %>
-                                    <%=  time_tag(mission.due_date) %>
-                                    <% else %>
-                                    date non renseignée
-                                    <% end %></td>
-                                    <td><% mission.addresses.each do |address| %>
-                                        <%= address.city %> 
-                                        <% end %></td>
-                                        <td>
-                                            <%= link_to "Voir", mission_path(mission.id), class: "btn btn-base-1 btn-shadow btn-circle px-4" %>
-                                        </td>
-                                    </tr>
-                                    <% end %>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="card no-border">
+          <%= link_to  "Créer une nouvelle mission", new_mission_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 ml-2 mb-4" %>
+      </div>
     </div>
+  </div> 
+</div>
