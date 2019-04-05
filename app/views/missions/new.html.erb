@@ -38,11 +38,21 @@
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="field my-3">
-                     <%= f.label :regular, "Mission reguliere?" %>
-                     <%= f.check_box :regular %>
+                     <%= f.label :recurrent, "Mission reguliere?" %>
+                     <%= f.check_box :recurrent %>
                     </div>
                   </div>
                 </div>
+
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="field">
+                     <%= f.label :start_date, "Date de début" %>
+                     <%= f.datetime_field :start_date, class: "form-control form-control-lg" %>
+                    </div>
+                  </div>
+                </div>
+                <br /><br />
 
                 <div class="row">
                   <div class="col-lg-12">

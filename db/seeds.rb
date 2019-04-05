@@ -98,11 +98,13 @@ end
 
 # i += 51
 5.times do
+  start_date = Faker::Time.forward(20, :morning)
   mission = Mission.new(
     name: Faker::Movie.quote,
     description: "Get some #{Faker::Food.vegetables}, and some #{Faker::Food.fruits}",
-    due_date: Faker::Date.forward(20),
-    regular: true
+    start_date: start_date,
+    due_date: start_date + 7200,
+    recurrent: true
   )
   mission.addresses << Address.find( rand((Productor.first.address.id)..(Productor.first.address.id)) )
   mission.members << Member.take( rand(Member.count) )
@@ -114,8 +116,8 @@ end
   mission = Mission.new(
     name: Faker::Movie.quote,
     description: "Get some #{Faker::Food.vegetables}, and some #{Faker::Food.fruits}",
-    due_date: Faker::Date.forward(20),
-    regular: false
+    start_date: Faker::Time.forward(20, :morning),
+    recurrent: false
   )
   mission.addresses << Address.find( rand((Productor.first.address.id)..(Productor.first.address.id)) )
   mission.members << Member.take( rand(Member.count) )

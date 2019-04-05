@@ -7,7 +7,7 @@ ActiveAdmin.register Mission do
     selectable_column
     column :name
     column :description
-    column :regular
+    column :recurrent
     column :due_date
     column :author
     actions
@@ -19,7 +19,7 @@ ActiveAdmin.register Mission do
               collection: options_from_collection_for_select(Member.all, :id, :email)
       f.input :name
       f.input :description
-      f.input :regular
+      f.input :recurrent
       f.input :due_date
     end
 
