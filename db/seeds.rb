@@ -104,7 +104,7 @@ end
     description: "Get some #{Faker::Food.vegetables}, and some #{Faker::Food.fruits}",
     start_date: start_date,
     due_date: start_date + 7200,
-    regular: true
+    recurrent: true
   )
   mission.addresses << Address.find( rand((Productor.first.address.id)..(Productor.first.address.id)) )
   mission.members << Member.take( rand(Member.count) )
@@ -117,7 +117,7 @@ end
     name: Faker::Movie.quote,
     description: "Get some #{Faker::Food.vegetables}, and some #{Faker::Food.fruits}",
     start_date: Faker::Time.forward(20, :morning),
-    regular: false
+    recurrent: false
   )
   mission.addresses << Address.find( rand((Productor.first.address.id)..(Productor.first.address.id)) )
   mission.members << Member.take( rand(Member.count) )
