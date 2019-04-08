@@ -3,7 +3,7 @@
 # The websites users. Their 'role' attributes determines if fhey're an unvalidated user, a member, admin or super-admmin
 class Member < ApplicationRecord
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
 

@@ -11,7 +11,11 @@
  				<div class="col-lg-5">
  					<div class="block block--style-3">
  						<div class="profile-picture profile-picture--style-2">
+              <% if @member.avatar.attached? %>
+                <%= link_to  "download", rails_blob_path(@member.avatar, disposision: 'attachment'), download: true %>
+              <% else %> 
                 <img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
+              <% end %>
             </div>
             
             <div class="block-body text-center">
