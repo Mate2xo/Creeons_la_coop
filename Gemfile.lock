@@ -67,6 +67,22 @@ GEM
     ast (2.4.0)
     autoprefixer-rails (9.4.9)
       execjs
+    aws-eventstream (1.0.2)
+    aws-partitions (1.149.0)
+    aws-sdk-core (3.48.3)
+      aws-eventstream (~> 1.0, >= 1.0.2)
+      aws-partitions (~> 1.0)
+      aws-sigv4 (~> 1.1)
+      jmespath (~> 1.0)
+    aws-sdk-kms (1.16.0)
+      aws-sdk-core (~> 3, >= 3.48.2)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-s3 (1.36.0)
+      aws-sdk-core (~> 3, >= 3.48.2)
+      aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.0)
+    aws-sigv4 (1.1.0)
+      aws-eventstream (~> 1.0, >= 1.0.2)
     bcrypt (3.1.12)
     bindex (0.5.0)
     bootsnap (1.3.2)
@@ -158,6 +174,7 @@ GEM
     jbuilder (2.8.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
+    jmespath (1.4.0)
     jquery-rails (4.3.3)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -387,6 +404,7 @@ DEPENDENCIES
   activeadmin
   addressable
   annotate (~> 2.7, >= 2.7.4)
+  aws-sdk-s3
   bootsnap (>= 1.1.0)
   bootstrap (~> 4.3.1)
   capybara (>= 2.15)

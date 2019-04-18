@@ -9,5 +9,7 @@ class Productor < ApplicationRecord
   has_and_belongs_to_many :missions, dependent: :nullify
   has_and_belongs_to_many :managers, class_name: "Member", dependent: :nullify
   has_one_attached :avatar
+  has_many_attached :catalogs
+
   validates :name, presence: true, uniqueness: true
 end

@@ -22,7 +22,11 @@
           <div class="row align-items-center cols-md-delimited cols-lg-delimited">
             <div class="block block--style-3 col-md-4">
               <div class="profile-picture profile-picture--style-2">
-                <img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
+                <% if @productor.avatar.attached? %>
+                  <%= image_tag @productor.avatar %>
+                <% else %>
+                  <img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
+                <% end %>
               </div>
 
               <div class="block-body text-center">
@@ -54,9 +58,8 @@
                 <% end %>
 
                 <h3 class="heading heading-light heading-sm strong-300">
-                  <% if @productor.website_url.present? %>
-                    <%= link_to  @productor.website_url, @productor.website_url, class:"" %>
-                  <% end %>
+                  <%  %>
+                    <%= link_to  @productor.website_url, @productor.website_url, class:"" if @productor.website_url.present? %>
                 </h3>
 
                 <% if super_admin? || admin? %> 
@@ -70,16 +73,15 @@
             <div class="col-md-8 ">
               <!--The div element for the map -->
               <!-- <div id="map"></div> -->
-              <h2>Produits en commande régulière</h2>
-              <p><ul>
-                <li>Lorem ipsum dolor sit amet.</li>
-                <li>Lorem ipsum dolor sit amet.</li>
-                <li>Lorem ipsum dolor sit amet.</li>
-                <li>Lorem ipsum dolor sit amet.</li>
-                <li>Lorem ipsum dolor sit amet.</li>
-              </ul></p>
               <h2>Catalogue des prix</h2>
-              <i class="fas fa-file fa-3x"></i><a href="#" class="ml-2">Catalogue 2019</a>
+                <% if @productor.catalogs.attached? %> 
+                  <% @productor.catalogs.each { |catalog| %>
+                    <i class="fas fa-file fa-3x"></i>
+                    <%= link_to "#{catalog.filename}", rails_blob_path(catalog, disposision: 'attachment'), download: true %> 
+                  <% } %>
+                <% else %>
+                  Aucun catalogue disponible pour l'instant. Contactez si besoin un administrateur pour consulter les prix de ce fournisseur.
+                <% end %>
             </div>
           </div>
         </div>
