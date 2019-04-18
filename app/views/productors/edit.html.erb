@@ -8,7 +8,7 @@
               <div class="profile-picture profile-picture--style-2">
                 <% if @productor.avatar.attached? %>
                   <%= image_tag @productor.avatar.variant(resize: '140x140').processed %>
-                  <% else %>
+                <% else %>
                   <img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
                 <% end %>
               </div>
@@ -24,8 +24,8 @@
                 <div class="col">
                   <div class="col-lg-12">
                     <div class="field">
-                        <%= f.label :name, "Nom du producteur" %><br />
-                        <%= f.text_field :name, class: "form-control form-control-lg" %><br />
+                      <%= f.label :name, "Nom du producteur" %><br />
+                      <%= f.text_field :name, class: "form-control form-control-lg" %><br />
                     </div>
                     <div class="field">
                       <%= f.label :description, "Description" %><br />
@@ -36,12 +36,21 @@
                       <%= f.text_field :phone_number, class: "form-control form-control-lg" %><br />
                     </div> 
                     <div class="field">
+                      <%= f.label :website_url, "Site internet" %><br />
+                      <%= f.text_field :website_url, class: "form-control form-control-lg" %><br />
+                    </div>
+                    <div class="field">
                       <%= f.label :avatar, "Photo de profil" %><br />
                       <%= f.file_field :avatar, class: "btn-base-1" %><br />
+                    </div> 
+                    <div class="field">
+                      <%= f.label :catalogs, "Catalogues" %><br />
+                      <%= f.file_field :catalogs, multiple: true, class: "btn-base-1" %><br />
                     </div> 
                   </div>
                 </div>
                 <br />
+
                 <%= f.fields_for :address, @productor_address do |address| %>
                 <div class="col">
                   <div class="col-lg-12">
