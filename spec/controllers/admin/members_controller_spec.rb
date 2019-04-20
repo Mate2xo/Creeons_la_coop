@@ -63,8 +63,6 @@ RSpec.describe Admin::MembersController, type: :controller do
       expect(page).to have_field('Last name')
       expect(page).to have_field('Email')
       expect(page).to have_field('Phone number')
-      expect(page).to have_field('Password')
-      expect(page).to have_field('Password confirmation')
       expect(page).to have_field('Biography')
     end
   end

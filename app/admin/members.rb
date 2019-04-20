@@ -13,7 +13,7 @@ ActiveAdmin.register Member do
   end
 
   form do |f|
-    f.inputs :first_name, :last_name, :email, :password, :password_confirmation, :role, :phone_number, :biography
+    f.inputs :first_name, :last_name, :email, :role, :phone_number, :biography
     actions
   end
 
