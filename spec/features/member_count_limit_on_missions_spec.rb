@@ -12,10 +12,8 @@ RSpec.feature "MemberCountLimitOnMissions", type: :feature do
 
     context "when the enrolled Member count has NOT been reached" do
       it "allows enrolling to that Mission" do
-        mission.max_member_count = 4
-        mission.member_count = 3
         click_link 'Participer'
-        expect(mission.members).to include(member)
+        expect(mission.reload.members).to include(member)
         expect(page).to have_content("Vous vous êtes inscrit à cette mission")
       end
     end
@@ -23,10 +21,12 @@ RSpec.feature "MemberCountLimitOnMissions", type: :feature do
     context "when the enrolled Member count has been reached" do
       it "prevents enrolling to that Mission" do
         mission.max_member_count = 4
-        mission.member_count = 4
+        mission.members << create_list(:member, 4)
+        mission.save
+
         click_link 'Participer'
-        expect(mission.members).to_not include(member)
-        expect(page).to have_content("Vous ne participez plus à cette mission")
+        expect(mission.reload.members).to_not include(member)
+        expect(page).to have_content("Le nombre maximum de participants est déjà atteint")
       end
     end
   end
