@@ -5,6 +5,7 @@
 # Available methods: #addresses, #author, #due_date, #name, #description, #members
 class MissionsController < ApplicationController
   before_action :authenticate_member!
+  before_action :set_mission, only: %i[show edit update destroy enroll disenroll]
 
   def index
     @missions = Mission.all
@@ -20,6 +21,7 @@ class MissionsController < ApplicationController
   def create
     @mission = Mission.new(permitted_params)
     @mission.author = current_member
+
     if @mission.save
       flash[:notice] = "La mission a été créée"
       redirect_to @mission
@@ -29,46 +31,37 @@ class MissionsController < ApplicationController
     end
   end
 
-  def show
-    @mission = Mission.find(params[:id])
-  end
+  def show; end
 
   def edit
-    if super_admin? || admin? || current_member.id == Mission.find(params[:id]).author_id
-      @mission = Mission.find(params[:id])
-      # address form generator
-      1.times { @mission.addresses.build }
-      @mission_addresses = @mission.addresses || @mission.addresses.build
-    else
-      redirect_to mission_path
-    end
+    redirect_to mission_path unless super_admin? || admin? || current_member.id == @mission.author_id
+
+    # address form generator
+    1.times { @mission.addresses.build }
+    @mission_addresses = @mission.addresses || @mission.addresses.build
   end
 
   def update
-    if super_admin? || admin? || current_member.id == Mission.find(params[:id]).author_id
-      @mission = Mission.find(params[:id])
-      if @mission.update_attributes(permitted_params)
-        flash[:notice] = "La mission a été mise à jour"
-        redirect_to @mission
-      else
-        flash[:error] = "La mise à jour de la misison a échoué"
-        redirect_to edit_mission_path(@mission.id)
-      end
+    redirect_to mission_path unless super_admin? || admin? || current_member.id == @mission.author_id
+
+    if @mission.update_attributes(permitted_params)
+      flash[:notice] = "La mission a été mise à jour"
+      redirect_to @mission
     else
-      redirect_to mission_path
+      flash[:error] = "La mise à jour de la misison a échoué"
+      redirect_to edit_mission_path(@mission.id)
     end
   end
 
   def destroy
-    if super_admin? || admin? || current_member.id == Mission.find(params[:id]).author_id
-      Mission.find(params[:id]).destroy
+    if super_admin? || admin? || current_member.id == @mission.author_id
+      @mission.destroy
+      flash[:notice] = "La mission a été supprimée"
     end
-    flash[:notice] = "La mission a été supprimée"
     redirect_to "/missions"
   end
 
   def enroll
-    @mission = Mission.find(params[:id])
     unless @mission.members.where(id: current_member.id).present?
       @mission.members << current_member
     end
@@ -77,7 +70,6 @@ class MissionsController < ApplicationController
   end
 
   def disenroll
-    @mission = Mission.find(params[:id])
     @mission.members.destroy(current_member.id)
     flash[:alert] = "Vous vous êtes désinscrit de cette mission"
     redirect_to mission_path(params[:id])
@@ -87,5 +79,9 @@ class MissionsController < ApplicationController
 
   def permitted_params
     params.require(:mission).permit(:name, :description, :recurrent, :due_date, :start_date, addresses_attributes: %i[id postal_code city street_name_1 street_name_2])
+  end
+
+  def set_mission
+    @mission = Mission.find(params[:id])
   end
 end
