@@ -12,6 +12,16 @@
         <%= f.text_area :description, class: "form-control form-control-lg" %>
       </div><br />
       
+      <div class="field">
+        <%= f.label :min_member_count, "Nombre de personnes minimun souhaité" %><br />
+        <%= f.number_field :min_member_count, class: "form-control form-control-lg" %>
+      </div><br />
+      
+      <div class="field">
+        <%= f.label :max_member_count, "Nombre maximum de participants" %><br />
+        <%= f.number_field :max_member_count, class: "form-control form-control-lg" %>
+      </div><br />
+      
       <div class="field my-3">
        <%= f.label :recurrent, "Mission regulière?" %>
        <%= f.check_box :recurrent %>

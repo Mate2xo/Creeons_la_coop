@@ -17,8 +17,8 @@ RSpec.feature "MissionCreations", type: :feature do
         fill_in "Description", with: "Title"
         fill_in "Date de début", with: "Title"
         fill_in "Date limite", with: "Title"
-        fill_in "Nombre de personnes minimun souhaité", with: "Title"
-        fill_in "Nombre maximum de participants", with: "Title"
+        fill_in "Nombre de personnes minimun souhaité", with: 3
+        fill_in "Nombre maximum de participants", with: 5
       end
     end
   end
