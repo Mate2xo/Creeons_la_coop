@@ -30,8 +30,10 @@
 					</h3>
 
 					<p class="text-lg line-height-1_8 mt-4">
+							<p>Nombre minimum de personnes souhaité : <%= @mission.min_member_count %></p>
+							<p>Nombre maximum de participants : <%= @mission.max_member_count %></p>
 						<h5>
-							<%= @mission.description %>
+						<%= @mission.description %>
 						</h5>
 						<% if @mission.members.where(id: current_member.id).present? %> 
 							<%= link_to "Désinscription", enroll_in_mission_path, method: "DELETE", class:"btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %> 
