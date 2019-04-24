@@ -13,7 +13,6 @@ RSpec.describe Mission, type: :model do
       it { is_expected.to have_db_column(:due_date).of_type(:datetime) }
       it { is_expected.to have_db_column(:min_member_count).of_type(:integer) }
       it { is_expected.to have_db_column(:max_member_count).of_type(:integer) }
-      it { is_expected.to have_db_column(:member_count).of_type(:integer).with_options(default: 0) }
       it { is_expected.to have_db_index(:author_id) }
     end
 
