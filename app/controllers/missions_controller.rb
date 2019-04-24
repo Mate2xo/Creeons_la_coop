@@ -78,7 +78,7 @@ class MissionsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:mission).permit(:name, :description, :recurrent, :due_date, :start_date, addresses_attributes: %i[id postal_code city street_name_1 street_name_2])
+    params.require(:mission).permit(:name, :description, :recurrent, :max_member_count, :min_member_count, :due_date, :start_date, addresses_attributes: %i[id postal_code city street_name_1 street_name_2])
   end
 
   def set_mission
