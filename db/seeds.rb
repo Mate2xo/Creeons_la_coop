@@ -22,6 +22,7 @@ Address.destroy_all
     street_name_2: Faker::Address.secondary_address
   )
 end
+puts "Addresses seeded"
 
 # i is a counter that helps assigning distinct addresses
 i = Address.first.id
@@ -81,6 +82,7 @@ end
   member.save
   i += 1
 end
+puts "Members seeded"
 
 # i += 41
 10.times do
@@ -95,6 +97,7 @@ end
   productor.save
   i += 1
 end
+puts "Productors seeded"
 
 # i += 51
 5.times do
@@ -102,12 +105,14 @@ end
   mission = Mission.new(
     name: Faker::Movie.quote,
     description: "Get some #{Faker::Food.vegetables}, and some #{Faker::Food.fruits}",
+    max_member_count: rand(4..8),
+    min_member_count: rand(3),
     start_date: start_date,
     due_date: start_date + 7200,
     recurrent: true
   )
   mission.addresses << Address.find( rand((Productor.first.address.id)..(Productor.first.address.id)) )
-  mission.members << Member.take( rand(Member.count) )
+  mission.members << Member.take( rand(mission.max_member_count) )
   mission.author = Member.find( rand((Member.first.id)..(Member.last.id)) )
   mission.save
 end
@@ -116,14 +121,17 @@ end
   mission = Mission.new(
     name: Faker::Movie.quote,
     description: "Get some #{Faker::Food.vegetables}, and some #{Faker::Food.fruits}",
+    max_member_count: rand(4..8),
+    min_member_count: rand(3),
     start_date: Faker::Time.forward(20, :morning),
     recurrent: false
   )
   mission.addresses << Address.find( rand((Productor.first.address.id)..(Productor.first.address.id)) )
-  mission.members << Member.take( rand(Member.count) )
+  mission.members << Member.take( rand(mission.max_member_count) )
   mission.author = Member.find( rand((Member.first.id)..(Member.last.id)) )
   mission.save
 end
+puts "Missions seeded"
 
 5.times do
   info = Info.new(
@@ -133,3 +141,4 @@ end
   info.author = Member.where(role: "admin")[rand(0..9)]
   info.save
 end
+puts "Infos seeded"

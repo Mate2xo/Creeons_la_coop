@@ -6,6 +6,14 @@ json.array! @missions do |mission|
   json.title mission.name
   json.start mission.start_date
   json.end mission.due_date
-  mission.recurrent ? json.color('green') : json.color('red')
   json.url mission_path(mission.id)
+
+  # colors
+  if mission.members.count == mission.max_member_count
+    json.color('grey')
+  elsif mission.members.count < mission.min_member_count
+    json.color('red')
+  elsif mission.members.count >= mission.min_member_count
+    json.color('green')
+  end
 end
