@@ -7,7 +7,7 @@
             <div class="form-header text-center">
               <div class="profile-picture profile-picture--style-2">
                 <% if @productor.avatar.attached? %>
-                  <%= image_tag @productor.avatar.variant(resize: '140x140').processed %>
+                  <%= image_tag @productor.avatar %>
                 <% else %>
                   <img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
                 <% end %>
@@ -40,9 +40,10 @@
                       <%= f.text_field :website_url, class: "form-control form-control-lg" %><br />
                     </div>
                     <div class="field">
-                      <%= f.label :avatar, "Photo de profil" %><br />
-                      <%= f.file_field :avatar, class: "btn-base-1" %><br />
+                      <%= f.label :avatar, "Photo de profil (gif, png, ou jpeg)" %><br />
+                      <%= f.file_field :avatar, accept: 'image/png, image/gif, image/jpeg', class: "btn-base-1" %><br />
                     </div> 
+                    <hr>
                     <div class="field">
                       <%= f.label :catalogs, "Catalogues" %><br />
                       <%= f.file_field :catalogs, multiple: true, class: "btn-base-1" %><br />
