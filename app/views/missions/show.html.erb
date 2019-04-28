@@ -1,17 +1,6 @@
 <!-- Launch Google Maps -->
 <% provide :head_tags do %>
 	<meta name="turbolinks-visit-control" content="reload">
-	<% unless @mission.addresses.nil? %>
-		<script>
-			document.addEventListener("DOMContentLoaded", function() {
-				initMap(
-							<% @mission.addresses.each do |address| %>
-								<%= "#{address.coordonnee}, " unless address.coordonnee.nil? %>
-							<% end %>
-						);
-				});
-		</script>
-	<% end %>
 <% end %>
 
 <div class="mt-4 ml-4">
