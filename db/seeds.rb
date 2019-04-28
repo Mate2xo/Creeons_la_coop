@@ -9,10 +9,10 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 require 'faker'
 Info.destroy_all
+Address.destroy_all
 Mission.destroy_all
 Member.destroy_all
 Productor.destroy_all
-Address.destroy_all
 
 60.times do
   Address.create!(

@@ -8,8 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <!-- Google Maps connection -->
-    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+Rails.application.credentials.google_key %>
 
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <!-- Fonts -->
@@ -17,7 +15,7 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
-    <!-- # receive code from the selected views (used for Google Maps) -->
+    <!-- # page cutomization (used to force some Turbolinks reloads) -->
     <%= yield(:head_tags) %>
   </head>
 
