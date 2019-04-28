@@ -3,7 +3,7 @@
 # The websites users. Their 'role' attributes determines if fhey're an unvalidated user, a member, admin or super-admmin
 class MembersController < ApplicationController
   before_action :authenticate_member!
-  before_action :set_member
+  before_action :set_member, only: %i[show edit update]
 
   def index
     @members = Member.all
