@@ -81,21 +81,22 @@
 					</div>
 					
 
+					<% if @mission.start_date %>
+					<div class="progress-wrapper mt-4">
+						<h4 class="progress-label text-capitalize text-md strong-600">Date de début :</h4>
+						<h4>
+							<%=  time_tag(@mission.start_date) %>
+						</h4>
+					</div>
+					<% end %>
 					<% if @mission.due_date %>
 					<div class="progress-wrapper mt-4">
-						<h4 class="progress-label text-capitalize text-md strong-600">Date Limite:</h4>
+						<h4 class="progress-label text-capitalize text-md strong-600">Date Limite :</h4>
 						<h4>
 							<%=  time_tag(@mission.due_date) %>
 						</h4>
 					</div>
 					<% end %>
-					<div class="progress-wrapper mt-4">
-						<h4 class="progress-label text-capitalize text-md strong-600">Crée le:</h4>
-						<h4>
-							<%= time_tag(@mission.created_at) %>
-						</h4>
-						<hr class="mt-0 mb-0">
-					</div>
 
 					<% @mission.addresses.each do |address| %>
 					<div class="progress-wrapper mt-4">

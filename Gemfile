@@ -38,9 +38,10 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 # Admin interface
 gem 'activeadmin'
+# Calendar events recurrence (for Missions)
+gem 'ice_cube'
 # Authorization management
 gem 'pundit'
-
 # Generate fake data for the seed.rb
 gem 'faker'
 # Users login management
@@ -49,8 +50,10 @@ gem "devise", "~> 4.6"
 gem 'mailjet'
 # URI management for Google Maps API Implementation
 gem 'addressable'
-
+# S3 file upload storage
 gem "aws-sdk-s3", require: false
+# Dynamic nested forms
+gem 'cocoon', '~> 1.2', '>= 1.2.12'
 
 group :development, :test do
   gem 'factory_bot_rails', '~> 4.0'
