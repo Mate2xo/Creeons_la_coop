@@ -15,7 +15,6 @@ class MissionsController < ApplicationController
     @mission = Mission.new
 
     # address form generator
-    2.times { @mission.addresses.build }
   end
 
   def create
@@ -35,10 +34,6 @@ class MissionsController < ApplicationController
 
   def edit
     redirect_to mission_path unless super_admin? || admin? || current_member.id == @mission.author_id
-
-    # address form generator
-    1.times { @mission.addresses.build }
-    @mission_addresses = @mission.addresses || @mission.addresses.build
   end
 
   def update
@@ -81,7 +76,10 @@ class MissionsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:mission).permit(:name, :description, :recurrent, :max_member_count, :min_member_count, :due_date, :start_date, addresses_attributes: %i[id postal_code city street_name_1 street_name_2])
+    params.require(:mission).permit(:name, :description, :recurrent,
+                                    :max_member_count, :min_member_count,
+                                    :due_date, :start_date,
+                                    addresses_attributes: %i[id postal_code city street_name_1 street_name_2 _destroy])
   end
 
   def set_mission

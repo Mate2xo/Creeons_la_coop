@@ -106,6 +106,7 @@ GEM
     chromedriver-helper (2.1.0)
       archive-zip (~> 0.10)
       nokogiri (~> 1.8)
+    cocoon (1.2.12)
     coderay (1.1.2)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
@@ -164,6 +165,7 @@ GEM
       domain_name (~> 0.5)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
+    ice_cube (0.16.3)
     inherited_resources (1.9.0)
       actionpack (>= 4.2, < 5.3)
       has_scope (~> 0.6)
@@ -409,12 +411,14 @@ DEPENDENCIES
   bootstrap (~> 4.3.1)
   capybara (>= 2.15)
   chromedriver-helper
+  cocoon (~> 1.2, >= 1.2.12)
   coffee-rails (~> 4.2)
   database_cleaner
   devise (~> 4.6)
   factory_bot_rails (~> 4.0)
   faker
   guard-rspec
+  ice_cube
   jbuilder (~> 2.5)
   jquery-rails
   listen (>= 3.0.5, < 3.2)
