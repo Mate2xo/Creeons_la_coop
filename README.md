@@ -1,46 +1,56 @@
-# README Créons la Coop :ear_of_rice:
+# Créons la Coop (CLAC) :ear_of_rice:
 
 
 ## Description de l'association:
 
-Une association Picarde (Créons La Coop') est en train de monter une coopérative. Son activité sera d'acheter en gros des fruits, légumes et viandes aux producteurs locaux afin de les revendre à ses membres.
+Une association Picarde (Créons La Coop') est en train de monter un supermarché coopératif. Son activité sera d'acheter en gros des fruits, légumes et viandes aux producteurs locaux afin de les revendre à prix réduit à ses membres. Chacun des membres se doit de participer au moins 3 heures par mois à l'organisation.
 Modèle inspiré par le modèle du supermarché coopératif Park Slope Food Coop :
 https://fr.wikipedia.org/wiki/Park_Slope_Food_Coop
 
 
-## Détails de l'application:
-
+## Utilité de l'application:
 
 ### Pour Qui ?
 
-- Plateforme de communication entre les membres de l'association
-
-
-### Pourquoi ?
-
-- Crée un supermarché coopératif, vendant des produits bio, locaux, à prix réduits
-
+- Plateforme de communication entre les membres de l'association pour faciliter l'organisation commune
 
 ### Comment ?
 
 - liste de membres pour contacter quelqu'un rapidement
-- liste de producteurs pour les contacter rapidement
-- liste de missions pour une organisation claire et facile entre les membres
+- liste de producteurs pour voir leurs coordonnées et voir la liste de leurs produits
+- calendrier de missions pour une organisation claire et facilitée entre les membres
 - listes d'infos générales concernant l'association (compte rendus réunions plénières, etc)
-
 
 ### Où ?
 
 - Régional: 60km autour de la ville de Creil
 
-
 ## Fonctionnalités de l'application:
 
-- CRUD sur les modèles Productor, Member, Info, Mission
-- Gestion des membres (membres, admin, super-admin)
-- Intégration Gmaps (missions, producteurs) si l'on entre une adresse
+### Membres
+
+- 3 niveaux d'authorization via un attribut : `member`, `admin`, `super-admin`
+- Gestion des authorizations via la gem [Pundit](https://github.com/varvet/pundit) (`app/policies`, tests dans `spec/policies`)
+- Interface Administateur pour les `admin` et `super-admin` via la gem [ActiveAdmin](https://activeadmin.info/)
+- CRUD sur les modèles `Productor`, `Member`, `Info`, `Mission` en fonction des authorizations
 - Intégration Active Storage pour upload d'avatars
-- Créer et Participer à des missions
+- TODO -> catégorification des membres en fonction de leur groupe de travail : Communication, Approvisionnement, Informatique, Etude, Financement, Accueil. Certains membres peuvent n'avoir aucun groupe en particulier
+
+### Produteurs
+
+- Gmaps préconfiguré, future implémentation d'une carte récapitulative des producteurs sur `productors/index`. Les `address` peuvent être transformés en coordonnées via une méthode dans le modèle `Address`, pour une intégration plus facile de GMaps.
+- Intégration Active Storage pour upload d'avatars et de catalogues
+- TODO -> catégorification des producteurs : Producteurs locaux, Fournisseurs
+
+### Missions
+
+- Liste des missions à réaliser sous forme de calendrier récapitulatif via [FullCalendar](https://fullcalendar.io/)
+- Possibilité d'afficher sa participation à des missions (validations min/max en fonction du nombre de participants)
+- TODO -> gestion de récurrence évènementielle avec une entrée dans la DB pour chaque instance en s'aidant de la gem [IceCube](https://github.com/seejohnrun/ice_cube)
+
+### Infos
+
+- Interface de blog basique, cette partie sera enrichie quand les autres features seront complétées et que les retours utilisateurs seront ok.
 
 
 ## Versions:
@@ -49,15 +59,14 @@ https://fr.wikipedia.org/wiki/Park_Slope_Food_Coop
 - Rails => 5.2.1
 
 
-## Lien Heroku (site en prod):
+## Démo:
 
-https://creeons-la-coop.herokuapp.com/
+https://creeons-coop-staging.herokuapp.com/
 
 ## La TEAM: :fire:
 
 - Timothee Bullen
 - Jérôme Delfosse
-- Corentin Nadaud
 - Sonia Hemami
 - Margaux Mahias
 
