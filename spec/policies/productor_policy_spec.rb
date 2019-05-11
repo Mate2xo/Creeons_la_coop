@@ -22,7 +22,7 @@ RSpec.describe ProductorPolicy, type: :policy do
   permissions :create?, :update? do
     it { is_expected.not_to permit member }
     it { is_expected.to permit admin }
-    it { is_expected.to permit super_admin}
+    it { is_expected.to permit super_admin }
   end
 
   permissions :destroy? do

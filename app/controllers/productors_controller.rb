@@ -5,7 +5,7 @@
 # Available methods: #address, #name, #description, #managers
 class ProductorsController < ApplicationController
   before_action :authenticate_member!
-  before_action :set_productor, only: [:show, :edit, :update, :destroy]
+  before_action :set_productor, only: %i[show edit update destroy]
 
   def index
     @productors = Productor.all

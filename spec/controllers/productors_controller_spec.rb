@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe ProductorsController, type: :controller do
@@ -34,17 +36,19 @@ RSpec.describe ProductorsController, type: :controller do
     end
 
     describe "authorization redirections" do
-      it { expect(get :new).to redirect_to(root_path) } 
-      it { expect(post :create, params: {productor: valid_attributes}).to redirect_to(root_path) } 
-      it { expect(get :edit, params: {id: productor.id}).to redirect_to(root_path) } 
-      it { expect(post :update, params: {
-                                  id: productor.id,
-                                  productor: valid_attributes
-                                  }).to redirect_to(root_path) } 
-      it { expect(post :destroy, params: {id: productor.id}).to redirect_to(root_path) } 
+      it { expect(get(:new)).to redirect_to(root_path) }
+      it { expect(post(:create, params: { productor: valid_attributes })).to redirect_to(root_path) }
+      it { expect(get(:edit, params: { id: productor.id })).to redirect_to(root_path) }
+      it {
+        expect(post(:update, params: {
+                      id: productor.id,
+                      productor: valid_attributes
+                    })).to redirect_to(root_path)
+      }
+      it { expect(post(:destroy, params: { id: productor.id })).to redirect_to(root_path) }
     end
   end
-  
+
   context "as a super_admin" do
     before { sign_in super_admin }
 
@@ -161,7 +165,5 @@ RSpec.describe ProductorsController, type: :controller do
         expect(response).to redirect_to(productors_path)
       end
     end
-    
   end
-  
 end
