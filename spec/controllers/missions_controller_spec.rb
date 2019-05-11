@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe MissionsController, type: :controller do
   let(:member) { create :member }
+  let(:super_admin) { create :member, :super_admin }
   let(:mission) { create :mission }
   let(:valid_attributes) { attributes_for(:mission) }
   let(:invalid_attributes) do { name: ''} end
@@ -61,6 +62,41 @@ RSpec.describe MissionsController, type: :controller do
           end
         end
       end
+    end
+
+    describe "no-authorization redirections" do
+      it { expect(get(:edit, params: { id: mission.id })).to redirect_to(root_path) }
+      it {
+        expect(post(:update, params: {
+                      id: mission.id,
+                      mission: valid_attributes
+                    })).to redirect_to(root_path)
+      }
+      it { expect(post(:destroy, params: { id: mission.id })).to redirect_to(root_path) }
+    end
+
+  end
+
+  context "as a super_admin" do
+    before { 
+      sign_in super_admin
+      mission
+    }
+
+    it "can edit any mission" do
+      get :edit, params: {id: mission.id}
+      expect(response).to have_http_status(:success) 
+    end
+
+    it "can update any mission" do
+      put :update, params: {id: mission.id, mission: valid_attributes }
+      expect(mission.reload.name).to eq(valid_attributes[:name])
+    end
+
+    it "can destroy any mission" do
+      expect {
+          delete :destroy, params: { id: mission.id }
+        }.to change(Mission, :count).by(-1)
     end
   end
 end
