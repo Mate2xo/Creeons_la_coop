@@ -2,7 +2,7 @@
 
 class StaticPagesController < ApplicationController
   # The folloiwng line is to deactivate Punidt authorize/policy verification
-  # skip_after_action :verify_authorized
+  skip_after_action :verify_authorized
 
   def home; end
 
