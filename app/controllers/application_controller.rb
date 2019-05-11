@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   #  The following lines are useful when developping Pundit policies
   after_action :verify_authorized, except: :index, unless: :active_admin_controller?
   # after_action :verify_policy_scoped, only: :index, unless: :active_admin_controller?
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   def super_admin?
     member_signed_in? && current_member.role == "super_admin"
@@ -29,5 +30,14 @@ class ApplicationController < ActionController::Base
 
   def pundit_user
     current_member
+  end
+
+  private
+
+  def user_not_authorized(exception)
+    policy_name = exception.policy.class.to_s.underscore
+
+    flash[:error] = t "#{policy_name}.#{exception.query}", scope: "pundit", default: :default
+    redirect_to root_path
   end
 end

@@ -32,6 +32,13 @@ RSpec.describe ProductorsController, type: :controller do
         expect(assigns(:productor)).to eq(productor)
       end
     end
+
+    describe "authorization redirections" do
+      it "redirects a member trying to access #new" do
+        get :new
+        expect(response).to redirect_to(root_path)
+      end
+    end
   end
   
   context "as a super_admin" do

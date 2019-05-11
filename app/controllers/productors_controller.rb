@@ -12,15 +12,11 @@ class ProductorsController < ApplicationController
   end
 
   def new
-    if super_admin? || admin?
-      @productor = Productor.new
-      authorize @productor
+    @productor = Productor.new
+    authorize @productor
 
-      # address form generator
-      @productor_address = @productor.build_address
-    else
-      redirect_to productors_path
-    end
+    # address form generator
+    @productor_address = @productor.build_address
   end
 
   def create
