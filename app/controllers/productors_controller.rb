@@ -30,9 +30,7 @@ class ProductorsController < ApplicationController
     end
   end
 
-  def show
-    authorize @productor
-  end
+  def show; end
 
   def edit
     authorize @productor
