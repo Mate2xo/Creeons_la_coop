@@ -30,4 +30,17 @@ RSpec.feature "MemberCountLimitOnMissions", type: :feature do
       end
     end
   end
+
+  describe "disenrolling from a mission" do
+    before {
+      mission.members << member
+      visit mission_path(mission.id)
+    }
+
+    it "unsubcribes a member" do
+      click_link 'Désinscription'
+      expect(mission.reload.members).not_to include(member)
+      expect(page).to have_content("Vous ne participez plus à cette mission")
+    end
+  end
 end

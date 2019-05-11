@@ -1,5 +1,21 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: addresses
+#
+#  id            :bigint(8)        not null, primary key
+#  postal_code   :string
+#  city          :string           not null
+#  street_name_1 :string
+#  street_name_2 :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  productor_id  :bigint(8)
+#  member_id     :bigint(8)
+#  coordonnee    :string
+#
+
 FactoryBot.define do
   factory :address do
     city { Faker::Address.city }

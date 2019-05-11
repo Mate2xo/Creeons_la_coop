@@ -37,7 +37,7 @@ class ApplicationPolicy
   end
 
   def destroy_all?
-    user.role == 'super_admin' || 'admin'
+    admin? || super_admin?
   end
 
   def scope

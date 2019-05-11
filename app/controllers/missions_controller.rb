@@ -33,12 +33,11 @@ class MissionsController < ApplicationController
   def show; end
 
   def edit
-    redirect_to mission_path unless super_admin? || admin? || current_member.id == @mission.author_id
+    authorize @mission
   end
 
   def update
-    redirect_to mission_path unless super_admin? || admin? || current_member.id == @mission.author_id
-
+    authorize @mission
     if @mission.update_attributes(permitted_params)
       flash[:notice] = "La mission a été mise à jour"
       redirect_to @mission
@@ -49,14 +48,17 @@ class MissionsController < ApplicationController
   end
 
   def destroy
-    if super_admin? || admin? || current_member.id == @mission.author_id
-      @mission.destroy
+    authorize @mission
+    if @mission.destroy
       flash[:notice] = "La mission a été supprimée"
+    else
+      flash[:error] = "Une erreur est survenue, veuillez recommencer l'opération"
     end
     redirect_to "/missions"
   end
 
   def enroll
+    authorize @mission
     if @mission.members.count >= @mission.max_member_count || @mission.members.where(id: current_member.id).present?
       flash[:alert] = "Le nombre maximum de participants est déjà atteint"
     else
@@ -68,6 +70,7 @@ class MissionsController < ApplicationController
   end
 
   def disenroll
+    authorize @mission
     @mission.members.destroy(current_member.id)
     flash[:alert] = "Vous ne participez plus à cette mission"
     redirect_to mission_path(params[:id])

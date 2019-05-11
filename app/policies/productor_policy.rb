@@ -10,20 +10,26 @@ class ProductorPolicy < ApplicationPolicy
   end
 
   def create?
-    super_admin? || admin?
+    admin? || super_admin?
   end
 
   def update?
-    super_admin? || admin?
+    admin? || super_admin?
   end
 
   def destroy?
-    super_admin?
+    productor_manager? || super_admin?
   end
 
   class Scope < Scope
     def resolve
       scope.all
     end
+  end
+
+  private
+
+  def productor_manager?
+    user.role == "admin" && record.managers.include?(user)
   end
 end

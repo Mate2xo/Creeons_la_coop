@@ -3,7 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe MissionPolicy, type: :policy do
-  let(:user) { User.new }
+  let(:member) { create :member }
+  let(:admin) { create :member, :admin }
+  let(:super_admin) { create :member, :super_admin }
+  let(:mission) { create :mission }
 
   subject { described_class }
 
@@ -11,19 +14,19 @@ RSpec.describe MissionPolicy, type: :policy do
     pending "add some examples to (or delete) #{__FILE__}"
   end
 
-  permissions :show? do
-    pending "add some examples to (or delete) #{__FILE__}"
+  permissions :new?, :create?, :show?, :enroll?, :disenroll? do
+    it { is_expected.to permit member }
+    it { is_expected.to permit admin }
+    it { is_expected.to permit super_admin }
   end
 
-  permissions :create? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
+  permissions :edit?, :update?, :destroy? do
+    it { is_expected.to permit member, create(:mission, author: member) }
+    it { is_expected.not_to permit member, mission }
 
-  permissions :update? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
+    it { is_expected.to permit admin, create(:mission, author: admin) }
+    it { is_expected.not_to permit admin, mission }
 
-  permissions :destroy? do
-    pending "add some examples to (or delete) #{__FILE__}"
+    it { is_expected.to permit super_admin, mission }
   end
 end
