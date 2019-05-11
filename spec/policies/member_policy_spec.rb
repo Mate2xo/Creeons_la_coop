@@ -37,7 +37,6 @@ RSpec.describe MemberPolicy, type: :policy do
   end
 
   permissions :destroy? do
-
     it { is_expected.not_to permit member }
     it { is_expected.not_to permit admin, other_member }
     it { is_expected.to permit super_admin }

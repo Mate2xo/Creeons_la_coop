@@ -35,3 +35,6 @@ en:
     productor_policy:
       create?: "You cannot create productors"
       update?: "You cannot update this productor"
+    member_policy:
+      create?: "You cannot create members"
+      update?: "You cannot update this member"

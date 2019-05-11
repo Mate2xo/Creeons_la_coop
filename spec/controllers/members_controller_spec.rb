@@ -12,26 +12,26 @@ RSpec.describe MembersController, type: :controller do
       before { get :index }
 
       it { expect(response).to have_http_status(:success) }
-      it { expect(assigns(:members)).to include(member)}
+      it { expect(assigns(:members)).to include(member) }
     end
 
     describe "GET show" do
       before { get :show, params: { id: member.id } }
 
       it { expect(response).to have_http_status :success }
-      it { expect(assigns(:member)).to eq(member)}
+      it { expect(assigns(:member)).to eq(member) }
     end
-    
+
     describe "GET edit" do
       before { get :edit, params: { id: member.id } }
 
       it { expect(response).to have_http_status :success }
-      it { expect(assigns(:member)).to eq(member)}
+      it { expect(assigns(:member)).to eq(member) }
     end
 
     describe "PUT #update, member updating his own profile" do
       let(:address) { create :member_address, member: member }
-  
+
       it "changes the nested address attributes" do
         address
         address_params = attributes_for :address
@@ -55,5 +55,4 @@ RSpec.describe MembersController, type: :controller do
       }
     end
   end
-
 end
