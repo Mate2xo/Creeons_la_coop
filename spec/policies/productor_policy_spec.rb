@@ -4,6 +4,8 @@ require 'rails_helper'
 
 RSpec.describe ProductorPolicy, type: :policy do
   let(:member) { build(:member) }
+  let(:admin) { build :member, :admin }
+  let(:super_admin) { build :member, :super_admin }
 
   subject { described_class }
 
@@ -12,64 +14,27 @@ RSpec.describe ProductorPolicy, type: :policy do
   end
 
   permissions :show? do
-    it "allows access to any member" do
-      expect(subject).to permit member
-    end
+    it { is_expected.to permit member }
   end
 
-  permissions :create? do
-    it "denies access to a regular member" do
-      expect(subject).not_to permit member
-    end
-
-    it "allows access to an admin" do
-      member.role = "admin"
-      expect(subject).to permit(member)
-    end
-
-    it "allows access to an super_admin" do
-      member.role = "super_admin"
-      expect(subject).to permit(member)
-    end
-  end
-
-  permissions :update? do
-    it "denies access to a regular member" do
-      expect(subject).not_to permit member
-    end
-
-    it "allows access to an admin" do
-      member.role = "admin"
-      expect(subject).to permit(member)
-    end
-
-    it "allows access to an super_admin" do
-      member.role = "super_admin"
-      expect(subject).to permit(member)
-    end
+  permissions :create?, :update? do
+    it { is_expected.not_to permit member }
+    it { is_expected.to permit admin }
+    it { is_expected.to permit super_admin}
   end
 
   permissions :destroy? do
     let(:productor) { build(:productor) }
-    it "denies access to a regular member" do
-      expect(subject).not_to permit member, productor
-    end
 
-    it "denies access to an admin" do
-      member.role = "admin"
-      expect(subject).not_to permit(member, productor)
-    end
+    it { is_expected.not_to permit member }
+    it { is_expected.not_to permit admin }
 
     it "allows access to the productor manager (admin)" do
       skip
-      # member.role = "admin"
-      # productor.managers << member
-      # expect(subject).to permit(member, productor)
+      productor.managers << admin
+      expect(subject).to permit(admin)
     end
 
-    it "allows access to a super_admin" do
-      member.role = "super_admin"
-      expect(subject).to permit(member, productor)
-    end
+    it { is_expected.to permit super_admin }
   end
 end
