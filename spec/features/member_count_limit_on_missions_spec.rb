@@ -32,7 +32,7 @@ RSpec.feature "MemberCountLimitOnMissions", type: :feature do
   end
 
   describe "disenrolling from a mission" do
-    before { 
+    before {
       mission.members << member
       visit mission_path(mission.id)
     }
@@ -43,5 +43,4 @@ RSpec.feature "MemberCountLimitOnMissions", type: :feature do
       expect(page).to have_content("Vous ne participez plus à cette mission")
     end
   end
-  
 end
