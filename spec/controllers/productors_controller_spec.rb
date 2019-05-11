@@ -34,10 +34,14 @@ RSpec.describe ProductorsController, type: :controller do
     end
 
     describe "authorization redirections" do
-      it "redirects a member trying to access #new" do
-        get :new
-        expect(response).to redirect_to(root_path)
-      end
+      it { expect(get :new).to redirect_to(root_path) } 
+      it { expect(post :create, params: {productor: valid_attributes}).to redirect_to(root_path) } 
+      it { expect(get :edit, params: {id: productor.id}).to redirect_to(root_path) } 
+      it { expect(post :update, params: {
+                                  id: productor.id,
+                                  productor: valid_attributes
+                                  }).to redirect_to(root_path) } 
+      it { expect(post :destroy, params: {id: productor.id}).to redirect_to(root_path) } 
     end
   end
   

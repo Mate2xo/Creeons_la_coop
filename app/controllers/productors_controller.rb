@@ -20,8 +20,6 @@ class ProductorsController < ApplicationController
   end
 
   def create
-    return redirect_to productors_path unless super_admin? || admin?
-
     @productor = Productor.new(permitted_params)
     authorize @productor
     if @productor.save
@@ -37,18 +35,12 @@ class ProductorsController < ApplicationController
   end
 
   def edit
-    if super_admin? || admin?
-      authorize @productor
-      # address form generator
-      @productor_address = @productor.address || @productor.build_address
-    else
-      redirect_to productors_path
-    end
+    authorize @productor
+    # address form generator
+    @productor_address = @productor.address || @productor.build_address
   end
 
   def update
-    return redirect_to '/' unless super_admin? || admin?
-
     authorize @productor
     if @productor.update_attributes(permitted_params)
       flash[:notice] = "Le producteur a bien été mis à jour"
@@ -60,9 +52,8 @@ class ProductorsController < ApplicationController
   end
 
   def destroy
-    if super_admin? || admin?
-      authorize @productor
-      @productor.destroy
+    authorize @productor
+    if @productor.destroy
       flash[:notice] = "Le producteur a été supprimé"
     else
       flash[:error] = "Opération échouée, une erreur est survenue"
@@ -79,5 +70,4 @@ class ProductorsController < ApplicationController
   def set_productor
     @productor = Productor.find(params[:id])
   end
-  
 end
