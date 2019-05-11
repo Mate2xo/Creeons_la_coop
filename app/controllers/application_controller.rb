@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   include Pundit
   before_action :configure_permitted_parameters, if: :devise_controller?
   #  The following lines are useful when developping Pundit policies
-  # after_action :verify_authorized, except: :index, unless: :active_admin_controller?
+  after_action :verify_authorized, except: :index, unless: :active_admin_controller?
   # after_action :verify_policy_scoped, only: :index, unless: :active_admin_controller?
 
   def super_admin?

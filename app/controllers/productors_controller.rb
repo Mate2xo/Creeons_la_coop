@@ -5,6 +5,7 @@
 # Available methods: #address, #name, #description, #managers
 class ProductorsController < ApplicationController
   before_action :authenticate_member!
+  before_action :set_productor, only: [:show, :edit, :update, :destroy]
 
   def index
     @productors = Productor.all
@@ -13,6 +14,7 @@ class ProductorsController < ApplicationController
   def new
     if super_admin? || admin?
       @productor = Productor.new
+      authorize @productor
 
       # address form generator
       @productor_address = @productor.build_address
@@ -25,6 +27,7 @@ class ProductorsController < ApplicationController
     return redirect_to productors_path unless super_admin? || admin?
 
     @productor = Productor.new(permitted_params)
+    authorize @productor
     if @productor.save
       flash[:notice] = "Le producteur a bien été créé"
       redirect_to @productor
@@ -34,13 +37,12 @@ class ProductorsController < ApplicationController
   end
 
   def show
-    @productor = Productor.find(params[:id])
+    authorize @productor
   end
 
   def edit
     if super_admin? || admin?
-      @productor = Productor.find(params[:id])
-
+      authorize @productor
       # address form generator
       @productor_address = @productor.address || @productor.build_address
     else
@@ -51,7 +53,7 @@ class ProductorsController < ApplicationController
   def update
     return redirect_to '/' unless super_admin? || admin?
 
-    @productor = Productor.find(params[:id])
+    authorize @productor
     if @productor.update_attributes(permitted_params)
       flash[:notice] = "Le producteur a bien été mis à jour"
       redirect_to @productor
@@ -63,7 +65,8 @@ class ProductorsController < ApplicationController
 
   def destroy
     if super_admin? || admin?
-      Productor.find(params[:id]).destroy
+      authorize @productor
+      @productor.destroy
       flash[:notice] = "Le producteur a été supprimé"
     else
       flash[:error] = "Opération échouée, une erreur est survenue"
@@ -76,4 +79,9 @@ class ProductorsController < ApplicationController
   def permitted_params
     params.require(:productor).permit(:name, :description, :phone_number, :website_url, :avatar, catalogs: [], address_attributes: %i[id postal_code city street_name_1 street_name_2])
   end
+
+  def set_productor
+    @productor = Productor.find(params[:id])
+  end
+  
 end
