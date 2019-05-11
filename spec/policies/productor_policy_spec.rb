@@ -13,8 +13,10 @@ RSpec.describe ProductorPolicy, type: :policy do
     pending "add some examples to (or delete) #{__FILE__}"
   end
 
-  permissions :show? do
+  permissions :show?, :index? do
     it { is_expected.to permit member }
+    it { is_expected.to permit admin }
+    it { is_expected.to permit super_admin }
   end
 
   permissions :create?, :update? do
@@ -27,12 +29,11 @@ RSpec.describe ProductorPolicy, type: :policy do
     let(:productor) { build(:productor) }
 
     it { is_expected.not_to permit member }
-    it { is_expected.not_to permit admin }
+    it { is_expected.not_to permit admin, productor }
 
     it "allows access to the productor manager (admin)" do
-      skip
       productor.managers << admin
-      expect(subject).to permit(admin)
+      expect(subject).to permit(admin, productor)
     end
 
     it { is_expected.to permit super_admin }

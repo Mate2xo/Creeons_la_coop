@@ -18,12 +18,18 @@ class ProductorPolicy < ApplicationPolicy
   end
 
   def destroy?
-    super_admin?
+    super_admin? || manager?
   end
 
   class Scope < Scope
     def resolve
       scope.all
     end
+  end
+
+  private
+
+  def manager?
+    user.role == "admin" && record.managers.include?(user)
   end
 end

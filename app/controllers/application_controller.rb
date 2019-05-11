@@ -26,4 +26,8 @@ class ApplicationController < ActionController::Base
   def active_admin_controller?
     is_a?(ActiveAdmin::BaseController)
   end
+
+  def pundit_user
+    current_member
+  end
 end
