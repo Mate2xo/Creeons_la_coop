@@ -12,14 +12,12 @@ class MembersController < ApplicationController
   def show; end
 
   def edit
-    redirect_to "/members" unless current_member.id == params[:id].to_i || super_admin?
-
+    authorize @member
     @member_address = @member.address || @member.build_address
   end
 
   def update
-    redirect_to "/members" unless current_member.id == params[:id].to_i || super_admin?
-
+    authorize @member
     if @member.update_attributes(permitted_params)
       flash[:notice] = "Votre profil a été mis à jour"
       redirect_to @member

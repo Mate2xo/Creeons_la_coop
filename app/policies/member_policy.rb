@@ -6,7 +6,7 @@ class MemberPolicy < ApplicationPolicy
   end
 
   def create?
-    (user.role == "super_admin")
+    super_admin?
   end
 
   def show?
@@ -14,11 +14,11 @@ class MemberPolicy < ApplicationPolicy
   end
 
   def update?
-    (user.role == "super_admin") || user == record
+    super_admin? || user == record
   end
 
   def destroy?
-    (user.role == "super_admin") || user == record
+    super_admin? || user == record
   end
 
   class Scope < Scope
