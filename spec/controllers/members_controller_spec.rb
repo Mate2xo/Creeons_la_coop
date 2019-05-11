@@ -22,7 +22,7 @@ RSpec.describe MembersController, type: :controller do
       it { expect(assigns(:member)).to eq(member) }
     end
 
-    describe "GET edit" do
+    describe "GET edit on a member's own profile" do
       before { get :edit, params: { id: member.id } }
 
       it { expect(response).to have_http_status :success }
