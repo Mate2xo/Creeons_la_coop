@@ -14,11 +14,11 @@ class MemberPolicy < ApplicationPolicy
   end
 
   def update?
-    super_admin? || user == record
+    user == record || super_admin?
   end
 
   def destroy?
-    super_admin? || user == record
+    user == record || super_admin?
   end
 
   class Scope < Scope

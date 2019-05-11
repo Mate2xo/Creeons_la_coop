@@ -14,11 +14,11 @@ class MissionPolicy < ApplicationPolicy
   end
 
   def update?
-    (user == record.author) || (user.role == 'super_admin')
+    (user == record.author) || super_admin?
   end
 
   def destroy?
-    user.role == 'super_admin'
+    (user == record.author) || super_admin?
   end
 
   class Scope < Scope

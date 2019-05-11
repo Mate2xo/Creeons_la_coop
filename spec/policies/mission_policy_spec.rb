@@ -27,6 +27,6 @@ RSpec.describe MissionPolicy, type: :policy do
     it { is_expected.to permit admin, create(:mission, author: admin) }
     it { is_expected.not_to permit admin, mission }
 
-    it { is_expected.to permit super_admin }
+    it { is_expected.to permit super_admin, mission }
   end
 end
