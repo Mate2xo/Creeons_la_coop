@@ -58,6 +58,7 @@ class MissionsController < ApplicationController
   end
 
   def enroll
+    authorize @mission
     if @mission.members.count >= @mission.max_member_count || @mission.members.where(id: current_member.id).present?
       flash[:alert] = "Le nombre maximum de participants est déjà atteint"
     else
@@ -69,6 +70,7 @@ class MissionsController < ApplicationController
   end
 
   def disenroll
+    authorize @mission
     @mission.members.destroy(current_member.id)
     flash[:alert] = "Vous ne participez plus à cette mission"
     redirect_to mission_path(params[:id])

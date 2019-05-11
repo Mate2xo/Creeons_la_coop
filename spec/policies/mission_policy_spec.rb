@@ -14,7 +14,7 @@ RSpec.describe MissionPolicy, type: :policy do
     pending "add some examples to (or delete) #{__FILE__}"
   end
 
-  permissions :new?, :create?, :show? do
+  permissions :new?, :create?, :show?, :enroll?, :disenroll? do
     it { is_expected.to permit member }
     it { is_expected.to permit admin }
     it { is_expected.to permit super_admin }
