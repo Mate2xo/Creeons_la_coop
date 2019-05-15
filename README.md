@@ -31,15 +31,15 @@ https://fr.wikipedia.org/wiki/Park_Slope_Food_Coop
 
 - 3 niveaux d'authorization via un attribut : `member`, `admin`, `super-admin`
 - Gestion des authorizations via la gem [Pundit](https://github.com/varvet/pundit) (`app/policies`, tests dans `spec/policies`)
-- Interface Administateur pour les `admin` et `super-admin` via la gem [ActiveAdmin](https://activeadmin.info/)
-- CRUD sur les modèles `Productor`, `Member`, `Info`, `Mission` en fonction des authorizations
-- Intégration Active Storage pour upload d'avatars
+- Interface Administateur pour les `admin` et `super-admin` via la gem [ActiveAdmin](https://activeadmin.info/), config via `app/admin`
+- CRUD sur les modèles `Productor`, `Member`, `Info`, `Mission` en fonction des authorizations (voir les `policies`)
+- Intégration Active Storage avec AWS S3 pour upload d'avatars
 - TODO -> catégorification des membres en fonction de leur groupe de travail : Communication, Approvisionnement, Informatique, Etude, Financement, Accueil. Certains membres peuvent n'avoir aucun groupe en particulier
 
 ### Produteurs
 
 - Gmaps préconfiguré, future implémentation d'une carte récapitulative des producteurs sur `productors/index`. Les `address` peuvent être transformés en coordonnées via une méthode dans le modèle `Address`, pour une intégration plus facile de GMaps.
-- Intégration Active Storage pour upload d'avatars et de catalogues
+- Intégration Active Storage avec AWS S3 pour upload d'avatars et de catalogues
 - TODO -> catégorification des producteurs : Producteurs locaux, Fournisseurs
 
 ### Missions
@@ -62,6 +62,15 @@ https://fr.wikipedia.org/wiki/Park_Slope_Food_Coop
 ## Démo:
 
 https://creeons-coop-staging.herokuapp.com/
+
+## Workflow
+
+- *Lancer `$ npm install` la première fois qu'on participe au projet*, pour setup le lancement automatique de Rubocop, Annotate à chaque commit, et RSpec à chaque push
+- Branche principale : `development`. `master` nous servira de 'stable release' (elle n'est donc pas utilisée actuellement)
+- Lorsqu'on résout une `issue`, Pull-Request d'une branche du même nom que l'`issue` sur la branche `development`. Tim fera la code review.
+- Guard est dispo (`$ bundle exec guard`) pour le lancement automatique des tests sur les fichiers en cours de travail
+- Ru
+
 
 ## La TEAM: :fire:
 
