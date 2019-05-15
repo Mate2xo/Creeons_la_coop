@@ -66,10 +66,9 @@ https://creeons-coop-staging.herokuapp.com/
 ## Workflow
 
 - *Lancer `$ npm install` la première fois qu'on participe au projet*, pour setup le lancement automatique de Rubocop, Annotate à chaque commit, et RSpec à chaque push
-- Branche principale : `development`. `master` nous servira de 'stable release' (elle n'est donc pas utilisée actuellement)
+- Branche principale : `development`. (`master` nous servira de 'stable release' plus tard, elle n'est donc pas utilisée actuellement)
 - Lorsqu'on résout une `issue`, Pull-Request d'une branche du même nom que l'`issue` sur la branche `development`. Tim fera la code review.
 - Guard est dispo (`$ bundle exec guard`) pour le lancement automatique des tests sur les fichiers en cours de travail
-- Ru
 
 
 ## La TEAM: :fire:
