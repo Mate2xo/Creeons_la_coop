@@ -14,7 +14,7 @@ class MissionsController < ApplicationController
   def new
     @mission = Mission.new
 
-    # address form generator
+    @mission.define_singleton_method(:recurrence_rule) { nil }
   end
 
   def create

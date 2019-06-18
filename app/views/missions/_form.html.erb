@@ -24,8 +24,13 @@
       </div><br />
       
       <div class="field my-3">
-       <%= f.label :recurrent, "Mission regulière?" %>
+       <%= f.label :recurrent, "Mission récurrente?" %>
        <%= f.check_box :recurrent %>
+      </div>
+      
+      <div class="field">
+       <%= f.label "recurrence_rule", "Choix de la récurrence" %>
+       <%= f.select_recurring :recurrence_rule, nil, {:allow_blank => true}, {:class => "form-control"} %>
       </div>
       
       <div class="field">

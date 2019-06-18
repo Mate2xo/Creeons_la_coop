@@ -53,4 +53,6 @@
 //= require full_calendar/daygrid/main.min
 //= require full_calendar/timegrid/main.min
 //= require full_calendar/bootstrap/main.min
+//= require recurring_select
+//= require recurring_select/fr
 //= require imagesloaded.pkgd.min
