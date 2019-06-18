@@ -56,7 +56,7 @@ https://fr.wikipedia.org/wiki/Park_Slope_Food_Coop
 ## Versions:
 
 - Ruby => 2.5.1
-- Rails => 5.2.1
+- Rails => 5.2.3
 
 
 ## Démo:

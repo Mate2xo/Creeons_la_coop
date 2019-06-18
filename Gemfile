@@ -40,6 +40,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'activeadmin'
 # Calendar events recurrence (for Missions)
 gem 'ice_cube'
+gem 'recurring_select'
 # Authorization management
 gem 'pundit'
 # Generate fake data for the seed.rb
