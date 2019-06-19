@@ -26,27 +26,34 @@
       </div>
       
       <div class="d-flex mb-4">
+        <div class="field mr-auto">
+         <%= f.label :start_date, "Date et heure de début" %>
+         <%= f.datetime_field :start_date, class: "form-control form-control-lg" %>
+        </div>
+        
+        <div class="field">
+          <%= f.label :due_date, "Date et heure de fin" %><br />
+          <%= f.datetime_field :due_date, class: "form-control form-control-lg" %>
+        </div>  
+      </div>
+      
+      <div class="d-flex mb-4">
         <div class="field mr-4">
           <%= f.label :recurrent, "Mission récurrente?" %>
           <%= f.check_box :recurrent %>
         </div>
         
-        <div class="field" id="recurrence-selector">
-          <%= f.label "recurrence_rule", "Choix de la récurrence" %>
-          <%= f.select_recurring :recurrence_rule, nil, {:allow_blank => true}, {:class => "form-control"} %>
+        <div id="recurrence-selector">
+          <div class="field mb-2">
+            <%= f.label "recurrence_rule", "Choix de la récurrence" %>
+            <%= f.select_recurring :recurrence_rule, nil, {:allow_blank => true}, {:class => "form-control"} %>
+          </div>
+          
+          <div class="field">
+            <%= f.label :recurrence_end_date, "Date de fin de récurrence" %><br />
+            <%= f.date_field :recurrence_end_date, class: "form-control form-control-lg" %>
+          </div>  
         </div>
-      </div>
-      
-      <div class="d-flex mb-4">
-        <div class="field mr-auto">
-         <%= f.label :start_date, "Date de début" %>
-         <%= f.datetime_field :start_date, class: "form-control form-control-lg" %>
-        </div>
-        
-        <div class="field">
-          <%= f.label :due_date, "Date limite" %><br />
-          <%= f.datetime_field :due_date, class: "form-control form-control-lg" %>
-        </div>  
       </div>
       
     </div>
