@@ -13,35 +13,42 @@
         <%= f.text_area :description, class: "form-control form-control-lg", required: true %>
       </div><br />
       
-      <div class="field">
-        <%= f.label :min_member_count, "Nombre de personnes minimun souhaité *" %><br />
-        <%= f.number_field :min_member_count, class: "form-control form-control-lg", required: true %>
-      </div><br />
-      
-      <div class="field">
-        <%= f.label :max_member_count, "Nombre maximum de participants *" %><br />
-        <%= f.number_field :max_member_count, class: "form-control form-control-lg", required: true %>
-      </div><br />
-      
-      <div class="field my-3">
-       <%= f.label :recurrent, "Mission récurrente?" %>
-       <%= f.check_box :recurrent %>
+      <div class="d-flex mb-4">
+        <div class="field mr-auto">
+          <%= f.label :min_member_count, "Nombre de personnes minimun souhaité *" %><br />
+          <%= f.number_field :min_member_count, class: "form-control form-control-lg", required: true %>
+        </div><br />
+        
+        <div class="field">
+          <%= f.label :max_member_count, "Nombre maximum de participants *" %><br />
+          <%= f.number_field :max_member_count, class: "form-control form-control-lg", required: true %>
+        </div><br />
       </div>
       
-      <div class="field">
-       <%= f.label "recurrence_rule", "Choix de la récurrence" %>
-       <%= f.select_recurring :recurrence_rule, nil, {:allow_blank => true}, {:class => "form-control"} %>
+      <div class="d-flex mb-4">
+        <div class="field mr-4">
+          <%= f.label :recurrent, "Mission récurrente?" %>
+          <%= f.check_box :recurrent %>
+        </div>
+        
+        <div class="field" id="recurrence-selector">
+          <%= f.label "recurrence_rule", "Choix de la récurrence" %>
+          <%= f.select_recurring :recurrence_rule, nil, {:allow_blank => true}, {:class => "form-control"} %>
+        </div>
       </div>
       
-      <div class="field">
-       <%= f.label :start_date, "Date de début" %>
-       <%= f.datetime_field :start_date, class: "form-control form-control-lg" %>
+      <div class="d-flex mb-4">
+        <div class="field mr-auto">
+         <%= f.label :start_date, "Date de début" %>
+         <%= f.datetime_field :start_date, class: "form-control form-control-lg" %>
+        </div>
+        
+        <div class="field">
+          <%= f.label :due_date, "Date limite" %><br />
+          <%= f.datetime_field :due_date, class: "form-control form-control-lg" %>
+        </div>  
       </div>
       
-      <div class="field">
-        <%= f.label :due_date, "Date limite" %><br />
-        <%= f.datetime_field :due_date, class: "form-control form-control-lg" %>
-      </div> 
     </div>
   </div>
   <br />
