@@ -81,7 +81,6 @@ RSpec.describe MissionsController, type: :controller do
   context "as a super_admin" do
     before {
       sign_in super_admin
-      mission
     }
 
     it "can edit any mission" do
@@ -95,9 +94,27 @@ RSpec.describe MissionsController, type: :controller do
     end
 
     it "can destroy any mission" do
+      mission
       expect {
         delete :destroy, params: { id: mission.id }
       }.to change(Mission, :count).by(-1)
+    end
+
+    context "when creating recurrent missions" do
+      let(:mission_params) {
+        build(:mission, start_date: DateTime.now,
+                        due_date: 3.hours.from_now,
+                        recurrent: true).attributes
+      }
+      before {
+        mission_params["recurrence_rule"] = "{\"interval\":1, \"until\":null, \"count\":null, \"validations\":{ \"day\":[2,3,5,6] }, \"rule_type\":\"IceCube::WeeklyRule\", \"week_start\":1 }"
+        mission_params["recurrence_end_date"] = 1.week.from_now
+      }
+
+      it "creates a mission instance for each occurence" do
+        post :create, params: { mission: mission_params }
+        expect(Mission.count).to eq 4
+      end
     end
   end
 end
