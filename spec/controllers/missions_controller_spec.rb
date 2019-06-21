@@ -100,7 +100,7 @@ RSpec.describe MissionsController, type: :controller do
       }.to change(Mission, :count).by(-1)
     end
 
-    context "when creating recurrent missions" do
+    context "when creating recurrent missions:" do
       let(:mission_params) {
         build(:mission, start_date: DateTime.now,
                         due_date: 3.hours.from_now,
@@ -111,12 +111,7 @@ RSpec.describe MissionsController, type: :controller do
         mission_params["recurrence_end_date"] = 1.week.from_now
       }
 
-      it "creates a mission instance for each occurence" do
-        post :create, params: { mission: mission_params }
-        expect(Mission.count).to be_within(1).of(4) # depends on the day on which the test is run
-      end
-
-      it "checks that the recurrence_rule and recurrence_end_date are present" do
+      it "validates that the recurrence_rule and recurrence_end_date are present" do
         mission_params["recurrence_rule"] = ""
         mission_params["recurrence_end_date"] = ""
 
@@ -124,6 +119,33 @@ RSpec.describe MissionsController, type: :controller do
 
         expect(Mission.count).to eq 0
         expect(response).to redirect_to new_mission_path
+      end
+      
+      it "validates that recurrence_end_date is at least set to the present day" do
+        mission_params["recurrence_end_date"] = 1.month.ago
+        
+        post :create, params: { mission: mission_params }
+        
+        expect(Mission.count).to eq 0
+        expect(response).to redirect_to new_mission_path
+      end
+      
+      it "sets the maximum recurrence_end_date to the end of next month" do
+        mission_params["recurrence_end_date"] = 6.months.from_now.to_s
+        
+        post :create, params: { mission: mission_params }
+        
+        expect(Mission.last.due_date).to be < 2.months.from_now.beginning_of_month
+      end
+      
+      it "creates a mission instance for each occurence" do
+        post :create, params: { mission: mission_params }
+        expect(Mission.count).to be_within(1).of(4) # depends on the day on which the test is run
+      end
+      
+      it "redirects to /missions when finished creating all occurrences" do
+        post :create, params: { mission: mission_params }
+        expect(response).to redirect_to missions_path
       end
     end
   end
