@@ -22,19 +22,26 @@ class MissionsController < ApplicationController
     @mission.author = current_member
 
     if @mission.recurrent
-      rule_from_params = params[:mission]["recurrence_rule"]
-      recurrence_end = params[:mission]["recurrence_end_date"]
+      recurrence_end = @mission.recurrence_end_date.to_date
 
-      if rule_from_params.empty? || recurrence_end.empty?
+      if @mission.recurrence_rule.empty? || recurrence_end.nil?
         return redirect_to new_mission_path,
                            alert: "Veuillez renseigner le type de récurrence, ainsi que sa date de fin"
       end
+      
+      if recurrence_end < Date.today
+        return redirect_to new_mission_path,
+                           alert: "La date de fin de récurrence ne peut être établie sur une date passée"
+      end
+      
+      recurrence_end = 1.month.from_now.end_of_month if recurrence_end > 1.month.from_now.end_of_month
+        
 
-      if RecurringSelect.is_valid_rule? rule_from_params
-        rule = RecurringSelect.dirty_hash_to_rule rule_from_params
-        rule.until recurrence_end.to_date
+      if RecurringSelect.is_valid_rule? @mission.recurrence_rule
+        rule = RecurringSelect.dirty_hash_to_rule @mission.recurrence_rule
+        rule.until recurrence_end
 
-        schedule = IceCube::Schedule.new(@mission.start_date, end_time: recurrence_end.to_date)
+        schedule = IceCube::Schedule.new(@mission.start_date, end_time: recurrence_end)
         schedule.add_recurrence_rule rule
 
         mission_duration = @mission.due_date - @mission.start_date
@@ -44,6 +51,9 @@ class MissionsController < ApplicationController
           mission_to_create["due_date"] = o + mission_duration
           Mission.create!(mission_to_create)
         end
+        
+        flash[:notice] = "Missions créées"
+        redirect_to missions_path
       else
         redirect_to new_mission_path, error: "Le type de récurrence sélectionné est impossible"
       end
