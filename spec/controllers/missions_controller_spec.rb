@@ -113,7 +113,17 @@ RSpec.describe MissionsController, type: :controller do
 
       it "creates a mission instance for each occurence" do
         post :create, params: { mission: mission_params }
-        expect(Mission.count).to eq 4
+        expect(Mission.count).to be_within(1).of(4) # depends on the day on which the test is run
+      end
+      
+      it "checks that the recurrence_rule and recurrence_end_date are present" do
+        mission_params["recurrence_rule"] = ""
+        mission_params["recurrence_end_date"] = ""
+        
+        post :create, params: { mission: mission_params }
+        
+        expect(Mission.count).to eq 0
+        expect(response).to redirect_to new_mission_path
       end
     end
   end

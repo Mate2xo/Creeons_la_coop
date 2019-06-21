@@ -20,13 +20,40 @@ class MissionsController < ApplicationController
   def create
     @mission = Mission.new(permitted_params)
     @mission.author = current_member
-
-    if @mission.save
-      flash[:notice] = "La mission a été créée"
-      redirect_to @mission
+    
+    if @mission.recurrent
+      rule_from_params = params[:mission]["recurrence_rule"]
+      recurrence_end = params[:mission]["recurrence_end_date"]
+      
+      return redirect_to new_mission_path,
+        alert: "Veuillez renseigner le type de récurrence, ainsi que sa date de fin"\
+        if rule_from_params.empty? || recurrence_end.empty?
+      
+      if RecurringSelect.is_valid_rule? rule_from_params
+        rule = RecurringSelect.dirty_hash_to_rule rule_from_params
+        rule.until recurrence_end.to_date
+        
+        schedule = IceCube::Schedule.new(@mission.start_date, end_time: recurrence_end.to_date)
+        schedule.add_recurrence_rule rule
+        
+        mission_duration = @mission.due_date - @mission.start_date
+        schedule.all_occurrences.each do |o|
+          mission_to_create = @mission.attributes
+          mission_to_create["start_date"] = o
+          mission_to_create["due_date"] = o + mission_duration
+          Mission.create!(mission_to_create)
+        end
+      else
+        redirect_to new_mission_path, error: "Le type de récurrence sélectionné est impossible"
+      end
     else
-      flash[:error] = "La création de mission a échoué"
-      redirect_to new_mission_path
+      if @mission.save
+        flash[:notice] = "La mission a été créée"
+        redirect_to @mission
+      else
+        flash[:error] = "La création de mission a échoué"
+        redirect_to new_mission_path
+      end
     end
   end
 
@@ -79,7 +106,8 @@ class MissionsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:mission).permit(:name, :description, :recurrent,
+    params.require(:mission).permit(:name, :description,
+                                    :recurrent, :recurrence_rule, :recurrence_end_date,
                                     :max_member_count, :min_member_count,
                                     :due_date, :start_date,
                                     addresses_attributes: %i[id postal_code city street_name_1 street_name_2 _destroy])
