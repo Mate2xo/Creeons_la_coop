@@ -32,7 +32,7 @@ class Mission < ApplicationRecord
   validates :min_member_count, presence: true
 
   accepts_nested_attributes_for :addresses, reject_if: :all_blank, allow_destroy: true
-  
+
   # Virtual attributes
   attr_accessor :recurrence_rule
   attr_accessor :recurrence_end_date

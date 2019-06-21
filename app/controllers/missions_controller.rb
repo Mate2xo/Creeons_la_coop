@@ -20,22 +20,23 @@ class MissionsController < ApplicationController
   def create
     @mission = Mission.new(permitted_params)
     @mission.author = current_member
-    
+
     if @mission.recurrent
       rule_from_params = params[:mission]["recurrence_rule"]
       recurrence_end = params[:mission]["recurrence_end_date"]
-      
-      return redirect_to new_mission_path,
-        alert: "Veuillez renseigner le type de récurrence, ainsi que sa date de fin"\
-        if rule_from_params.empty? || recurrence_end.empty?
-      
+
+      if rule_from_params.empty? || recurrence_end.empty?
+        return redirect_to new_mission_path,
+                           alert: "Veuillez renseigner le type de récurrence, ainsi que sa date de fin"
+      end
+
       if RecurringSelect.is_valid_rule? rule_from_params
         rule = RecurringSelect.dirty_hash_to_rule rule_from_params
         rule.until recurrence_end.to_date
-        
+
         schedule = IceCube::Schedule.new(@mission.start_date, end_time: recurrence_end.to_date)
         schedule.add_recurrence_rule rule
-        
+
         mission_duration = @mission.due_date - @mission.start_date
         schedule.all_occurrences.each do |o|
           mission_to_create = @mission.attributes
@@ -46,14 +47,12 @@ class MissionsController < ApplicationController
       else
         redirect_to new_mission_path, error: "Le type de récurrence sélectionné est impossible"
       end
+    elsif @mission.save
+      flash[:notice] = "La mission a été créée"
+      redirect_to @mission
     else
-      if @mission.save
-        flash[:notice] = "La mission a été créée"
-        redirect_to @mission
-      else
-        flash[:error] = "La création de mission a échoué"
-        redirect_to new_mission_path
-      end
+      flash[:error] = "La création de mission a échoué"
+      redirect_to new_mission_path
     end
   end
 
