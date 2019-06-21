@@ -28,14 +28,13 @@ class MissionsController < ApplicationController
         return redirect_to new_mission_path,
                            alert: "Veuillez renseigner le type de récurrence, ainsi que sa date de fin"
       end
-      
+
       if recurrence_end < Date.today
         return redirect_to new_mission_path,
                            alert: "La date de fin de récurrence ne peut être établie sur une date passée"
       end
-      
+
       recurrence_end = 1.month.from_now.end_of_month if recurrence_end > 1.month.from_now.end_of_month
-        
 
       if RecurringSelect.is_valid_rule? @mission.recurrence_rule
         rule = RecurringSelect.dirty_hash_to_rule @mission.recurrence_rule
@@ -51,7 +50,7 @@ class MissionsController < ApplicationController
           mission_to_create["due_date"] = o + mission_duration
           Mission.create!(mission_to_create)
         end
-        
+
         flash[:notice] = "Missions créées"
         redirect_to missions_path
       else
