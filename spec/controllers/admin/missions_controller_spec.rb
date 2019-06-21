@@ -6,15 +6,12 @@ RSpec.describe Admin::MissionsController, type: :controller do
   render_views
   let(:page) { Capybara::Node::Simple.new(response.body) }
   let(:super_admin) { create(:member, :super_admin) }
-  before { sign_in super_admin }
-
-  let!(:mission) { create(:mission) }
-
   let(:valid_attributes) { build(:mission).attributes }
-
   let(:invalid_attributes) do
     { name: '' }
   end
+  let!(:mission) { create(:mission) }
+  before { sign_in super_admin }
 
   describe "GET index" do
     it 'returns http success' do
@@ -93,7 +90,7 @@ RSpec.describe Admin::MissionsController, type: :controller do
 
         expect(mission.name).to eq(valid_attributes["name"])
         expect(mission.description).to eq(valid_attributes["description"])
-        expect(mission.due_date).to      eq(valid_attributes["due_date"])
+        expect(mission.due_date).to eq(valid_attributes["due_date"])
       end
     end
 
@@ -112,6 +109,10 @@ RSpec.describe Admin::MissionsController, type: :controller do
         expect do
           post :create, params: { mission: invalid_attributes }
         end.not_to change(Mission, :count)
+      end
+
+      it "does not create a mission when due_date < start_date" do
+        skip
       end
     end
   end
