@@ -13,15 +13,21 @@ class MissionsController < ApplicationController
 
   def new
     @mission = Mission.new
-
-    # address form generator
   end
 
   def create
     @mission = Mission.new(permitted_params)
     @mission.author = current_member
 
-    if @mission.save
+    if @mission.recurrent
+      validation_msg = RecurrentMissions.validate @mission
+      return redirect_to new_mission_path, alert: validation_msg if validation_msg != true
+
+      RecurrentMissions.new.generate(@mission)
+      flash[:notice] = "Missions créées"
+      redirect_to missions_path
+
+    elsif @mission.save
       flash[:notice] = "La mission a été créée"
       redirect_to @mission
     else
@@ -79,7 +85,8 @@ class MissionsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:mission).permit(:name, :description, :recurrent,
+    params.require(:mission).permit(:name, :description,
+                                    :recurrent, :recurrence_rule, :recurrence_end_date,
                                     :max_member_count, :min_member_count,
                                     :due_date, :start_date,
                                     addresses_attributes: %i[id postal_code city street_name_1 street_name_2 _destroy])

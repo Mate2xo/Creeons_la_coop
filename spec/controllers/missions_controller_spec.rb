@@ -81,7 +81,6 @@ RSpec.describe MissionsController, type: :controller do
   context "as a super_admin" do
     before {
       sign_in super_admin
-      mission
     }
 
     it "can edit any mission" do
@@ -95,9 +94,59 @@ RSpec.describe MissionsController, type: :controller do
     end
 
     it "can destroy any mission" do
+      mission
       expect {
         delete :destroy, params: { id: mission.id }
       }.to change(Mission, :count).by(-1)
+    end
+
+    context "when creating recurrent missions:" do
+      let(:mission_params) {
+        build(:mission, start_date: DateTime.now,
+                        due_date: 3.hours.from_now,
+                        recurrent: true).attributes
+      }
+      before {
+        mission_params["recurrence_rule"] = "{\"interval\":1, \"until\":null, \"count\":null, \"validations\":{ \"day\":[2,3,5,6] }, \"rule_type\":\"IceCube::WeeklyRule\", \"week_start\":1 }"
+        mission_params["recurrence_end_date"] = 1.week.from_now
+      }
+
+      it "validates that the recurrence_rule and recurrence_end_date are present" do
+        mission_params["recurrence_rule"] = ""
+        mission_params["recurrence_end_date"] = ""
+
+        post :create, params: { mission: mission_params }
+
+        expect(Mission.count).to eq 0
+        expect(response).to redirect_to new_mission_path
+      end
+
+      it "validates that recurrence_end_date is at least set to the present day" do
+        mission_params["recurrence_end_date"] = 1.month.ago
+
+        post :create, params: { mission: mission_params }
+
+        expect(Mission.count).to eq 0
+        expect(response).to redirect_to new_mission_path
+      end
+
+      it "sets the maximum recurrence_end_date to the end of next month" do
+        mission_params["recurrence_end_date"] = 6.months.from_now.to_s
+
+        post :create, params: { mission: mission_params }
+
+        expect(Mission.last.due_date).to be < 2.months.from_now.beginning_of_month
+      end
+
+      it "creates a mission instance for each occurence" do
+        post :create, params: { mission: mission_params }
+        expect(Mission.count).to be_within(1).of(4) # depends on the day on which the test is run
+      end
+
+      it "redirects to /missions when finished creating all occurrences" do
+        post :create, params: { mission: mission_params }
+        expect(response).to redirect_to missions_path
+      end
     end
   end
 end
