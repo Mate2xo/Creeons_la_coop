@@ -13,8 +13,6 @@ class MissionsController < ApplicationController
 
   def new
     @mission = Mission.new
-
-    @mission.define_singleton_method(:recurrence_rule) { nil }
   end
 
   def create
@@ -22,17 +20,13 @@ class MissionsController < ApplicationController
     @mission.author = current_member
 
     if @mission.recurrent
-      validation = RecurrentMissions.validate @mission
-      return redirect_to new_mission_path, alert: validation if validation != true
+      validation_msg = RecurrentMissions.validate @mission
+      return redirect_to new_mission_path, alert: validation_msg if validation_msg != true
 
-      if RecurringSelect.is_valid_rule? @mission.recurrence_rule
-        RecurrentMissions.new.generate(@mission)
+      RecurrentMissions.new.generate(@mission)
+      flash[:notice] = "Missions créées"
+      redirect_to missions_path
 
-        flash[:notice] = "Missions créées"
-        redirect_to missions_path
-      else
-        redirect_to new_mission_path, error: "Le type de récurrence sélectionné est impossible"
-      end
     elsif @mission.save
       flash[:notice] = "La mission a été créée"
       redirect_to @mission
