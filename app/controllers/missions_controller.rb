@@ -37,19 +37,7 @@ class MissionsController < ApplicationController
       recurrence_end = 1.month.from_now.end_of_month if recurrence_end > 1.month.from_now.end_of_month
 
       if RecurringSelect.is_valid_rule? @mission.recurrence_rule
-        rule = RecurringSelect.dirty_hash_to_rule @mission.recurrence_rule
-        rule.until recurrence_end
-
-        schedule = IceCube::Schedule.new(@mission.start_date, end_time: recurrence_end)
-        schedule.add_recurrence_rule rule
-
-        mission_duration = @mission.due_date - @mission.start_date
-        schedule.all_occurrences.each do |o|
-          mission_to_create = @mission.attributes
-          mission_to_create["start_date"] = o
-          mission_to_create["due_date"] = o + mission_duration
-          Mission.create!(mission_to_create)
-        end
+        RecurrentMissions.new.generate(@mission, recurrence_end)
 
         flash[:notice] = "Missions créées"
         redirect_to missions_path
