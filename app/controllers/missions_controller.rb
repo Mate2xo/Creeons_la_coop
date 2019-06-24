@@ -22,22 +22,11 @@ class MissionsController < ApplicationController
     @mission.author = current_member
 
     if @mission.recurrent
-      recurrence_end = @mission.recurrence_end_date.to_date
-
-      if @mission.recurrence_rule.empty? || recurrence_end.nil?
-        return redirect_to new_mission_path,
-                           alert: "Veuillez renseigner le type de récurrence, ainsi que sa date de fin"
-      end
-
-      if recurrence_end < Date.today
-        return redirect_to new_mission_path,
-                           alert: "La date de fin de récurrence ne peut être établie sur une date passée"
-      end
-
-      recurrence_end = 1.month.from_now.end_of_month if recurrence_end > 1.month.from_now.end_of_month
+      validation = RecurrentMissions.validate @mission
+      return redirect_to new_mission_path, alert: validation if validation != true
 
       if RecurringSelect.is_valid_rule? @mission.recurrence_rule
-        RecurrentMissions.new.generate(@mission, recurrence_end)
+        RecurrentMissions.new.generate(@mission)
 
         flash[:notice] = "Missions créées"
         redirect_to missions_path
