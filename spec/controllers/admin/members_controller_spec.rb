@@ -62,6 +62,7 @@ RSpec.describe Admin::MembersController, type: :controller do
       expect(page).to have_field('First name')
       expect(page).to have_field('Last name')
       expect(page).to have_field('Email')
+      expect(page).to have_field('Group')
       expect(page).to have_field('Phone number')
       expect(page).to have_field('Biography')
     end
@@ -147,6 +148,9 @@ RSpec.describe Admin::MembersController, type: :controller do
         member.reload
         expect(member.last_name).to  eq(valid_attributes[:last_name])
         expect(member.first_name).to eq(valid_attributes[:first_name])
+        expect(member.biography).to eq(valid_attributes[:biography])
+        expect(member.phone_number).to eq(valid_attributes[:phone_number])
+        expect(member.group).to eq(valid_attributes[:group])
       end
     end
     context 'with invalid params' do

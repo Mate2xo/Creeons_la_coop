@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Member do
-  permit_params :email, :encrypted_password, :first_name, :last_name, :biography, :phone_number, :role, :confirmed_at, :password, :password_confirmation
+  permit_params :email, :encrypted_password, :first_name, :last_name, :biography, :phone_number, :role, :group, :confirmed_at, :password, :password_confirmation
 
   index do
     selectable_column
