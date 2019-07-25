@@ -95,7 +95,7 @@ ActiveRecord::Schema.define(version: 2019_07_25_100825) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
-    t.string "group"
+    t.integer "group"
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token"
     t.index ["email"], name: "index_members_on_email", unique: true
     t.index ["reset_password_token"], name: "index_members_on_reset_password_token", unique: true
