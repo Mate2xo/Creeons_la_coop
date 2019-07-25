@@ -12,6 +12,12 @@
         <%= f.text_area :description, class: "form-control form-control-lg" %><br />
       </div>
       <div class="field">
+        <%= f.label :local, "Local" %>
+        <%= f.radio_button :local, true %><br />
+        <%= f.label :local, "Fournisseur" %>
+        <%= f.radio_button :local, false  %><br /><br />
+      </div>
+      <div class="field">
         <%= f.label :phone_number, "Numéro de téléphone" %><br />
         <%= f.text_field :phone_number, class: "form-control form-control-lg" %><br />
       </div> 

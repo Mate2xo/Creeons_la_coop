@@ -97,9 +97,24 @@ puts "Members seeded"
   productor.save
   i += 1
 end
-puts "Productors seeded"
 
 # i += 51
+10.times do
+  productor = Productor.new(
+    name: Faker::Company.name,
+    description: Faker::Company.bs,
+    phone_number: Faker::PhoneNumber.phone_number,
+    website_url: Faker::Internet.url,
+    local: true
+  )
+  productor.address = Address.find(i)
+  productor.managers << Member.where(role: 'admin').take( rand(1..3) )
+  productor.save
+  i += 1
+end
+puts "Productors seeded"
+
+# i += 61
 5.times do
   start_date = Faker::Time.forward(20, :morning)
   mission = Mission.new(
