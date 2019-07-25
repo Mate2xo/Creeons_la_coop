@@ -30,6 +30,7 @@ FactoryBot.define do
     biography { Faker::ChuckNorris.fact }
     phone_number { Faker::PhoneNumber.phone_number }
     email { Faker::Internet.email(first_name) }
+    group { ['aucun', 'informatique', 'communication', 'étude'].sample }
     password { "password" }
     password_confirmation { "password" }
     confirmed_at { Time.zone.today }
