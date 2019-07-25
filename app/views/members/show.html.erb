@@ -19,9 +19,21 @@
             </div>
             
             <div class="block-body text-center">
-              <h3 class="heading heading-6 strong-600 mb-0 mb-0"><%= @member.first_name %> <%= @member.last_name %></h3><br />
-              <h3 class="heading heading-light heading-sm strong-300"><%= @member.email %></h3>
-              <h3 class="heading heading-light heading-sm strong-300"><%= @member.phone_number %></h3>
+              <h3 class="heading heading-6 strong-600 mb-0 mb-0">
+                <%= @member.first_name %> <%= @member.last_name %>
+              </h3><br />
+              <% if @member.group %>
+                <h3 class="heading heading-light heading-sm strong-300">
+                  Groupe <%= @member.group %>
+                </h3>
+              <% end %>
+              <h3 class="heading heading-light heading-sm strong-300">
+                <%= @member.email %>
+              </h3>
+              <h3 class="heading heading-light heading-sm strong-300">
+                <%= @member.phone_number %>
+              </h3>
+
               <% if super_admin? || current_member.id == params[:id].to_i  %>
                 <%= link_to  "Éditer", edit_member_path(@member.id), class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %>
               <% end %>

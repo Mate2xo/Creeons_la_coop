@@ -8,12 +8,13 @@ ActiveAdmin.register Member do
     column :first_name
     column :last_name
     column :role
+    column :group
     column :email
     actions
   end
 
   form do |f|
-    f.inputs :first_name, :last_name, :email, :role, :phone_number, :biography
+    f.inputs :first_name, :last_name, :email, :role, :group, :phone_number, :biography
     actions
   end
 
@@ -22,4 +23,5 @@ ActiveAdmin.register Member do
   filter :last_name
   filter :email
   filter :role
+  filter :group
 end

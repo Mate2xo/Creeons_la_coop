@@ -75,7 +75,8 @@ end
     last_name: last_name,
     biography: Faker::RickAndMorty.quote,
     phone_number: Faker::PhoneNumber.phone_number,
-    role: "member"
+    role: "member",
+    group: [0, 1, 2, 3].sample
   )
   member.address = Address.find(i)
   member.skip_confirmation!

@@ -1,48 +1,48 @@
 <div class="container">
-<div class="widget mt-4">
-    <div class="row-wrapper">
-        <ul class="nav nav-tabs justify-content-center mb-5">
-        <li class="nav-item">
-            <a class="nav-link active" href="#">Membres</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Groupe étude</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Groupe communication</a>
-        </li>
-        </ul>
+    <div class="widget mt-4">
+        <div class="row-wrapper">
+            <ul class="nav nav-tabs justify-content-center mb-5">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#all-members" data-toggle="tab" role="tab">Tous</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#study-group" data-toggle="tab" role="tab">Groupe étude</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#communication-group" data-toggle="tab" role="tab">Groupe communication</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#it-support-group" data-toggle="tab" role="tab">Groupe informatique</a>
+                </li>
+            </ul>
 
-        <div class="row cols-md-space cols-sm-space cols-xs-space">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="all-members" role="tabpanel" aria-labelledby="all-members-tab">
+                    <div class="row cols-md-space cols-sm-space cols-xs-space">
+                        <%= render partial: "members", locals: {members: @members} %>
+                    </div> 
+                </div>
 
-            <% @members.each do |member| %>
-            <div class="col-lg-4 mb-2">
-                <div class="block block--style-3">
-                    <div class="profile-picture profile-picture--style-2">
-                    <% if member.avatar.attached? %>
-                        <%= image_tag member.avatar %>
-                    <% else %>
-                        <img src="https://image.flaticon.com/icons/svg/0/93.svg">
-                    <% end %> 
-                    </div>
-
-                    <div class="block-body text-center">
-                        <h3 class="heading heading-6 strong-600 mb-0 mb-0">
-                            <%=  member.first_name %> <%=  member.last_name %>
-                        </h3><br />
-                        <h3 class="heading heading-light heading-sm strong-300">
-                            <%=  member.email %>
-                        </h3>
-                        <h3 class="heading heading-light heading-sm strong-300">
-                            <%=  member.address.city unless member.address.nil? %>
-                        </h3>
-
-                        <%= link_to "Voir Membre", member_path(member.id), class: "btn btn-base-1 btn-shadow btn-circle px-4 mt-2" %>
+                <div class="tab-pane fade" id="study-group" role="tabpanel" aria-labelledby="study-group-tab">
+                    <div class="row cols-md-space cols-sm-space cols-xs-space">
+                        <%= render partial: "members", locals: {members: @members.where(group: 'étude')} %>
                     </div>
                 </div>
+
+                <div class="tab-pane fade" id="communication-group" role="tabpanel" aria-labelledby="communication-group-tab">
+                    <div class="row cols-md-space cols-sm-space cols-xs-space">
+                        <%= render partial: "members", locals: {members: @members.where(group: 'communication')} %>
+                    </div>
+
+                </div>
+
+                <div class="tab-pane fade" id="it-support-group" role="tabpanel" aria-labelledby="it-support-group-tab">
+                    <div class="row cols-md-space cols-sm-space cols-xs-space">
+                        <%= render partial: "members", locals: {members: @members.where(group: 'informatique')} %>
+                    </div> 
+                </div>
             </div>
-            <% end %>
+
         </div>
     </div>
-</div>
 </div>
