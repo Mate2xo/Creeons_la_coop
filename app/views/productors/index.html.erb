@@ -1,50 +1,41 @@
 <div class="container">
-<div class="widget mt-4">
+	<div class="widget mt-4">
 
+		<div class="row-wrapper">
+			<ul class="nav nav-tabs justify-content-center mb-5" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link active" data-toggle="tab" href="#locals">Locaux</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" data-toggle="tab" href="#suppliers">Fournisseurs</a>
+				</li>
+			</ul>
+		</div>
 
-	<div class="row-wrapper">
-        <ul class="nav nav-tabs justify-content-center mb-5">
-        	<li class="nav-item">
-            	<a class="nav-link active" href="#">Locaux</a>
-        	</li>
-        	<li class="nav-item">
-            	<a class="nav-link" href="#">Fournisseurs</a>
-        	</li>
-        </ul>
+		<div class="row-wrapper">
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane fade show active" id="locals" role="tabpanel" aria-labelledby="locals-tab">
+					<% if super_admin? || admin? %>
+						<%= link_to  "Ajouter un producteur", new_productor_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 ml-4 mb-4" %>
+					<% end %>
 
-
-	<div class="row-wrapper">
-		<% if super_admin? || admin? %>
-			<%= link_to  "Ajouter un producteur", new_productor_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 ml-4 mb-4" %>
-        <% end %>
-		<div class="row cols-md-space cols-sm-space cols-xs-space">
-
-			<% @productors.each do |productor| %>
-			<div class="col-lg-4 mb-2">
-				<div class="block block--style-3">
-					<div class="profile-picture profile-picture--style-2">
-						<% if productor.avatar.attached? %>
-								<%= image_tag productor.avatar %>
-						<% else %>
-								<img src="https://image.flaticon.com/icons/svg/0/93.svg">
-						<% end %> 
+					<div class="row cols-md-space cols-sm-space cols-xs-space">
+						<%= render partial: "productors", locals: {productors: @productors.where(local: true)} %>
 					</div>
+				</div>
 
-					<div class="block-body text-center">
-						<h3 class="heading heading-6 strong-600 mb-0 mb-0"><%= productor.name %></h3>
-						<br />
-						<h3 class="heading heading-light heading-sm strong-300"><%= productor.description %></h3>
-						<h3 class="heading heading-light heading-sm strong-300"><%= productor.phone_number %></h3>
-						<h3 class="heading heading-light heading-sm strong-300"><%= productor.address.city unless productor.address.nil? %></h3>
-                       
-						<%= link_to "Voir Producteur", productor_path(productor.id) , class: "btn btn-base-1 btn-shadow btn-circle px-4 mt-2" %>
+				<div class="tab-pane fade" id="suppliers" role="tabpanel" aria-labelledby="suppliers-tab">
+					<% if super_admin? || admin? %>
+						<%= link_to  "Ajouter un fournisseur", new_productor_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 ml-4 mb-4" %>
+					<% end %>
+		
+					<div class="row cols-md-space cols-sm-space cols-xs-space">
+						<%= render partial: "productors", locals: {productors: @productors.where(local: false)} %>
 					</div>
 				</div>
 			</div>
-			<% end %>
-		</div>
-	</div>
-	</div>
-</div>
-</div>
 
+		</div>
+
+	</div>
+</div>
