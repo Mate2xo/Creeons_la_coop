@@ -66,6 +66,7 @@ end
 
 # i += 11
 30.times do
+  groups = ['communication', 'étude', 'informatique']
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
   member = Member.new(
@@ -75,7 +76,8 @@ end
     last_name: last_name,
     biography: Faker::RickAndMorty.quote,
     phone_number: Faker::PhoneNumber.phone_number,
-    role: "member"
+    role: "member",
+    group: groups.sample
   )
   member.address = Address.find(i)
   member.skip_confirmation!
