@@ -43,10 +43,11 @@ gem 'ice_cube'
 gem 'recurring_select'
 # Authorization management
 gem 'pundit'
-# Generate fake data for the seed.rb
+# Generate fake data for the seed.rb and spec factories
 gem 'faker'
-# Users login management
+# Users login/registration management
 gem "devise", "~> 4.6"
+gem 'devise_invitable', '~> 2.0.0'
 # Production Mailer API
 gem 'mailjet'
 # URI management for Google Maps API Implementation
