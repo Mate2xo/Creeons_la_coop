@@ -67,6 +67,7 @@ end
 group :development do
   gem 'annotate', '~> 2.7', '>= 2.7.4'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
+  gem 'letter_opener'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'rubocop', '~> 0.63.0', require: false
   gem 'rubocop-rspec', '~> 1.31.0'
