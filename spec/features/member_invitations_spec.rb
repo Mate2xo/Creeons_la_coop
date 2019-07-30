@@ -6,15 +6,12 @@ RSpec.feature "MemberInvitations", type: :feature do
   let(:super_admin) { create :member, :super_admin }
   before {
     sign_in super_admin
+    visit 'members/invitation/new'
+    fill_in 'Email', with: 'test@test.com'
+    click_button 'Send an invitation'
   }
 
   context "when using the invitation form" do
-    before {
-      visit 'members/invitation/new'
-      fill_in 'Email', with: 'test@test.com'
-      click_button 'Send an invitation'
-    }
-
     it 'sends an invitation email' do
       expect(Devise.mailer.deliveries.count).to eq 1
       expect(page).to have_content "An invitation email has been sent"
@@ -30,5 +27,19 @@ RSpec.feature "MemberInvitations", type: :feature do
   end
 
   context "when following the invitation mail's link" do
+    before {
+      click_link "Déconnexion"
+      open_email "test@test.com"
+      visit_in_email "Accept invitation"
+    }
+    it "allows the user to finalize his account creation" do
+      fill_in "Prénom", with: 'first_name'
+      fill_in "Nom de famille", with: 'last_name'
+      fill_in "Mot de passe",	with: "password" 
+      fill_in "Confirmez votre mot de passe",	with: "password" 
+      click_button "Créer mon compte"
+
+      expect(page).to have_content "Your account was created successfully"
+    end
   end
 end
