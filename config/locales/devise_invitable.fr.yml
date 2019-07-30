@@ -5,7 +5,7 @@ fr:
     invitations:
       send_instructions: "Un e-mail d'invitation a été envoyé à %{email}."
       invitation_token_invalid: "Le jeton d'invitation fourni n'est pas valide!"
-      updated: 'Votre mot de passe a été défini avec succès. Vous êtes maintenant connecté.'
+      updated: 'Votre compte et votre mot de passe ont été créé. Vous êtes maintenant connecté.'
       updated_not_active: "Votre mot de passe a été défini avec succès."
       no_invitations_remaining: "Il n'y a plus d'invitations restantes"
       invitation_removed: 'Votre invitation a été supprimée.'

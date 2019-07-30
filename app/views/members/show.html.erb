@@ -49,6 +49,9 @@
 
           <p class="text-lg-7 line-height-1_8 mt-4">
             <%= @member.biography %>
+            <% if @member.first_name.nil? %>
+              Invitation en attente de confirmation
+            <% end %>
           </p>
         </div>
       </div>
