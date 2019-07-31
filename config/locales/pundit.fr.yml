@@ -1,0 +1,9 @@
+fr:
+  pundit:
+    default: "Vous ne pouvez pas effectuer cette action"
+    productor_policy:
+      create?: "Vous ne pouvez pas créer de producteur"
+      update?: "Vous ne pouvez pas mettre à jour ce producteur"
+    member_policy:
+      create?: "Vous ne pouvez pas créer de membre"
+      update?: "Vous ne pouvez pas mettre à jour ce membre"
