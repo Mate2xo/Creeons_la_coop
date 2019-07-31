@@ -7,11 +7,19 @@ RSpec.feature "MemberInvitations", type: :feature do
   before {
     sign_in super_admin
     visit 'members/invitation/new'
-    fill_in 'Email', with: 'test@test.com'
-    click_button 'Send an invitation'
   }
 
+  it "does not send an invitation to an invalid email" do
+    fill_in 'Email', with: 'wrong_email'
+    click_button 'Send an invitation'
+  end
+
   context "when using the invitation form," do
+    before {
+      fill_in 'Email', with: 'test@test.com'
+      click_button 'Send an invitation'
+    }
+
     it 'sends an invitation email' do
       expect(Devise.mailer.deliveries.count).to eq 1
       expect(page).to have_content "An invitation email has been sent"
@@ -32,6 +40,8 @@ RSpec.feature "MemberInvitations", type: :feature do
 
   context "when following the invitation mail's link" do
     before {
+      fill_in 'Email', with: 'test@test.com'
+      click_button 'Send an invitation'
       click_link "Déconnexion"
       open_email "test@test.com"
       visit_in_email "Accept invitation"
