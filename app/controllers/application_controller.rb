@@ -33,4 +33,8 @@ class ApplicationController < ActionController::Base
     flash[:error] = t "#{policy_name}.#{exception.query}", scope: "pundit", default: :default
     redirect_to root_path
   end
+
+  def after_invite_path_for(_inviter, _invitee)
+    new_member_invitation_path
+  end
 end

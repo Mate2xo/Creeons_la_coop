@@ -11,7 +11,7 @@ RSpec.feature "MemberInvitations", type: :feature do
     click_button 'Send an invitation'
   }
 
-  context "when using the invitation form" do
+  context "when using the invitation form," do
     it 'sends an invitation email' do
       expect(Devise.mailer.deliveries.count).to eq 1
       expect(page).to have_content "An invitation email has been sent"
@@ -23,6 +23,10 @@ RSpec.feature "MemberInvitations", type: :feature do
       expect(invalid_user.email).to eq 'test@test.com'
       expect(invalid_user.first_name).to eq nil
       expect(invalid_user.last_name).to eq nil
+    end
+
+    it "redirects to the same page when the invitation is sent, to allow quick multiple invitations" do
+      expect(current_path).to eq('/members/invitation/new')
     end
   end
 
@@ -37,7 +41,7 @@ RSpec.feature "MemberInvitations", type: :feature do
       fill_in "Nom de famille", with: 'last_name'
       fill_in "Mot de passe",	with: "password"
       fill_in "Confirmez votre mot de passe",	with: "password"
-      click_button "Set my password"
+      click_button "Create my account"
 
       expect(page).to have_content "Your account and password were set successfully"
     end
