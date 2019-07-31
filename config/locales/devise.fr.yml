@@ -23,6 +23,10 @@ fr:
         subject: "Instructions pour changer le mot de passe"
       unlock_instructions:
         subject: "Instructions pour déverrouiller le compte"
+        hello: "Bonjour %{email}"
+        explanation: "Votre compte a été vérouillé suite à un nombre excessif de tentatives échouées de connections"
+        action: "Cliquez sur le lien ci-dessous pour déverouiller votre compte :"
+        unlock_link: "Débloquer mon compte"
       password_change:
         subject: "Votre mot de passe a été modifié avec succés."
     omniauth_callbacks:
