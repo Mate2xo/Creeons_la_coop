@@ -6,13 +6,22 @@
                     <a class="nav-link active" href="#all-members" data-toggle="tab" role="tab">Tous</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#study-group" data-toggle="tab" role="tab">Groupe étude</a>
+                    <a class="nav-link" href="#collective-group" data-toggle="tab" role="tab">Collectif</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#communication-group" data-toggle="tab" role="tab">Groupe communication</a>
+                    <a class="nav-link" href="#management-group" data-toggle="tab" role="tab">Gestion</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#it-support-group" data-toggle="tab" role="tab">Groupe informatique</a>
+                    <a class="nav-link" href="#communication-group" data-toggle="tab" role="tab">Communication</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#maintenance-supply-group" data-toggle="tab" role="tab">Maintenance/Approvisionnement</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#community-life-group" data-toggle="tab" role="tab">Vie associative</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#it-support-group" data-toggle="tab" role="tab">Informatique</a>
                 </li>
             </ul>
 
@@ -23,9 +32,15 @@
                     </div> 
                 </div>
 
-                <div class="tab-pane fade" id="study-group" role="tabpanel" aria-labelledby="study-group-tab">
+                <div class="tab-pane fade" id="collective-group" role="tabpanel" aria-labelledby="collective-group-tab">
                     <div class="row cols-md-space cols-sm-space cols-xs-space">
-                        <%= render partial: "members", locals: {members: @members.where(group: 'étude')} %>
+                        <%= render partial: "members", locals: {members: @members.where(group: 'collectif')} %>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="management-group" role="tabpanel" aria-labelledby="management-group-tab">
+                    <div class="row cols-md-space cols-sm-space cols-xs-space">
+                        <%= render partial: "members", locals: {members: @members.where(group: 'gestion')} %>
                     </div>
                 </div>
 
@@ -33,7 +48,18 @@
                     <div class="row cols-md-space cols-sm-space cols-xs-space">
                         <%= render partial: "members", locals: {members: @members.where(group: 'communication')} %>
                     </div>
+                </div>
 
+                <div class="tab-pane fade" id="maintenance-supply-group" role="tabpanel" aria-labelledby="maintenance-supply-group-tab">
+                    <div class="row cols-md-space cols-sm-space cols-xs-space">
+                        <%= render partial: "members", locals: {members: @members.where(group: 'maintenance_approvisionnement')} %>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="community-life-group" role="tabpanel" aria-labelledby="community-life-group-tab">
+                    <div class="row cols-md-space cols-sm-space cols-xs-space">
+                        <%= render partial: "members", locals: {members: @members.where(group: 'vie_associative')} %>
+                    </div>
                 </div>
 
                 <div class="tab-pane fade" id="it-support-group" role="tabpanel" aria-labelledby="it-support-group-tab">

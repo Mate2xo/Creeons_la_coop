@@ -37,7 +37,8 @@ i = Address.first.id
     last_name: last_name,
     biography: Faker::RickAndMorty.quote,
     phone_number: Faker::PhoneNumber.phone_number,
-    role: "admin"
+    role: "admin",
+    group: [0, 1, 2, 3, 4, 5, 6].sample
   )
   member.address = Address.find(i)
   member.skip_confirmation!
@@ -56,7 +57,8 @@ end
     last_name: last_name,
     biography: Faker::RickAndMorty.quote,
     phone_number: Faker::PhoneNumber.phone_number,
-    role: "super_admin"
+    role: "super_admin",
+    group: [0, 1, 2, 3, 4, 5, 6].sample
   )
   member.address = Address.find(i)
   member.skip_confirmation!
@@ -76,7 +78,7 @@ end
     biography: Faker::RickAndMorty.quote,
     phone_number: Faker::PhoneNumber.phone_number,
     role: "member",
-    group: [0, 1, 2, 3].sample
+    group: [0, 1, 2, 3, 4, 5, 6].sample
   )
   member.address = Address.find(i)
   member.skip_confirmation!

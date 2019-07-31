@@ -41,5 +41,5 @@ class Member < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
 
-  enum group: { aucun: 0, communication: 1, étude: 2, informatique: 3 }
+  enum group: { aucun: 0, collectif: 1, gestion: 2, communication: 3, maintenance_approvisionnement: 4, vie_associative: 5, informatique: 6 }
 end
