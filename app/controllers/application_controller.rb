@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   # after_action :verify_authorized, except: %i[index show], unless: %i[active_admin_controller? devise_controller?]
   # after_action :verify_policy_scoped, only: :index, unless: :active_admin_controller?
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  before_action :set_locale
 
   def super_admin?
     member_signed_in? && current_member.role == "super_admin"
@@ -44,5 +45,9 @@ class ApplicationController < ActionController::Base
 
   def after_invite_path_for(_inviter, _invitee)
     new_member_invitation_path
+  end
+
+  def set_locale
+    I18n.locale = :fr
   end
 end
