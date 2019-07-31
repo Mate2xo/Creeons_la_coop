@@ -14,21 +14,21 @@ fr:
         legend: Envoyer l’invitation
         submit_button: Envoyer
       edit:
-        header: Confirmation
+        header: Confirmer mon compte
         submit_button: Confirmer
         new_password: Mot de passe
-        new_password_confirmation: Not de passe confirmation
+        new_password_confirmation: confirmation du mot de passe
     mailer:
       invitation_instructions:
-        subject: 'Instruction de confirmation'
+        subject: 'Invitation au site de la ClaC'
         hello: 'Bonjour %{email}'
-        someone_invited_you: "Quelqu'un vous a invité à rejoindre %{url}, vous pouvez accepter cette invitation via le lien ci-dessous."
+        someone_invited_you: "Quelqu'un vous a invité à rejoindre le site de la ClaC sur %{url}, vous pouvez accepter cette invitation via le lien ci-dessous."
         accept: "Accepter l'invitation"
-        accept_until: "This invitation sera due %{due_date}."
-        ignore: "Si vous ne souhaitez pas accepter cette invitation, veuillez ignorer cet e-mail.<br />Votre compte ne sera pas créé tant que vous n'accéderez pas au lien ci-dessous et que vous ayez défini votre mot de passe."
+        accept_until: "Cette invitation sera valable jusqu'au %{due_date}."
+        ignore: "Si vous ne souhaitez pas accepter cette invitation, veuillez ignorer cet e-mail. Votre compte ne sera pas créé tant que vous n'accéderez pas au lien ci-dessus et que votre mot de passe soit défini."
   time:
     formats:
       devise:
         mailer:
           invitation_instructions:
-            accept_until_format: "%B %d, %Y %I:%M %p"
+            accept_until_format: "%d %B, %Y %I:%M %p"
