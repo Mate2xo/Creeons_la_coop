@@ -1,6 +1,11 @@
 <div class="container">
     <div class="widget mt-4">
         <div class="row-wrapper">
+        <% if super_admin? %>
+            <div class="text-center">
+                <%= link_to  "Inviter un membre sur le site", new_member_invitation_path, class: 'btn btn-base-1 btn-shadow btn-circle my-4 px-4' %>
+            </div>
+        <% end%>
             <ul class="nav nav-tabs justify-content-center mb-5">
                 <li class="nav-item">
                     <a class="nav-link active" href="#all-members" data-toggle="tab" role="tab">Tous</a>
