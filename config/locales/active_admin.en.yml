@@ -26,7 +26,7 @@ en:
     delete_confirmation: "Are you sure you want to delete this?"
     create_another: "Create another %{model}"
     new_model: "New %{model}"
-    invite_model: "Invite %{model}"
+    invite_member: "Invite Member"
     edit_model: "Edit %{model}"
     delete_model: "Delete %{model}"
     details: "%{model} Details"

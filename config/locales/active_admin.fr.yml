@@ -10,7 +10,7 @@ fr:
     delete_confirmation: "Êtes-vous certain de vouloir supprimer ceci ?"
     create_another: "Créer autre %{model}"
     new_model: "Créer %{model}"
-    invite_model: "Inviter %{model}"
+    invite_member: "Inviter un Membre"
     edit_model: "Modifier %{model}"
     delete_model: "Supprimer %{model}"
     details: "Détails de %{model}"
