@@ -8,6 +8,14 @@ class ApplicationController < ActionController::Base
   # after_action :verify_policy_scoped, only: :index, unless: :active_admin_controller?
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
+  def super_admin?
+    member_signed_in? && current_member.role == "super_admin"
+  end
+
+  def admin?
+    member_signed_in? && current_member.role == "admin"
+  end
+
   protected
 
   def configure_permitted_parameters
