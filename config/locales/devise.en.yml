@@ -33,8 +33,12 @@ en:
         unlock_link: "Unlock my account"
       email_changed:
         subject: "Email Changed"
+        hello: "Hello %{email}"
+        notify: "We're contacting you to notify you that your email on the Créons la Coop website is being changed to %{email}"
       password_change:
         subject: "Password Changed"
+        hello: "Hello %{email}"
+        notify: We're contacting you to notify you that your password on the Créons la Coop website has been changed.
     omniauth_callbacks:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       success: "Successfully authenticated from %{kind} account."
