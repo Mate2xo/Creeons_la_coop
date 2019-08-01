@@ -19,6 +19,9 @@ fr:
     mailer:
       confirmation_instructions:
         subject: "Instructions de confirmation"
+        hello: "Bonjour %{email}"
+        explanation: "Vous pouvez confirmer votre adresse email sur le site de la ClaC en cliquant sur le lien ci-dessous"
+        action_link: Confimer mon adresse email
       reset_password_instructions:
         subject: "Instructions pour changer le mot de passe"
         hello: "Bonjour %{email}"

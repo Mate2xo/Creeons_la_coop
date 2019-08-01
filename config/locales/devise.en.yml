@@ -19,6 +19,9 @@ en:
     mailer:
       confirmation_instructions:
         subject: "Confirmation instructions"
+        hello: "Hello %{email}"
+        explanation: "You can confirm your account email on the Créons la Coop website through the link below:"
+        action_link: Confirm my account
       reset_password_instructions:
         subject: "Reset password instructions"
         hello: "Bonjour %{email}"
