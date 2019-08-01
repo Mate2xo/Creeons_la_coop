@@ -19,14 +19,29 @@ en:
     mailer:
       confirmation_instructions:
         subject: "Confirmation instructions"
+        hello: "Hello %{email}"
+        explanation: "You can confirm your account email on the Créons la Coop website through the link below:"
+        action_link: Confirm my account
       reset_password_instructions:
         subject: "Reset password instructions"
+        hello: "Bonjour %{email}"
+        explanation: Quelqu'un a demandé à changer votre mot de passe. Vous pouvez effectuer ce changement en cliquant sur le lien ci-dessous.
+        action_link: Changer mon mot de passe
+        ignore: Si vous n'êtes pas à l'origine de cette requête, veuillez ignorer cet email. Votre mot de passe ne sera pas changé tant que vous n'accèderez pas à cet email.
       unlock_instructions:
         subject: "Unlock instructions"
+        hello: "Hello %{email}"
+        explanation: "Your account has been locked due to an excessive number of unsuccessful sign in attempts."
+        action: "Click the link below to unlock your account:"
+        unlock_link: "Unlock my account"
       email_changed:
         subject: "Email Changed"
+        hello: "Hello %{email}"
+        notify: "We're contacting you to notify you that your email on the Créons la Coop website is being changed to %{email}"
       password_change:
         subject: "Password Changed"
+        hello: "Hello %{email}"
+        notify: We're contacting you to notify you that your password on the Créons la Coop website has been changed.
     omniauth_callbacks:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       success: "Successfully authenticated from %{kind} account."

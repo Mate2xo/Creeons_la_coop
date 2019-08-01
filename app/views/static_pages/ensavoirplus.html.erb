@@ -99,23 +99,3 @@
     </div>
   </div>
 </section>
-
-<% if member_signed_in? == false %>
-<section class="cta-wrapper mt-4">
-  <div class="slice cta-inner bg-color-vert">
-    <div class="flex flex-items-xs-middle">
-      <div class="flex-wrap-item">
-        <div class="sct-inner ">
-          <div class="container">
-            <div class="text-center">
-              <h1 class="heading heading-1 text-normal c-base-text-1 strong-600">
-                  <%= link_to "S'ENGAGER POUR LA COOP", new_member_registration_path, class: "banner-end" %>
-              </h1>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<% end %>

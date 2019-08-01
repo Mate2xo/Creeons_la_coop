@@ -19,12 +19,29 @@ fr:
     mailer:
       confirmation_instructions:
         subject: "Instructions de confirmation"
+        hello: "Bonjour %{email}"
+        explanation: "Vous pouvez confirmer votre adresse email sur le site de la ClaC en cliquant sur le lien ci-dessous"
+        action_link: Confimer mon adresse email
       reset_password_instructions:
         subject: "Instructions pour changer le mot de passe"
+        hello: "Bonjour %{email}"
+        explanation: Quelqu'un a demandé à changer votre mot de passe. Vous pouvez effectuer ce changement en cliquant sur le lien ci-dessous.
+        action_link: Changer mon mot de passe
+        ignore: Si vous n'êtes pas à l'origine de cette requête, veuillez ignorer cet email. Votre mot de passe ne sera pas changé tant que vous n'accèderez pas à cet email.
       unlock_instructions:
         subject: "Instructions pour déverrouiller le compte"
+        hello: "Bonjour %{email}"
+        explanation: "Votre compte a été vérouillé suite à un nombre excessif de tentatives échouées de connections"
+        action: "Cliquez sur le lien ci-dessous pour déverouiller votre compte :"
+        unlock_link: "Débloquer mon compte"
+      email_change:
+        subject: Modification de votre adresse email
+        hello: "Bonjour %{email}"
+        notify: "Nous vous informons que votre adresse email de contact sur le site de la ClaC a été changée"
       password_change:
-        subject: "Votre mot de passe a été modifié avec succés."
+        subject: "Modification de votre mot de passe"
+        hello: "Bonjour %{email}"
+        notify: Nous vous contactons pour vous informer que votre mot de passe sur le site de la ClaC a été changé.
     omniauth_callbacks:
       failure: "Nous n'avons pas pu vous authentifier via %{kind} : '%{reason}'."
       success: "Authentifié avec succès via %{kind}."

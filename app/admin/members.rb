@@ -24,4 +24,8 @@ ActiveAdmin.register Member do
   filter :email
   filter :role
   filter :group
+
+  action_item :invite_member, only: :index do
+    link_to t("active_admin.invite_member"), new_member_invitation_path
+  end
 end

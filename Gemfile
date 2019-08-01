@@ -43,10 +43,11 @@ gem 'ice_cube'
 gem 'recurring_select'
 # Authorization management
 gem 'pundit'
-# Generate fake data for the seed.rb
+# Generate fake data for the seed.rb and spec factories
 gem 'faker'
-# Users login management
+# Users login/registration management
 gem "devise", "~> 4.6"
+gem 'devise_invitable', '~> 2.0.0'
 # Production Mailer API
 gem 'mailjet'
 # URI management for Google Maps API Implementation
@@ -66,6 +67,7 @@ end
 group :development do
   gem 'annotate', '~> 2.7', '>= 2.7.4'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
+  gem 'letter_opener'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'rubocop', '~> 0.63.0', require: false
   gem 'rubocop-rspec', '~> 1.31.0'
@@ -76,6 +78,7 @@ group :development do
 end
 
 group :test do
+  gem 'email_spec'
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'

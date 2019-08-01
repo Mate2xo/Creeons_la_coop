@@ -27,7 +27,7 @@ RSpec.describe Admin::MissionsController, type: :controller do
       expect(page).to have_content(mission.author.email)
       expect(page).to have_content(mission.name)
       expect(page).to have_content(mission.description)
-      expect(page).to have_content(mission.due_date.to_s(:long))
+      expect(page).to have_content(I18n.localize(mission.due_date, format: :long))
     end
     # let(:filters_sidebar) { page.find('#filters_sidebar_section') }
     # it "filter Name exists" do
@@ -181,7 +181,7 @@ RSpec.describe Admin::MissionsController, type: :controller do
     it "should render the form elements" do
       expect(page).to have_content(mission.name)
       expect(page).to have_content(mission.description)
-      expect(page).to have_content(mission.due_date.to_s(:long))
+      expect(page).to have_content(I18n.localize(mission.due_date, format: :long))
     end
   end
 
