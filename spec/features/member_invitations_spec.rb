@@ -11,18 +11,18 @@ RSpec.feature "MemberInvitations", type: :feature do
 
   it "does not send an invitation to an invalid email" do
     fill_in 'Email', with: 'wrong_email'
-    click_button 'Send an invitation'
+    click_button "Envoyer l'invitation"
   end
 
   context "when using the invitation form," do
     before {
       fill_in 'Email', with: 'test@test.com'
-      click_button 'Send an invitation'
+      click_button "Envoyer l'invitation"
     }
 
     it 'sends an invitation email' do
       expect(Devise.mailer.deliveries.count).to eq 1
-      expect(page).to have_content "An invitation email has been sent"
+      expect(page).to have_content "Un e-mail d'invitation a été envoyé"
     end
 
     it 'creates an unvalidated user' do
@@ -41,19 +41,19 @@ RSpec.feature "MemberInvitations", type: :feature do
   context "when following the invitation mail's link" do
     before {
       fill_in 'Email', with: 'test@test.com'
-      click_button 'Send an invitation'
+      click_button "Envoyer l'invitation"
       click_link "Déconnexion"
       open_email "test@test.com"
-      visit_in_email "Accept invitation"
+      visit_in_email "Accepter l'invitation"
     }
     it "allows the user to finalize his account creation" do
       fill_in "Prénom", with: 'first_name'
       fill_in "Nom de famille", with: 'last_name'
       fill_in "Mot de passe",	with: "password"
       fill_in "Confirmez votre mot de passe",	with: "password"
-      click_button "Create my account"
+      click_button "Confirmer"
 
-      expect(page).to have_content "Your account and password were set successfully"
+      expect(page).to have_content "Votre compte et votre mot de passe ont été créés. Vous êtes maintenant connecté."
     end
   end
 end
