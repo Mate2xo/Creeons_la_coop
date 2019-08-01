@@ -21,6 +21,10 @@ fr:
         subject: "Instructions de confirmation"
       reset_password_instructions:
         subject: "Instructions pour changer le mot de passe"
+        hello: "Bonjour %{email}"
+        explanation: Quelqu'un a demandé à changer votre mot de passe. Vous pouvez effectuer ce changement en cliquant sur le lien ci-dessous.
+        action_link: Changer mon mot de passe
+        ignore: Si vous n'êtes pas à l'origine de cette requête, veuillez ignorer cet email. Votre mot de passe ne sera pas changé tant que vous n'accèderez pas à cet email.
       unlock_instructions:
         subject: "Instructions pour déverrouiller le compte"
         hello: "Bonjour %{email}"
