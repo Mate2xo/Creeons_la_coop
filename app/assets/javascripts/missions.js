@@ -1,4 +1,3 @@
-//= require full_calendar
 //= require recurring_select
 //= require recurring_select/fr
 
