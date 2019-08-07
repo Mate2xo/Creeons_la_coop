@@ -48,7 +48,7 @@
           </h3><hr class="mt-0 mb-0">
 
           <p class="text-lg-7 line-height-1_8 mt-4">
-            <%= @member.biography %>
+            <%= sanitize @member.biography %>
             <% if @member.first_name.nil? %>
               Invitation en attente de confirmation
             <% end %>
