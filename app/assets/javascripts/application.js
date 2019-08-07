@@ -49,4 +49,5 @@
 //= require boomerang.min
 //= require cocoon
 //= require missions
+//= require trix
 //= require imagesloaded.pkgd.min
