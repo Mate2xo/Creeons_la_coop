@@ -8,7 +8,7 @@ class MissionsController < ApplicationController
   before_action :set_mission, only: %i[show edit update destroy enroll disenroll]
 
   def index
-    @missions = Mission.all
+    @missions = Mission.includes(:members)
   end
 
   def new

@@ -9,11 +9,11 @@ json.array! @missions do |mission|
   json.url mission_path(mission.id)
 
   # colors
-  if mission.members.count == mission.max_member_count
+  if mission.members.length == mission.max_member_count
     json.color('grey')
-  elsif mission.members.count < mission.min_member_count
+  elsif mission.members.length < mission.min_member_count
     json.color('red')
-  elsif mission.members.count >= mission.min_member_count
+  elsif mission.members.length >= mission.min_member_count
     json.color('green')
   end
 end
