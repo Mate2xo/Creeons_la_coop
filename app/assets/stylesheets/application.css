@@ -35,3 +35,7 @@
 
  */
 
+ /* deactivate 'Attach Files' button on Trix editor */
+ button[title="Attach Files"] {
+   display: none;
+ }
