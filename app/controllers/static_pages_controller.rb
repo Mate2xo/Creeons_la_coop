@@ -8,5 +8,5 @@ class StaticPagesController < ApplicationController
 
   def home; end
 
-  def ensavoirplus; end
+  def about_us; end
 end

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   ActiveAdmin.routes(self)
   root 'static_pages#home'
-  get 'ensavoirplus', to: "static_pages#ensavoirplus"
+  get 'en_savoir_plus', to: "static_pages#about_us", as: 'about_us'
 
   resources :missions
   post 'missions/:id/enroll', to: "missions#enroll", as: "enroll_in_mission"

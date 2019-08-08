@@ -5,7 +5,7 @@ class StaticPagesPolicy < ApplicationPolicy
     true
   end
 
-  def ensavoirplus
+  def about_us
     true
   end
 
