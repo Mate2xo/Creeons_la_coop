@@ -1,59 +1,53 @@
 <div class="container">
-<div class="col-lg-12 mb-5">
-    <div class="main-content">
-        <div class="page-title">
-            <div class="row align-items-center">
-                <div class="col-lg-12 col-12">
-                    <h2 class="heading-infos heading heading-2 text-uppercase border-bottom border-dark strong-800 mt-5 mb-5">
-                        Infos
-                    </h2>
-                </div>
-            </div>
-        </div>
-
-        <ul class="nav nav-tabs justify-content-center mb-5">
-        <li class="nav-item">
-            <a class="nav-link active" href="#">Annonces</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Documents</a>
-        </li>
-        </ul>
-
-        <% if super_admin? || admin? %>
-            <%= link_to  "Créer une annonce", new_info_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 ml-2 mb-4" %>
-        <% end %>
-        
-        <div class="card  no-border">
-            <div>
-                <table class="table table-sm table-hover">
-                    <thead>
-                        <tr>
-                            <th>Titre</th>
-                            <th>Contenu</th>
-                            <th><!--btn show--></th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                         <% @infos.each do |info| %>
-                        <tr>
-                            <td>
-                                <%= info.title %>
-                            </td>
-                            <td>
-                                <%= info.content %>
-                            </td>
-                            <td>
-                                <%= link_to "Voir", info_path(info.id), class: "btn btn-base-1 btn-shadow btn-circle px-4" %>
-                            </td>
-                        </tr>
-                        <% end %>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
+  <div class="col-lg-12 mb-5 main-content">
+    <div class="page-title">
+      <h2 class="heading-infos heading heading-2 text-uppercase border-bottom border-dark strong-800 mt-5 mb-5">
+          Infos
+      </h2>
     </div>
-</div>
+
+    <ul class="nav nav-tabs justify-content-center mb-5">
+      <li class="nav-item">
+          <a class="nav-link active" href="#">Annonces</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="#">Documents</a>
+      </li>
+    </ul>
+
+    <% if super_admin? || admin? %>
+      <div class="d-flex">
+        <%= link_to  "Créer une annonce", new_info_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mx-auto" %>
+      </div>
+    <% end %>
+        
+    <div class="card no-border">
+      <table class="table table-sm table-hover">
+        <thead>
+          <tr>
+            <th>Titre</th>
+            <th class="d-none d-md-inline">Contenu</th>
+            <th><!--btn show--></th>
+          </tr>
+        </thead>
+
+        <tbody>
+        <% @infos.each do |info| %>
+          <tr>
+            <td>
+              <%= info.title %>
+            </td>
+            <td class="d-none d-md-inline">
+              <%= sanitize info.content.truncate(80) %>
+            </td>
+            <td>
+              <%= link_to "Voir", info_path(info.id), class: "btn btn-base-1 btn-shadow btn-circle px-4" %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
 </div>
