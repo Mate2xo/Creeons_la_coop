@@ -16,7 +16,9 @@
 			<div class="tab-content" id="myTabContent">
 				<div class="tab-pane fade show active" id="locals" role="tabpanel" aria-labelledby="locals-tab">
 					<% if super_admin? || admin? %>
-						<%= link_to  "Ajouter un producteur", new_productor_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 ml-4 mb-4" %>
+						<div class="d-flex">
+							<%= link_to  "Ajouter un producteur", new_productor_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 mx-auto mb-4" %>
+						</div>
 					<% end %>
 
 					<div class="row cols-md-space cols-sm-space cols-xs-space">
@@ -26,7 +28,9 @@
 
 				<div class="tab-pane fade" id="suppliers" role="tabpanel" aria-labelledby="suppliers-tab">
 					<% if super_admin? || admin? %>
-						<%= link_to  "Ajouter un fournisseur", new_productor_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 ml-4 mb-4" %>
+						<div class="d-flex">
+							<%= link_to  "Ajouter un fournisseur", new_productor_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mx-auto " %>
+						</div>
 					<% end %>
 		
 					<div class="row cols-md-space cols-sm-space cols-xs-space">

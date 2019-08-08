@@ -1,0 +1,25 @@
+<%= form_with model: @info, local: true, class: "form-default" do |f|%>
+  <div class="row">
+    <div class="col-12">
+      <div class="field">
+        <%= f.label :title, "Titre" %><br />
+        <%= f.text_field :title, class: "form-control form-control-lg" %>
+      </div>
+      <br />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="field">
+        <%= f.label :content, "Contenu" %><br />
+        <%= f.hidden_field :content %> 
+        <trix-editor input="info_content"></trix-editor>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Valider", class: "btn-sign-in btn btn-styled btn-lg btn-block btn-base-1 mt-4" %>
+  </div>
+<% end %>

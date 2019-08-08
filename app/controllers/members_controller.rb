@@ -30,7 +30,7 @@ class MembersController < ApplicationController
   private
 
   def permitted_params
-    params.require(:member).permit(:email, :first_name, :last_name, :group, :avatar, :phone_number, address_attributes: %i[postal_code city street_name_1 street_name_2 coordonnee])
+    params.require(:member).permit(:email, :first_name, :last_name, :group, :avatar, :phone_number, :biography, address_attributes: %i[postal_code city street_name_1 street_name_2 coordonnee])
   end
 
   def set_member

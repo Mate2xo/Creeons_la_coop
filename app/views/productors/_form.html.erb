@@ -7,32 +7,43 @@
         <%= f.label :name, "Nom du producteur *" %><br />
         <%= f.text_field :name, class: "form-control form-control-lg", required: true %><br />
       </div>
-      <div class="field">
+
+      <div class="field ">
         <%= f.label :description, "Description" %><br />
-        <%= f.text_area :description, class: "form-control form-control-lg" %><br />
+        <%= f.hidden_field :description %><br />
+        <trix-editor input="productor_description"></trix-editor>
       </div>
-      <div class="field">
-        <%= f.label :local, "Local" %>
-        <%= f.radio_button :local, true %><br />
-        <%= f.label :local, "Fournisseur" %>
-        <%= f.radio_button :local, false  %><br /><br />
+
+      <div class="field mt-4">
+        <%= label_tag "Type de producteur" %>
+        <br>
+        <div class="px-3">
+          <%= f.label :local, "Local" %>
+          <%= f.radio_button :local, true %><br />
+          <%= f.label :local, "Fournisseur" %>
+          <%= f.radio_button :local, false  %><br /><br />
+        </div>
       </div>
+
       <div class="field">
         <%= f.label :phone_number, "Numéro de téléphone" %><br />
         <%= f.text_field :phone_number, class: "form-control form-control-lg" %><br />
       </div> 
+
       <div class="field">
         <%= f.label :website_url, "Site internet" %><br />
         <%= f.text_field :website_url, class: "form-control form-control-lg" %><br />
       </div>
+
       <div class="field">
         <%= f.label :avatar, "Photo de profil (gif, png, ou jpeg)" %><br />
-        <%= f.file_field :avatar, accept: 'image/png, image/gif, image/jpeg', class: "btn-base-1" %><br />
+        <%= f.file_field :avatar, accept: 'image/png, image/gif, image/jpeg', class: "btn" %><br />
       </div> 
       <hr>
+
       <div class="field">
         <%= f.label :catalogs, "Catalogues" %><br />
-        <%= f.file_field :catalogs, multiple: true, class: "btn-base-1" %><br />
+        <%= f.file_field :catalogs, multiple: true, class: "btn" %><br />
       </div> 
     </div>
   </div>

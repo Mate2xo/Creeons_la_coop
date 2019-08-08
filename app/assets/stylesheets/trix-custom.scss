@@ -1,0 +1,8 @@
+ /* deactivate 'Attach Files' button on toolbar */
+ button[title="Attach Files"] {
+   display: none;
+ }
+
+trix-toolbar .trix-button-row {
+   flex-wrap: wrap !important;
+ }

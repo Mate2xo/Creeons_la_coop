@@ -13,10 +13,12 @@
 								<% end %>
 							</div>
 						</div>
+
 						<div class="form-body">
 							<div class="text-center px-2">
 								<h4 class="heading heading-4 strong-400 mb-0"><h2>Modifier le profil</h2></h4>
 							</div>
+
 							<div class="form-default mt-4" >
 								<%= form_with model: @member, local: true do |form| %>
 								<div class="col">
@@ -24,8 +26,9 @@
 										<div class="field">
 											<%= form.label :email, "E-mail" %><br />
 											<%= form.text_field :email, class: "form-control form-control-lg" %>
-
 										</div>
+										<br/>
+
 										<div class="field">
 											<%= form.label :first_name, "Prénom" %>
 											<br />
@@ -36,17 +39,25 @@
 											<br />
 											<%= form.text_field :last_name, class: "form-control form-control-lg" %>
 										</div>
+										<br>
+
 										<div class="field">
 											<%= form.label :phone_number, "Numéro de téléphone" %>
 											<br />
 											<%= form.text_field :phone_number, class: "form-control form-control-lg" %>
 										</div>
 										<br />
+
 										<div class="field">
-											<%= form.label :avatar, "Ajouter Photo de profil" %><br />
+											<%= form.label :avatar, "Ajouter une photo de profil" %><br />
 											<%= form.file_field(:avatar, key: "avatar", accept: 'image/gif, image/png, image/jpeg', class: "btn-base-1") %>
 										</div>
 
+										<div class="field">
+											<%= form.label :biography, "Présentation" %>
+											<%= form.hidden_field :biography, class:'form-control' %>
+											<trix-editor input="member_biography"></trix-editor>
+										</div>
 										
 									</div>
 								</div>
