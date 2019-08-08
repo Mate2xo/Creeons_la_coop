@@ -12,9 +12,9 @@
     <div class="block-body text-center">
       <h3 class="heading heading-6 strong-600 mb-0 mb-0"><%= productor.name %></h3>
       <br />
-      <h3 class="heading heading-light heading-sm strong-300"><%= productor.description %></h3>
-      <h3 class="heading heading-light heading-sm strong-300"><%= productor.phone_number %></h3>
       <h3 class="heading heading-light heading-sm strong-300"><%= productor.address.city unless productor.address.nil? %></h3>
+      <h3 class="heading heading-light heading-sm strong-300"><%= productor.phone_number %></h3>
+      <h3 class="heading heading-light heading-sm strong-300"><%= productor.website_url %></h3>
                   
       <%= link_to "Voir Producteur", productor_path(productor.id) , class: "btn btn-base-1 btn-shadow btn-circle px-4 mt-2" %>
     </div>
