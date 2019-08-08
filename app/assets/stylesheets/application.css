@@ -31,11 +31,7 @@
  *= require full_calendar/timegrid/main.min
  *= require full_calendar/bootstrap/main.min
  *= require trix
+ *= require trix-custom
  *= require recurring_select
 
  */
-
- /* deactivate 'Attach Files' button on Trix editor */
- button[title="Attach Files"] {
-   display: none;
- }

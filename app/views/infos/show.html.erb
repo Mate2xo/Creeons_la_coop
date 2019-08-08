@@ -1,8 +1,3 @@
-<div class="mt-4 ml-4">
-	<div class="col-6">
-		<%= link_to " Retour", infos_path, class: "fas fa-arrow-left link-retour" %>
-	</div>
-</div>
 <section class="slice sct-color-1">
 	<div class="container">
 		<div class="row justify-content-center">
@@ -12,7 +7,7 @@
 				</h3>
 				<hr class="mt-0 mb-4">
 				<p class="text-md">
-    			<%= @info.content %>
+    			<%= sanitize @info.content %>
     		</p>
         <% if super_admin? || admin? %>
 					<%= link_to  "Éditer", edit_info_path(@info.id), class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %>
@@ -23,3 +18,6 @@
 	</div>
 </section>
 
+<div class="mb-4">
+	<%= link_to " Retour", infos_path, class: "fas fa-arrow-left link-retour" %>
+</div>
