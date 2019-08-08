@@ -26,7 +26,8 @@ class ProductorsController < ApplicationController
       flash[:notice] = "Le producteur a bien été créé"
       redirect_to @productor
     else
-      flash[:error] = "Une erreur est survenue, veuillez recommencer l'opération"
+      flash[:error] = "Une erreur est survenue, veuillez recommencer l'opération. Est-ce que ce producteur existe déjà?"
+      redirect_to new_productor_path
     end
   end
 

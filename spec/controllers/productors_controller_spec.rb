@@ -86,9 +86,9 @@ RSpec.describe ProductorsController, type: :controller do
       end
 
       context "with invalid params" do
-        it 'invalid_attributes return http success' do
+        it "redirects to the new form" do
           post :create, params: { productor: invalid_attributes }
-          expect(response).to have_http_status(:success)
+          expect(response).to redirect_to(new_productor_path)
         end
 
         it "assigns a newly created but unsaved productor as @productor" do
