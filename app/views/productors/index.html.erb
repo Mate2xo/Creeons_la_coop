@@ -1,3 +1,13 @@
+<% provide :head_tags do %>
+	<%= javascript_include_tag "openStreetMaps", "data-turbolinks-track" => "reload" %>
+<% end %>
+
+<%= map(:center => {
+  :latlng => [49.24914, 2.460288],
+  :zoom => 10
+}) %>
+
+
 <div class="container">
 	<div class="widget mt-4">
 
