@@ -204,6 +204,8 @@ GEM
     kaminari-core (1.1.1)
     launchy (2.4.3)
       addressable (~> 2.3)
+    leaflet-rails (1.5.1)
+      rails (>= 4.2.0)
     letter_opener (1.7.0)
       launchy (~> 2.2)
     listen (3.1.5)
@@ -441,6 +443,7 @@ DEPENDENCIES
   ice_cube
   jbuilder (~> 2.5)
   jquery-rails
+  leaflet-rails
   letter_opener
   listen (>= 3.0.5, < 3.2)
   mailjet
