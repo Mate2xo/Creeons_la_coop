@@ -11,6 +11,7 @@
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  website_url  :string
+#  local        :boolean          default(FALSE)
 #
 
 # Ressource for the members to get products from (vegetables...), and are managed by the 'Aprovisionnement/Commande' team

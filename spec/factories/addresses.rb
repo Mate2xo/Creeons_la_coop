@@ -13,7 +13,7 @@
 #  updated_at    :datetime         not null
 #  productor_id  :bigint(8)
 #  member_id     :bigint(8)
-#  coordonnee    :string
+#  coordinates   :float            is an Array
 #
 
 FactoryBot.define do
@@ -21,7 +21,7 @@ FactoryBot.define do
     city { Faker::Address.city }
     postal_code { Faker::Address.postcode }
     street_name_1 { Faker::Address.street_name }
-    coordonnee { "{lat: #{Faker::Address.latitude}, lng: #{Faker::Address.latitude}}" }
+    coordinates { [Faker::Address.latitude, Faker::Address.longitude] }
 
     trait :for_productor do
       productor

@@ -13,7 +13,7 @@
 #  updated_at    :datetime         not null
 #  productor_id  :bigint(8)
 #  member_id     :bigint(8)
-#  coordonnee    :string
+#  coordinates   :float            is an Array
 #
 
 require 'rails_helper'
@@ -27,7 +27,7 @@ RSpec.describe Address, type: :model do
       it { is_expected.to have_db_column(:postal_code).of_type(:string) }
       it { is_expected.to have_db_column(:street_name_1).of_type(:string) }
       it { is_expected.to have_db_column(:street_name_2).of_type(:string) }
-      it { is_expected.to have_db_column(:coordonnee).of_type(:string) }
+      it { is_expected.to have_db_column(:coordinates).of_type(:string) }
       it { is_expected.to validate_presence_of(:city) }
     end
 

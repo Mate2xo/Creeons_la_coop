@@ -13,7 +13,7 @@
 #  updated_at    :datetime         not null
 #  productor_id  :bigint(8)
 #  member_id     :bigint(8)
-#  coordonnee    :string
+#  coordinates   :float            is an Array
 #
 
 class Address < ApplicationRecord
@@ -21,14 +21,14 @@ class Address < ApplicationRecord
   belongs_to :member, optional: true
   has_and_belongs_to_many :missions
 
-  # before_save :assign_coordonnee, on: [:create, :update]
+  # before_save :assign_coordinates, on: [:create, :update]
 
   validates :city, :postal_code, presence: true
 
-  def assign_coordonnee
+  def assign_coordinates
     require "addressable/uri"
     url = ""
-    coordonnee = ""
+    coordinates = ""
     if postal_code
       url = postal_code + " "
     end
@@ -47,9 +47,9 @@ class Address < ApplicationRecord
       if response["status"] == "OK" && response["results"][0]
         lat = response["results"][0]["geometry"]["location"]["lat"]
         lng = response["results"][0]["geometry"]["location"]["lng"]
-        coordonnee = "{lat: " + lat.to_s + " , lng: " + lng.to_s + "}"
+        coordinates = "{lat: " + lat.to_s + " , lng: " + lng.to_s + "}"
       end
     end
-    self.coordonnee = coordonnee
+    self.coordinates = coordinates
   end
 end

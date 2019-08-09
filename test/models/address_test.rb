@@ -13,7 +13,7 @@
 #  updated_at    :datetime         not null
 #  productor_id  :bigint(8)
 #  member_id     :bigint(8)
-#  coordonnee    :string
+#  coordinates   :float            is an Array
 #
 
 require 'test_helper'
