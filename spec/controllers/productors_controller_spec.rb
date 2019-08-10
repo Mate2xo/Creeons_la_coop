@@ -137,6 +137,16 @@ RSpec.describe ProductorsController, type: :controller do
           expect(productor.phone_number).to eq(valid_attributes[:phone_number])
           expect(productor.website_url).to eq(valid_attributes[:website_url])
         end
+
+        it "updates the nested address attributes" do
+          address_params = attributes_for :address
+          put :update, params: { id: productor.id, productor: { address_attributes: address_params } }
+          expect(productor.reload.address.city).to eq address_params[:city]
+          expect(productor.reload.address.postal_code).to eq address_params[:postal_code]
+          expect(productor.reload.address.street_name_1).to eq address_params[:street_name_1]
+          expect(productor.reload.address.coordinates[0]).to be_within(0.0000001).of(address_params[:coordinates][0])
+          expect(productor.reload.address.coordinates[1]).to be_within(0.0000001).of(address_params[:coordinates][1])
+        end
       end
 
       context 'with invalid params' do
