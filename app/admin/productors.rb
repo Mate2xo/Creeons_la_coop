@@ -28,6 +28,7 @@ ActiveAdmin.register Productor do
         address.input :street_name_2
         address.input :postal_code
         address.input :city
+        address.input :coordinates, as: :coordinates
       end
     end
     actions
