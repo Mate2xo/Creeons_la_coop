@@ -49,7 +49,7 @@
   </div>
   <br />
 
-  <%= f.fields_for :address, productor_address do |address| %>
+  <%= f.fields_for :address, productor.address do |address| %>
     <%= render 'address_fields', address: address %>
   <% end %>
   

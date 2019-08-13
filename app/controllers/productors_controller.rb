@@ -16,7 +16,7 @@ class ProductorsController < ApplicationController
     authorize @productor
 
     # address form generator
-    @productor_address = @productor.build_address
+    @productor.build_address
   end
 
   def create
@@ -35,8 +35,6 @@ class ProductorsController < ApplicationController
 
   def edit
     authorize @productor
-    # address form generator
-    @productor_address = @productor.address || @productor.build_address
   end
 
   def update
