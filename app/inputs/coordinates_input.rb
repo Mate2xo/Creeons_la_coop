@@ -58,7 +58,7 @@ class CoordinatesInput
   def legend_html
     if render_label?
       template.content_tag(:legend,
-                           template.content_tag(:label, 'Coordinates (latitude, longitude)'),
+                           template.content_tag(:label, 'Coordonnées GPS (latitude, longitude)'),
                            label_html_options.merge(class: "label"))
     else
       "".html_safe
