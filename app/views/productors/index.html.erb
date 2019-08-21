@@ -3,9 +3,15 @@
 <% end %>
 
 <%= map(:center => {
-  :latlng => [49.24914, 2.460288],
-  :zoom => 10
-}) %>
+					:latlng => [49.24914, 2.460288],
+					:zoom => 10
+				},
+				:markers => @productors.map { |productor|
+						{ 
+							:latlng => productor.address.coordinates 
+						} unless productor.address.coordinates.nil?
+				}.compact
+) %>
 
 
 <div class="container">
