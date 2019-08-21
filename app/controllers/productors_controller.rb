@@ -8,7 +8,7 @@ class ProductorsController < ApplicationController
   before_action :set_productor, only: %i[show edit update destroy]
 
   def index
-    @productors = Productor.all
+    @productors = Productor.includes :address, :avatar_attachment
   end
 
   def new
