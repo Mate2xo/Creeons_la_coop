@@ -1,13 +1,7 @@
 # frozen_string_literal: true
 
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
 require 'faker'
+
 Info.destroy_all
 Address.destroy_all
 Mission.destroy_all
@@ -19,7 +13,8 @@ Productor.destroy_all
     postal_code: Faker::Address.zip,
     city: Faker::Address.city,
     street_name_1: Faker::Address.street_address,
-    street_name_2: Faker::Address.secondary_address
+    street_name_2: Faker::Address.secondary_address,
+    coordinates: [rand(49.0..50), rand(2.0..3)],
   )
 end
 puts "Addresses seeded"
