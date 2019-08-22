@@ -21,6 +21,7 @@ class Address < ApplicationRecord
   belongs_to :member, optional: true
   has_and_belongs_to_many :missions
 
+  before_save :nullify_coordinates, if: :empty_coordinates?
   before_save :fetch_coordinates, on: [:create, :update], if: :should_fetch_coordinates?
 
   validates :city, :postal_code, presence: true
@@ -57,5 +58,13 @@ class Address < ApplicationRecord
 
   def should_fetch_coordinates?
     coordinates.nil? ? true : false
+  end
+
+  def nullify_coordinates
+    coordinates = nil
+  end
+
+  def empty_coordinates?
+    coordinates == [nil, nil]
   end
 end

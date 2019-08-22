@@ -27,8 +27,14 @@ RSpec.feature "ProductorsRecapMaps", type: :feature do
     end
 
     context "when a productor is updated" do
+      let(:productor) { create :productor, address: create(:address) }
+
       context "and its address is also updated" do
-        it "fetches new coordinates if no new coordinates are given" do
+        let(:new_address) { attributes_for :address }
+        before { allow(productor.address).to receive(:fetch_coordinates) }
+
+        it "fetches coordinates if no new coordinates are given" do
+          productor.update(address: new_address)
         end
 
         it "does not fetch new coordinates if new coordinates are given" do

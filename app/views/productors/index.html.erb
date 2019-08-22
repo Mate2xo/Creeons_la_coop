@@ -6,11 +6,11 @@
 					:latlng => [49.24914, 2.460288],
 					:zoom => 10
 				},
-				:markers => @productors.map { |productor|
+				:markers => @productors.map { |p|
 						{ 
-							:latlng => productor.address.coordinates,
-							:popup => productor.name
-						} unless productor.address.coordinates.nil?
+							:latlng => p.address.coordinates,
+							:popup => p.name
+						} unless p.address.coordinates.nil?
 				}.compact
 ) %>
 
