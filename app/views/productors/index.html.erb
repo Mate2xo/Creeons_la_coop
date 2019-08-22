@@ -8,7 +8,8 @@
 				},
 				:markers => @productors.map { |productor|
 						{ 
-							:latlng => productor.address.coordinates 
+							:latlng => productor.address.coordinates,
+							:popup => productor.name
 						} unless productor.address.coordinates.nil?
 				}.compact
 ) %>
