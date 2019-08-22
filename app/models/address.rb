@@ -21,35 +21,41 @@ class Address < ApplicationRecord
   belongs_to :member, optional: true
   has_and_belongs_to_many :missions
 
-  # before_save :assign_coordinates, on: [:create, :update]
+  before_save :fetch_coordinates, on: [:create, :update], if: :should_fetch_coordinates?
 
   validates :city, :postal_code, presence: true
 
-  def assign_coordinates
-    require "addressable/uri"
-    url = ""
-    coordinates = ""
-    if postal_code
-      url = postal_code + " "
-    end
-    if city
-      url = url + city + " "
-    end
-    if street_name_1
-      url = url + street_name_1 + " "
-    end
-    if street_name_2
-      url += street_name_2
-    end
-    if (address = Addressable::URI.parse(url).normalize.to_str) != (nil || "")
-      response = RestClient.get ("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "+france&key=" + Rails.application.credentials[:google_key] ), accept: :json
-      response = JSON.parse(response.body)
-      if response["status"] == "OK" && response["results"][0]
-        lat = response["results"][0]["geometry"]["location"]["lat"]
-        lng = response["results"][0]["geometry"]["location"]["lng"]
-        coordinates = "{lat: " + lat.to_s + " , lng: " + lng.to_s + "}"
-      end
-    end
-    self.coordinates = coordinates
+  def fetch_coordinates
+    # require "addressable/uri"
+    # url = ""
+    # coordinates = ""
+    # if postal_code
+    #   url = postal_code + " "
+    # end
+    # if city
+    #   url = url + city + " "
+    # end
+    # if street_name_1
+    #   url = url + street_name_1 + " "
+    # end
+    # if street_name_2
+    #   url += street_name_2
+    # end
+    # if (address = Addressable::URI.parse(url).normalize.to_str) != (nil || "")
+    #   response = RestClient.get ("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "+france&key=" + Rails.application.credentials[:google_key] ), accept: :json
+    #   response = JSON.parse(response.body)
+    #   if response["status"] == "OK" && response["results"][0]
+    #     lat = response["results"][0]["geometry"]["location"]["lat"]
+    #     lng = response["results"][0]["geometry"]["location"]["lng"]
+    #     coordinates = "{lat: " + lat.to_s + " , lng: " + lng.to_s + "}"
+    #   end
+    # end
+    # self.coordinates = coordinates
+  end
+
+  private
+
+  def should_fetch_coordinates?
+    coordinates.nil? ? true : false
   end
 end
