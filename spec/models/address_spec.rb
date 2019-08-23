@@ -46,25 +46,25 @@ RSpec.describe Address, type: :model do
   end
 
   describe "instance coordinates reset for invalid inputs" do
-    let(:productor) { create :productor, address: create(:address) }
+    let(:address) { build(:address) }
 
     context "when params return any empty string value," do
       it "nullifies .coordinates if coordinates[0] == '' (latitude)" do
-        productor.address.coordinates = ['', Faker::Address.longitude]
-        productor.save
-        expect(productor.address.coordinates).to be nil
+        address.coordinates = ['', Faker::Address.longitude]
+        address.save
+        expect(address.coordinates).to be nil
       end
 
       it "nullifies .coordinates if coordinates[1] == '' (longitude)" do
-        productor.address.coordinates = [Faker::Address.latitude, '']
-        productor.save
-        expect(productor.address.coordinates).to be nil
+        address.coordinates = [Faker::Address.latitude, '']
+        address.save
+        expect(address.coordinates).to be nil
       end
 
       it "nullifies .coordinates if coordinates == ['','']" do
-        productor.address.coordinates = ['', '']
-        productor.save
-        expect(productor.address.coordinates).to be nil
+        address.coordinates = ['', '']
+        address.save
+        expect(address.coordinates).to be nil
       end
     end
   end
