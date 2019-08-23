@@ -46,5 +46,22 @@ RSpec.feature "ProductorsRecapMaps", type: :feature do
         end
       end
     end
+
+    context "when an address that doesn't belong to a productor is saved," do
+      let(:address) { build :address, coordinates: nil }
+
+      it "doesn't launch Address#fetch_coordinates for a Member" do
+        member = build :member
+        member.address = address
+        allow(member.address).to receive(:fetch_coordinates)
+
+        member.save
+
+        expect(member.address).not_to have_received(:fetch_coordinates)
+      end
+
+      it "doesn't launch Address#fetch_coordinates for a Mission" do
+      end
+    end
   end
 end
