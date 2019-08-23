@@ -27,8 +27,12 @@
     <div class="field">
       <%= address_fields.label :coordinates, "Coordonées GPS" %>
       <div id="productor_address_attributes_coordinates", class="d-flex">
-        <%= text_field_tag "productor[address_attributes][coordinates][]", address.coordinates[0], class: "form-control", placeholder: "latitude" %>
-        <%= text_field_tag "productor[address_attributes][coordinates][]", address.coordinates[1], class: "form-control", placeholder: "longitude" %>
+        <%= text_field_tag "productor[address_attributes][coordinates][]",
+          (address.coordinates.nil? ? nil : address.coordinates[0]),
+          class: "form-control", placeholder: "latitude" %>
+        <%= text_field_tag "productor[address_attributes][coordinates][]",
+          (address.coordinates.nil? ? nil : address.coordinates[1]),
+          class: "form-control", placeholder: "longitude" %>
       </div>
     </div>
   </div>
