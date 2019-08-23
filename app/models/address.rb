@@ -21,12 +21,14 @@ class Address < ApplicationRecord
   belongs_to :member, optional: true
   has_and_belongs_to_many :missions
 
-  before_save :nullify_coordinates, if: :empty_coordinates?
-  before_save :fetch_coordinates, on: [:create, :update], if: :should_fetch_coordinates?
+  before_save :fetch_coordinates, if: :no_productor_coordinates?
+  before_save :nullify_coordinates, if: :invalid_coordinates?
+  before_update :fetch_coordinates
 
   validates :city, :postal_code, presence: true
 
   def fetch_coordinates
+    puts '#fetch_coordinates has been launched'
     # require "addressable/uri"
     # url = ""
     # coordinates = ""
@@ -56,15 +58,22 @@ class Address < ApplicationRecord
 
   private
 
-  def should_fetch_coordinates?
-    coordinates.nil? ? true : false
+  def no_productor_coordinates?
+    puts "======== Save Callback ============="
+    !productor.nil? && coordinates.nil? ? true : false
+  end
+
+  def address_changed?
+    puts "======== Update Callback ============="
+    original_address = Address.find_by productor: productor
+    original_address == self
   end
 
   def nullify_coordinates
     self.coordinates = nil
   end
 
-  def empty_coordinates?
-    coordinates == [nil, nil] || coordinates[0].nil? || coordinates[1].nil?
+  def invalid_coordinates?
+    coordinates == [nil, nil] || !coordinates.nil? && !coordinates[0] || !coordinates.nil? && !coordinates[1]
   end
 end
