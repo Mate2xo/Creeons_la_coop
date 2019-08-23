@@ -61,10 +61,10 @@ class Address < ApplicationRecord
   end
 
   def nullify_coordinates
-    coordinates = nil
+    self.coordinates = nil
   end
 
   def empty_coordinates?
-    coordinates == [nil, nil]
+    coordinates == [nil, nil] || coordinates[0].nil? || coordinates[1].nil?
   end
 end

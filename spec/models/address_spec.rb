@@ -19,6 +19,7 @@
 require 'rails_helper'
 
 RSpec.describe Address, type: :model do
+  # TODO: #fetch_coordinates
   describe 'Model instanciation' do
     subject { described_class.new }
 
@@ -43,5 +44,28 @@ RSpec.describe Address, type: :model do
       it { expect(missions_address.missions).to be_truthy }
     end
   end
-  # TODO: #assign_coordonee
+
+  describe "instance coordinates reset for invalid inputs" do
+    let(:productor) { create :productor, address: create(:address) }
+
+    context "when params return any empty string value," do
+      it "nullifies .coordinates if coordinates[0] == '' (latitude)" do
+        productor.address.coordinates = ['', Faker::Address.longitude]
+        productor.save
+        expect(productor.address.coordinates).to be nil
+      end
+
+      it "nullifies .coordinates if coordinates[1] == '' (longitude)" do
+        productor.address.coordinates = [Faker::Address.latitude, '']
+        productor.save
+        expect(productor.address.coordinates).to be nil
+      end
+
+      it "nullifies .coordinates if coordinates == ['','']" do
+        productor.address.coordinates = ['', '']
+        productor.save
+        expect(productor.address.coordinates).to be nil
+      end
+    end
+  end
 end
