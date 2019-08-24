@@ -118,9 +118,7 @@ RSpec.describe ProductorsController, type: :controller do
 
     describe "PUT update" do
       context 'with valid params' do
-        before do
-          put :update, params: { id: productor.id, productor: valid_attributes }
-        end
+        before { put :update, params: { id: productor.id, productor: valid_attributes } }
 
         it 'assigns the productor' do
           expect(assigns(:productor)).to eq(productor)
@@ -139,7 +137,7 @@ RSpec.describe ProductorsController, type: :controller do
         end
 
         it "updates the nested address attributes" do
-          address_params = attributes_for :address
+          address_params = attributes_for :address, :coordinates
           put :update, params: { id: productor.id, productor: { address_attributes: address_params } }
           expect(productor.reload.address.city).to eq address_params[:city]
           expect(productor.reload.address.postal_code).to eq address_params[:postal_code]

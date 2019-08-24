@@ -8,41 +8,45 @@ RSpec.feature "ProductorsRecapMaps", type: :feature do
       let(:productor) { build :productor }
 
       context "and an address is given," do
-        before {
+        it "fetches coordinates if no coordinates are given" do
           productor.address = build :address
           allow(productor.address).to receive(:fetch_coordinates)
-        }
 
-        it "fetches coordinates if no coordinates are given" do
-          productor.address.coordinates = nil
           productor.save
+
           expect(productor.address).to have_received(:fetch_coordinates)
         end
 
         it "does not fetch coordinates if coordinates are given" do
+          productor.address = build :address, :coordinates
+          allow(productor.address).to receive(:fetch_coordinates)
+
           productor.save
+
           expect(productor.address).not_to have_received(:fetch_coordinates)
         end
       end
     end
 
     context "when a productor is updated" do
-      let(:productor) { create :productor, address: build(:address) }
-      before {
-        productor
-        allow(productor.address).to receive(:fetch_coordinates)
-      }
+      let(:productor) { create :productor, address: build(:address, :coordinates) }
+      before { allow(productor.address).to receive(:fetch_coordinates) }
 
       context "and its address is also updated," do
-      #   it "fetches coordinates if no new coordinates are given" do
-      #     new_address = attributes_for :address, coordinates: nil
-      #     expect(productor.address).to receive(:fetch_coordinates)
-      #     binding.pry
-      #     productor.update({address_attributes: new_address})
-      #   end
+        it "fetches coordinates if no new coordinates are given" do
+          new_address = attributes_for :address
+          productor.update(address_attributes: new_address)
+          expect(productor.address).to have_received(:fetch_coordinates)
+        end
+
+        it "fetches coordinates if empty coordinates are given" do
+          new_address = attributes_for :address, coordinates: ['', '']
+          productor.update(address_attributes: new_address)
+          expect(productor.address).to have_received(:fetch_coordinates)
+        end
 
         it "does not fetch new coordinates if new coordinates are given" do
-          new_address = attributes_for :address
+          new_address = attributes_for :address, :coordinates
           productor.update(address_attributes: new_address)
           expect(productor.address).not_to have_received(:fetch_coordinates)
         end
@@ -50,7 +54,8 @@ RSpec.feature "ProductorsRecapMaps", type: :feature do
 
       context "and its address is not updated," do
         it "does not fetch coordinates" do
-          skip
+          productor.update(name: 'test')
+          expect(productor.address).not_to have_received(:fetch_coordinates)
         end
       end
     end

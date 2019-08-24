@@ -21,9 +21,9 @@ class Address < ApplicationRecord
   belongs_to :member, optional: true
   has_and_belongs_to_many :missions
 
-  before_save :fetch_coordinates, if: :no_productor_coordinates?
   before_save :nullify_coordinates, if: :invalid_coordinates?
-  before_update :fetch_coordinates
+  before_save :fetch_coordinates, if: :no_productor_coordinates?
+  before_update :fetch_coordinates, if: :address_changed_with_no_new_coordinates?
 
   validates :city, :postal_code, presence: true
 
@@ -59,14 +59,11 @@ class Address < ApplicationRecord
   private
 
   def no_productor_coordinates?
-    puts "======== Save Callback ============="
     !productor.nil? && coordinates.nil? ? true : false
   end
 
-  def address_changed?
-    puts "======== Update Callback ============="
-    original_address = Address.find_by productor: productor
-    original_address == self
+  def address_changed_with_no_new_coordinates?
+    changed? && !coordinates_changed?
   end
 
   def nullify_coordinates
