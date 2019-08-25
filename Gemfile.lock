@@ -171,6 +171,8 @@ GEM
     htmlentities (4.3.4)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
+    httparty (0.16.2)
+      multi_xml (>= 0.5.2)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     ice_cube (0.16.3)
@@ -235,6 +237,7 @@ GEM
     minitest (5.11.3)
     msgpack (1.2.4)
     multi_json (1.13.1)
+    multi_xml (0.6.0)
     nenv (0.3.0)
     netrc (0.11.0)
     nio4r (2.3.1)
@@ -442,6 +445,7 @@ DEPENDENCIES
   factory_bot_rails (~> 4.0)
   faker
   guard-rspec
+  httparty
   ice_cube
   jbuilder (~> 2.5)
   jquery-rails
@@ -457,7 +461,6 @@ DEPENDENCIES
   rails (~> 5.2, >= 5.2.3)
   rails-controller-testing
   recurring_select
-  rest-client
   rspec-rails (~> 3.7, >= 3.7.2)
   rubocop (~> 0.63.0)
   rubocop-rspec (~> 1.31.0)

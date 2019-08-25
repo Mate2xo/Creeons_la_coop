@@ -48,7 +48,7 @@ gem 'faker'
 # Production Mailer API
 gem 'mailjet'
 # Http requests
-gem 'rest-client'
+gem 'httparty'
 # URI manipulations
 gem 'addressable'
 # S3 file upload storage
