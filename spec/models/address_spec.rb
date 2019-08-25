@@ -19,7 +19,6 @@
 require 'rails_helper'
 
 RSpec.describe Address, type: :model do
-  # TODO: #fetch_coordinates
   describe 'Model instanciation' do
     subject { described_class.new }
 
@@ -66,6 +65,14 @@ RSpec.describe Address, type: :model do
         address.save
         expect(address.coordinates).to be nil
       end
+    end
+  end
+
+  describe "#fetch coordinates" do
+    let(:address) { create :address, street_name_1: "8 bd du port" }
+
+    it "connects successfully to adresse.data.gouv.fr/api" do
+      expect(address.fetch_coordinates).to eq [2.290084, 49.897443]
     end
   end
 end

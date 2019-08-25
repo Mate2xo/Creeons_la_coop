@@ -22,12 +22,12 @@ class Address < ApplicationRecord
   has_and_belongs_to_many :missions
 
   before_save :nullify_coordinates, if: :invalid_coordinates?
-  before_save :fetch_coordinates, if: :no_productor_coordinates?
-  before_update :fetch_coordinates, if: :address_changed_with_no_new_coordinates?
+  before_save :assign_coordinates, if: :no_productor_coordinates?
+  before_update :assign_coordinates, if: :address_changed_with_no_new_coordinates?
 
   validates :city, :postal_code, presence: true
 
-  def fetch_coordinates
+  def assign_coordinates
     puts '#fetch_coordinates has been launched'
     # require "addressable/uri"
     # url = ""
