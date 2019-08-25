@@ -81,43 +81,41 @@ RSpec.describe Address, type: :model do
     end
 
     describe "#assign_coordinates" do
-      let(:response) {
-        { "type": "FeatureCollection",
-          "version": "draft",
-          "features": [
-            { "type": "Feature",
-              "geometry": {
-                "type": "Point",
-                "coordinates": [2.470229, 49.259143]
-              },
-              "properties": {
-                "label": "4 Allee de la Faiencerie 60100 Creil",
-                "score": 0.4988585513641395,
-                "housenumber": "4",
-                "id": "60175_0353_00004",
-                "type": "housenumber",
-                "name": "4 Allee de la Faiencerie",
-                "postcode": "60100",
-                "citycode": "60175",
-                "x": 661_429.37,
-                "y": 6_906_738.95,
-                "city": "Creil",
-                "context": "60, Oise, Hauts-de-France",
-                "importance": 0.5588726364341049,
-                "street": "Allee de la Faiencerie"
-              } }
-          ],
-          "attribution": "BAN",
-          "licence": "ODbL 1.0",
-          "query": "4 all\u00e9e de la fa\u00efencerie au bout de l'all\u00e9e",
-          "filters": { "postcode": "60100" },
-          "limit": 3 }
-      }
+      let(:response) { instance_double('HTTParty::Response') }
 
-      before { allow(address).to receive(:fetch_coordinates).and_return(response) }
+      context "when the API response is valid" do
+        let(:body) {
+          "{\"type\": \"FeatureCollection\", \"version\": \"draft\", \"features\": [{\"type\": \"Feature\", \"geometry\": {\"type\": \"Point\", \"coordinates\": [2.470229, 49.259143]}, \"properties\": {\"label\": \"4 Allee de la Faiencerie 60100 Creil\", \"score\": 0.5097866476580893, \"housenumber\": \"4\", \"id\": \"60175_0353_00004\", \"type\": \"housenumber\", \"name\": \"4 Allee de la Faiencerie\", \"postcode\": \"60100\", \"citycode\": \"60175\", \"x\": 661429.37, \"y\": 6906738.95, \"city\": \"Creil\", \"context\": \"60, Oise, Hauts-de-France\", \"importance\": 0.5588726364341049, \"street\": \"Allee de la Faiencerie\"}}], \"attribution\": \"BAN\", \"licence\": \"ODbL 1.0\", \"query\": \"4 all\\u00e9e de la fa\\u00efencerie au bout de la rue\", \"filters\": {\"postcode\": \"60100\"}, \"limit\": 3}"
+        }
 
-      it "fetches coordinates, and assign them to the record" do
-        expect(address.coordinates).to eq [2.470229, 49.259143]
+        before {
+          allow(address).to receive(:fetch_coordinates) { response }
+          allow(response).to receive(:code) { 200 }
+        }
+
+        it "assigns the fetched coordinates to the record" do
+          allow(response).to receive(:body) { body }
+
+          address.assign_coordinates
+
+          expect(address.reload.coordinates).to eq [49.259143, 2.470229]
+        end
+
+        it "does not assign coordinates if no coordinates are found" do
+          modified_body = JSON.parse(body)
+          modified_body["features"] = []
+          allow(response).to receive(:body) { JSON.generate(modified_body) }
+
+          address.assign_coordinates
+
+          expect(address.coordinates).to be nil
+        end
+      end
+
+      it "exits gracefully if the API response is invalid" do
+        allow(response).to receive(:code) { 400 }
+        allow(address).to receive(:fetch_coordinates) { response }
+        address.assign_coordinates
       end
     end
   end
