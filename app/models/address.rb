@@ -56,6 +56,18 @@ class Address < ApplicationRecord
     # self.coordinates = coordinates
   end
 
+  def fetch_coordinates
+    template = Addressable::Template.new("https://api-adresse.data.gouv.fr/search/{?query*}")
+    uri = template.expand(
+      query: {
+        q: "#{street_name_1} #{street_name_2}",
+        postcode: postal_code,
+        limit: 3
+      }
+    )
+    HTTParty.get uri
+  end
+
   private
 
   def no_productor_coordinates?

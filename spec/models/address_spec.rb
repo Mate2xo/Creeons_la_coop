@@ -68,11 +68,57 @@ RSpec.describe Address, type: :model do
     end
   end
 
-  describe "#fetch coordinates" do
-    let(:address) { create :address, street_name_1: "8 bd du port" }
+  describe "instance coordinates search" do
+    let(:address) {
+      create :address, street_name_1: "4 allée de la faïencerie",
+                       street_name_2: "au bout de l'allée",
+                       postal_code: "60100"
+    }
+    describe "#fetch coordinates" do
+      it "connects successfully to api-adresse.data.gouv.fr/search/" do
+        expect(address.fetch_coordinates.code).to eq 200
+      end
+    end
 
-    it "connects successfully to adresse.data.gouv.fr/api" do
-      expect(address.fetch_coordinates).to eq [2.290084, 49.897443]
+    describe "#assign_coordinates" do
+      let(:response) {
+        { "type": "FeatureCollection",
+          "version": "draft",
+          "features": [
+            { "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [2.470229, 49.259143]
+              },
+              "properties": {
+                "label": "4 Allee de la Faiencerie 60100 Creil",
+                "score": 0.4988585513641395,
+                "housenumber": "4",
+                "id": "60175_0353_00004",
+                "type": "housenumber",
+                "name": "4 Allee de la Faiencerie",
+                "postcode": "60100",
+                "citycode": "60175",
+                "x": 661_429.37,
+                "y": 6_906_738.95,
+                "city": "Creil",
+                "context": "60, Oise, Hauts-de-France",
+                "importance": 0.5588726364341049,
+                "street": "Allee de la Faiencerie"
+              } }
+          ],
+          "attribution": "BAN",
+          "licence": "ODbL 1.0",
+          "query": "4 all\u00e9e de la fa\u00efencerie au bout de l'all\u00e9e",
+          "filters": { "postcode": "60100" },
+          "limit": 3 }
+      }
+
+      before { allow(address).to receive(:fetch_coordinates).and_return(response) }
+
+      it "fetches coordinates, and assign them to the record" do
+        expect(address.coordinates).to eq [2.470229, 49.259143]
+      end
     end
   end
 end
