@@ -35,6 +35,7 @@ class ProductorsController < ApplicationController
 
   def edit
     authorize @productor
+    @productor.build_address if @productor.address.nil?
   end
 
   def update
