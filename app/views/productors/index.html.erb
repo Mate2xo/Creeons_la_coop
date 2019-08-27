@@ -10,7 +10,7 @@
 						{ 
 							:latlng => p.address.coordinates,
 							:popup => p.name
-						} unless p.address.coordinates.nil?
+						} unless p.address.nil? || p.address.coordinates.nil?
 				}.compact
 ) %>
 
