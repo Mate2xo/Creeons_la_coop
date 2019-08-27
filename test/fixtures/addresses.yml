@@ -11,7 +11,7 @@
 #  updated_at    :datetime         not null
 #  productor_id  :bigint(8)
 #  member_id     :bigint(8)
-#  coordonnee    :string
+#  coordinates   :float            is an Array
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

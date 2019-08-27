@@ -1,26 +1,39 @@
 <div class="card m-2 p-2 nested-fields">
   <div class="col-lg-12">
     <div class="field">
-      <%= address.label :street_name_1, "N° et nom de voie" %><br />
-      <%= address.text_field :street_name_1, class: "form-control form-control-lg" %><br />
+      <%= address_fields.label :street_name_1, "N° et nom de voie" %><br />
+      <%= address_fields.text_field :street_name_1, class: "form-control form-control-lg" %><br />
     </div>
   </div>
   <div class="col-lg-12">
     <div class="field">
-      <%= address.label :street_name_2, "Complément d'adresse" %><br />
-      <%= address.text_field :street_name_2, class: "form-control form-control-lg" %><br />
+      <%= address_fields.label :street_name_2, "Complément d'adresse" %><br />
+      <%= address_fields.text_field :street_name_2, class: "form-control form-control-lg" %><br />
     </div>
   </div>
   <div class="col-lg-12">
     <div class="field">
-      <%= address.label :postal_code, "Code postal" %><br />
-      <%= address.text_field :postal_code, class: "form-control form-control-lg" %><br />
+      <%= address_fields.label :postal_code, "Code postal" %><br />
+      <%= address_fields.text_field :postal_code, class: "form-control form-control-lg" %><br />
     </div>
   </div>
   <div class="col-lg-12">
     <div class="field">
-      <%= address.label :city, "Ville" %><br />
-      <%= address.text_field :city, class: "form-control form-control-lg" %><br />
+      <%= address_fields.label :city, "Ville" %><br />
+      <%= address_fields.text_field :city, class: "form-control form-control-lg" %><br />
+    </div>
+  </div>
+  <div class="col-lg-12">
+    <div class="field">
+      <%= address_fields.label :coordinates, "Coordonées GPS" %>
+      <div id="productor_address_attributes_coordinates", class="d-flex">
+        <%= text_field_tag "productor[address_attributes][coordinates][]",
+          (address.coordinates.nil? ? nil : address.coordinates[0]),
+          class: "form-control", placeholder: "latitude" %>
+        <%= text_field_tag "productor[address_attributes][coordinates][]",
+          (address.coordinates.nil? ? nil : address.coordinates[1]),
+          class: "form-control", placeholder: "longitude" %>
+      </div>
     </div>
   </div>
   

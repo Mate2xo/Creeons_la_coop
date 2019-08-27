@@ -1,6 +1,6 @@
 <div class="form-default mt-4" >
 
-<%= form_with model: productor, local:true do |f| %>
+<%= form_with model: productor, local: true do |f| %>
   <div class="col">
     <div class="col-lg-12">
       <div class="field">
@@ -49,8 +49,8 @@
   </div>
   <br />
 
-  <%= f.fields_for :address, productor_address do |address| %>
-    <%= render 'address_fields', address: address %>
+  <%= f.fields_for :address, productor.address do |address_fields| %>
+    <%= render 'address_fields', address: productor.address, address_fields: address_fields %>
   <% end %>
   
   <div class="actions">

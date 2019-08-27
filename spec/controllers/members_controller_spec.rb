@@ -39,7 +39,6 @@ RSpec.describe MembersController, type: :controller do
         expect(member.reload.address.city).to eq address_params[:city]
         expect(member.reload.address.postal_code).to eq address_params[:postal_code]
         expect(member.reload.address.street_name_1).to eq address_params[:street_name_1]
-        expect(member.reload.address.coordonnee).to eq address_params[:coordonnee]
       end
     end
 
