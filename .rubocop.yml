@@ -30,3 +30,4 @@ Metrics/BlockLength:
     - 'test/**/*.rb'
     - 'Guardfile'
     - 'vendor/bundle'
+    - 'app/admin/productors.rb'

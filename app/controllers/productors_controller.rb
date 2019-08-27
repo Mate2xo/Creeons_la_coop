@@ -8,7 +8,7 @@ class ProductorsController < ApplicationController
   before_action :set_productor, only: %i[show edit update destroy]
 
   def index
-    @productors = Productor.all
+    @productors = Productor.includes :address, :avatar_attachment
   end
 
   def new
@@ -16,7 +16,7 @@ class ProductorsController < ApplicationController
     authorize @productor
 
     # address form generator
-    @productor_address = @productor.build_address
+    @productor.build_address
   end
 
   def create
@@ -35,13 +35,12 @@ class ProductorsController < ApplicationController
 
   def edit
     authorize @productor
-    # address form generator
-    @productor_address = @productor.address || @productor.build_address
+    @productor.build_address if @productor.address.nil?
   end
 
   def update
     authorize @productor
-    if @productor.update_attributes(permitted_params)
+    if @productor.update(permitted_params)
       flash[:notice] = "Le producteur a bien été mis à jour"
       redirect_to @productor
     else
@@ -63,7 +62,7 @@ class ProductorsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:productor).permit(:name, :description, :local, :phone_number, :website_url, :avatar, catalogs: [], address_attributes: %i[id postal_code city street_name_1 street_name_2])
+    params.require(:productor).permit(:name, :description, :local, :phone_number, :website_url, :avatar, catalogs: [], address_attributes: [:id, :postal_code, :city, :street_name_1, :street_name_2, coordinates: []])
   end
 
   def set_productor

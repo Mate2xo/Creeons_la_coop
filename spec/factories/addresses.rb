@@ -21,7 +21,10 @@ FactoryBot.define do
     city { Faker::Address.city }
     postal_code { Faker::Address.postcode }
     street_name_1 { Faker::Address.street_name }
-    coordonnee { "{lat: #{Faker::Address.latitude}, lng: #{Faker::Address.latitude}}" }
+
+    trait :coordinates do
+      coordinates { [Faker::Address.latitude, Faker::Address.longitude] }
+    end
 
     trait :for_productor do
       productor

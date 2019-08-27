@@ -49,8 +49,8 @@ RSpec.feature "MemberInvitations", type: :feature do
     it "allows the user to finalize his account creation" do
       fill_in "Prénom", with: 'first_name'
       fill_in "Nom de famille", with: 'last_name'
-      fill_in "Mot de passe",	with: "password"
-      fill_in "Confirmez votre mot de passe",	with: "password"
+      fill_in "Mot de passe",  with: "password"
+      fill_in "Confirmez votre mot de passe", with: "password"
       click_button "Confirmer"
 
       expect(page).to have_content "Votre compte et votre mot de passe ont été créés. Vous êtes maintenant connecté."

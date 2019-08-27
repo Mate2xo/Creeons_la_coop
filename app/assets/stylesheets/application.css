@@ -32,6 +32,7 @@
  *= require full_calendar/bootstrap/main.min
  *= require trix
  *= require trix-custom
+ *= require leaflet
  *= require recurring_select
 
  */

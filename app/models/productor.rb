@@ -19,7 +19,7 @@
 # Available methods: #address, #name, #description, #managers
 class Productor < ApplicationRecord
   has_one :address, dependent: :destroy
-  accepts_nested_attributes_for :address, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :address, reject_if: :all_blank, allow_destroy: true, update_only: true
   has_and_belongs_to_many :missions, dependent: :nullify
   has_and_belongs_to_many :managers, class_name: "Member", dependent: :nullify
   has_one_attached :avatar
