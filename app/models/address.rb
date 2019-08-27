@@ -39,6 +39,8 @@ class Address < ApplicationRecord
     save
   end
 
+  private
+
   def fetch_coordinates
     template = Addressable::Template.new("https://api-adresse.data.gouv.fr/search/{?query*}")
     uri = template.expand(
@@ -50,8 +52,6 @@ class Address < ApplicationRecord
     )
     HTTParty.get uri
   end
-
-  private
 
   def no_productor_coordinates?
     !productor.nil? && coordinates.nil? ? true : false

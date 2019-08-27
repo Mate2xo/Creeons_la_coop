@@ -76,7 +76,7 @@ RSpec.describe Address, type: :model do
     }
     describe "#fetch coordinates" do
       it "connects successfully to api-adresse.data.gouv.fr/search/" do
-        expect(address.fetch_coordinates.code).to eq 200
+        expect(address.send(:fetch_coordinates).code).to eq 200
       end
     end
 
