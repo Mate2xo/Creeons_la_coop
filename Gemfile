@@ -7,6 +7,7 @@ ruby '2.5.1'
 
 gem 'bootstrap', '~> 4.3.1'
 gem 'erd', '~> 0.6.3'
+gem 'image_processing', '~> 1.9', '>= 1.9.3'
 gem 'jquery-rails'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'

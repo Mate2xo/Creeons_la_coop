@@ -6,6 +6,8 @@ class InfosController < ApplicationController
 
   def index
     @infos = Info.all
+    @library = Library.new
+    @libraries = Library.with_attached_document
   end
 
   def new

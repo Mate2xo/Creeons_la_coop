@@ -1,35 +1,35 @@
-<% if super_admin? || admin? %>
-  <div class="d-flex">
-    <%= link_to "Créer une annonce", new_info_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mx-auto" %>
-  </div>
-<% end %>
+  <% if super_admin? || admin? %>
+    <div class="d-flex">
+      <%= link_to "Créer une annonce", new_info_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mx-auto" %>
+    </div>
+  <% end %>
 
-<div class="card no-border">
-  <table class="table table-sm table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Titre</th>
-        <th scope="col">Contenu</th>
-        <th>
-          <!--btn show-->
-        </th>
-      </tr>
-    </thead>
-
-    <% @infos.each do |info| %>
-      <tbody>
+  <div class="card no-border">
+    <table class="table table-sm table-hover">
+      <thead>
         <tr>
-          <td scope="row">
-            <%= info.title %>
-          </td>
-          <td scope="row">
-            <%= sanitize info.content.truncate(80) %>
-          </td>
-          <td scope="row">
-            <%= link_to "Voir", info_path(info.id), class: "btn btn-base-1 btn-shadow btn-circle px-4" %>
-          </td>
+          <th scope="col">Titre</th>
+          <th scope="col">Contenu</th>
+          <th>
+            <!--btn show-->
+          </th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+      </thead>
+
+      <% @infos.each do |info| %>
+        <tbody>
+          <tr>
+            <td scope="row">
+              <%= info.title %>
+            </td>
+            <td scope="row">
+              <%= sanitize info.content.truncate(80) %>
+            </td>
+            <td scope="row">
+              <%= link_to "Voir", info_path(info.id), class: "btn btn-base-1 btn-shadow btn-circle px-4" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>

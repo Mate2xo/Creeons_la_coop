@@ -11,5 +11,8 @@
 
 FactoryBot.define do
   factory :library do
+    trait :with_documents do
+      documents { fixture_file_upload(Rails.root.join('erd.pdf'), 'application/pdf') }
+    end
   end
 end

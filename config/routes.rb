@@ -17,5 +17,6 @@ Rails.application.routes.draw do
 
   resources :productors
   resources :infos
+  resources :libraries
   resources :members, only: %i[index show edit update]
 end

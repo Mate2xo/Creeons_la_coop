@@ -7,6 +7,7 @@ Address.destroy_all
 Mission.destroy_all
 Member.destroy_all
 Productor.destroy_all
+Library.destroy_all
 
 60.times do
   Address.create!(
@@ -155,3 +156,10 @@ puts "Missions seeded"
   info.save
 end
 puts "Infos seeded"
+
+5.times do
+  library = Library.new
+  library.document.attach(io: File.open('erd.pdf'), filename: 'erd.pdf', content_type: 'application/pdf')
+  library.save!
+end
+puts "Libraries seeded"
