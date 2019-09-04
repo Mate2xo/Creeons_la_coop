@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 class LibrariesController < ApplicationController
-  def index
-    @libraries = Library.all
-  end
+  def index; end
 
   def new
     if current_member.role == "super_admin" || current_member.role == "admin"
@@ -18,16 +16,17 @@ class LibrariesController < ApplicationController
     if current_member.role == "super_admin" || current_member.role == "admin"
       @library = Library.new
       @library.document.attach(params[:library][:document])
-      if @library.save
-        flash[:notice] = "Le document a été ajouté"
-        redirect_to @library
-      else
-        flash[:error] = "Le téléchargement du document a échoué"
-        redirect_to new_library_path
+      @libraries = Library.with_attached_document
+      respond_to do |format|
+        format.js
+        if @library.save
+          format.html { redirect_to @library, notice: "Le document a été ajouté" }
+        else
+          format.html { redirect_to new_library_path, error: "Le téléchargement du document a échoué" }
+        end
       end
     else
-      flash[:error] = "Une erreur est survenue. Veuillez réessayer ou contacter votre administrateur"
-      redirect_to "/infos"
+      redirect_to "/infos#documents", error: "Une erreur est survenue. Veuillez réessayer ou contacter votre administrateur"
     end
   end
 
@@ -35,10 +34,13 @@ class LibrariesController < ApplicationController
 
   def destroy
     if current_member.role == "super_admin" || current_member.role == "admin"
-      Library.find(params[:id]).destroy
+      @library = Library.find(params[:id])
+      @library.destroy
     end
-    flash[:notice] = "Le document a été supprimé"
-    redirect_to "/infos"
+    respond_to do |format|
+      format.js
+      format.html { redirect_to "/infos#documents", notice: "Le document a été supprimé" }
+    end
   end
 
   private

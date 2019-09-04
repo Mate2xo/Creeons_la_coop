@@ -1,6 +1,6 @@
 <br/>
 <div class="card no-border">
-  <table class="table table-sm table-hover">
+  <table id="documents" class="table table-sm table-hover">
     <thead>
       <tr>
         <th scope="col">Nom du document</th>
@@ -8,18 +8,8 @@
       </tr>
     </thead>
 
-    <% @libraries.each do |lib| %>
-      <tbody>
-        <tr>
-            <td scope="row">
-              <%= lib.document.filename.to_s %>
-            </td>
-            <td scope="row">
-              <% if lib.document.previewable? %>
-                <%= link_to(image_tag(lib.document.preview(resize: "90x90")), rails_blob_path(lib.document, disposition: "attachment")) %>
-            <% end %>
-          </td>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+    <tbody>
+      <%= render partial: "libraries/library", collection: @libraries %>
+    </tbody>
+  </table>
+</div>

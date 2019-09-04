@@ -1,5 +1,5 @@
 <div class="form-default mt-4">
-  <%= form_for @library, { url: libraries_url, method: 'POST' }  do |form|%>
+  <%= form_for @library, { remote: true, url: libraries_url, method: 'POST' }  do |form|%>
   <div class="col">
     <div class="col-lg-12">
 
