@@ -55,6 +55,8 @@ gem 'addressable'
 gem "aws-sdk-s3", require: false
 # Map generator
 gem 'leaflet-rails'
+# Forum engine
+gem 'thredded', '~> 0.16.13'
 
 group :development, :test do
   gem 'factory_bot_rails', '~> 4.0'
