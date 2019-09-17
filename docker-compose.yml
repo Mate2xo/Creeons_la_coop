@@ -9,7 +9,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_HOST: database
-    links:
+    depends_on:
       - database
     ports:
       - "3000:3000"
