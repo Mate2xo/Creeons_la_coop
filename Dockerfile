@@ -7,4 +7,4 @@ RUN bundle install \
     && curl -sL https://deb.nodesource.com/setup_10.x | bash - \
     && apt install -y nodejs
 
-CMD rails s
+CMD rails server

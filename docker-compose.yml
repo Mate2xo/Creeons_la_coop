@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  clac-app:
+    container_name: app
+    build: .
+    command: bash -c "rails db:setup && rails server"
+    working_dir: /application
+    environment:
+      POSTGRES_USER: postgres
+      # POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: database
+    links:
+      - database
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/application
+
+  database:
+    image: postgres
+    # environment:
+    #   POSTGRES_USER: postgres
+    #   POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
