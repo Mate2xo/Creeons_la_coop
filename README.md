@@ -61,9 +61,10 @@ https://fr.wikipedia.org/wiki/Park_Slope_Food_Coop
 
 https://creeons-coop-staging.herokuapp.com/
 
-## Contributions
+## Contributions / set up
 
 - Lancer `$ npm install` la première fois qu'on participe au projet, pour setup le lancement automatique de Rubocop, Annotate à chaque commit, et RSpec à chaque push. CircleCi donnera également un retour une fois le code pushé.
+- optionnellement, l'app est utilisable avec [Docker Compose](https://docs.docker.com/compose/install/) : `sudo docker-compose build` pour contruire l'image, puis `sudo docker-compose up` pour monter l'image et setup la DB. Le terminal de l'app dans le container est ensuite accessible avec `sudo docker-compose exec clac-app bash` (via un autre terminal local)
 - Branche principale : `development`. (`master` est inutilisée actuellement). Créez votre propre branche à partir de `development`.
 - Lorsqu'on résout une `issue`, Pull-Request d'une branche du même nom que l'`issue` sur la branche `development`. Tim fera la code review.
 - Guard est dispo (`$ bundle exec guard`) pour le lancement automatique des tests sur les fichiers en cours de travail
