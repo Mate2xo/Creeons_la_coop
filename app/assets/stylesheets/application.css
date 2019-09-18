@@ -11,7 +11,6 @@
  * It is generally better to create a new file per style scope.
  *
  *= require_self
- *= require_tree .
  *= require css/bootstrap.min
  *= require css/swiper.min
  *= require hamburgers.min
@@ -21,11 +20,12 @@
  *= require css/custom-style
  *= require _navbar
  *= require _footer
- *= require static_pages
- *= require session
- *= require productors
+ *= require admin
  *= require infos
  *= require missions
+ *= require productors
+ *= require session
+ *= require static_pages
  *= require full_calendar/core/main.min
  *= require full_calendar/daygrid/main.min
  *= require full_calendar/timegrid/main.min
