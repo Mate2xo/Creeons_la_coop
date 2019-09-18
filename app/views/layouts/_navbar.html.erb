@@ -20,26 +20,30 @@
       <% if member_signed_in? %>
         <ul class="navbar-nav">
           <li class="nav-item dropdown megamenu">
-            <%= link_to 'Membres', members_path, class: "nav-link" %>
+            <%= link_to 'Membres', main_app.members_path, class: "nav-link" %>
           </li>
           
           <li class="nav-item dropdown">
-            <%= link_to 'Producteurs', productors_path, class: "nav-link" %>
+            <%= link_to 'Producteurs', main_app.productors_path, class: "nav-link" %>
           </li>
           
           <li class="nav-item dropdown megamenu">
-            <%= link_to 'Missions', missions_path, class: "nav-link"  %>
+            <%= link_to 'Missions', main_app.missions_path, class: "nav-link"  %>
           </li>
           
           <li class="nav-item dropdown megamenu">
-            <%= link_to 'Infos', infos_path, class: "nav-link"  %>
+            <%= link_to 'Forum', main_app.thredded_path, class: "nav-link"  %>
+          </li>
+          
+          <li class="nav-item dropdown megamenu">
+            <%= link_to 'Infos', main_app.infos_path, class: "nav-link"  %>
           </li>
         </ul>
       
       <% else %> 
        <ul class="navbar-nav">
         <li class="nav-item dropdown megamenu">
-          <%= link_to 'En savoir plus', about_us_path, class: "nav-link" %>
+          <%= link_to 'En savoir plus', main_app.about_us_path, class: "nav-link" %>
         </li>
       </ul>
       <% end %>
@@ -48,21 +52,21 @@
         <% if member_signed_in? %>
           <% if current_member.role == "super_admin"  %>
             <li class="nav-item">
-              <%= link_to  "Gestion admin", admin_members_path, class:"nav-link" %>
+              <%= link_to  "Gestion admin", main_app.admin_members_path, class:"nav-link" %>
             </li>
           <% end %>
             
           <li class="nav-item">
-            <%= link_to  "Profil de #{current_member.first_name} #{current_member.last_name}", edit_member_path(current_member.id), class:"nav-link" %>
+            <%= link_to  "Votre profil", main_app.edit_member_path(current_member.id), class:"nav-link" %>
           </li>
           
           <li class="nav-item">
-            <%= link_to  "Déconnexion", destroy_member_session_url, method:"delete", class:"nav-link" %>
+            <%= link_to  "Déconnexion", main_app.destroy_member_session_url, method:"delete", class:"nav-link" %>
           </li>
         
         <% else %>
           <li class="nav-item">
-            <%= link_to "Espace Membres", new_member_session_path, class: "nav-link"  %>
+            <%= link_to "Espace Membres", main_app.new_member_session_path, class: "nav-link"  %>
           </li>
         <% end %>
       </ul>
