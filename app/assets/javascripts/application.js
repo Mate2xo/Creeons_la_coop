@@ -50,8 +50,6 @@
 //= require cocoon
 //= require missions
 //= require trix
+//= require trix-custom
 //= require imagesloaded.pkgd.min
 //= require thredded
-
-//  deactivate 'Attach Files' button behavior on Trix editor
-document.addEventListener('trix-file-accept', e => e.preventDefault())
