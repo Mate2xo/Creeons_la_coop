@@ -44,15 +44,15 @@ RSpec.describe Member, type: :model do
       it { is_expected.to have_db_column(:encrypted_password).of_type(:string).with_options(null: false) }
       it { is_expected.to have_db_column(:first_name).of_type(:string) }
       it { is_expected.to have_db_column(:last_name).of_type(:string) }
+      it { is_expected.to have_db_column(:display_name).of_type(:string) }
       it { is_expected.to have_db_column(:biography).of_type(:text) }
       it { is_expected.to have_db_column(:phone_number).of_type(:string) }
       it { is_expected.to have_db_column(:role).of_type(:string).with_options(default: 'member') }
       it { is_expected.to have_db_column(:confirmation_token).of_type(:string) }
+
       it { is_expected.to have_db_index(:confirmation_token) }
       it { is_expected.to have_db_index(:email).unique }
       it { is_expected.to have_db_index(:reset_password_token).unique }
-      it { should validate_presence_of(:first_name) }
-      it { should validate_presence_of(:last_name) }
     end
 
     describe 'associations' do
@@ -60,6 +60,31 @@ RSpec.describe Member, type: :model do
       it { is_expected.to have_one(:address).dependent(:destroy) }
       it { is_expected.to have_many(:created_missions).class_name('Mission').with_foreign_key('author_id').dependent(:nullify) }
       it { is_expected.to have_and_belong_to_many(:missions).dependent(:nullify) }
+    end
+
+    describe "validations" do
+      it { should validate_presence_of(:email) }
+      it { should validate_uniqueness_of(:display_name) }
+      it { should validate_presence_of(:first_name) }
+      it { should validate_presence_of(:last_name) }
+      it { should validate_presence_of(:display_name) }
+      it { should validate_uniqueness_of(:display_name) }
+
+      it "sets the display_name attribute on save" do
+        member = build :member
+        member.save
+        expect(member).to have_received(:set_uniq_display_name)
+        expect(member.reload.display_name).to eq "#{member.first_name} #{member.last_name}"
+      end
+
+      context "when a member is created with already existing first_name and last_name," do
+        it "appends a number to the display name" do
+          member = create :member
+          new_member = create :member, first_name: member.first_name,
+                                       last_name: member.last_name
+          expect(new_member.display_name).to eq "#{new_member.first_name} #{new_member.last_name} 1"
+        end
+      end
     end
   end
 end
