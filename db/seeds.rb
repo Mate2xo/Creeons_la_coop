@@ -155,3 +155,5 @@ puts "Missions seeded"
   info.save
 end
 puts "Infos seeded"
+
+puts "Database setup OK. App is ready to use"
