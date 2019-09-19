@@ -35,5 +35,6 @@
  *= require leaflet
  *= require recurring_select
  *= require thredded
+ *= require thredded-custom
 
  */

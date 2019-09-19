@@ -1,0 +1,5 @@
+@import 'bootstrap';
+.thredded--messageboard--delete {
+  @extend .btn;
+  color: red;
+}
