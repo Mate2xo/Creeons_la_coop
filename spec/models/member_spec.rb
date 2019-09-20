@@ -44,7 +44,7 @@ RSpec.describe Member, type: :model do
       it { is_expected.to have_db_column(:encrypted_password).of_type(:string).with_options(null: false) }
       it { is_expected.to have_db_column(:first_name).of_type(:string) }
       it { is_expected.to have_db_column(:last_name).of_type(:string) }
-      it { is_expected.to have_db_column(:display_name).of_type(:string) }
+      it { is_expected.to have_db_column(:display_name).of_type(:string).with_options(null: false) }
       it { is_expected.to have_db_column(:biography).of_type(:text) }
       it { is_expected.to have_db_column(:phone_number).of_type(:string) }
       it { is_expected.to have_db_column(:role).of_type(:string).with_options(default: 'member') }
@@ -63,8 +63,6 @@ RSpec.describe Member, type: :model do
     end
 
     describe "validations" do
-      it { should validate_presence_of(:email) }
-      it { should validate_uniqueness_of(:display_name) }
       it { should validate_presence_of(:first_name) }
       it { should validate_presence_of(:last_name) }
       it { should validate_presence_of(:display_name) }
@@ -78,11 +76,20 @@ RSpec.describe Member, type: :model do
       end
 
       context "when a member is created with already existing first_name and last_name," do
+        let(:member) { create :member }
+
         it "appends a number to the display name" do
-          member = create :member
           new_member = create :member, first_name: member.first_name,
                                        last_name: member.last_name
           expect(new_member.display_name).to eq "#{new_member.first_name} #{new_member.last_name} 1"
+        end
+
+        it "appends an incrementing number to the display name" do
+          create :member, first_name: member.first_name,
+                          last_name: member.last_name
+          new_member = create :member, first_name: member.first_name,
+                                       last_name: member.last_name
+          expect(new_member.display_name).to eq "#{new_member.first_name} #{new_member.last_name} 2"
         end
       end
     end
