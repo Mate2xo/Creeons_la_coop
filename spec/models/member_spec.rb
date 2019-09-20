@@ -44,7 +44,7 @@ RSpec.describe Member, type: :model do
       it { is_expected.to have_db_column(:encrypted_password).of_type(:string).with_options(null: false) }
       it { is_expected.to have_db_column(:first_name).of_type(:string) }
       it { is_expected.to have_db_column(:last_name).of_type(:string) }
-      it { is_expected.to have_db_column(:display_name).of_type(:string).with_options(null: false) }
+      it { is_expected.to have_db_column(:display_name).of_type(:string) }
       it { is_expected.to have_db_column(:biography).of_type(:text) }
       it { is_expected.to have_db_column(:phone_number).of_type(:string) }
       it { is_expected.to have_db_column(:role).of_type(:string).with_options(default: 'member') }
@@ -66,18 +66,17 @@ RSpec.describe Member, type: :model do
       it { should validate_presence_of(:first_name) }
       it { should validate_presence_of(:last_name) }
       it { should validate_presence_of(:display_name) }
-      it { should validate_uniqueness_of(:display_name) }
+      it { should validate_uniqueness_of(:display_name).case_insensitive }
+
+      let(:member) { create :member }
 
       it "sets the display_name attribute on save" do
-        member = build :member
+        expect(member).to receive(:set_unique_display_name)
         member.save
-        expect(member).to have_received(:set_uniq_display_name)
         expect(member.reload.display_name).to eq "#{member.first_name} #{member.last_name}"
       end
 
       context "when a member is created with already existing first_name and last_name," do
-        let(:member) { create :member }
-
         it "appends a number to the display name" do
           new_member = create :member, first_name: member.first_name,
                                        last_name: member.last_name

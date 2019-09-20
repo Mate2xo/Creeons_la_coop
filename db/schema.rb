@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_10_042404) do
+ActiveRecord::Schema.define(version: 2019_09_20_171103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(version: 2019_09_10_042404) do
     t.string "invited_by_type"
     t.bigint "invited_by_id"
     t.integer "invitations_count", default: 0
+    t.string "display_name"
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token"
     t.index ["email"], name: "index_members_on_email", unique: true
     t.index ["invitation_token"], name: "index_members_on_invitation_token", unique: true
@@ -406,6 +407,5 @@ ActiveRecord::Schema.define(version: 2019_09_10_042404) do
   add_foreign_key "missions", "members", column: "author_id"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards", on_delete: :cascade
   add_foreign_key "thredded_messageboard_users", "thredded_user_details", on_delete: :cascade
-  add_foreign_key "thredded_user_post_notifications", "members", column: "user_id", on_delete: :cascade
   add_foreign_key "thredded_user_post_notifications", "thredded_posts", column: "post_id", on_delete: :cascade
 end

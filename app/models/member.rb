@@ -49,6 +49,24 @@ class Member < ApplicationRecord
 
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validates :display_name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 50 }
+
+  before_validation :set_unique_display_name
 
   enum group: { aucun: 0, collectif: 1, gestion: 2, communication: 3, maintenance_approvisionnement: 4, vie_associative: 5, informatique: 6 }
+
+  private
+
+  def set_unique_display_name
+    self.display_name = "#{first_name} #{last_name}" if display_name.nil?
+
+    if display_name.present?
+      new_display_name = display_name
+      i = 0
+      while Member.exists?(display_name: new_display_name)
+        new_display_name = "#{display_name} #{i += 1}"
+      end
+      self.display_name = new_display_name
+    end
+  end
 end
