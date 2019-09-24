@@ -66,7 +66,6 @@ RSpec.describe Member, type: :model do
       it { should validate_presence_of(:first_name) }
       it { should validate_presence_of(:last_name) }
       it { should validate_presence_of(:display_name) }
-      it { should validate_uniqueness_of(:display_name).case_insensitive }
 
       let(:member) { create :member }
 
@@ -77,13 +76,13 @@ RSpec.describe Member, type: :model do
       end
 
       context "when a member is created with already existing first_name and last_name," do
-        it "appends a number to the display name" do
+        it "checks uniqueness of :display_name by appending it a number" do
           new_member = create :member, first_name: member.first_name,
                                        last_name: member.last_name
           expect(new_member.display_name).to eq "#{new_member.first_name} #{new_member.last_name} 1"
         end
 
-        it "appends an incrementing number to the display name" do
+        it "checks uniqueness of :display_name by appending it an incrementing number" do
           create :member, first_name: member.first_name,
                           last_name: member.last_name
           new_member = create :member, first_name: member.first_name,
