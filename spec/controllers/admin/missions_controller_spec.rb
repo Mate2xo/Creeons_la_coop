@@ -24,7 +24,7 @@ RSpec.describe Admin::MissionsController, type: :controller do
     end
     it "should render the expected columns" do
       get :index
-      expect(page).to have_content(mission.author.email)
+      expect(page).to have_content(mission.author.display_name)
       expect(page).to have_content(mission.name)
       expect(page).to have_content(mission.description)
       expect(page).to have_content(I18n.localize(mission.due_date, format: :long))
