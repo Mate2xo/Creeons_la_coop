@@ -122,6 +122,7 @@ ActiveRecord::Schema.define(version: 2019_09_20_171103) do
     t.bigint "invited_by_id"
     t.integer "invitations_count", default: 0
     t.string "display_name"
+    t.index "lower((display_name)::text) text_pattern_ops", name: "members_display_name_lower", unique: true
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token"
     t.index ["email"], name: "index_members_on_email", unique: true
     t.index ["invitation_token"], name: "index_members_on_invitation_token", unique: true
