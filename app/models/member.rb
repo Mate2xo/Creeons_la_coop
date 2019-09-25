@@ -60,13 +60,13 @@ class Member < ApplicationRecord
   def set_unique_display_name
     self.display_name = "#{first_name} #{last_name}" if display_name.nil?
 
-    if display_name.present?
-      new_display_name = display_name
-      i = 0
-      while Member.exists?(display_name: new_display_name)
-        new_display_name = "#{display_name} #{i += 1}"
-      end
-      self.display_name = new_display_name
+    return if !display_name.present?
+
+    new_display_name = display_name
+    i = 0
+    while Member.exists?(display_name: new_display_name)
+      new_display_name = "#{display_name} #{i += 1}"
     end
+    self.display_name = new_display_name
   end
 end
