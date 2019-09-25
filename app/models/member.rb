@@ -30,6 +30,7 @@
 #  invited_by_type        :string
 #  invited_by_id          :bigint(8)
 #  invitations_count      :integer          default(0)
+#  display_name           :string
 #
 
 # The websites users. Their 'role' attributes determines if fhey're an unvalidated user, a member, admin or super-admmin
