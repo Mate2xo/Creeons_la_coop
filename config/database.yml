@@ -30,19 +30,19 @@ development:
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user that initialized the database.
-  #username: creons_la_coop
+  username: <%= ENV.fetch("POSTGRES_USER") { nil } %>
 
   # The password associated with the postgres role (username).
-  #password:
+  password: <%= ENV.fetch("POSTGRES_PASSWORD") { nil } %>
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
   # domain sockets, so uncomment these lines.
-  #host: localhost
+  host: <%= ENV.fetch("POSTGRES_HOST") { nil } %>
 
   # The TCP port the server listens on. Defaults to 5432.
   # If your server runs on a different port number, change accordingly.
-  #port: 5432
+  port: <%= ENV.fetch("POSTGRES_PORT") { 5432 } %>
 
   # Schema search path. The server defaults to $user,public
   #schema_search_path: myapp,sharedapp,public
@@ -59,6 +59,10 @@ development:
 test:
   <<: *default
   database: creons_la_coop_test
+  username: <%= ENV.fetch("POSTGRES_USER") { nil } %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD") { nil } %>
+  host: <%= ENV.fetch("POSTGRES_HOST") { nil } %>
+  port: <%= ENV.fetch("POSTGRES_PORT") { 5432 } %>
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
