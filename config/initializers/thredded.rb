@@ -79,10 +79,10 @@ Thredded.layout = 'layouts/application'
 # ==> Email Configuration
 # Email "From:" field will use the following
 # (this is also used as the "To" address for both email notifcations, as all the recipients are on bcc)
-# Thredded.email_from = 'no-reply@example.com'
+Thredded.email_from = 'no-reply@creeons_la_coop.asso'
 
 # Emails going out will prefix the "Subject:" with the following string
-# Thredded.email_outgoing_prefix = '[My Forum] '
+Thredded.email_outgoing_prefix = '[Forum ClaC] '
 #
 # The parent mailer for all Thredded mailers
 # Thredded.parent_mailer = 'ActionMailer::Base'
