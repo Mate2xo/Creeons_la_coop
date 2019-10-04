@@ -90,11 +90,6 @@ ActiveRecord::Schema.define(version: 2019_09_20_171103) do
     t.index ["author_id"], name: "index_infos_on_author_id"
   end
 
-  create_table "libraries", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "members", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -408,5 +403,6 @@ ActiveRecord::Schema.define(version: 2019_09_20_171103) do
   add_foreign_key "missions", "members", column: "author_id"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards", on_delete: :cascade
   add_foreign_key "thredded_messageboard_users", "thredded_user_details", on_delete: :cascade
+  add_foreign_key "thredded_user_post_notifications", "members", column: "user_id", on_delete: :cascade
   add_foreign_key "thredded_user_post_notifications", "thredded_posts", column: "post_id", on_delete: :cascade
 end

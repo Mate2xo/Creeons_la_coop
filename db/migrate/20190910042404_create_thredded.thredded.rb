@@ -35,9 +35,18 @@ class CreateThredded < Thredded::BaseMigration
               length: { slug: max_key_length }
       t.index [:messageboard_id], name: :index_thredded_categories_on_messageboard_id
     end
-    DbTextSearch::CaseInsensitive.add_index connection, :thredded_categories, :name,
-                                            name: :thredded_categories_name_ci,
-                                            **(max_key_length ? { length: max_key_length } : {})
+    reversible do |dir|
+      dir.up do
+        DbTextSearch::CaseInsensitive.add_index connection,
+                                                :thredded_categories,
+                                                :name,
+                                                name: :thredded_categories_name_ci,
+                                                **(max_key_length ? { length: max_key_length } : {})
+      end
+      dir.down do
+        remove_index :thredded_categories, name: :thredded_categories_name_ci
+      end
+    end
 
     create_table :thredded_messageboards do |t|
       t.text :name, null: false
@@ -73,7 +82,17 @@ class CreateThredded < Thredded::BaseMigration
       t.index %i[postable_id created_at], name: :index_thredded_posts_on_postable_id_and_created_at
       t.index [:user_id], name: :index_thredded_posts_on_user_id
     end
-    DbTextSearch::FullText.add_index connection, :thredded_posts, :content, name: :thredded_posts_content_fts
+    reversible do |dir|
+      dir.up do
+        DbTextSearch::FullText.add_index connection,
+                                         :thredded_posts,
+                                         :content,
+                                         name: :thredded_posts_content_fts
+      end
+      dir.down do
+        remove_index :thredded_posts, name: :thredded_posts_content_fts
+      end
+    end
 
     create_table :thredded_private_posts do |t|
       t.references :user, type: user_id_type, index: false
@@ -140,7 +159,17 @@ class CreateThredded < Thredded::BaseMigration
       t.index [:messageboard_id], name: :index_thredded_topics_on_messageboard_id
       t.index [:user_id], name: :index_thredded_topics_on_user_id
     end
-    DbTextSearch::FullText.add_index connection, :thredded_topics, :title, name: :thredded_topics_title_fts
+    reversible do |dir|
+      dir.up do
+        DbTextSearch::FullText.add_index connection,
+                                         :thredded_topics,
+                                         :title,
+                                         name: :thredded_topics_title_fts
+      end
+      dir.down do
+        remove_index :thredded_topics, name: :thredded_topics_title_fts
+      end
+    end
 
     create_table :thredded_user_details do |t|
       t.references :user, type: user_id_type, null: false, index: false
