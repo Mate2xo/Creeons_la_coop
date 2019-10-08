@@ -66,7 +66,7 @@ end
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
   member = Member.new(
-    email: Faker::Internet.free_email(first_name),
+    email: Faker::Internet.free_email(name: first_name),
     password: "password",
     first_name: first_name,
     last_name: last_name,
@@ -114,7 +114,7 @@ puts "Productors seeded"
 
 # i += 61
 5.times do
-  start_date = Faker::Time.forward(20, :morning)
+  start_date = Faker::Time.forward(days: 20, period: :morning)
   mission = Mission.new(
     name: Faker::Movie.quote,
     description: "Get some #{Faker::Food.vegetables}, and some #{Faker::Food.fruits}",
@@ -136,7 +136,7 @@ end
     description: "Get some #{Faker::Food.vegetables}, and some #{Faker::Food.fruits}",
     max_member_count: rand(4..8),
     min_member_count: rand(3),
-    start_date: Faker::Time.forward(20, :morning),
+    start_date: Faker::Time.forward(days: 20, period: :morning),
     recurrent: false
   )
   mission.addresses << Address.find( rand((Productor.first.address.id)..(Productor.first.address.id)) )

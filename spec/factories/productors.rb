@@ -19,6 +19,6 @@ FactoryBot.define do
     name { Faker::Company.name }
     description { Faker::Lorem.paragraph }
     phone_number { Faker::PhoneNumber.phone_number }
-    website_url { Faker::Internet.url("#{name}.com") }
+    website_url { Faker::Internet.url(host: "#{name}.com") }
   end
 end
