@@ -70,7 +70,7 @@ class Member < ApplicationRecord
     new_display_name = display_name
     i = 0
     while Member.exists?(display_name: new_display_name)
-      new_display_name = "#{display_name} #{i += 1}"
+      new_display_name = "#{first_name} #{last_name} #{i += 1}"
     end
     self.display_name = new_display_name
   end
