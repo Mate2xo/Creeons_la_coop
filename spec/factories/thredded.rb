@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'faker'
+require Rails.root.join('spec', 'support', 'features', 'fake_content.rb')
 
 FactoryBot.define do
   sequence(:topic_hash) { |n| "hash#{n}" }
@@ -58,34 +58,6 @@ FactoryBot.define do
     end
   end
 
-  factory :private_topic, class: Thredded::PrivateTopic do
-    transient do
-      with_posts { 0 }
-      post_interval { 1.hour }
-    end
-    association :user, factory: :member
-    users { [user] + build_list(:member, rand(1..3)) }
-
-    title { Faker::Lorem.sentence[0..-2] }
-    hash_id { generate(:topic_hash) }
-
-    after :create do |topic, evaluator|
-      if evaluator.with_posts
-        ago = topic.updated_at - evaluator.with_posts * evaluator.post_interval
-        last_user = nil
-        evaluator.with_posts.times do |i|
-          ago += evaluator.post_interval
-          user = i == 0 ? topic.user : topic.users.sample
-          last_user = user
-          create(:private_post, postable: topic, user: user, created_at: ago, updated_at: ago)
-        end
-        topic.last_user = last_user
-        topic.posts_count = evaluator.with_posts
-        topic.save
-      end
-    end
-  end
-
   factory :post, class: Thredded::Post do
     association :user, factory: :member
     postable { association :topic, user: user, last_user: user }
@@ -95,12 +67,5 @@ FactoryBot.define do
     after :build do |post|
       post.messageboard = post.postable.messageboard
     end
-  end
-
-  factory :private_post, class: Thredded::PrivatePost do
-    association :user, factory: :member
-    postable { association :private_topic, user: user, last_user: user }
-
-    content { Faker::Hacker.say_something_smart }
   end
 end

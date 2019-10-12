@@ -7,6 +7,8 @@ Address.destroy_all
 Mission.destroy_all
 Member.destroy_all
 Productor.destroy_all
+Thredded::Messageboard.destroy_all
+Thredded::MessageboardGroup.destroy_all
 
 60.times do
   Address.create!(
@@ -30,7 +32,7 @@ i = Address.first.id
     password: "password",
     first_name: first_name,
     last_name: last_name,
-    biography: Faker::RickAndMorty.quote,
+    biography: Faker::TvShows::RickAndMorty.quote,
     phone_number: Faker::PhoneNumber.phone_number,
     role: "admin",
     group: [0, 1, 2, 3, 4, 5, 6].sample
@@ -41,7 +43,7 @@ i = Address.first.id
   i += 1
 end
 
-# i += 10
+# i => 10
 1.times do
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
@@ -50,7 +52,7 @@ end
     password: "password",
     first_name: first_name,
     last_name: last_name,
-    biography: Faker::RickAndMorty.quote,
+    biography: Faker::TvShows::RickAndMorty.quote,
     phone_number: Faker::PhoneNumber.phone_number,
     role: "super_admin",
     group: [0, 1, 2, 3, 4, 5, 6].sample
@@ -61,7 +63,7 @@ end
   i += 1
 end
 
-# i += 11
+# i => 11
 30.times do
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
@@ -70,7 +72,7 @@ end
     password: "password",
     first_name: first_name,
     last_name: last_name,
-    biography: Faker::RickAndMorty.quote,
+    biography: Faker::TvShows::RickAndMorty.quote,
     phone_number: Faker::PhoneNumber.phone_number,
     role: "member",
     group: [0, 1, 2, 3, 4, 5, 6].sample
@@ -82,7 +84,7 @@ end
 end
 puts "Members seeded"
 
-# i += 41
+# i => 41
 10.times do
   productor = Productor.new(
     name: Faker::Company.name,
@@ -96,7 +98,7 @@ puts "Members seeded"
   i += 1
 end
 
-# i += 51
+# i => 51
 10.times do
   productor = Productor.new(
     name: Faker::Company.name,
@@ -112,7 +114,7 @@ end
 end
 puts "Productors seeded"
 
-# i += 61
+# i => 61
 5.times do
   start_date = Faker::Time.forward(days: 20, period: :morning)
   mission = Mission.new(
@@ -155,5 +157,12 @@ puts "Missions seeded"
   info.save
 end
 puts "Infos seeded"
+
+2.times { FactoryBot.create :messageboard_group }
+6.times { FactoryBot.create :messageboard, messageboard_group_id: Thredded::MessageboardGroup.all.sample.id }
+18.times {
+  FactoryBot.create :topic, messageboard: Thredded::Messageboard.all.sample,
+                            with_posts: rand(1..4)
+}
 
 puts "Database setup OK. App is ready to use"
