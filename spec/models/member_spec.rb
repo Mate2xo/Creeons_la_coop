@@ -93,4 +93,24 @@ RSpec.describe Member, type: :model do
       end
     end
   end
+
+  describe "forum admin rights" do
+    context "when member is super admin," do
+      subject { build_stubbed :member, :super_admin }
+
+      it { expect(subject.thredded_admin?).to be_truthy }
+    end
+
+    context "when member is an admin," do
+      subject { build_stubbed :member, :admin }
+
+      it { expect(subject.thredded_admin?).to be_truthy }
+    end
+
+    context "when member is not an admin" do
+      subject { build_stubbed :member }
+
+      it { expect(subject.thredded_admin?).to be_falsy }
+    end
+  end
 end

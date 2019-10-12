@@ -56,6 +56,10 @@ class Member < ApplicationRecord
 
   enum group: { aucun: 0, collectif: 1, gestion: 2, communication: 3, maintenance_approvisionnement: 4, vie_associative: 5, informatique: 6 }
 
+  def thredded_admin?
+    role == 'admin' || role == 'super_admin'
+  end
+
   private
 
   def set_unique_display_name
