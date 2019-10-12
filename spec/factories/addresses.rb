@@ -23,7 +23,7 @@ FactoryBot.define do
     street_name_1 { Faker::Address.street_name }
 
     trait :coordinates do
-      coordinates { [Faker::Address.latitude, Faker::Address.longitude] }
+      coordinates { [rand(49.0..50), rand(2.0..3)] }
     end
 
     trait :for_productor do
