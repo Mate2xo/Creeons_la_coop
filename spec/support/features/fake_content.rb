@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FakeContent # rubocop:disable Metrics/ModuleLength
+module FakeContent
   module_function
 
   IMAGES = [
@@ -94,7 +94,7 @@ module FakeContent # rubocop:disable Metrics/ModuleLength
     "Reported on GitHub:\nhttps://github.com/thredded/thredded/issues/545",
   ].freeze
 
-  def post_content(with_everything: false) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/MethodLength
+  def post_content(with_everything: false)
     with_smiley = with_everything || rand < 0.1
     with_youtube = with_everything || rand < 0.04
     with_image = with_everything || rand < 0.07
@@ -139,6 +139,7 @@ module FakeContent # rubocop:disable Metrics/ModuleLength
   def styled_smart_thing(with_smiley:)
     results = Faker::Hacker.say_something_smart.split(' ').map do |word|
       next word unless rand < 0.05 && word.length >= 4
+
       style = %w[* ** _].sample
       "#{style}#{word}#{style}"
     end
