@@ -44,6 +44,13 @@ Thredded.admin_column = :role
 # Whether posts and topics pending moderation are visible to regular users.
 Thredded.content_visible_while_pending_moderation = true
 
+# Require authentication to access the forums:
+Rails.application.config.to_prepare do
+  Thredded::ApplicationController.module_eval do
+    before_action :authenticate_member!
+  end
+end
+
 # This model can be customized further by overriding a handful of methods on the User model.
 # For more information, see app/models/thredded/user_extender.rb.
 
