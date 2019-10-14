@@ -24,6 +24,7 @@ FactoryBot.define do
     max_member_count { rand(4..8) }
     min_member_count { rand(1..3) }
     start_date { Faker::Time.forward(days: rand(30)) }
+    due_date { start_date + 7200 }
     author { create(:member) }
   end
 end
