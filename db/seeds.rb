@@ -15,7 +15,7 @@ Thredded::MessageboardGroup.destroy_all
                     address: FactoryBot.create(:address),
                     email: "admin#{index}@admin.com"
 end
-FactoryBot.create :member, :admin,
+FactoryBot.create :member, :super_admin,
                   address: FactoryBot.create(:address),
                   email: "super@admin.com"
 FactoryBot.create_list :member, 30
