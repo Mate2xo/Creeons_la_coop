@@ -18,4 +18,5 @@ Rails.application.routes.draw do
   resources :productors
   resources :infos
   resources :members, only: %i[index show edit update]
+  mount Thredded::Engine => '/forum'
 end

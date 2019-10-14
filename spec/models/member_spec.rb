@@ -30,6 +30,7 @@
 #  invited_by_type        :string
 #  invited_by_id          :bigint(8)
 #  invitations_count      :integer          default(0)
+#  display_name           :string
 #
 
 require 'rails_helper'
@@ -44,15 +45,15 @@ RSpec.describe Member, type: :model do
       it { is_expected.to have_db_column(:encrypted_password).of_type(:string).with_options(null: false) }
       it { is_expected.to have_db_column(:first_name).of_type(:string) }
       it { is_expected.to have_db_column(:last_name).of_type(:string) }
+      it { is_expected.to have_db_column(:display_name).of_type(:string) }
       it { is_expected.to have_db_column(:biography).of_type(:text) }
       it { is_expected.to have_db_column(:phone_number).of_type(:string) }
       it { is_expected.to have_db_column(:role).of_type(:string).with_options(default: 'member') }
       it { is_expected.to have_db_column(:confirmation_token).of_type(:string) }
+
       it { is_expected.to have_db_index(:confirmation_token) }
       it { is_expected.to have_db_index(:email).unique }
       it { is_expected.to have_db_index(:reset_password_token).unique }
-      it { should validate_presence_of(:first_name) }
-      it { should validate_presence_of(:last_name) }
     end
 
     describe 'associations' do
@@ -60,6 +61,86 @@ RSpec.describe Member, type: :model do
       it { is_expected.to have_one(:address).dependent(:destroy) }
       it { is_expected.to have_many(:created_missions).class_name('Mission').with_foreign_key('author_id').dependent(:nullify) }
       it { is_expected.to have_and_belong_to_many(:missions).dependent(:nullify) }
+    end
+
+    describe "validations" do
+      it { should validate_presence_of(:first_name) }
+      it { should validate_presence_of(:last_name) }
+      it { should validate_presence_of(:display_name) }
+    end
+  end
+
+  describe "#set_unique_display_name" do
+    let(:member) { create :member }
+
+    it "sets the display_name attribute on save" do
+      expect(member).to receive(:set_unique_display_name)
+      member.save
+      expect(member.reload.display_name).to eq "#{member.first_name} #{member.last_name}"
+    end
+
+    context "when a member is created with already existing first_name and last_name," do
+      it "checks uniqueness of :display_name by appending it a number" do
+        new_member = create :member, first_name: member.first_name,
+                                     last_name: member.last_name
+        expect(new_member.display_name).to eq "#{new_member.first_name} #{new_member.last_name} 1"
+      end
+
+      it "checks uniqueness of :display_name by appending it an incrementing number" do
+        create :member, first_name: member.first_name,
+                        last_name: member.last_name
+        new_member = create :member, first_name: member.first_name,
+                                     last_name: member.last_name
+        expect(new_member.display_name).to eq "#{new_member.first_name} #{new_member.last_name} 2"
+      end
+    end
+
+    context "when a member updates," do
+      context "and the name is not changed," do
+        it "does not change :display_name" do
+          display_name = member.display_name
+          member.save
+          expect(member.reload.display_name).to eq display_name
+        end
+      end
+
+      context "and the name is edited," do
+        let(:first_name) { 'new' }
+        let(:last_name) { 'name' }
+
+        before { member.first_name, member.last_name = first_name, last_name }
+
+        it "update :display_name accordingly" do
+          member.save
+          expect(member.reload.display_name).to eq "#{first_name} #{last_name}"
+        end
+
+        it "appends an number to :display_name if it already exists" do
+          create :member, first_name: first_name, last_name: last_name
+          member.save
+          expect(member.reload.display_name).to eq "#{first_name} #{last_name} 1"
+        end
+      end
+    end
+  end
+
+  describe "forum admin rights" do
+    context "when member is super admin," do
+      subject { build_stubbed :member, :super_admin }
+
+      it { expect(subject.thredded_admin?).to be_truthy }
+    end
+
+    context "when member is an admin," do
+      subject { build_stubbed :member, :admin }
+
+      it { expect(subject.thredded_admin?).to be_truthy }
+    end
+
+    context "when member is not an admin" do
+      subject { build_stubbed :member }
+
+      it { expect(subject.thredded_admin?).to be_falsy }
     end
   end
 end

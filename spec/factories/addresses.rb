@@ -23,7 +23,7 @@ FactoryBot.define do
     street_name_1 { Faker::Address.street_name }
 
     trait :coordinates do
-      coordinates { [Faker::Address.latitude, Faker::Address.longitude] }
+      coordinates { [rand(49.0..50), rand(2.0..3)] }
     end
 
     trait :for_productor do
@@ -35,13 +35,11 @@ FactoryBot.define do
     end
 
     trait :for_missions do
-      transient do
-        missions_count { 2 }
-      end
+      transient { missions_count { 2 } }
+
       after(:create) do |address, evaluator|
         create_list(:mission, evaluator.missions_count, addresses: [address])
       end
-      # association :missions, factory: :mission
     end
 
     factory :productor_address, traits: [:for_productor]

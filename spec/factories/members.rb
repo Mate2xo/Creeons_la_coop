@@ -30,6 +30,7 @@
 #  invited_by_type        :string
 #  invited_by_id          :bigint(8)
 #  invitations_count      :integer          default(0)
+#  display_name           :string
 #
 
 FactoryBot.define do
@@ -38,7 +39,7 @@ FactoryBot.define do
     last_name { Faker::Name.last_name }
     biography { Faker::ChuckNorris.fact }
     phone_number { Faker::PhoneNumber.phone_number }
-    email { Faker::Internet.email(first_name) }
+    email { Faker::Internet.email(name: first_name) }
     group {
       ['aucun', 'informatique', 'communication',
        'vie_associative', 'collectif', 'gestion'].sample
