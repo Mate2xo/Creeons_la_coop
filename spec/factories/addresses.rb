@@ -35,13 +35,11 @@ FactoryBot.define do
     end
 
     trait :for_missions do
-      transient do
-        missions_count { 2 }
-      end
+      transient { missions_count { 2 } }
+
       after(:create) do |address, evaluator|
         create_list(:mission, evaluator.missions_count, addresses: [address])
       end
-      # association :missions, factory: :mission
     end
 
     factory :productor_address, traits: [:for_productor]

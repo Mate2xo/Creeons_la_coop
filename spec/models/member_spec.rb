@@ -67,28 +67,58 @@ RSpec.describe Member, type: :model do
       it { should validate_presence_of(:first_name) }
       it { should validate_presence_of(:last_name) }
       it { should validate_presence_of(:display_name) }
+    end
+  end
 
-      let(:member) { create :member }
+  describe "#set_unique_display_name" do
+    let(:member) { create :member }
 
-      it "sets the display_name attribute on save" do
-        expect(member).to receive(:set_unique_display_name)
-        member.save
-        expect(member.reload.display_name).to eq "#{member.first_name} #{member.last_name}"
+    it "sets the display_name attribute on save" do
+      expect(member).to receive(:set_unique_display_name)
+      member.save
+      expect(member.reload.display_name).to eq "#{member.first_name} #{member.last_name}"
+    end
+
+    context "when a member is created with already existing first_name and last_name," do
+      it "checks uniqueness of :display_name by appending it a number" do
+        new_member = create :member, first_name: member.first_name,
+                                     last_name: member.last_name
+        expect(new_member.display_name).to eq "#{new_member.first_name} #{new_member.last_name} 1"
       end
 
-      context "when a member is created with already existing first_name and last_name," do
-        it "checks uniqueness of :display_name by appending it a number" do
-          new_member = create :member, first_name: member.first_name,
-                                       last_name: member.last_name
-          expect(new_member.display_name).to eq "#{new_member.first_name} #{new_member.last_name} 1"
+      it "checks uniqueness of :display_name by appending it an incrementing number" do
+        create :member, first_name: member.first_name,
+                        last_name: member.last_name
+        new_member = create :member, first_name: member.first_name,
+                                     last_name: member.last_name
+        expect(new_member.display_name).to eq "#{new_member.first_name} #{new_member.last_name} 2"
+      end
+    end
+
+    context "when a member updates," do
+      context "and the name is not changed," do
+        it "does not change :display_name" do
+          display_name = member.display_name
+          member.save
+          expect(member.reload.display_name).to eq display_name
+        end
+      end
+
+      context "and the name is edited," do
+        let(:first_name) { 'new' }
+        let(:last_name) { 'name' }
+
+        before { member.first_name, member.last_name = first_name, last_name }
+
+        it "update :display_name accordingly" do
+          member.save
+          expect(member.reload.display_name).to eq "#{first_name} #{last_name}"
         end
 
-        it "checks uniqueness of :display_name by appending it an incrementing number" do
-          create :member, first_name: member.first_name,
-                          last_name: member.last_name
-          new_member = create :member, first_name: member.first_name,
-                                       last_name: member.last_name
-          expect(new_member.display_name).to eq "#{new_member.first_name} #{new_member.last_name} 2"
+        it "appends an number to :display_name if it already exists" do
+          create :member, first_name: first_name, last_name: last_name
+          member.save
+          expect(member.reload.display_name).to eq "#{first_name} #{last_name} 1"
         end
       end
     end
