@@ -73,10 +73,21 @@ RSpec.describe Member, type: :model do
   describe "#set_unique_display_name" do
     let(:member) { create :member }
 
-    it "sets the display_name attribute on save" do
-      expect(member).to receive(:set_unique_display_name)
-      member.save
-      expect(member.reload.display_name).to eq "#{member.first_name} #{member.last_name}"
+    it "sets the display_name attribute on creation" do
+      new_member = build :member
+      new_member.save
+      expect(new_member.reload.display_name).to eq "#{new_member.first_name} #{new_member.last_name}"
+    end
+
+    context "when a pre-existing member without :display_name is updated" do
+      it "sets a display_name" do
+        old_member = build :member
+        old_member.save(validate: false)
+
+        old_member.reload.save
+
+        expect(old_member.display_name).to eq "#{old_member.first_name} #{old_member.last_name}"
+      end
     end
 
     context "when a member is created with already existing first_name and last_name," do
