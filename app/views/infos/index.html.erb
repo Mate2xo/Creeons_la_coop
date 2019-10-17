@@ -23,28 +23,8 @@
         
     <div class="card no-border">
       <table class="table table-sm table-hover">
-        <thead>
-          <tr>
-            <th>Titre</th>
-            <th class="d-none d-md-inline">Contenu</th>
-            <th><!--btn show--></th>
-          </tr>
-        </thead>
-
         <tbody>
-        <% @infos.each do |info| %>
-          <tr>
-            <td>
-              <%= info.title %>
-            </td>
-            <td class="d-none d-md-inline">
-              <%= sanitize info.content.truncate(80) %>
-            </td>
-            <td>
-              <%= link_to "Voir", info_path(info.id), class: "btn btn-base-1 btn-shadow btn-circle px-4" %>
-            </td>
-          </tr>
-        <% end %>
+          <%= render partial: "info", collection: @infos %>
         </tbody>
       </table>
     </div>
