@@ -23,7 +23,7 @@
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="all-members" role="tabpanel" aria-labelledby="all-members-tab">
           <div class="row cols-md-space cols-sm-space cols-xs-space">
-            <%= render partial: "members", locals: {members: @members} %>
+            <%= render partial: "member", collection: @members %>
           </div> 
         </div>
 
@@ -31,7 +31,7 @@
           <% next if group[0] == 'aucun' %>
           <div class="tab-pane fade" id="<%= group[0] %>-group" role="tabpanel" aria-labelledby="<%= group[0] %>-group-tab">
             <div class="row cols-md-space cols-sm-space cols-xs-space">
-              <%= render partial: "members", locals: {members: @members.where(group: "#{group[0]}")} %>
+              <%= render partial: "member", collection: @members.where(group: "#{group[0]}") %>
             </div>
           </div> 
         <% end %>
