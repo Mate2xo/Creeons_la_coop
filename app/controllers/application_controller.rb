@@ -43,6 +43,10 @@ class ApplicationController < ActionController::Base
     redirect_to root_path
   end
 
+  def after_sign_in_path_for(resource)
+    thredded_path || super
+  end
+
   def after_invite_path_for(_inviter, _invitee)
     new_member_invitation_path
   end
