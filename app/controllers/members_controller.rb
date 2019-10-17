@@ -6,7 +6,7 @@ class MembersController < ApplicationController
   before_action :set_member, only: %i[show edit update]
 
   def index
-    @members = Member.all
+    @members = Member.includes(:address, :avatar_attachment)
   end
 
   def show; end
