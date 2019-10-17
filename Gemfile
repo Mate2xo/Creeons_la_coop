@@ -36,7 +36,7 @@ gem 'activeadmin'
 # Authorization management
 gem 'pundit'
 # Users login/registration management
-gem "devise", "~> 4.6"
+gem "devise", "~> 4.7"
 gem 'devise_invitable', '~> 2.0.0'
 # Calendar events recurrence (for Missions)
 gem 'ice_cube'
