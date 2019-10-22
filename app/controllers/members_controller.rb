@@ -4,6 +4,7 @@
 class MembersController < ApplicationController
   before_action :authenticate_member!
   before_action :set_member, only: %i[show edit update]
+  before_action -> { authorize(@member) }, only: %i[edit update]
 
   def index
     @members = Member.includes(:address, :avatar_attachment)
@@ -12,12 +13,10 @@ class MembersController < ApplicationController
   def show; end
 
   def edit
-    authorize @member
     @member_address = @member.address || @member.build_address
   end
 
   def update
-    authorize @member
     if @member.update_attributes(permitted_params)
       flash[:notice] = "Votre profil a été mis à jour"
       redirect_to @member
