@@ -4,7 +4,6 @@
 class MembersController < ApplicationController
   before_action :authenticate_member!
   before_action :set_member, only: %i[show edit update]
-  before_action -> { authorize(@member) }, only: %i[edit update]
 
   def index
     @members = Member.includes(:address, :avatar_attachment)
@@ -33,6 +32,6 @@ class MembersController < ApplicationController
   end
 
   def set_member
-    @member = Member.find(params[:id])
+    @member = authorize Member.find(params[:id])
   end
 end
