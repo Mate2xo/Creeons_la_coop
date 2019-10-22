@@ -1,0 +1,6 @@
+fr:
+  main_app:
+    model:
+      update:
+        ok: La mise à jour a été effectuée.
+        error: La mise à jour a échouée.

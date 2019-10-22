@@ -30,15 +30,20 @@ RSpec.describe MembersController, type: :controller do
     end
 
     describe "PUT #update, member updating his own profile" do
-      let(:address) { create :member_address, member: member }
+      let!(:address) { create :member_address, member: member }
+      let(:address_params) { attributes_for :address }
+      let(:request) { put :update, params: { id: member.id, member: { address_attributes: address_params } } }
+
+      before { request }
 
       it "changes the nested address attributes" do
-        address
-        address_params = attributes_for :address
-        put :update, params: { id: member.id, member: { address_attributes: address_params } }
         expect(member.reload.address.city).to eq address_params[:city]
         expect(member.reload.address.postal_code).to eq address_params[:postal_code]
         expect(member.reload.address.street_name_1).to eq address_params[:street_name_1]
+      end
+
+      it "sets a confirmation message" do
+        expect(flash[:notice]).to eq I18n.t("main_app.model.update.ok")
       end
     end
 

@@ -17,10 +17,10 @@ class MembersController < ApplicationController
 
   def update
     if @member.update_attributes(permitted_params)
-      flash[:notice] = "Votre profil a été mis à jour"
+      flash[:notice] = t "main_app.model.update.ok"
       redirect_to @member
     else
-      flash[:error] = "Une erreur est survenue, l'opération a été annulée"
+      flash[:error] = t "main_app.model.update.error"
       redirect_to edit_member_path(@member.id)
     end
   end
