@@ -135,7 +135,7 @@ RSpec.describe Member, type: :model do
     end
   end
 
-  describe "forum admin rights" do
+  describe "#thredded_admin? (forum admin rights)" do
     context "when member is super admin," do
       subject { build_stubbed :member, :super_admin }
 

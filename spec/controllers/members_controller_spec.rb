@@ -42,16 +42,19 @@ RSpec.describe MembersController, type: :controller do
       end
     end
 
-    describe "authorization redirections" do
+    describe "authorizations" do
       let(:other_member) { create :member }
 
-      it { expect(get(:edit, params: { id: other_member.id })).to redirect_to(root_path) }
-      it {
+      it "does not allow edition of another member" do
+        expect(get(:edit, params: { id: other_member.id })).to redirect_to(root_path)
+      end
+
+      it "does not allow update of another member" do
         expect(post(:update, params: {
                       id: other_member.id,
                       member: attributes_for(:member)
                     })).to redirect_to(root_path)
-      }
+      end
     end
   end
 end
