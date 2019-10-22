@@ -58,7 +58,7 @@ class Member < ApplicationRecord
 
   before_validation :set_unique_display_name
 
-  enum group: { aucun: 0, collectif: 1, gestion: 2, communication: 3, maintenance_approvisionnement: 4, vie_associative: 5, informatique: 6 }
+  enum group: { no_group: 0, collective: 1, management: 2, communication: 3, maintenance_supply: 4, community_projects: 5, it: 6 }
 
   def thredded_admin?
     role == 'admin' || role == 'super_admin'

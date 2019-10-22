@@ -41,8 +41,7 @@ FactoryBot.define do
     phone_number { Faker::PhoneNumber.phone_number }
     email { Faker::Internet.email(name: first_name) }
     group {
-      ['aucun', 'informatique', 'communication',
-       'vie_associative', 'collectif', 'gestion'].sample
+      Member.groups.keys.sample
     }
     password { "password" }
     password_confirmation { "password" }

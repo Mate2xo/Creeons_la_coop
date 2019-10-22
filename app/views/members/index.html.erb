@@ -3,7 +3,7 @@
     <div class="row-wrapper">
       <% if super_admin? %>
         <div class="text-center">
-          <%= link_to  "Inviter un membre sur le site", new_member_invitation_path, class: 'btn btn-base-1 btn-shadow btn-circle my-4 px-4' %>
+          <%= link_to t("devise.invitations.new.header"), new_member_invitation_path, class: 'btn btn-base-1 btn-shadow btn-circle my-4 px-4' %>
         </div>
       <% end%>
 
@@ -13,10 +13,10 @@
         </li>
 
         <% @members.groups.each do |group| %>
-          <% next if group[0] == 'aucun' %>
+          <% next if group[0] == 'no_group' %>
 
           <li class="nav-item">
-            <a class="nav-link" href="#<%= group[0] %>-group" data-toggle="tab" role="tab"><%= group[0].humanize %></a>
+            <a class="nav-link" href="#<%= group[0] %>-group" data-toggle="tab" role="tab"><%= t("main_app.model.member.group.#{group[0]}").humanize %></a>
           </li> 
         <% end %>
       </ul>
@@ -29,7 +29,7 @@
         </div>
 
         <% @members.groups.each do |group| %>
-          <% next if group[0] == 'aucun' %>
+          <% next if group[0] == 'no_group' %>
 
           <div class="tab-pane fade" id="<%= group[0] %>-group" role="tabpanel" aria-labelledby="<%= group[0] %>-group-tab">
             <div class="row cols-md-space cols-sm-space cols-xs-space">

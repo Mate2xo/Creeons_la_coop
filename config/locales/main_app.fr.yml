@@ -4,3 +4,12 @@ fr:
       update:
         ok: La mise à jour a été effectuée.
         error: La mise à jour a échouée.
+      member:
+        group:
+          no_group: aucun
+          collective: collectif
+          management: gestion
+          communication: communication
+          maintenance_supply: maintenance/approvisionnement
+          community_projects: vie associative
+          it: informatique

@@ -8,7 +8,7 @@ ActiveAdmin.register Member do
     column :first_name
     column :last_name
     column :role
-    column :group
+    column :group do |member| t("main_app.model.member.group.#{member.group}") end
     column :email
     actions
   end
