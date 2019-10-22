@@ -3,19 +3,12 @@
 class ApplicationController < ActionController::Base
   include Pundit
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_locale
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   #  The following lines are useful when developping Pundit policies
   # after_action :verify_authorized, except: %i[index show], unless: %i[active_admin_controller? devise_controller?]
   # after_action :verify_policy_scoped, only: :index, unless: :active_admin_controller?
-  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-  before_action :set_locale
-
-  def super_admin?
-    member_signed_in? && current_member.role == "super_admin"
-  end
-
-  def admin?
-    member_signed_in? && current_member.role == "admin"
-  end
 
   protected
 
