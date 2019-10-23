@@ -43,7 +43,7 @@ RSpec.describe MembersController, type: :controller do
       end
 
       it "sets a confirmation message" do
-        expect(flash[:notice]).to eq I18n.t("main_app.model.update.ok")
+        expect(flash[:notice]).to include 'à jour'
       end
     end
 

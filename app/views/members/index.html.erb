@@ -16,7 +16,9 @@
           <% next if group[0] == 'no_group' %>
 
           <li class="nav-item">
-            <a class="nav-link" href="#<%= group[0] %>-group" data-toggle="tab" role="tab"><%= t("main_app.model.member.group.#{group[0]}").humanize %></a>
+            <a class="nav-link" href="#<%= group[0] %>-group" data-toggle="tab" role="tab">
+              <%= Member.human_enum_name(:group, group[0]).humanize %>
+            </a>
           </li> 
         <% end %>
       </ul>

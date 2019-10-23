@@ -9,6 +9,28 @@ fr:
             dépendant(e) existe
           has_many: Vous ne pouvez pas supprimer l'enregistrement parce que les %{record}
             dépendants existent
+        update_fail: La mise à jour à échoué.
+    notices:
+      messages:
+        update_success: La mise à jour a été effectuée.
+    models:
+      member:
+        one: membre
+        other: membres
+      productor:
+        one: producteur
+        other: producteurs
+    attributes:
+      member:
+        groups:
+          no_group: aucun
+          collective: collectif
+          management: gestion
+          communication: communication
+          maintenance_supply: maintenance/approvisionnement
+          community_projects: vie associative
+          it: informatique
+            
   date:
     abbr_day_names:
     - dim
