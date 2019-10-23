@@ -109,8 +109,9 @@ RSpec.describe Member, type: :model do
     context "when a member updates," do
       context "and the name is not changed," do
         it "does not change :display_name" do
+          member = create :member
           display_name = member.display_name
-          member.save
+          member.update(phone_number: 'whatever')
           expect(member.reload.display_name).to eq display_name
         end
       end

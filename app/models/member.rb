@@ -67,7 +67,7 @@ class Member < ApplicationRecord
   private
 
   def set_unique_display_name
-    return unless changed? || display_name.nil?
+    return unless display_name.nil? || changed.any?('first_name') || changed.any?('last_name')
 
     display_name = "#{first_name} #{last_name}"
 
