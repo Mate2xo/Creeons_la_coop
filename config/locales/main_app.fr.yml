@@ -2,14 +2,16 @@ fr:
   main_app:
     views:
       address:
-        delete_button: supprimer cette addresse
+        delete_button: Supprimer cette addresse
       application:
         buttons:
           back: Retour
+          edit: Éditer
+          edit_submit: Sauvegarder les changements
       members:
         show:
-          biography_title: Présentation
-          member_unconfirmed: Invitation en attente de confirmation
+          biography_title: présentation
+          member_unconfirmed: invitation en attente de confirmation
         edit:
-          title: Modifier le profil
+          title: modifier le profil
           change_password: Modifier votre mot de passe
