@@ -28,7 +28,11 @@ class MembersController < ApplicationController
   private
 
   def permitted_params
-    params.require(:member).permit(:email, :first_name, :last_name, :group, :avatar, :phone_number, :biography, address_attributes: %i[postal_code city street_name_1 street_name_2 coordinates])
+    params.require(:member).permit(
+      :email, :first_name, :last_name, :group,
+      :avatar, :phone_number, :biography,
+      address_attributes: %i[id postal_code city street_name_1 street_name_2 coordinates _destroy]
+    )
   end
 
   def set_authorized_member

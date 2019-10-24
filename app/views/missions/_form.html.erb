@@ -28,8 +28,8 @@
       
       <div class="d-flex mb-4">
         <div class="field mr-auto">
-         <%= f.label :start_date, "Date et heure de début" %>
-         <%= f.datetime_field :start_date, class: "form-control form-control-lg" %>
+          <%= f.label :start_date, "Date et heure de début" %>
+          <%= f.datetime_field :start_date, class: "form-control form-control-lg" %>
         </div>
         
         <div class="field">
@@ -63,10 +63,10 @@
   
   <h4>Adresses optionnelles</h4>
     <%= f.fields_for :addresses, mission.addresses do |address| %>
-      <%= render 'address_fields', f: address %>
+      <%= render 'layouts/address_fields', f: address %>
     <% end %>
     <div>
-      <%= link_to_add_association 'Ajouter une addresse', f, :addresses %> 
+      <%= link_to_add_association 'Ajouter une addresse', f, :addresses, partial: 'layouts/address_fields' %> 
     </div>
 
   <div class="actions">
