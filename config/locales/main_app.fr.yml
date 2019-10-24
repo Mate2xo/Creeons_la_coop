@@ -1,6 +1,8 @@
 fr:
   main_app:
     views:
+      address:
+        delete_button: supprimer cette addresse
       application:
         buttons:
           back: Retour

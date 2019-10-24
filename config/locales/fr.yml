@@ -14,6 +14,9 @@ fr:
       messages:
         update_success: La mise à jour a été effectuée.
     models:
+      address:
+        one: addresse
+        other: addresses
       member:
         one: membre
         other: membres
@@ -21,6 +24,11 @@ fr:
         one: producteur
         other: producteurs
     attributes:
+      address:
+        street_name_1: numéro et nom de voie
+        street_name_2: complément d'addresse
+        postal_code: code postal
+        city: ville
       member:
         email: e-mail
         first_name: prénom

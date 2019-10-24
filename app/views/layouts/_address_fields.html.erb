@@ -1,28 +1,29 @@
 <div class="card m-2 p-2 nested-fields">
   <div class="col-lg-12">
     <div class="field">
-      <%= f.label :street_name_1, "N° et nom de voie" %><br />
+      <%= f.label :street_name_1, Address.human_attribute_name(:street_name_1).humanize %><br />
       <%= f.text_field :street_name_1, class: "form-control form-control-lg" %><br />
     </div>
   </div>
   <div class="col-lg-12">
     <div class="field">
-      <%= f.label :street_name_2, "Complément d'adresse" %><br />
+      <%= f.label :street_name_2, Address.human_attribute_name(:street_name_2).humanize %><br />
       <%= f.text_field :street_name_2, class: "form-control form-control-lg" %><br />
     </div>
   </div>
   <div class="col-lg-12">
     <div class="field">
-      <%= f.label :postal_code, "Code postal" %><br />
+      <%= f.label :postal_code, Address.human_attribute_name(:postal_code).humanize %><br />
       <%= f.text_field :postal_code, class: "form-control form-control-lg" %><br />
     </div>
   </div>
   <div class="col-lg-12">
     <div class="field">
-      <%= f.label :city, "Ville" %><br />
+      <%= f.label :city, Address.human_attribute_name(:city).humanize %><br />
       <%= f.text_field :city, class: "form-control form-control-lg" %><br />
     </div>
   </div>
   
-  <%= link_to_remove_association 'Supprimer cette adresse', f, class: 'text-danger ml-auto' %>
+  <%= link_to_remove_association t("main_app.views.address.delete_button").humanize, f,
+    class: 'text-danger ml-auto' %>
 </div>
