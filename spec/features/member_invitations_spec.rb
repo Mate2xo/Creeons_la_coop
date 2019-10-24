@@ -10,13 +10,13 @@ RSpec.feature "MemberInvitations", type: :feature do
   }
 
   it "does not send an invitation to an invalid email" do
-    fill_in 'Email', with: 'wrong_email'
+    fill_in Member.human_attribute_name(:email), with: 'wrong_email'
     click_button "Envoyer l'invitation"
   end
 
   context "when using the invitation form," do
     before {
-      fill_in 'Email', with: 'test@test.com'
+      fill_in Member.human_attribute_name(:email), with: 'test@test.com'
       click_button "Envoyer l'invitation"
     }
 
@@ -40,7 +40,7 @@ RSpec.feature "MemberInvitations", type: :feature do
 
   context "when following the invitation mail's link" do
     before {
-      fill_in 'Email', with: 'test@test.com'
+      fill_in Member.human_attribute_name(:email), with: 'test@test.com'
       click_button "Envoyer l'invitation"
       click_link "Déconnexion"
       open_email "test@test.com"

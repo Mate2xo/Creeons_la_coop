@@ -44,12 +44,12 @@ RSpec.describe Admin::MembersController, type: :controller do
     end
     it "should render the form elements" do
       get :new
-      expect(page).to have_field('First name')
-      expect(page).to have_field('Last name')
-      expect(page).to have_field('Email')
-      expect(page).to have_field('Group')
-      expect(page).to have_field('Phone number')
-      expect(page).to have_field('Biography')
+      expect(page).to have_field(Member.human_attribute_name(:first_name))
+      expect(page).to have_field(Member.human_attribute_name(:last_name))
+      expect(page).to have_field(Member.human_attribute_name(:email))
+      expect(page).to have_field(Member.human_attribute_name(:group))
+      expect(page).to have_field(Member.human_attribute_name(:phone_number))
+      expect(page).to have_field(Member.human_attribute_name(:biography))
     end
   end
 
@@ -112,9 +112,9 @@ RSpec.describe Admin::MembersController, type: :controller do
       expect(assigns(:member)).to eq(member)
     end
     it "should render the form elements" do
-      expect(page).to have_field('First name', with: member.first_name)
-      expect(page).to have_field('Last name', with: member.last_name)
-      expect(page).to have_field('Email', with: member.email)
+      expect(page).to have_field(Member.human_attribute_name(:first_name), with: member.first_name)
+      expect(page).to have_field(Member.human_attribute_name(:last_name), with: member.last_name)
+      expect(page).to have_field(Member.human_attribute_name(:email), with: member.email)
     end
   end
 
