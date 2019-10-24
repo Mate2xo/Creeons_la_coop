@@ -1,0 +1,10 @@
+fr:
+  main_app:
+    views:
+      application:
+        buttons:
+          back: Retour
+      members:
+        show:
+          biography_title: Présentation
+          member_unconfirmed: Invitation en attente de confirmation
