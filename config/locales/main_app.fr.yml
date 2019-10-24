@@ -8,3 +8,6 @@ fr:
         show:
           biography_title: Présentation
           member_unconfirmed: Invitation en attente de confirmation
+        edit:
+          title: Modifier le profil
+          change_password: Modifier votre mot de passe

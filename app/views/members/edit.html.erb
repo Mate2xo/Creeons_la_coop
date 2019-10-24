@@ -17,7 +17,7 @@
 						<div class="form-body">
 							<div class="text-center px-2">
 								<h2 class="heading heading-2 strong-400 mb-0">
-									Modifier le profil
+									<%= t "main_app.views.members.edit.title" %>
 								</h2>
 							</div>
 
@@ -25,7 +25,9 @@
 								<%= render partial: 'form', locals: { member:@member } %>
 							</div>
 
-							<%= link_to  "Modifier votre mot de passe", edit_member_registration_path, class: "btn-cancel btn btn-styled btn-lg btn-block btn-danger mt-4"%>
+							<%= link_to t("main_app.views.members.edit.change_password"),
+								edit_member_registration_path,
+								class: "btn-cancel btn btn-styled btn-lg btn-block btn-danger mt-4" %>
 						</div>
 					</div>
 				</div>
