@@ -22,6 +22,12 @@ fr:
         other: producteurs
     attributes:
       member:
+        email: e-mail
+        first_name: prénom
+        last_name: nom
+        phone_number: numéro de téléphone
+        avatar: photo de profil
+        biography: présentation
         groups:
           no_group: aucun
           collective: collectif
