@@ -40,13 +40,11 @@ FactoryBot.define do
     biography { Faker::ChuckNorris.fact }
     phone_number { Faker::PhoneNumber.phone_number }
     email { Faker::Internet.email(name: first_name) }
-    group {
-      Member.groups.keys.sample
-    }
     password { "password" }
     password_confirmation { "password" }
     confirmed_at { Time.zone.today }
 
+    trait :group do group { Member.groups.keys.sample } end
     trait :admin do role { 'admin' } end
     trait :super_admin do role { 'super_admin' } end
   end
