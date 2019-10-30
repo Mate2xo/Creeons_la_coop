@@ -18,10 +18,10 @@ class MembersController < ApplicationController
   def update
     if @member.update_attributes(permitted_params)
       flash[:notice] = t "activerecord.notices.messages.update_success"
-      redirect_to @member
+      render :show
     else
       flash[:error] = t "activerecord.errors.messages.update_fail"
-      redirect_to edit_member_path(@member.id)
+      render :edit
     end
   end
 
