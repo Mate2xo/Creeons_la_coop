@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_29_153743) do
+ActiveRecord::Schema.define(version: 2019_10_30_133957) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -117,6 +117,7 @@ ActiveRecord::Schema.define(version: 2019_10_29_153743) do
     t.bigint "invited_by_id"
     t.integer "invitations_count", default: 0
     t.string "display_name"
+    t.boolean "moderator", default: false
     t.index "lower((display_name)::text) text_pattern_ops", name: "members_display_name_lower", unique: true
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token"
     t.index ["email"], name: "index_members_on_email", unique: true

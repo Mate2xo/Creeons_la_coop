@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: members
@@ -31,6 +30,7 @@
 #  invited_by_id          :bigint(8)
 #  invitations_count      :integer          default(0)
 #  display_name           :string
+#  moderator              :boolean          default(FALSE)
 #
 
 require 'rails_helper'
