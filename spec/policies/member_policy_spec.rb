@@ -4,15 +4,11 @@ require 'rails_helper'
 
 RSpec.describe MemberPolicy, type: :policy do
   let(:member) { build(:member) }
-  let(:other_member) { create(:member) }
+  let(:other_member) { build(:member) }
   let(:admin) { build :member, :admin }
   let(:super_admin) { build :member, :super_admin }
 
   subject { described_class }
-
-  permissions ".scope" do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
 
   permissions :show?, :index? do
     it { is_expected.to permit member, other_member }

@@ -3,27 +3,20 @@
 require 'rails_helper'
 
 RSpec.describe ActiveAdmin::CommentPolicy, type: :policy do
-  let(:user) { User.new }
+  let(:member) { build :member }
+  let(:admin) { build :member, :admin }
+  let(:super_admin) { build :member, :super_admin }
+  let(:comment) { ActiveAdmin::Comment.new }
 
   subject { described_class }
 
   permissions ".scope" do
-    pending "add some examples to (or delete) #{__FILE__}"
+    pending "admin interface resources access is yet to be decided"
   end
 
-  permissions :show? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
-  permissions :create? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
-  permissions :update? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
-  permissions :destroy? do
-    pending "add some examples to (or delete) #{__FILE__}"
+  permissions :show?, :create?, :update?, :destroy? do
+    it { is_expected.to permit super_admin, comment }
+    it { is_expected.not_to permit admin, comment }
+    it { is_expected.not_to permit member, comment }
   end
 end
