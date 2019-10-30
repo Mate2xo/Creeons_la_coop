@@ -9,9 +9,11 @@ fr:
           edit: Éditer
           edit_submit: Sauvegarder les changements
       members:
-        show:
-          biography_title: présentation
-          member_unconfirmed: invitation en attente de confirmation
         edit:
           title: modifier le profil
           change_password: Modifier votre mot de passe
+        index:
+          all_tab: Tous
+        show:
+          biography_title: présentation
+          member_unconfirmed: invitation en attente de confirmation

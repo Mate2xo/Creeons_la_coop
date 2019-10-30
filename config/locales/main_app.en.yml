@@ -9,9 +9,11 @@ en:
           edit: Edit
           edit_submit: Save changes
       members:
-        show:
-          biography_title: presentation
-          member_unconfirmed: waiting invitation confirmation
         edit:
           title: modify profile
           change_password: Change password
+        index:
+          all_tab: All
+        show:
+          biography_title: presentation
+          member_unconfirmed: waiting invitation confirmation
