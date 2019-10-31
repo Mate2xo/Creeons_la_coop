@@ -16,7 +16,7 @@
 #  phone_number           :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  role                   :string           default("member")
+#  role                   :integer          default("member")
 #  confirmation_token     :string
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
@@ -58,6 +58,8 @@ class Member < ApplicationRecord
   validates :display_name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 50 }
 
   before_validation :set_unique_display_name
+
+  enum role: { member: 0, admin: 1, super_admin: 2 }
 
   enum group: { collective: 1, management: 2, communication: 3, maintenance_supply: 4, community_projects: 5, it: 6 }
 

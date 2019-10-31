@@ -17,36 +17,40 @@ fr:
         update_success: La mise à jour a été effectuée.
     models:
       address:
-        one: addresse
-        other: addresses
+        one: Addresse
+        other: Addresses
       member:
-        one: membre
-        other: membres
+        one: Membre
+        other: Membres
       productor:
-        one: producteur
-        other: producteurs
+        one: Producteur
+        other: Producteurs
     attributes:
       address:
-        street_name_1: numéro et nom de voie
-        street_name_2: complément d'addresse
-        postal_code: code postal
         city: ville
+        postal_code: code postal
+        street_name_1: Numéro et nom de voie
+        street_name_2: Complément d'addresse
       member:
-        email: e-mail
-        first_name: prénom
-        last_name: nom
-        phone_number: numéro de téléphone
-        avatar: photo de profil
-        biography: présentation
-        moderator: modérateur (forum)
+        avatar: Photo de profil
+        biography: Présentation
+        email: E-mail
+        first_name: Prénom
         groups:
-          no_group: aucun
-          collective: collectif
-          management: gestion
-          communication: communication
-          maintenance_supply: maintenance/approvisionnement
-          community_projects: vie associative
-          it: informatique
+          no_group: Aucun
+          collective: Collectif
+          management: Gestion
+          communication: Communication
+          maintenance_supply: Maintenance/approvisionnement
+          community_projects: Vie associative
+          it: Informatique
+        last_name: Nom
+        moderator: Modérateur (forum)
+        phone_number: Numéro de téléphone
+        roles:
+          member: Membre
+          admin: Administrateur
+          super_admin: Administrateur général
 
   date:
     abbr_day_names:

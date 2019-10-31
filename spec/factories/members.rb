@@ -16,7 +16,7 @@
 #  phone_number           :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  role                   :string           default("member")
+#  role                   :integer          default("member")
 #  confirmation_token     :string
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
