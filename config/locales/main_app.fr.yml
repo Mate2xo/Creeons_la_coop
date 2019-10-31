@@ -1,0 +1,19 @@
+fr:
+  main_app:
+    views:
+      address:
+        delete_button: Supprimer cette addresse
+      application:
+        buttons:
+          back: Retour
+          edit: Éditer
+          edit_submit: Sauvegarder les changements
+      members:
+        edit:
+          title: modifier le profil
+          change_password: Modifier votre mot de passe
+        index:
+          all_tab: Tous
+        show:
+          biography_title: présentation
+          member_unconfirmed: invitation en attente de confirmation

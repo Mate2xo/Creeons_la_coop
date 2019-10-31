@@ -7,13 +7,14 @@ RSpec.describe Admin::MissionsController, type: :controller do
   let(:page) { Capybara::Node::Simple.new(response.body) }
   let(:super_admin) { create(:member, :super_admin) }
   let(:valid_attributes) { build(:mission).attributes }
-  let(:invalid_attributes) do
-    { name: '' }
-  end
-  let!(:mission) { create(:mission) }
+  let(:invalid_attributes) { { name: '' } }
+  let(:mission) { create(:mission) }
+
   before { sign_in super_admin }
 
   describe "GET index" do
+    before { mission }
+
     it 'returns http success' do
       get :index
       expect(response).to have_http_status(:success)
@@ -29,21 +30,6 @@ RSpec.describe Admin::MissionsController, type: :controller do
       expect(page).to have_content(mission.description)
       expect(page).to have_content(I18n.localize(mission.due_date, format: :long))
     end
-    # let(:filters_sidebar) { page.find('#filters_sidebar_section') }
-    # it "filter Name exists" do
-    #   get :index
-    #   expect(filters_sidebar).to have_css('label[for="q_first_name_or_last_name_cont"]', text: 'Name')
-    #   expect(filters_sidebar).to have_css('input[name="q[first_name_or_last_name_cont]"]')
-    # end
-    # it "filter Name works" do
-    #   matching_person = Fabricate :person, first_name: 'ABCDEFG'
-    #   non_matching_person = Fabricate :person, first_name: 'HIJKLMN'
-
-    #   get :index, params: { q: { first_name_or_last_name_cont: 'BCDEF' } }
-
-    #   expect(assigns(:persons)).to include(matching_person)
-    #   expect(assigns(:persons)).not_to include(non_matching_person)
-    # end
   end
 
   describe "GET new" do
@@ -112,15 +98,19 @@ RSpec.describe Admin::MissionsController, type: :controller do
       end
 
       it "does not create a mission when due_date < start_date" do
-        skip
+        invalid_attributes = attributes_for :mission,
+                                            start_date: 1.day.from_now,
+                                            due_date: 0.day.from_now
+        expect {
+          post :create, params: { mission: invalid_attributes }
+        }.not_to change(Mission, :count)
       end
     end
   end
 
   describe "GET edit" do
-    before do
-      get :edit, params: { id: mission.id }
-    end
+    before { get :edit, params: { id: mission.id } }
+
     it 'returns http success' do
       expect(response).to have_http_status(:success)
     end
@@ -186,6 +176,8 @@ RSpec.describe Admin::MissionsController, type: :controller do
   end
 
   describe "DELETE #destroy" do
+    before { mission }
+
     it "destroys the requested select_option" do
       expect {
         delete :destroy, params: { id: mission.id }

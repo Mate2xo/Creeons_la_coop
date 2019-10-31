@@ -16,7 +16,7 @@
 #  phone_number           :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  role                   :string           default("member")
+#  role                   :integer          default("member")
 #  confirmation_token     :string
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
@@ -31,6 +31,7 @@
 #  invited_by_id          :bigint(8)
 #  invitations_count      :integer          default(0)
 #  display_name           :string
+#  moderator              :boolean          default(FALSE)
 #
 
 FactoryBot.define do
@@ -40,14 +41,11 @@ FactoryBot.define do
     biography { Faker::ChuckNorris.fact }
     phone_number { Faker::PhoneNumber.phone_number }
     email { Faker::Internet.email(name: first_name) }
-    group {
-      ['aucun', 'informatique', 'communication',
-       'vie_associative', 'collectif', 'gestion'].sample
-    }
     password { "password" }
     password_confirmation { "password" }
     confirmed_at { Time.zone.today }
 
+    trait :group do group { Member.groups.keys.sample } end
     trait :admin do role { 'admin' } end
     trait :super_admin do role { 'super_admin' } end
   end

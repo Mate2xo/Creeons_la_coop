@@ -16,7 +16,7 @@
 #  phone_number           :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  role                   :string           default("member")
+#  role                   :integer          default("member")
 #  confirmation_token     :string
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
@@ -31,6 +31,7 @@
 #  invited_by_id          :bigint(8)
 #  invitations_count      :integer          default(0)
 #  display_name           :string
+#  moderator              :boolean          default(FALSE)
 #
 
 # The websites users. Their 'role' attributes determines if fhey're an unvalidated user, a member, admin or super-admin
@@ -58,7 +59,9 @@ class Member < ApplicationRecord
 
   before_validation :set_unique_display_name
 
-  enum group: { aucun: 0, collectif: 1, gestion: 2, communication: 3, maintenance_approvisionnement: 4, vie_associative: 5, informatique: 6 }
+  enum role: { member: 0, admin: 1, super_admin: 2 }
+
+  enum group: { collective: 1, management: 2, communication: 3, maintenance_supply: 4, community_projects: 5, it: 6 }
 
   def thredded_admin?
     role == 'admin' || role == 'super_admin'
@@ -67,7 +70,7 @@ class Member < ApplicationRecord
   private
 
   def set_unique_display_name
-    return unless changed? || display_name.nil?
+    return unless display_name.nil? || changed.any?('first_name') || changed.any?('last_name')
 
     display_name = "#{first_name} #{last_name}"
 

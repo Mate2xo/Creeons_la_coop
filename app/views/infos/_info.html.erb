@@ -1,0 +1,11 @@
+<tr>
+  <td>
+    <%= info.title %>
+  </td>
+  <td class="d-none d-md-block">
+    <%= sanitize info.content.truncate(80) %>
+  </td>
+  <td>
+    <%= link_to "Voir", info_path(info.id), class: "btn btn-base-1 btn-shadow btn-circle px-4" %>
+  </td>
+</tr>

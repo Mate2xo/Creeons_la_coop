@@ -11,14 +11,14 @@ Thredded::Messageboard.destroy_all
 Thredded::MessageboardGroup.destroy_all
 
 9.times do |index|
-  FactoryBot.create :member, :admin,
+  FactoryBot.create :member, :admin, :group,
                     address: FactoryBot.create(:address),
                     email: "admin#{index}@admin.com"
 end
-FactoryBot.create :member, :super_admin,
+FactoryBot.create :member, :super_admin, :group,
                   address: FactoryBot.create(:address),
                   email: "super@admin.com"
-FactoryBot.create_list :member, 30
+FactoryBot.create_list :member, 30, :group
 puts "Members seeded"
 
 10.times {
@@ -29,12 +29,13 @@ puts "Members seeded"
 puts "Productors seeded"
 
 10.times {
-  FactoryBot.create :mission, members: Member.take(rand(0..8)),
-                              addresses: FactoryBot.create_list(:address, rand(1..2))
+  FactoryBot.create :mission, members: Member.all.sample(rand(0..8)),
+                              addresses: FactoryBot.create_list(:address, rand(1..2)),
+                              author: Member.all.sample
 }
 puts "Missions seeded"
 
-FactoryBot.create_list :info, 5
+FactoryBot.create_list :info, 5, author: Member.all.sample
 puts "Infos seeded"
 
 FactoryBot.create_list :messageboard_group, 2

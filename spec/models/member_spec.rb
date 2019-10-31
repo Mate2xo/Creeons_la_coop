@@ -16,7 +16,7 @@
 #  phone_number           :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  role                   :string           default("member")
+#  role                   :integer          default("member")
 #  confirmation_token     :string
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
@@ -31,6 +31,7 @@
 #  invited_by_id          :bigint(8)
 #  invitations_count      :integer          default(0)
 #  display_name           :string
+#  moderator              :boolean          default(FALSE)
 #
 
 require 'rails_helper'
@@ -48,7 +49,10 @@ RSpec.describe Member, type: :model do
       it { is_expected.to have_db_column(:display_name).of_type(:string) }
       it { is_expected.to have_db_column(:biography).of_type(:text) }
       it { is_expected.to have_db_column(:phone_number).of_type(:string) }
-      it { is_expected.to have_db_column(:role).of_type(:string).with_options(default: 'member') }
+      it { is_expected.to have_db_column(:role).of_type(:integer) }
+      it { is_expected.to define_enum_for(:role) }
+      it { is_expected.to have_db_column(:group).of_type(:integer) }
+      it { is_expected.to define_enum_for(:group) }
       it { is_expected.to have_db_column(:confirmation_token).of_type(:string) }
 
       it { is_expected.to have_db_index(:confirmation_token) }
@@ -109,8 +113,9 @@ RSpec.describe Member, type: :model do
     context "when a member updates," do
       context "and the name is not changed," do
         it "does not change :display_name" do
+          member = create :member
           display_name = member.display_name
-          member.save
+          member.update(phone_number: 'whatever')
           expect(member.reload.display_name).to eq display_name
         end
       end
@@ -135,7 +140,7 @@ RSpec.describe Member, type: :model do
     end
   end
 
-  describe "forum admin rights" do
+  describe "#thredded_admin? (forum admin rights)" do
     context "when member is super admin," do
       subject { build_stubbed :member, :super_admin }
 

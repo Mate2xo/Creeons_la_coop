@@ -31,21 +31,6 @@ RSpec.describe Admin::MembersController, type: :controller do
       expect(page).to have_content(member.email)
       expect(page).to have_content(member.role)
     end
-    #   let(:filters_sidebar) { page.find('#filters_sidebar_section') }
-    #   it "filter Name exists" do
-    #     get :index
-    #     expect(filters_sidebar).to have_css('label[for="q_first_name_or_last_name_cont"]', text: 'Name')
-    #     expect(filters_sidebar).to have_css('input[name="q[first_name_or_last_name_cont]"]')
-    #   end
-    #   it "filter Name works" do
-    #     matching_person = Fabricate :person, first_name: 'ABCDEFG'
-    #     non_matching_person = Fabricate :person, first_name: 'HIJKLMN'
-
-    #     get :index, params: { q: { first_name_or_last_name_cont: 'BCDEF' } }
-
-    #     expect(assigns(:persons)).to include(matching_person)
-    #     expect(assigns(:persons)).not_to include(non_matching_person)
-    #   end
   end
 
   describe "GET new" do
@@ -59,12 +44,12 @@ RSpec.describe Admin::MembersController, type: :controller do
     end
     it "should render the form elements" do
       get :new
-      expect(page).to have_field('First name')
-      expect(page).to have_field('Last name')
-      expect(page).to have_field('Email')
-      expect(page).to have_field('Group')
-      expect(page).to have_field('Phone number')
-      expect(page).to have_field('Biography')
+      expect(page).to have_field(Member.human_attribute_name(:first_name))
+      expect(page).to have_field(Member.human_attribute_name(:last_name))
+      expect(page).to have_field(Member.human_attribute_name(:email))
+      expect(page).to have_field(Member.human_attribute_name(:group))
+      expect(page).to have_field(Member.human_attribute_name(:phone_number))
+      expect(page).to have_field(Member.human_attribute_name(:biography))
     end
   end
 
@@ -127,9 +112,9 @@ RSpec.describe Admin::MembersController, type: :controller do
       expect(assigns(:member)).to eq(member)
     end
     it "should render the form elements" do
-      expect(page).to have_field('First name', with: member.first_name)
-      expect(page).to have_field('Last name', with: member.last_name)
-      expect(page).to have_field('Email', with: member.email)
+      expect(page).to have_field(Member.human_attribute_name(:first_name), with: member.first_name)
+      expect(page).to have_field(Member.human_attribute_name(:last_name), with: member.last_name)
+      expect(page).to have_field(Member.human_attribute_name(:email), with: member.email)
     end
   end
 
