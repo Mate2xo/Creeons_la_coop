@@ -1,27 +1,23 @@
 # frozen_string_literal: true
 
 # Ressource for the members to get products from (vegetables...), and are managed by the 'Aprovisionnement/Commande' team
-# Can be CRUDed by an admin, R by members
-# Available methods: #address, #name, #description, #managers
 class ProductorsController < ApplicationController
   before_action :authenticate_member!
-  before_action :set_productor, only: %i[show edit update destroy]
+  before_action :set_authorized_productor, only: %i[show edit update destroy]
 
   def index
     @productors = Productor.includes :address, :avatar_attachment
   end
 
   def new
-    @productor = Productor.new
-    authorize @productor
+    @productor = authorize Productor.new
 
     # address form generator
     @productor.build_address
   end
 
   def create
-    @productor = Productor.new(permitted_params)
-    authorize @productor
+    @productor = authorize Productor.new(permitted_params)
     if @productor.save
       flash[:notice] = "Le producteur a bien été créé"
       redirect_to @productor
@@ -34,12 +30,10 @@ class ProductorsController < ApplicationController
   def show; end
 
   def edit
-    authorize @productor
     @productor.build_address if @productor.address.nil?
   end
 
   def update
-    authorize @productor
     if @productor.update(permitted_params)
       flash[:notice] = "Le producteur a bien été mis à jour"
       redirect_to @productor
@@ -50,7 +44,6 @@ class ProductorsController < ApplicationController
   end
 
   def destroy
-    authorize @productor
     if @productor.destroy
       flash[:notice] = "Le producteur a été supprimé"
     else
@@ -62,10 +55,16 @@ class ProductorsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:productor).permit(:name, :description, :local, :phone_number, :website_url, :avatar, catalogs: [], address_attributes: [:id, :postal_code, :city, :street_name_1, :street_name_2, coordinates: []])
+    params.require(:productor).permit(:name, :description, :local,
+                                      :phone_number, :website_url, :avatar,
+                                      catalogs: [],
+                                      address_attributes: [
+                                        :id, :postal_code, :city, :street_name_1,
+                                        :street_name_2, coordinates: []
+                                      ])
   end
 
-  def set_productor
-    @productor = Productor.find(params[:id])
+  def set_authorized_productor
+    @productor = authorize Productor.find(params[:id])
   end
 end
