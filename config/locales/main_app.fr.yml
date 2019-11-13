@@ -17,3 +17,8 @@ fr:
         show:
           biography_title: présentation
           member_unconfirmed: invitation en attente de confirmation
+      productors:
+        index:
+          tabs:
+            locals: Locaux
+            suppliers: Fournisseurs
