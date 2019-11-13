@@ -55,6 +55,13 @@ fr:
           member: Membre
           admin: Administrateur
           super_admin: Administrateur général
+      productor:
+        avatar: Photo de profil
+        catalogs: Catalogues
+        description: Description
+        name: Nom
+        phone_number: Numéro de téléphone
+        website_url: Site internet
 
   date:
     abbr_day_names:

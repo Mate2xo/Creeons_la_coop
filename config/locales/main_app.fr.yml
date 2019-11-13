@@ -22,3 +22,10 @@ fr:
           tabs:
             locals: Locaux
             suppliers: Fournisseurs
+        new:
+          title: Ajouter Un %{model}
+        edit:
+          type: 
+            label: Type de %{model}
+            local: Local
+            supplier: Fournisseur
