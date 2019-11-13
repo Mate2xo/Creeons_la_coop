@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Ressource for the members to get products from (vegetables...), and are managed by the 'Aprovisionnement/Commande' team
+# Ressource for the members to get products from (vegetables...), and are managed by the 'management/supply' team
 class ProductorsController < ApplicationController
   before_action :authenticate_member!
   before_action :set_authorized_productor, only: %i[show edit update destroy]
@@ -19,11 +19,11 @@ class ProductorsController < ApplicationController
   def create
     @productor = authorize Productor.new(permitted_params)
     if @productor.save
-      flash[:notice] = "Le producteur a bien été créé"
-      redirect_to @productor
+      flash[:notice] = translate "activerecord.notices.messages.record_created"
+      render :show
     else
-      flash[:error] = "Une erreur est survenue, veuillez recommencer l'opération. Est-ce que ce producteur existe déjà?"
-      redirect_to new_productor_path
+      flash[:error] = translate "activerecord.errors.messages.creation_fail"
+      render :new
     end
   end
 
@@ -35,19 +35,19 @@ class ProductorsController < ApplicationController
 
   def update
     if @productor.update(permitted_params)
-      flash[:notice] = "Le producteur a bien été mis à jour"
-      redirect_to @productor
+      flash[:notice] = translate "activerecord.notices.messages.update_success"
+      render :show
     else
-      flash[:error] = "Une erreur est survenue, veuillez recommencer l'opération"
-      redirect_to edit_productor_path(@productor.id)
+      flash[:error] = translate "activerecord.errors.messages.update_fail"
+      render :edit
     end
   end
 
   def destroy
     if @productor.destroy
-      flash[:notice] = "Le producteur a été supprimé"
+      flash[:notice] = translate "activerecord.notices.messages.record_destroyed"
     else
-      flash[:error] = "Opération échouée, une erreur est survenue"
+      flash[:error] = translate "activerecord.errors.messages.destroy_fail"
     end
     redirect_to productors_path
   end

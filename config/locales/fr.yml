@@ -3,6 +3,8 @@ fr:
   activerecord:
     errors:
       messages:
+        creation_fail: La création du %{model} a échoué
+        destroy_fail: La suppression du %{model} a échoué
         record_invalid: "La validation a échoué : %{errors}"
         restrict_dependent_destroy:
           has_one:
@@ -14,6 +16,8 @@ fr:
         update_fail: La mise à jour à échoué.
     notices:
       messages:
+        record_created: Le %{model} a bien été créé.
+        record_destroyed: Le %{model} a été supprimé.
         update_success: La mise à jour a été effectuée.
     models:
       address:
