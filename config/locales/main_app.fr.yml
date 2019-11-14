@@ -5,9 +5,10 @@ fr:
         delete_button: Supprimer cette addresse
       application:
         buttons:
-          back: Retour
-          edit: Éditer
+          back: " Retour"
+          edit: Modifier
           edit_submit: Sauvegarder les changements
+          destroy: Supprimer
       members:
         edit:
           title: modifier le profil
@@ -29,3 +30,6 @@ fr:
             label: Type de %{model}
             local: Local
             supplier: Fournisseur
+        show:
+          no_address: Addresse non renseignée
+          no_catalogs: Aucun catalogue disponible pour l'instant. Contactez si besoin un administrateur pour consulter les prix de ce fournisseur.

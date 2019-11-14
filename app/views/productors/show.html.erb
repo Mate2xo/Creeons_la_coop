@@ -1,86 +1,85 @@
-<!-- Launch Google Maps -->
-<% provide :head_tags do %>
-<meta name="turbolinks-visit-control" content="reload">
-<% end %>
+<div class="slice ct-color-1 container pt-3 pb-5">
+  <div class="row row-no-padding">
+    <main class="row align-items-center cols-md-delimited cols-lg-delimited">
+      <section class="block block--style-3 col-md-4">
+        <header class="profile-picture profile-picture--style-1">
+          <% if @productor.avatar.attached? %>
+            <%= image_tag @productor.avatar %>
+          <% else %>
+            <img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
+          <% end %>
+        </header>
 
-<div class="mt-4 ml-4">
-  <div class="col-6">
-    <%= link_to " Retour", productors_path, class: "fas fa-arrow-left link-retour" %>
+        <%# Contact informations %>
+        <article class="block-body text-center">
+          <h3 class="heading strong-600 mb-0 mb-0">
+            <%= @productor.name %>
+          </h3>
+          <br />
+          <h3 class="heading heading-sm strong-300">
+            <%= @productor.phone_number if @productor.phone_number.present? %>
+          </h3>
+
+          <% if @productor.address.present? %>
+            <h3 class="heading heading-light heading-sm strong-300">
+              <%= @productor.address.street_name_1 %>
+            </h3>
+            <h4 class="heading heading-light heading-sm strong-300">
+              <%= @productor.address.street_name_2 %>
+            </h4>
+            <h3 class="heading heading-light heading-sm strong-300">
+              <%= @productor.address.city %>
+              <%= @productor.address.postal_code %>
+            </h3>
+          <% else %>
+            <h3 class="heading heading-light heading-sm strong-300">
+              <%= translate "main_app.views.productors.show.no_address" %>
+            </h3>
+          <% end %>
+          <h3 class="heading heading-light heading-sm strong-300">
+            <%= link_to  @productor.website_url, 
+              @productor.website_url, 
+              class:"" if @productor.website_url.present? %>
+        </h3>
+
+        <% if super_admin? || admin? %> 
+          <%= link_to translate("main_app.views.application.buttons.edit"), 
+            edit_productor_path(@productor.id), 
+            class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %>
+          <%= link_to translate("main_app.views.application.buttons.destroy"), 
+            productor_path(@productor.id), 
+            method: :delete, 
+            class: "btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %> 
+        <% end %>
+        </article>
+
+      </section>
+
+      <%# Content %>
+      <section class="col-md-8 mt-4">
+        <h2 class="heading heading-2 strong-300">
+          <%= Productor.human_attribute_name(:description) %>
+        </h2>
+        <p><%= sanitize @productor.description %></p>
+
+        <h2 class="mt-3">
+          <%= Productor.human_attribute_name(:catalogs) %>
+        </h2>
+        <% if @productor.catalogs.attached? %> 
+          <% @productor.catalogs.each { |catalog| %>
+            <i class="fas fa-file fa-3x"></i>
+            <%= link_to "#{catalog.filename}", 
+              rails_blob_path(catalog, disposision: 'attachment'), 
+              download: true %> 
+          <% } %>
+        <% else %>
+          <%= translate "main_app.views.productors.show.no_catalogs" %>
+        <% end %>
+      </section>
+
+    </main>
   </div>
+  <%= link_to translate("main_app.views.application.buttons.back"), 
+    productors_path, 
+    class: "fas fa-arrow-left link-retour d-block text-center mt-4 mr-4" %>
 </div>
-<section class="slice ct-color-1">
-  <div class="container">
-    <div class="row row-no-padding">
-      <div class="col-lg-12">
-
-        <div class="card no-border">
-          <div class="row align-items-center cols-md-delimited cols-lg-delimited">
-            <div class="block block--style-3 col-md-4">
-              <div class="profile-picture profile-picture--style-1">
-                <% if @productor.avatar.attached? %>
-                  <%= image_tag @productor.avatar %>
-                <% else %>
-                  <img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
-                <% end %>
-              </div>
-
-              <div class="block-body text-center">
-                <h3 class="heading heading-6 strong-600 mb-0 mb-0">
-                  <%= @productor.name %>
-                </h3>
-                <br />
-                <h2 class="heading heading-3 heading-sm strong-300">
-                  <%= @productor.phone_number if @productor.phone_number.present? %>
-                </h2>
-
-                <% if @productor.address.present? %>
-                <h3 class="heading heading-light heading-sm strong-300">
-                  <%= @productor.address.street_name_1 %>
-                </h3>
-                <h4 class="heading heading-light heading-sm strong-300">
-                  <%= @productor.address.street_name_2 %>
-                </h4>
-                <h3 class="heading heading-light heading-sm strong-300">
-                  <%= @productor.address.city %>
-                  <%= @productor.address.postal_code %>
-                </h3>
-
-                <% else %>
-                <h3 class="heading heading-light heading-sm strong-300">Adressse non renseignée</h3>
-                <% end %>
-
-                <h3 class="heading heading-light heading-sm strong-300">
-                  <%  %>
-                    <%= link_to  @productor.website_url, @productor.website_url, class:"" if @productor.website_url.present? %>
-                </h3>
-
-                <% if super_admin? || admin? %> 
-                  <%= link_to  "Éditer", edit_productor_path(@productor.id), class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %>
-                  <%= link_to 'Suprimer', productor_path(@productor.id), method: :delete, class: "btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %> 
-               <% end %>
-
-              </div>
-            </div>
-            
-            <div class="col-md-8 ">
-              <!--The div element for the map -->
-              <!-- <div id="map"></div> -->
-              <h2 class="heading heading-2 strong-300">Description</h2>
-                <p><%= sanitize @productor.description %></p>
-
-              <h2 class="mt-3">Catalogue des prix</h2>
-                <% if @productor.catalogs.attached? %> 
-                  <% @productor.catalogs.each { |catalog| %>
-                    <i class="fas fa-file fa-3x"></i>
-                    <%= link_to "#{catalog.filename}", rails_blob_path(catalog, disposision: 'attachment'), download: true %> 
-                  <% } %>
-                <% else %>
-                  Aucun catalogue disponible pour l'instant. Contactez si besoin un administrateur pour consulter les prix de ce fournisseur.
-                <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
