@@ -1,32 +1,30 @@
-<div class="body-wrap">
-  <section class="slice sct-color-2">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="card form-card form-card--style-1">
-            <div class="form-header text-center">
-              <div class="profile-picture profile-picture--style-2">
-                <% if @productor.avatar.attached? %>
-                  <%= image_tag @productor.avatar %>
-                <% else %>
-                  <img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
-                <% end %>
-              </div>
-            </div>
-            <div class="form-body">
-              <div class="text-center px-2">
-                <h4 class="heading heading-4 strong-400 mb-0"><h2>Editer Producteur</h2></h4>
-              </div>
-              
-              <%= render partial: 'form', locals: {productor: @productor} %>
-
-            </div>
-          </div>
+<div class="slice sct-color-2 body-wrap container">
+  <div class="row justify-content-center">
+    <section class="card form-card form-card--style-1">
+      <header class="form-header text-center">
+        <div class="profile-picture profile-picture--style-2">
+          <% if @productor.avatar.attached? %>
+            <%= image_tag @productor.avatar %>
+          <% else %>
+            <img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
+          <% end %>
         </div>
-      </div>
-    </div>
-  </section>
+      </header>
+
+      <main class="form-body">
+        <div class="text-center px-2">
+          <h2 class="heading strong-400 mb-0">
+            <%=
+              translate "main_app.views.productors.edit.title",
+                model: Productor.model_name.human
+              %>
+          </h2>
+        </div>
+
+      <%= render partial: 'form', locals: {productor: @productor} %>
+
+      </main>
+    </section>
+  </div>
 </div>
-
-
 

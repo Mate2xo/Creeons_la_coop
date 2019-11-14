@@ -26,6 +26,7 @@ fr:
         new:
           title: Ajouter Un %{model}
         edit:
+          title: Modifier %{model}
           type: 
             label: Type de %{model}
             local: Local
