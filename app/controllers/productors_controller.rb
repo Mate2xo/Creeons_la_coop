@@ -19,10 +19,12 @@ class ProductorsController < ApplicationController
   def create
     @productor = authorize Productor.new(permitted_params)
     if @productor.save
-      flash[:notice] = translate "activerecord.notices.messages.record_created"
+      flash[:notice] = translate "activerecord.notices.messages.record_created",
+                                 model: Productor.model_name.human
       render :show
     else
-      flash[:error] = translate "activerecord.errors.messages.creation_fail"
+      flash[:error] = translate "activerecord.errors.messages.creation_fail",
+                                model: Productor.model_name.human
       render :new
     end
   end
@@ -45,9 +47,11 @@ class ProductorsController < ApplicationController
 
   def destroy
     if @productor.destroy
-      flash[:notice] = translate "activerecord.notices.messages.record_destroyed"
+      flash[:notice] = translate "activerecord.notices.messages.record_destroyed",
+                                 model: Productor.model_name.human
     else
-      flash[:error] = translate "activerecord.errors.messages.destroy_fail"
+      flash[:error] = translate "activerecord.errors.messages.destroy_fail",
+                                model: Productor.model_name.human
     end
     redirect_to productors_path
   end
