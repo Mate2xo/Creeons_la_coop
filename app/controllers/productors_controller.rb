@@ -64,7 +64,7 @@ class ProductorsController < ApplicationController
                                       catalogs: [],
                                       address_attributes: [
                                         :id, :postal_code, :city, :street_name_1,
-                                        :street_name_2, coordinates: []
+                                        :street_name_2, :_destroy, coordinates: []
                                       ])
   end
 

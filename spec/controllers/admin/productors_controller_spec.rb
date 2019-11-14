@@ -33,21 +33,6 @@ RSpec.describe Admin::ProductorsController, type: :controller do
       expect(page).to have_content(productor.website_url)
       expect(page).to have_content(productor.phone_number)
     end
-    # let(:filters_sidebar) { page.find('#filters_sidebar_section') }
-    # it "filter Email exists" do
-    #   get :index
-    #   expect(filters_sidebar).to have_css('label[for="q_email"]', text: 'Email')
-    #   expect(filters_sidebar).to have_css('input[email="q[email]"]')
-    # end
-    #   it "filter Name works" do
-    #     matching_person = Fabricate :person, first_name: 'ABCDEFG'
-    #     non_matching_person = Fabricate :person, first_name: 'HIJKLMN'
-
-    #     get :index, params: { q: { first_name_or_last_name_cont: 'BCDEF' } }
-
-    #     expect(assigns(:persons)).to include(matching_person)
-    #     expect(assigns(:persons)).not_to include(non_matching_person)
-    #   end
   end
 
   describe "GET new" do
@@ -61,10 +46,10 @@ RSpec.describe Admin::ProductorsController, type: :controller do
     end
     it "should render the form elements" do
       get :new
-      expect(page).to have_field('Name')
+      expect(page).to have_field('Nom')
       expect(page).to have_field('Description')
-      expect(page).to have_field('Phone number')
-      expect(page).to have_field('Website url')
+      expect(page).to have_field('Numéro de téléphone')
+      expect(page).to have_field('Site internet')
     end
   end
 
@@ -128,10 +113,10 @@ RSpec.describe Admin::ProductorsController, type: :controller do
       expect(assigns(:productor)).to eq(productor)
     end
     it "should render the form elements" do
-      expect(page).to have_field('Name', with: productor.name)
+      expect(page).to have_field('Nom', with: productor.name)
       expect(page).to have_field('Description', with: productor.description)
-      expect(page).to have_field('Phone number', with: productor.phone_number)
-      expect(page).to have_field('Website url', with: productor.website_url)
+      expect(page).to have_field('Numéro de téléphone', with: productor.phone_number)
+      expect(page).to have_field('Site internet', with: productor.website_url)
     end
   end
 

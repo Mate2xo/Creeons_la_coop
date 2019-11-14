@@ -51,8 +51,8 @@
   <br />
 
   <%= f.fields_for :address, productor.address do |address_fields| %>
-    <%= render 'address_fields', address: productor.address,
-                                 address_fields: address_fields %>
+    <%= render 'layouts/address_fields', coordinates: productor.address.coordinates,
+                                         f: address_fields %>
   <% end %>
   
   <div class="actions">
@@ -61,4 +61,3 @@
   </div>
   
 <% end %>
-</div>
