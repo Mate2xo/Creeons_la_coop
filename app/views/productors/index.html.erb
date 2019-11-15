@@ -21,10 +21,14 @@
 		<div class="row-wrapper">
 			<ul class="nav nav-tabs justify-content-center mb-5" role="tablist">
 				<li class="nav-item">
-					<a class="nav-link active" data-toggle="tab" href="#locals">Locaux</a>
+          <a class="nav-link active" data-toggle="tab" href="#locals">
+            <%= translate "main_app.views.productors.index.tabs.locals" %>
+          </a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" data-toggle="tab" href="#suppliers">Fournisseurs</a>
+          <a class="nav-link" data-toggle="tab" href="#suppliers">
+            <%= translate "main_app.views.productors.index.tabs.suppliers" %>
+          </a>
 				</li>
 			</ul>
 		</div>
@@ -34,24 +38,34 @@
 				<div class="tab-pane fade show active" id="locals" role="tabpanel" aria-labelledby="locals-tab">
 					<% if super_admin? || admin? %>
 						<div class="d-flex">
-							<%= link_to  "Ajouter un producteur", new_productor_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 mx-auto mb-4" %>
+              <%= link_to  "Ajouter un producteur",
+                new_productor_path,
+                class: "btn btn-base-1 btn-shadow btn-circle px-4 mx-auto mb-4" %>
 						</div>
 					<% end %>
 
 					<div class="row cols-md-space cols-sm-space cols-xs-space">
-						<%= render partial: "productors", locals: {productors: @productors.where(local: true)} %>
+            <%= render partial: "productors",
+              locals: { productors: @productors.select {|productor|
+                          productor.local == true 
+                      }} %>
 					</div>
 				</div>
 
 				<div class="tab-pane fade" id="suppliers" role="tabpanel" aria-labelledby="suppliers-tab">
 					<% if super_admin? || admin? %>
 						<div class="d-flex">
-							<%= link_to  "Ajouter un fournisseur", new_productor_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mx-auto " %>
+              <%= link_to  "Ajouter un fournisseur",
+                new_productor_path,
+                class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mx-auto" %>
 						</div>
 					<% end %>
 		
 					<div class="row cols-md-space cols-sm-space cols-xs-space">
-						<%= render partial: "productors", locals: {productors: @productors.where(local: false)} %>
+            <%= render partial: "productors",
+              locals: { productors: @productors.select {|productor|
+                          productor.local == false
+                      }} %>
 					</div>
 				</div>
 			</div>

@@ -31,7 +31,7 @@ class MembersController < ApplicationController
     params.require(:member).permit(
       :email, :first_name, :last_name, :group,
       :avatar, :phone_number, :biography,
-      address_attributes: %i[id postal_code city street_name_1 street_name_2 coordinates _destroy]
+      address_attributes: %i[id postal_code city street_name_1 street_name_2 _destroy]
     )
   end
 

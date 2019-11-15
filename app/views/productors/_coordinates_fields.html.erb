@@ -1,0 +1,17 @@
+<div class="col-lg-12 mb-3">
+  <div class="field">
+    <%= f.label :coordinates, "Coordonées GPS" %>
+
+    <div id="productor_address_attributes_coordinates", class="d-flex">
+      <%= text_field_tag "productor[address_attributes][coordinates][]",
+        (coordinates.nil? ? nil : coordinates[0]),
+        class: "form-control mr-2", placeholder: "latitude" %>
+
+      <%= text_field_tag "productor[address_attributes][coordinates][]",
+        (coordinates.nil? ? nil : coordinates[1]),
+        class: "form-control", placeholder: "longitude" %>
+    </div>
+  </div>
+</div>
+
+

@@ -11,7 +11,10 @@
             </div>
             <div class="form-body">
               <div class="text-center px-2">
-                <h4 class="heading heading-4 strong-400 mb-0"><h2>Ajouter Un Producteur</h2></h4>
+                <h2 class="heading heading-2 strong-400 mb-0">
+                  <%= translate "main_app.views.productors.new.title",
+                    model: Productor.model_name.human  %>
+                </h2>
               </div>
               
               <%= render partial: 'form', locals: {productor: @productor} %>

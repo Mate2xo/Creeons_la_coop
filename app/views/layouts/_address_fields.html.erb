@@ -23,6 +23,9 @@
       <%= f.text_field :city, class: "form-control form-control-lg" %><br />
     </div>
   </div>
+
+  <%= render "productors/coordinates_fields", 
+            coordinates: coordinates, f: f if defined?(coordinates) %>
   
   <%= link_to_remove_association t("main_app.views.address.delete_button").humanize, f,
     class: 'text-danger ml-auto' %>

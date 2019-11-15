@@ -6,7 +6,7 @@ ActiveAdmin.register Productor do
                 catalogs: [],
                 address_attributes: [:id, :postal_code, :city,
                                      :street_name_1, :street_name_2,
-                                     coordinates: []]
+                                     :_destroy, coordinates: []]
 
   index do
     selectable_column
