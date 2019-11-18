@@ -10,7 +10,11 @@
 
     <div class="block-body text-center">
       <h3 class="heading heading-6 strong-600 mb-0 mb-0">
-        <%=  member.first_name %> <%=  member.last_name %>
+        <% unless member.first_name.nil? && member.last_name.nil?  %>
+          <%=  member.first_name %> <%=  member.last_name %>
+        <% else %>
+          <%= translate "main_app.views.members.index.member_unconfirmed" %>
+        <% end %>
       </h3><br />
       <h3 class="heading heading-light heading-sm strong-300">
         <%=  member.email %>

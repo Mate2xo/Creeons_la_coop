@@ -3,13 +3,17 @@
     <div class="row-wrapper">
       <% if super_admin? %>
         <div class="text-center">
-          <%= link_to t("devise.invitations.new.header"), new_member_invitation_path, class: 'btn btn-base-1 btn-shadow btn-circle my-4 px-4' %>
+          <%= link_to t("devise.invitations.new.header"),
+                      new_member_invitation_path,
+                      class: 'btn btn-base-1 btn-shadow btn-circle my-4 px-4' %>
         </div>
       <% end%>
 
       <ul class="nav nav-tabs justify-content-center mb-5">
         <li class="nav-item">
-          <a class="nav-link active" href="#all-members" data-toggle="tab" role="tab"><%= t("main_app.views.members.index.all_tab") %></a>
+          <a class="nav-link active" href="#all-members" data-toggle="tab" role="tab">
+            <%= t("main_app.views.members.index.all_tab") %>
+          </a>
         </li>
 
         <% Member.groups.each do |group_name, _| %>
@@ -21,22 +25,22 @@
         <% end %>
       </ul>
 
-      <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="all-members" role="tabpanel" aria-labelledby="all-members-tab">
+      <main class="tab-content" id="myTabContent">
+        <section class="tab-pane fade show active" id="all-members" role="tabpanel" aria-labelledby="all-members-tab">
           <div class="row cols-md-space cols-sm-space cols-xs-space">
             <%= render partial: "member", collection: @members %>
           </div> 
-        </div>
+        </section>
 
         <% Member.groups.each do |group_name, _| %>
-          <div class="tab-pane fade" id="<%= group_name %>-group" role="tabpanel" aria-labelledby="<%= group_name %>-group-tab">
+          <section class="tab-pane fade" id="<%= group_name %>-group" role="tabpanel" aria-labelledby="<%= group_name %>-group-tab">
             <div class="row cols-md-space cols-sm-space cols-xs-space">
               <%= render partial: "member",
                           collection: @members.select {|member| member.group == group_name} %>
             </div>
-          </div> 
+          </section> 
         <% end %>
-      </div>
+      </main>
 
     </div>
   </div>
