@@ -23,6 +23,7 @@ fr:
         subject: 'Invitation au site de la ClaC'
         hello: 'Bonjour %{email}'
         someone_invited_you: "Quelqu'un vous a invité à rejoindre le site de la ClaC sur %{url}, vous pouvez accepter cette invitation via le lien ci-dessous."
+        troubleshoot: "Si vous n'arrivez pas à vous connecter (exemple: 'erreur 500' ou autres), veuillez envoyer un mail à %{tech_support_mail_address}. Une fois connecté, nous vous invitons à discuter sur le forum mis à votre disposition."
         accept: "Accepter l'invitation"
         accept_until: "Cette invitation sera valable jusqu'au %{due_date}."
         ignore: "Si vous ne souhaitez pas accepter cette invitation, veuillez ignorer cet e-mail. Votre compte ne sera pas créé tant que vous n'accéderez pas au lien ci-dessus et que votre mot de passe soit défini."

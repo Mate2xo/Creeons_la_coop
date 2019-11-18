@@ -15,6 +15,7 @@ fr:
           change_password: Modifier votre mot de passe
         index:
           all_tab: Tous
+          member_unconfirmed: Invitation en attente de confirmation
         show:
           biography_title: présentation
           member_unconfirmed: invitation en attente de confirmation
