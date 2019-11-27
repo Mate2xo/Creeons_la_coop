@@ -9,7 +9,7 @@ RSpec.describe MissionsController, type: :controller do
   let(:valid_attributes) { attributes_for(:mission) }
   let(:invalid_attributes) do { name: '' } end
 
-  context "as a member" do
+  context "as a member," do
     before { sign_in member }
 
     describe "GET index" do
@@ -26,7 +26,7 @@ RSpec.describe MissionsController, type: :controller do
       it { expect(assigns(:mission)).to eq(mission) }
     end
 
-    describe "Update an authored mission" do
+    describe "updating a mission that he created" do
       let(:authored_mission) { create :mission, author: member }
 
       context "when accessing #edit" do
@@ -41,8 +41,7 @@ RSpec.describe MissionsController, type: :controller do
           before { put :update, params: { id: authored_mission.id, mission: valid_attributes } }
 
           it { expect(assigns(:mission)).to eq(authored_mission) }
-          it { expect(response).to have_http_status(:redirect) }
-          it { expect(response).to redirect_to(mission_path(authored_mission)) }
+          it { expect(response).to render_template(:show) }
 
           it "update the attributes" do
             authored_mission.reload
@@ -52,9 +51,9 @@ RSpec.describe MissionsController, type: :controller do
         end
 
         context 'with invalid params' do
-          it 'redirect to the edit form' do
+          it 'redirects to the edit form' do
             put :update, params: { id: authored_mission.id, mission: invalid_attributes }
-            expect(response).to redirect_to(edit_mission_path(authored_mission.id))
+            expect(response).to render_template(:edit)
           end
 
           it 'does not change the mission' do
@@ -118,7 +117,7 @@ RSpec.describe MissionsController, type: :controller do
         post :create, params: { mission: mission_params }
 
         expect(Mission.count).to eq 0
-        expect(response).to redirect_to new_mission_path
+        expect(response).to render_template(:new)
       end
 
       it "validates that recurrence_end_date is at least set to the present day" do
@@ -127,7 +126,7 @@ RSpec.describe MissionsController, type: :controller do
         post :create, params: { mission: mission_params }
 
         expect(Mission.count).to eq 0
-        expect(response).to redirect_to new_mission_path
+        expect(response).to render_template(:new)
       end
 
       it "sets the maximum recurrence_end_date to the end of next month" do

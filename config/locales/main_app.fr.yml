@@ -19,6 +19,11 @@ fr:
         show:
           biography_title: présentation
           member_unconfirmed: invitation en attente de confirmation
+      missions:
+        show:
+          cannot_enroll: Le nombre maximum de participants est déjà atteint 
+          confim_enroll: Vous vous êtes inscrit à cette mission 
+          disenroll: Vous ne participez plus à cette mission
       productors:
         index:
           tabs:
