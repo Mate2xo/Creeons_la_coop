@@ -31,6 +31,13 @@ fr:
           disenroll: Vous ne participez plus à cette mission
           max_member_count: Nombre maximum de participants
           min_member_count: Nombre minimum de personnes souhaitées
+      navbar:
+        about_us: En savoir plus
+        admin_section: Gestion admin
+        member_access: Espace Membres
+        schedule: Planning
+        sign_out: Déconnexion
+        profile: Votre profil
       productors:
         index:
           tabs:
