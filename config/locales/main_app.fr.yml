@@ -21,6 +21,9 @@ fr:
           biography_title: présentation
           member_unconfirmed: invitation en attente de confirmation
       missions:
+        index:
+          create: Ajouter un créneau
+          instructions_html: 'Les créneaux qui ont besoin de membres sont en <em class="btn-danger p-1">rouge</em>, ceux ayant encore de la place sont en <em class="btn-success p-1">vert</em>. Les créneaux pleins sont en <em class="btn-secondary p-1">gris</em>'
         show:
           addresses: Lieux
           attendees: Participants

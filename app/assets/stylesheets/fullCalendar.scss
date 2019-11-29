@@ -1,0 +1,9 @@
+.fc-header-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.btn-danger, .btn-success, .btn-secondary {
+  border-radius: 5px;
+}
