@@ -62,9 +62,12 @@ fr:
       mission:
         author: Auteur
         description: Description
-        due_date: Date limite
+        due_date: Date et heure de fin
+        max_member_count: Nombre maximum de participants
+        min_member_count: Nombre minimum de personnes souhaitées
         name: Nom
-        start_date: Date de début
+        start_date: Date et heure de début
+        recurrent: Événement récurrent
       productor:
         avatar: Photo de profil
         catalogs: Catalogues
