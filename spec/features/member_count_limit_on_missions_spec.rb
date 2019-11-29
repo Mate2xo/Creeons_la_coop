@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.feature "MemberCountLimitOnMissions", type: :feature do
+RSpec.feature "Member count limit on missions :", type: :feature do
   let(:member) { create :member }
   let(:mission) { create :mission }
   before { sign_in member }
@@ -12,9 +12,10 @@ RSpec.feature "MemberCountLimitOnMissions", type: :feature do
 
     context "when the enrolled Member count has NOT been reached" do
       it "allows enrolling to that Mission" do
-        click_link 'Participer'
+        click_link I18n.t("main_app.views.missions.show.button_enroll")
+
         expect(mission.reload.members).to include(member)
-        expect(page).to have_content("Vous vous êtes inscrit à cette mission")
+        expect(page).to have_content(I18n.t("main_app.views.missions.show.confirm_enroll"))
       end
     end
 
@@ -24,9 +25,10 @@ RSpec.feature "MemberCountLimitOnMissions", type: :feature do
         mission.members << create_list(:member, 4)
         mission.save
 
-        click_link 'Participer'
+        click_link I18n.t("main_app.views.missions.show.button_enroll")
+
         expect(mission.reload.members).to_not include(member)
-        expect(page).to have_content("Le nombre maximum de participants est déjà atteint")
+        expect(page).to have_content(I18n.t("main_app.views.missions.show.cannot_enroll"))
       end
     end
   end
@@ -38,9 +40,10 @@ RSpec.feature "MemberCountLimitOnMissions", type: :feature do
     }
 
     it "unsubcribes a member" do
-      click_link 'Désinscription'
+      click_link I18n.t("main_app.views.missions.show.button_disenroll")
+
       expect(mission.reload.members).not_to include(member)
-      expect(page).to have_content("Vous ne participez plus à cette mission")
+      expect(page).to have_content(I18n.t("main_app.views.missions.show.disenroll"))
     end
   end
 end

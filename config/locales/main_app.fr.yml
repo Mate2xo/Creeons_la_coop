@@ -9,6 +9,7 @@ fr:
           edit: Modifier
           edit_submit: Sauvegarder les changements
           destroy: Supprimer
+          destroy_confirm: Supprimer ce(tte) %{model}?
       members:
         edit:
           title: modifier le profil
@@ -21,9 +22,15 @@ fr:
           member_unconfirmed: invitation en attente de confirmation
       missions:
         show:
-          cannot_enroll: Le nombre maximum de participants est déjà atteint 
-          confim_enroll: Vous vous êtes inscrit à cette mission 
+          addresses: Lieux
+          attendees: Participants
+          button_enroll: S'inscrire sur ce créneau
+          button_disenroll: Se désinscrire de ce créneau
+          cannot_enroll: Le nombre maximum de participants est déjà atteint
+          confirm_enroll: Vous vous êtes inscrit à cette mission
           disenroll: Vous ne participez plus à cette mission
+          max_member_count: Nombre maximum de participants
+          min_member_count: Nombre minimum de personnes souhaitées
       productors:
         index:
           tabs:
@@ -33,7 +40,7 @@ fr:
           title: Ajouter Un %{model}
         edit:
           title: Modifier %{model}
-          type: 
+          type:
             label: Type de %{model}
             local: Local
             supplier: Fournisseur

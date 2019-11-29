@@ -59,6 +59,12 @@ fr:
           member: Membre
           admin: Administrateur
           super_admin: Administrateur général
+      mission:
+        author: Auteur
+        description: Description
+        due_date: Date limite
+        name: Nom
+        start_date: Date de début
       productor:
         avatar: Photo de profil
         catalogs: Catalogues

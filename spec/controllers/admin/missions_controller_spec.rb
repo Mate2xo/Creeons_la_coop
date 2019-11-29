@@ -43,10 +43,11 @@ RSpec.describe Admin::MissionsController, type: :controller do
     end
     it "should render the form elements" do
       get :new
-      expect(page).to have_field('Author')
-      expect(page).to have_field('Name')
-      expect(page).to have_field('Description')
-      expect(page).to have_field('Due date')
+
+      expect(page).to have_field(I18n.t("activerecord.attributes.mission.author"))
+      expect(page).to have_field(I18n.t("activerecord.attributes.mission.name"))
+      expect(page).to have_field(I18n.t("activerecord.attributes.mission.description"))
+      expect(page).to have_field(I18n.t("activerecord.attributes.mission.due_date"))
     end
   end
 
@@ -118,10 +119,13 @@ RSpec.describe Admin::MissionsController, type: :controller do
       expect(assigns(:mission)).to eq(mission)
     end
     it "should render the form elements" do
-      expect(page).to have_select('Author', with_options: [mission.author.email])
-      expect(page).to have_field('Name', with: mission.name)
-      expect(page).to have_field('Description', with: mission.description)
-      expect(page).to have_select('Due date')
+      expect(page).to have_select(I18n.t("activerecord.attributes.mission.author"),
+                                  with_options: [mission.author.email])
+      expect(page).to have_field(I18n.t("activerecord.attributes.mission.name"),
+                                 with: mission.name)
+      expect(page).to have_field(I18n.t("activerecord.attributes.mission.description"),
+                                 with: mission.description)
+      expect(page).to have_select(I18n.t("activerecord.attributes.mission.author"))
     end
   end
 

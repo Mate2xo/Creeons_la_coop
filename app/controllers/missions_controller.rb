@@ -52,7 +52,7 @@ class MissionsController < ApplicationController
       flash[:alert] = translate "main_app.views.missions.show.cannot_enroll"
     else
       @mission.members << current_member
-      flash[:notice] = translate "main_app.views.missions.show.confim_enroll"
+      flash[:notice] = translate "main_app.views.missions.show.confirm_enroll"
     end
 
     redirect_to mission_path(params[:id])
