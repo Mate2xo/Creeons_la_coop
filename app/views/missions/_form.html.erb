@@ -1,6 +1,6 @@
 <div class="form-default mt-4">
   <%= form_with model: mission, local: true do |f| %>
-    <div class="col-lg-12">
+    <section class="col-lg-12">
       <div class="field">
         <%= f.label :name, Mission.human_attribute_name(:name) %><br />
         <%= f.text_field :name, class: "form-control form-control-lg", required: true %>
@@ -14,13 +14,21 @@
 
       <div class="d-flex mb-4">
         <div class="field mr-auto pr-3">
-          <%= f.label :min_member_count, Mission.human_attribute_name(:min_member_count) %><br />
-          <%= f.number_field :min_member_count, class: "form-control form-control-lg", required: true %>
+          <%= f.label :min_member_count,
+                      Mission.human_attribute_name(:min_member_count) %>
+          <br />
+          <%= f.number_field :min_member_count,
+                             class: "form-control form-control-lg",
+                             required: true %>
         </div><br />
 
         <div class="field">
-          <%= f.label :max_member_count, Mission.human_attribute_name(:max_member_count) %><br />
-          <%= f.number_field :max_member_count, class: "form-control form-control-lg", required: true %>
+          <%= f.label :max_member_count,
+                      Mission.human_attribute_name(:max_member_count) %>
+          <br />
+          <%= f.number_field :max_member_count,
+                             class: "form-control form-control-lg",
+                             required: true %>
         </div><br />
       </div>
 
@@ -44,30 +52,38 @@
 
         <div id="recurrence-selector">
           <div class="field mb-2">
-            <%= f.label "recurrence_rule", t("main_app.views.missions._form.recurrence_type") %>
-            <%= f.select_recurring :recurrence_rule, nil, {:allow_blank => true}, {:class => "form-control"} %>
+            <%= f.label "recurrence_rule",
+                        t("main_app.views.missions._form.recurrence_type") %>
+            <%= f.select_recurring :recurrence_rule,
+                                   nil,
+                                   {:allow_blank => true},
+                                   {:class => "form-control"} %>
           </div>
 
           <div class="field">
-            <%= f.label :recurrence_end_date, t("main_app.views.missions._form.recurrence_end_date")%><br />
-            <%= f.date_field :recurrence_end_date, class: "form-control form-control-lg" %>
+            <%= f.label :recurrence_end_date,
+                        t("main_app.views.missions._form.recurrence_end_date")%>
+            <br />
+            <%= f.date_field :recurrence_end_date,
+                             class: "form-control form-control-lg" %>
           </div>
         </div>
       </div>
+    </section>
 
+    <br />
+    <h4><%= translate "main_app.views.missions._form.address_fields" %></h4>
+    <%= f.fields_for :addresses, mission.addresses do |address| %>
+      <%= render 'layouts/address_fields', f: address %>
+    <% end %>
+    <%= link_to_add_association t("main_app.views.application.buttons.add_address"),
+                                f,
+                                :addresses,
+                                partial: 'layouts/address_fields' %>
+
+    <div class="actions">
+      <%= f.submit translate("main_app.views.application.buttons.submit"),
+                   class: "btn-update btn btn-styled btn-lg btn-block btn-base-1 mt-4" %>
     </div>
-</div>
-<br />
-
-<h4>Adresses optionnelles</h4>
-<%= f.fields_for :addresses, mission.addresses do |address| %>
-  <%= render 'layouts/address_fields', f: address %>
-<% end %>
-<div>
-  <%= link_to_add_association 'Ajouter une addresse', f, :addresses, partial: 'layouts/address_fields' %>
-</div>
-
-<div class="actions">
-  <%= f.submit "Valider", class: "btn-update btn btn-styled btn-lg btn-block btn-base-1 mt-4" %>
-<% end %>
+  <% end %>
 </div>
