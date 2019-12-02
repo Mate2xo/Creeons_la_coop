@@ -15,12 +15,12 @@
       <div class="d-flex mb-4">
         <div class="field mr-auto pr-3">
           <%= f.label :min_member_count, Mission.human_attribute_name(:min_member_count) %><br />
-          <%= f.number_field :min_member_count, class: "form-control form-control-lg" %>
+          <%= f.number_field :min_member_count, class: "form-control form-control-lg", required: true %>
         </div><br />
 
         <div class="field">
           <%= f.label :max_member_count, Mission.human_attribute_name(:max_member_count) %><br />
-          <%= f.number_field :max_member_count, class: "form-control form-control-lg" %>
+          <%= f.number_field :max_member_count, class: "form-control form-control-lg", required: true %>
         </div><br />
       </div>
 
