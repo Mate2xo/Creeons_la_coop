@@ -33,6 +33,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'activeadmin' # Admin interface
 gem 'addressable' # URI manipulations
 gem "aws-sdk-s3", require: false # S3 file upload storage
+gem 'bootstrap4-datetime-picker-rails'
 gem 'cocoon', '~> 1.2', '>= 1.2.12' # Dynamic nested forms
 gem "devise", "~> 4.7" # Users login/registration management
 gem 'devise_invitable', '~> 2.0.0'

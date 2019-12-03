@@ -35,12 +35,23 @@
       <div class="d-flex flex-wrap mb-4">
         <div class="field mr-auto">
           <%= f.label :start_date, Mission.human_attribute_name(:start_date) %>
-          <%= f.datetime_field :start_date, class: "form-control form-control-lg" %>
+          <%= f.text_field :start_date,
+            class: "form-control form-control-lg datetimepicker-input",
+            data: {
+              toggle: "datetimepicker",
+              target: "#mission_start_date"
+            } %>
         </div>
 
         <div class="field">
           <%= f.label :due_date, Mission.human_attribute_name(:due_date) %><br />
-          <%= f.datetime_field :due_date, class: "form-control form-control-lg" %>
+          <%= f.text_field :due_date,
+            class: "form-control form-control-lg datetimepicker-input",
+            data: {
+              toggle: "datetimepicker",
+              target: "#mission_due_date"
+            }
+          %>
         </div>
       </div>
 
