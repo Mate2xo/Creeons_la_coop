@@ -10,7 +10,6 @@
 @import "_footer";
 @import "infos";
 @import "missions";
-@import "productors";
 @import "session";
 @import "static_pages";
 @import "full_calendar/core/main.min";
@@ -22,3 +21,17 @@
 @import "recurring_select";
 @import "thredded";
 @import "thredded-custom";
+
+.btn-base-1 {
+	color: white !important;
+	background-color: #62c059 !important;
+	border-radius: 5px !important;
+	font-weight: bold !important;
+	border-color: #62c059 !important;
+	border-width: 2px !important;
+}
+
+.block--style-3 {
+	margin-left: 30px !important;
+}
+
