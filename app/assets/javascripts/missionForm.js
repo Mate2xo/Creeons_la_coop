@@ -7,10 +7,16 @@
 $(document).on('turbolinks:load', () => {
   $('#mission_start_date').datetimepicker({
     locale: 'fr',
+    widgetPositioning: {
+      horizontal: 'left',
+    },
   });
   $('#mission_due_date').datetimepicker({
     locale: 'fr',
     useCurrent: false,
+    widgetPositioning: {
+      horizontal: 'left',
+    },
   });
 
   $('#mission_recurrent').on('change', () => {
