@@ -48,7 +48,6 @@
 //= require isotope.min
 //= require boomerang.min
 //= require cocoon
-//= require missions
 //= require trix
 //= require trix-custom
 //= require imagesloaded.pkgd.min

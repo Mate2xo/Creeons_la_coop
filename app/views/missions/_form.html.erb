@@ -1,3 +1,7 @@
+<% provide :head_tags do %>
+  <%= javascript_include_tag 'missionForm', 'data-turbolinks-track': 'reload' %>
+<% end %>
+
 <div class="form-default mt-4">
   <%= form_with model: mission, local: true do |f| %>
     <section class="col-lg-12">
