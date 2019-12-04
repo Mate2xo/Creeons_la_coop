@@ -30,6 +30,8 @@ fr:
           address_fields: Addresses optionnelles
           recurrence_type: Type de récurrence
           recurrence_end_date: Date de fin de récurrence
+        new:
+          title: Créer un créneau
         show:
           addresses: Lieux
           attendees: Participants
