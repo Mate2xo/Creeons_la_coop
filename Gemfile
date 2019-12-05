@@ -41,9 +41,9 @@ gem 'faker' # Generate fake data for the seed.rb and spec factories
 gem 'httparty' # Http requests
 gem 'ice_cube' # Calendar events recurrence (for Missions)
 gem 'leaflet-rails' # GeoMap generator
-gem 'mailjet' # Production Mailer API
+gem 'mailjet' # Production mailer API
 gem 'pundit' # Authorization management
-gem 'recurring_select'
+gem 'recurring_select' # Events recurrence rules set helper
 gem 'thredded', '~> 0.16.13' # Forum engine
 
 group :development, :test do
