@@ -38,8 +38,9 @@ RSpec.describe Mission, type: :model do
       it { is_expected.to accept_nested_attributes_for(:addresses).allow_destroy(true) }
       it { is_expected.to validate_presence_of(:name) }
       it { is_expected.to validate_presence_of(:description) }
-      it { is_expected.to validate_presence_of(:max_member_count) }
       it { is_expected.to validate_presence_of(:min_member_count) }
+      it { is_expected.to validate_numericality_of(:min_member_count).only_integer }
+      it { is_expected.to validate_numericality_of(:max_member_count).only_integer.allow_nil }
     end
 
     describe 'associations' do

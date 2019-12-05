@@ -27,10 +27,15 @@
           <% end %>
         </div>
         <div class="d-flex justify-content-around">
-          <p><%= Mission.human_attribute_name(:min_member_count)
-               %> : <%= @mission.min_member_count %></p>
-          <p><%= Mission.human_attribute_name(:max_member_count)
-               %> : <%= @mission.max_member_count %></p>
+          <p>
+            <%= Mission.human_attribute_name(:min_member_count)
+            %> : <%= @mission.min_member_count %>
+          </p>
+          <p>
+            <%= Mission.human_attribute_name(:max_member_count)
+            %> : <%= @mission.max_member_count != 0 ?
+              @mission.max_member_count : t("main_app.views.application.messages.undefined") %>
+          </p>
         </div>
       </section>
     </main>

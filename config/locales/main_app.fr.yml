@@ -12,6 +12,8 @@ fr:
           destroy: Supprimer
           destroy_confirm: Supprimer ce(tte) %{model}?
           submit: Valider
+        messages:
+          undefined: Indéfini
       members:
         edit:
           title: modifier le profil
