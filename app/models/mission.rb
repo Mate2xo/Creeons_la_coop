@@ -28,6 +28,7 @@ class Mission < ApplicationRecord
 
   validates :name, presence: true
   validates :description, presence: true
+  validates :start_date, presence: true, on: :update
   validates :min_member_count, numericality: { only_integer: true }, presence: true
   validates :max_member_count, numericality: { only_integer: true }, allow_nil: true
 
