@@ -28,8 +28,8 @@ class Mission < ApplicationRecord
 
   validates :name, presence: true
   validates :description, presence: true
-  validates :max_member_count, presence: true
-  validates :min_member_count, presence: true
+  validates :min_member_count, numericality: { only_integer: true }, presence: true
+  validates :max_member_count, numericality: { only_integer: true }, allow_nil: true
 
   accepts_nested_attributes_for :addresses, reject_if: :all_blank, allow_destroy: true
 

@@ -1,3 +1,4 @@
+@import "css/font-awesome";
 @import "css/bootstrap.min";
 @import "css/swiper.min";
 @import "hamburgers.min";
@@ -7,19 +8,26 @@
 @import "css/custom-style";
 @import "_navbar";
 @import "_footer";
-@import "admin";
 @import "infos";
-@import "missions";
-@import "productors";
 @import "session";
 @import "static_pages";
-@import "full_calendar/core/main.min";
-@import "full_calendar/daygrid/main.min";
-@import "full_calendar/timegrid/main.min";
-@import "full_calendar/bootstrap/main.min";
 @import "trix";
 @import "trix-custom";
 @import "leaflet";
 @import "recurring_select";
 @import "thredded";
 @import "thredded-custom";
+
+.btn-base-1 {
+	color: white !important;
+	background-color: #62c059 !important;
+	border-radius: 5px !important;
+	font-weight: bold !important;
+	border-color: #62c059 !important;
+	border-width: 2px !important;
+}
+
+.block--style-3 {
+	margin-left: 30px !important;
+}
+

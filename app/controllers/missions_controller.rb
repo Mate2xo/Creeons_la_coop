@@ -2,10 +2,10 @@
 
 # A Mission is an activity that has to be done for the Supermaket Team to function properly.
 # Every member can create a mission
-# Available methods: #addresses, #author, #due_date, #name, #description, #members
+# Available methods other than attributes: #addresses, #members
 class MissionsController < ApplicationController
   before_action :authenticate_member!
-  before_action :set_mission, only: %i[show edit update destroy enroll disenroll]
+  before_action :set_authorized_mission, only: %i[show edit update destroy enroll disenroll]
 
   def index
     @missions = Mission.includes(:members)
@@ -19,70 +19,77 @@ class MissionsController < ApplicationController
     @mission = Mission.new(permitted_params)
     @mission.author = current_member
 
-    if @mission.recurrent
-      validation_msg = RecurrentMissions.validate @mission
-      return redirect_to new_mission_path, alert: validation_msg if validation_msg != true
-
-      RecurrentMissions.new.generate(@mission)
-      flash[:notice] = "Missions créées"
-      redirect_to missions_path
-
-    elsif @mission.save
-      flash[:notice] = "La mission a été créée"
-      redirect_to @mission
-    else
-      flash[:error] = "La création de mission a échoué"
-      redirect_to new_mission_path
-    end
+    generate(@mission)
   end
 
   def show; end
 
-  def edit
-    authorize @mission
-  end
+  def edit; end
 
   def update
-    authorize @mission
     if @mission.update_attributes(permitted_params)
-      flash[:notice] = "La mission a été mise à jour"
-      redirect_to @mission
+      flash[:notice] = translate "activerecord.notices.messages.update_success"
+      render :show
     else
-      flash[:error] = "La mise à jour de la misison a échoué"
-      redirect_to edit_mission_path(@mission.id)
+      flash[:error] = translate "activerecord.errors.messages.update_fail"
+      render :edit
     end
   end
 
   def destroy
-    authorize @mission
     if @mission.destroy
-      flash[:notice] = "La mission a été supprimée"
+      flash[:notice] = translate "activerecord.notices.messages.record_destroyed",
+                                 model: Mission.model_name.human
     else
-      flash[:error] = "Une erreur est survenue, veuillez recommencer l'opération"
+      flash[:error] = translate "activerecord.errors.messages.destroy_fail",
+                                model: Mission.model_name.human
     end
-    redirect_to "/missions"
+    redirect_to missions_path
   end
 
   def enroll
-    authorize @mission
-    if @mission.members.count >= @mission.max_member_count || @mission.members.where(id: current_member.id).present?
-      flash[:alert] = "Le nombre maximum de participants est déjà atteint"
+    if member_slots_full?
+      flash[:alert] = translate "main_app.views.missions.show.cannot_enroll"
     else
       @mission.members << current_member
-      flash[:notice] = "Vous vous êtes inscrit à cette mission"
+      flash[:notice] = translate "main_app.views.missions.show.confirm_enroll"
     end
 
     redirect_to mission_path(params[:id])
   end
 
   def disenroll
-    authorize @mission
     @mission.members.destroy(current_member.id)
-    flash[:alert] = "Vous ne participez plus à cette mission"
+    flash[:alert] = translate "main_app.views.missions.show.disenroll"
     redirect_to mission_path(params[:id])
   end
 
   private
+
+  def generate(mission)
+    if mission.recurrent
+      validation_msg = RecurrentMissions.validate mission
+      return render :new, alert: validation_msg unless validation_msg == true
+
+      RecurrentMissions.new.generate(mission)
+      flash[:notice] = translate "activerecord.notices.messages.records_created",
+                                 model: Mission.model_name.human
+      redirect_to missions_path
+
+    elsif mission.save
+      flash[:notice] = translate "activerecord.notices.messages.record_created",
+                                 model: Mission.model_name.human
+      render :show
+    else
+      flash[:error] = translate "activerecord.errors.creation_fail",
+                                model: Mission.model_name.human
+      render :new
+    end
+  end
+
+  def member_slots_full?
+    @mission.members.count >= @mission.max_member_count || @mission.members.where(id: current_member.id).present?
+  end
 
   def permitted_params
     params.require(:mission).permit(:name, :description,
@@ -92,7 +99,7 @@ class MissionsController < ApplicationController
                                     addresses_attributes: %i[id postal_code city street_name_1 street_name_2 _destroy])
   end
 
-  def set_mission
-    @mission = Mission.find(params[:id])
+  def set_authorized_mission
+    @mission = authorize Mission.find(params[:id])
   end
 end
