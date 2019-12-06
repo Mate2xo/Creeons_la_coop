@@ -3,8 +3,8 @@ fr:
   activerecord:
     errors:
       messages:
-        creation_fail: La création du/de la %{model} a échoué
-        destroy_fail: La suppression du/de la %{model} a échoué
+        creation_fail: La création de %{model} a échoué
+        destroy_fail: La suppression de %{model} a échoué
         record_invalid: "La validation a échoué : %{errors}"
         restrict_dependent_destroy:
           has_one:
@@ -62,7 +62,7 @@ fr:
       mission:
         author: Auteur
         description: Description
-        due_date: Date et heure de fin
+        due_date: Date et heure limite
         max_member_count: Nombre maximum de participants
         min_member_count: Nombre minimum de personnes souhaitées
         name: Nom

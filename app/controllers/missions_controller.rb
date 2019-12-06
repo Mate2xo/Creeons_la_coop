@@ -81,9 +81,9 @@ class MissionsController < ApplicationController
                                  model: Mission.model_name.human
       render :show
     else
-      flash[:error] = translate "activerecord.errors.creation_fail",
+      flash[:error] = translate "activerecord.errors.messages.creation_fail",
                                 model: Mission.model_name.human
-      render :new
+      redirect_to new_mission_path
     end
   end
 
