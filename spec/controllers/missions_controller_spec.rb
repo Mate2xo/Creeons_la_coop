@@ -7,7 +7,6 @@ RSpec.describe MissionsController, type: :controller do
   let(:super_admin) { create :member, :super_admin }
   let(:mission) { create :mission }
   let(:valid_attributes) { attributes_for(:mission) }
-  let(:invalid_attributes) do { name: '' } end
 
   before { sign_in super_admin }
 
@@ -39,47 +38,32 @@ RSpec.describe MissionsController, type: :controller do
         mission.reload
       }
 
-      it "assigns @mission" do
-        expect(assigns(:mission)).to eq(mission)
-      end
-
+      it "assigns @mission" do expect(assigns(:mission)).to eq(mission) end
       it { expect(response).to render_template(:show) }
 
-      it "updates the .name attribute" do
-        expect(mission.name).to eq(valid_attributes[:name])
-      end
-
-      it "updates the .description attribute" do
-        expect(mission.description).to eq(valid_attributes[:description])
-      end
-
-      it "updates the .max_member_count attribute" do
-        expect(mission.max_member_count).to eq(valid_attributes[:max_member_count])
-      end
-
-      it "updates the .min_member_count attribute" do
-        expect(mission.min_member_count).to eq(valid_attributes[:min_member_count])
-      end
-
-      it "updates the .start_date attribute" do
-        expect(mission.start_date).to eq(valid_attributes[:start_date])
-      end
-
-      it "updates the .due_date attribute" do
-        expect(mission.due_date).to eq(valid_attributes[:due_date])
+      %i[
+        name description max_member_count min_member_count start_date due_date
+      ].each do |attribute|
+        it "updates the :#{attribute} attribute" do
+          expect(mission.send(attribute)).to eq(valid_attributes[attribute])
+        end
       end
     end
 
     context 'with invalid params' do
-      it 'redirects to the edit form' do
-        put :update, params: { id: mission.id, mission: invalid_attributes }
-        expect(response).to render_template(:edit)
+      def invalid_request(invalid_attribute)
+        put :update, params: { id: mission.id, mission: { "#{invalid_attribute}": '' } }
       end
 
-      it 'does not change the mission' do
-        expect{
-          put :update, params: { id: mission.id, mission: invalid_attributes }
-        }.not_to change(mission.reload.name, :methods)
+      %w(name description min_member_count start_date).each do |attribute|
+        it 'redirects to the edit form' do
+          invalid_request(attribute)
+          expect(response).to render_template(:edit)
+        end
+
+        it "does not change the mission :#{attribute} attribute" do
+          expect{ invalid_request(attribute) }.not_to(change { mission.reload.send(attribute) })
+        end
       end
     end
   end
