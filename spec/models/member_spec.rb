@@ -54,6 +54,8 @@ RSpec.describe Member, type: :model do
       it { is_expected.to have_db_column(:group).of_type(:integer) }
       it { is_expected.to define_enum_for(:group) }
       it { is_expected.to have_db_column(:confirmation_token).of_type(:string) }
+      it { is_expected.to have_db_column(:cash_register_proficiency).of_type(:integer) }
+      it { is_expected.to define_enum_for(:cash_register_proficiency) }
 
       it { is_expected.to have_db_index(:confirmation_token) }
       it { is_expected.to have_db_index(:email).unique }

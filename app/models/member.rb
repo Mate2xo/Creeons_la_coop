@@ -60,11 +60,14 @@ class Member < ApplicationRecord
   before_validation :set_unique_display_name
 
   enum role: { member: 0, admin: 1, super_admin: 2 }
-
-  enum group: { collective: 1, management: 2, communication: 3, maintenance_supply: 4, community_projects: 5, it: 6 }
+  enum group: {
+    collective: 1, management: 2, communication: 3,
+    maintenance_supply: 4, community_projects: 5, it: 6
+  }
+  enum cash_register_proficiency: { untrained: 0, beginner: 1, proficient: 2 }
 
   def thredded_admin?
-    role == 'admin' || role == 'super_admin'
+    admin? || super_admin?
   end
 
   private

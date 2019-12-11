@@ -21,9 +21,14 @@
           <hr class="mt-0 mb-0">
         </h2>
 
-        <div class="my-4 text-lg line-height-1_8 mt-4">
+        <div class="my-4 text-lg line-height-1_8 d-flex justify-content-between">
           <% @mission.members.each do |member| %>
-            <%= link_to "#{member.first_name} #{member.last_name}", member_path(member.id) %>,
+            <span>
+              <%= link_to "#{member.first_name} #{member.last_name}", member_path(member.id) %>
+            </span>
+            <span>
+              <%= member.cash_register_proficiency %>
+            </span>
           <% end %>
         </div>
         <div class="d-flex justify-content-around">
