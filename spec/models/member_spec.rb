@@ -4,34 +4,35 @@
 #
 # Table name: members
 #
-#  id                     :bigint(8)        not null, primary key
-#  email                  :string           default(""), not null
-#  encrypted_password     :string           default(""), not null
-#  reset_password_token   :string
-#  reset_password_sent_at :datetime
-#  remember_created_at    :datetime
-#  first_name             :string
-#  last_name              :string
-#  biography              :text
-#  phone_number           :string
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  role                   :integer          default("member")
-#  confirmation_token     :string
-#  confirmed_at           :datetime
-#  confirmation_sent_at   :datetime
-#  unconfirmed_email      :string
-#  group                  :integer
-#  invitation_token       :string
-#  invitation_created_at  :datetime
-#  invitation_sent_at     :datetime
-#  invitation_accepted_at :datetime
-#  invitation_limit       :integer
-#  invited_by_type        :string
-#  invited_by_id          :bigint(8)
-#  invitations_count      :integer          default(0)
-#  display_name           :string
-#  moderator              :boolean          default(FALSE)
+#  id                        :bigint(8)        not null, primary key
+#  email                     :string           default(""), not null
+#  encrypted_password        :string           default(""), not null
+#  reset_password_token      :string
+#  reset_password_sent_at    :datetime
+#  remember_created_at       :datetime
+#  first_name                :string
+#  last_name                 :string
+#  biography                 :text
+#  phone_number              :string
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  role                      :integer          default("member")
+#  confirmation_token        :string
+#  confirmed_at              :datetime
+#  confirmation_sent_at      :datetime
+#  unconfirmed_email         :string
+#  group                     :integer
+#  invitation_token          :string
+#  invitation_created_at     :datetime
+#  invitation_sent_at        :datetime
+#  invitation_accepted_at    :datetime
+#  invitation_limit          :integer
+#  invited_by_type           :string
+#  invited_by_id             :bigint(8)
+#  invitations_count         :integer          default(0)
+#  display_name              :string
+#  moderator                 :boolean          default(FALSE)
+#  cash_register_proficiency :integer          default("untrained")
 #
 
 require 'rails_helper'
@@ -54,6 +55,8 @@ RSpec.describe Member, type: :model do
       it { is_expected.to have_db_column(:group).of_type(:integer) }
       it { is_expected.to define_enum_for(:group) }
       it { is_expected.to have_db_column(:confirmation_token).of_type(:string) }
+      it { is_expected.to have_db_column(:cash_register_proficiency).of_type(:integer) }
+      it { is_expected.to define_enum_for(:cash_register_proficiency) }
 
       it { is_expected.to have_db_index(:confirmation_token) }
       it { is_expected.to have_db_index(:email).unique }
@@ -68,9 +71,9 @@ RSpec.describe Member, type: :model do
     end
 
     describe "validations" do
-      it { should validate_presence_of(:first_name) }
-      it { should validate_presence_of(:last_name) }
-      it { should validate_presence_of(:display_name) }
+      it { is_expected.to validate_presence_of(:first_name) }
+      it { is_expected.to validate_presence_of(:last_name) }
+      it { is_expected.to validate_presence_of(:display_name) }
     end
   end
 
@@ -110,32 +113,30 @@ RSpec.describe Member, type: :model do
       end
     end
 
-    context "when a member updates," do
-      context "and the name is not changed," do
-        it "does not change :display_name" do
-          member = create :member
-          display_name = member.display_name
-          member.update(phone_number: 'whatever')
-          expect(member.reload.display_name).to eq display_name
-        end
+    context "when a member updates, without changing his/her name" do
+      it "does not change :display_name" do
+        member = create :member
+        display_name = member.display_name
+        member.update(phone_number: 'whatever')
+        expect(member.reload.display_name).to eq display_name
+      end
+    end
+
+    context "when a member updates, and the name is edited," do
+      let(:first_name) { 'new' }
+      let(:last_name) { 'name' }
+
+      before { member.first_name, member.last_name = first_name, last_name }
+
+      it "update :display_name accordingly" do
+        member.save
+        expect(member.reload.display_name).to eq "#{first_name} #{last_name}"
       end
 
-      context "and the name is edited," do
-        let(:first_name) { 'new' }
-        let(:last_name) { 'name' }
-
-        before { member.first_name, member.last_name = first_name, last_name }
-
-        it "update :display_name accordingly" do
-          member.save
-          expect(member.reload.display_name).to eq "#{first_name} #{last_name}"
-        end
-
-        it "appends an number to :display_name if it already exists" do
-          create :member, first_name: first_name, last_name: last_name
-          member.save
-          expect(member.reload.display_name).to eq "#{first_name} #{last_name} 1"
-        end
+      it "appends an number to :display_name if it already exists" do
+        create :member, first_name: first_name, last_name: last_name
+        member.save
+        expect(member.reload.display_name).to eq "#{first_name} #{last_name} 1"
       end
     end
   end
@@ -144,19 +145,19 @@ RSpec.describe Member, type: :model do
     context "when member is super admin," do
       subject { build_stubbed :member, :super_admin }
 
-      it { expect(subject.thredded_admin?).to be_truthy }
+      it { is_expected.to be_thredded_admin }
     end
 
     context "when member is an admin," do
       subject { build_stubbed :member, :admin }
 
-      it { expect(subject.thredded_admin?).to be_truthy }
+      it { is_expected.to be_thredded_admin }
     end
 
     context "when member is not an admin" do
       subject { build_stubbed :member }
 
-      it { expect(subject.thredded_admin?).to be_falsy }
+      it { is_expected.not_to be_thredded_admin }
     end
   end
 end

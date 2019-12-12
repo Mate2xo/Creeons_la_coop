@@ -3,6 +3,7 @@
 require "rails_helper"
 require Rails.root.join('spec', 'support', 'shared_examples.rb')
 
+# rubocop: disable RSpec/DescribeClass
 RSpec.describe "members/show" do
   it_behaves_like "a view without missing translations" do
     before {
@@ -11,3 +12,4 @@ RSpec.describe "members/show" do
     }
   end
 end
+# rubocop: enable RSpec/DescribeClass

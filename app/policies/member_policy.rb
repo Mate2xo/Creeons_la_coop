@@ -13,6 +13,10 @@ class MemberPolicy < ApplicationPolicy
     true
   end
 
+  def edit?
+    user == record || super_admin?
+  end
+
   def update?
     user == record || super_admin?
   end
