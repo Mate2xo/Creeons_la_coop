@@ -10,7 +10,7 @@ RSpec.describe Admin::MembersController, type: :controller do
 
   let(:page) { Capybara::Node::Simple.new(response.body) }
   let!(:member) { create(:member) }
-  let(:valid_attributes) { attributes_for(:member) }
+  let(:valid_attributes) { attributes_for(:member, cash_register_proficiency: "beginner") }
   let(:invalid_attributes) { { first_name: '' } }
 
   describe "GET index" do
@@ -43,7 +43,7 @@ RSpec.describe Admin::MembersController, type: :controller do
     %i(
       first_name last_name email group phone_number cash_register_proficiency biography
     ).each do |attribute|
-      it "should render the #{attribute} form" do
+      it "should render the #{attribute} field" do
         expect(page).to have_field(Member.human_attribute_name(attribute))
       end
     end

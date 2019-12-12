@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+# rubocop: disable Metrics/BlockLength
 ActiveAdmin.register Member do
-  permit_params :email, :encrypted_password, :first_name, :last_name, :biography, :phone_number, :role, :moderator, :group, :confirmed_at, :password, :password_confirmation
+  permit_params :email, :encrypted_password, :first_name, :last_name, :biography,
+                :phone_number, :role, :moderator, :group, :confirmed_at,
+                :password, :password_confirmation, :cash_register_proficiency
 
   index do
     selectable_column
@@ -15,7 +18,8 @@ ActiveAdmin.register Member do
   end
 
   form do |f|
-    f.inputs :first_name, :last_name, :email, :role, :moderator, :group, :cash_register_proficiency, :phone_number, :biography
+    f.inputs :first_name, :last_name, :email, :phone_number, :role,
+             :moderator, :group, :cash_register_proficiency, :biography
     actions
   end
 
@@ -31,3 +35,4 @@ ActiveAdmin.register Member do
     link_to t("active_admin.invite_member"), new_member_invitation_path
   end
 end
+# rubocop: enable Metrics/BlockLength
