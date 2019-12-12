@@ -21,16 +21,17 @@
           <hr class="mt-0 mb-0">
         </h2>
 
-        <div class="my-4 text-lg line-height-1_8 d-flex justify-content-between">
-          <% @mission.members.each do |member| %>
+        <% @mission.members.each do |member| %>
+          <div class="my-4 text-lg line-height-1_8 d-flex justify-content-between">
             <span>
               <%= link_to "#{member.first_name} #{member.last_name}", member_path(member.id) %>
             </span>
             <span>
-              <%= member.cash_register_proficiency %>
+              <%= translate member.cash_register_proficiency,
+                scope: "activerecord.attributes.member.cash_register_proficiencies" %>
             </span>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
         <div class="d-flex justify-content-around">
           <p>
             <%= Mission.human_attribute_name(:min_member_count)

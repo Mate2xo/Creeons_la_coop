@@ -9,12 +9,13 @@ ActiveAdmin.register Member do
     column :last_name
     column :role
     column :group do |member| Member.human_enum_name(:group, member.group) end
+    column :cash_register_proficiency
     column :email
     actions
   end
 
   form do |f|
-    f.inputs :first_name, :last_name, :email, :role, :moderator, :group, :phone_number, :biography
+    f.inputs :first_name, :last_name, :email, :role, :moderator, :group, :cash_register_proficiency, :phone_number, :biography
     actions
   end
 
@@ -24,6 +25,7 @@ ActiveAdmin.register Member do
   filter :email
   filter :role
   filter :group
+  filter :cash_register_proficiency
 
   action_item :invite_member, only: :index do
     link_to t("active_admin.invite_member"), new_member_invitation_path

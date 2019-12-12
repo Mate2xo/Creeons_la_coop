@@ -16,7 +16,10 @@ RSpec.describe "Members cash register proficiency", type: :feature do
     }
 
     it "shows enrolled members proficiency" do
-      expect(page).to have_content(jack.cash_register_proficiency)
+      expect(page).to have_content(
+        I18n.translate(jack.cash_register_proficiency,
+                       scope: "activerecord.attributes.member.cash_register_proficiencies")
+      )
     end
   end
 end

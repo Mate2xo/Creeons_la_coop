@@ -42,7 +42,22 @@
         <%= form.hidden_field :biography, class:'form-control' %>
         <trix-editor input="member_biography"></trix-editor>
       </div>
-      
+      <br>
+
+      <div class="field">
+        <%= form.label :cash_register_proficiency,
+          Member.human_attribute_name(:cash_register_proficiency).humanize %>
+        <%= form.select :cash_register_proficiency,
+          Member.cash_register_proficiencies.keys.map { |level|
+            [
+              t(level, scope: "activerecord.attributes.member.cash_register_proficiencies"),
+              level
+            ]
+          },
+          {},
+          class:'form-control' %>
+      </div>
+
     </div>
   </div>
   <br />

@@ -42,8 +42,14 @@ fr:
       member:
         avatar: Photo de profil
         biography: Présentation
+        cash_register_proficiency: Formation à la caisse
+        cash_register_proficiencies:
+          untrained: non formé à la caisse
+          beginner: débutant à la caisse
+          proficient: formé à la caisse
         email: E-mail
         first_name: Prénom
+        group: Groupe
         groups:
           no_group: Aucun
           collective: Collectif
