@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_11_171633) do
+ActiveRecord::Schema.define(version: 2019_12_13_145220) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -155,6 +155,7 @@ ActiveRecord::Schema.define(version: 2019_12_11_171633) do
     t.boolean "recurrent"
     t.integer "max_member_count"
     t.integer "min_member_count"
+    t.boolean "delivery_expected", default: false
     t.index ["author_id"], name: "index_missions_on_author_id"
   end
 
