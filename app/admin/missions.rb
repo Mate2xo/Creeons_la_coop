@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop: disable Metrics/BlockLength
 ActiveAdmin.register Mission do
   permit_params :author_id, :name, :description, :event, :delivery_expected,
                 :max_member_count, :min_member_count,
@@ -33,3 +34,4 @@ ActiveAdmin.register Mission do
     actions
   end
 end
+# rubocop: enable Metrics/BlockLength
