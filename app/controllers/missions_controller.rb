@@ -92,7 +92,7 @@ class MissionsController < ApplicationController
   end
 
   def permitted_params
-    params.require(:mission).permit(:name, :description,
+    params.require(:mission).permit(:name, :description, :event,
                                     :recurrent, :recurrence_rule, :recurrence_end_date,
                                     :max_member_count, :min_member_count,
                                     :due_date, :start_date,

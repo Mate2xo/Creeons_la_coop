@@ -38,4 +38,15 @@ RSpec.describe "Calendar events color codes:", type: :feature do
       end
     end
   end
+
+  context "when :event is set to true" do
+    it "shows the event colored in orange", js: true do
+      mission = create :mission, event: true
+
+      visit missions_path
+
+      expect(first("a[href='/missions/#{mission.id}']").native.style('background-color'))
+        .to eq 'rgb(255, 165, 0)'
+    end
+  end
 end

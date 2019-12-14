@@ -13,6 +13,7 @@ json.array! @missions do |mission|
   members = mission.members
   if members.length == mission.max_member_count
     json.color 'grey'
+  elsif mission.event then json.color 'orange'
   elsif mission.min_member_count != 0 && members.empty?
     json.color 'red'
   elsif members.length < mission.min_member_count || members.all?(&:untrained?)
