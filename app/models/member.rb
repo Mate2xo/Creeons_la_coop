@@ -48,7 +48,8 @@ class Member < ApplicationRecord
   accepts_nested_attributes_for :address, reject_if: :all_blank, allow_destroy: true
 
   has_many :created_missions, class_name: 'Mission', inverse_of: 'author', foreign_key: 'author_id', dependent: :nullify
-  has_and_belongs_to_many :missions, dependent: :nullify
+  has_many :members_missions, dependent: :destroy
+  has_many :missions, through: :members_missions
 
   has_many :created_infos, class_name: 'Info', inverse_of: 'author', foreign_key: 'author_id', dependent: :nullify
 

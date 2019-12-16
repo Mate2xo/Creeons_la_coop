@@ -82,7 +82,7 @@
       </div>
 
       <hr class="mt-0 mb-0">
-      <% if @mission.members.where(id: current_member.id).present? %>
+      <% if @mission.members.select { |m| m.id == current_member.id }.present? %>
         <%= link_to translate("main_app.views.missions.show.button_disenroll"),
           enroll_in_mission_path(@mission.id),
           method: "DELETE",
