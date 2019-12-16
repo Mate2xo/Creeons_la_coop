@@ -88,6 +88,8 @@ class MissionsController < ApplicationController
   end
 
   def member_slots_full?
+    return false if @mission.max_member_count.nil?
+
     @mission.members.count >= @mission.max_member_count || @mission.members.where(id: current_member.id).present?
   end
 

@@ -39,8 +39,8 @@
           </p>
           <p>
             <%= Mission.human_attribute_name(:max_member_count)
-            %> : <%= @mission.max_member_count != 0 ?
-              @mission.max_member_count : t("main_app.views.application.messages.undefined") %>
+            %> : <%= @mission.max_member_count.nil? ?
+              t("main_app.views.application.messages.undefined") : @mission.max_member_count %>
           </p>
         </div>
       </section>
