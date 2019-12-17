@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: members_missions
+# Table name: enrollments
 #
 #  member_id  :bigint(8)        not null
 #  mission_id :bigint(8)        not null
@@ -11,7 +11,7 @@
 #  end_time   :time
 #
 
-class MembersMission < ApplicationRecord
+class Enrollment < ApplicationRecord
   belongs_to :member
   belongs_to :mission
 end

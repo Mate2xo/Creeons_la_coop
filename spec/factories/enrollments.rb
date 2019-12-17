@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: members_missions
+# Table name: enrollments
 #
 #  member_id  :bigint(8)        not null
 #  mission_id :bigint(8)        not null
@@ -12,7 +12,7 @@
 #
 
 FactoryBot.define do
-  factory :members_mission do
+  factory :enrollment do
     member
     mission
     start_time { mission.start_date.to_time }

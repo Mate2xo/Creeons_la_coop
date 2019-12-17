@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_16_164426) do
+ActiveRecord::Schema.define(version: 2019_12_17_155329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,14 @@ ActiveRecord::Schema.define(version: 2019_12_16_164426) do
     t.bigint "address_id", null: false
   end
 
+  create_table "enrollments", force: :cascade do |t|
+    t.bigint "member_id", null: false
+    t.bigint "mission_id", null: false
+    t.time "start_time"
+    t.time "end_time"
+    t.index ["mission_id"], name: "index_enrollments_on_mission_id"
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -88,6 +96,11 @@ ActiveRecord::Schema.define(version: 2019_12_16_164426) do
     t.datetime "updated_at", null: false
     t.bigint "author_id"
     t.index ["author_id"], name: "index_infos_on_author_id"
+  end
+
+  create_table "libraries", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "members", force: :cascade do |t|
@@ -127,14 +140,6 @@ ActiveRecord::Schema.define(version: 2019_12_16_164426) do
     t.index ["invited_by_id"], name: "index_members_on_invited_by_id"
     t.index ["invited_by_type", "invited_by_id"], name: "index_members_on_invited_by_type_and_invited_by_id"
     t.index ["reset_password_token"], name: "index_members_on_reset_password_token", unique: true
-  end
-
-  create_table "members_missions", force: :cascade do |t|
-    t.bigint "member_id", null: false
-    t.bigint "mission_id", null: false
-    t.time "start_time"
-    t.time "end_time"
-    t.index ["mission_id"], name: "index_members_missions_on_mission_id"
   end
 
   create_table "members_productors", id: false, force: :cascade do |t|

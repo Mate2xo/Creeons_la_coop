@@ -24,8 +24,8 @@
 # Available methods: #addresses, #author, #due_date, #name, #description
 class Mission < ApplicationRecord
   belongs_to :author, class_name: "Member", inverse_of: 'created_missions'
-  has_many :members_missions, dependent: :destroy
-  has_many :members, through: :members_missions
+  has_many :enrollments, dependent: :destroy
+  has_many :members, through: :enrollments
   has_and_belongs_to_many :productors
   has_and_belongs_to_many :addresses
 

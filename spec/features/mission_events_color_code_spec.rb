@@ -55,7 +55,7 @@ RSpec.describe "Mission events color codes:", type: :feature do
       pending("currently implementing feature")
       mission = create :mission
       jack = create :member, first_name: 'Jack'
-      create :members_mission, :one_hour, mission: mission, member: jack
+      create :enrollment, :one_hour, mission: mission, member: jack
 
       visit mission_path(mission.id)
 
