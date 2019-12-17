@@ -46,6 +46,9 @@ fr:
           cannot_enroll: Le nombre maximum de participants est déjà atteint
           confirm_enroll: Vous vous êtes inscrit à cette mission
           disenroll: Vous ne participez plus à cette mission
+          enroll: Inscription
+          from: de
+          to: à
       navbar:
         about_us: En savoir plus
         admin_section: Gestion admin

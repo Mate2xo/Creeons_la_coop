@@ -48,11 +48,11 @@ class MissionsController < ApplicationController
   end
 
   def enroll
-    if member_slots_full?
-      flash[:alert] = translate "main_app.views.missions.show.cannot_enroll"
-    else
+    if !member_slots_full?
       @mission.members << current_member
       flash[:notice] = translate "main_app.views.missions.show.confirm_enroll"
+    else
+      flash[:alert] = translate "main_app.views.missions.show.cannot_enroll"
     end
 
     redirect_to mission_path(params[:id])
