@@ -15,8 +15,6 @@ FactoryBot.define do
   factory :enrollment do
     member
     mission
-    start_time { mission.start_date.to_time }
-    end_time { mission.due_date.to_time }
 
     trait :one_hour do
       start_time { mission.start_date.to_time + 3600 }

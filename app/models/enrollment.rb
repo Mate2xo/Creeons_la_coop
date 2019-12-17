@@ -14,4 +14,13 @@
 class Enrollment < ApplicationRecord
   belongs_to :member
   belongs_to :mission
+
+  before_save :set_defaults
+
+  private
+
+  def set_defaults
+    self.start_time ||= mission.start_date.to_time
+    self.end_time ||= mission.due_date.to_time
+  end
 end
