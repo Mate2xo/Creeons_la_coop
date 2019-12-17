@@ -22,12 +22,23 @@
           <hr class="mt-0 mb-0">
         </h2>
 
-        <% @mission.members.each do |member| %>
+        <% @mission.enrollments.each do |enrollment| 
+          member = enrollment.member %>
           <div class="my-4 text-lg line-height-1_8 d-flex justify-content-between"
                id="member_<%= member.id %>">
-            <span>
-              <%= link_to "#{member.first_name} #{member.last_name}", member_path(member.id) %>
-            </span>
+             <% if enrollment.start_time.strftime('%T') != @mission.start_date.strftime('%T') || enrollment.end_time.strftime('%T') != @mission.due_date.strftime('%T') %>
+               <span>
+                 <%= link_to "#{member.first_name} #{member.last_name}", member_path(member.id),
+                   class: "bg-info rounded text-white p-1" %>
+               </span>
+               <span>
+                 <%= enrollment.start_time.strftime('%H:%M') %> - <%= enrollment.end_time.strftime('%H:%M') %>
+               </span>
+             <% else %>
+               <span>
+                 <%= link_to "#{member.first_name} #{member.last_name}", member_path(member.id) %>
+               </span>
+             <% end %>
             <span>
               <%= translate member.cash_register_proficiency,
                 scope: "activerecord.attributes.member.cash_register_proficiencies" %>

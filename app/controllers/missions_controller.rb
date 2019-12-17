@@ -49,7 +49,7 @@ class MissionsController < ApplicationController
 
   def enroll
     if !member_slots_full?
-      @mission.members << current_member
+      Enrollment.create(enrollment_params)
       flash[:notice] = translate "main_app.views.missions.show.confirm_enroll"
     else
       flash[:alert] = translate "main_app.views.missions.show.cannot_enroll"
@@ -99,6 +99,10 @@ class MissionsController < ApplicationController
                                     :max_member_count, :min_member_count,
                                     :due_date, :start_date,
                                     addresses_attributes: %i[id postal_code city street_name_1 street_name_2 _destroy])
+  end
+
+  def enrollment_params
+    params.require(:duty_duration).permit(:start_time, :end_time).merge(member: current_member, mission: @mission)
   end
 
   def set_authorized_mission
