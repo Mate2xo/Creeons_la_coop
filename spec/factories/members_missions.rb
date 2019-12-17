@@ -11,7 +11,15 @@
 #  end_time   :time
 #
 
-class MembersMission < ApplicationRecord
-  belongs_to :member
-  belongs_to :mission
+FactoryBot.define do
+  factory :members_mission do
+    member
+    mission
+    start_time { mission.start_date.to_time }
+    end_time { mission.due_date.to_time }
+
+    trait :one_hour do
+      start_time { mission.start_date.to_time + 3600 }
+    end
+  end
 end

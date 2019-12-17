@@ -29,7 +29,7 @@ RSpec.describe "Members cash register proficiency", type: :feature do
     }
 
     it "shows missions without proficient members in purple", js: true do
-      expect(find("a[href='/missions/#{mission.id}']").native.style('background-color'))
+      expect(first("a[href='/missions/#{mission.id}']").native.style('background-color'))
         .to eq 'rgb(128, 0, 128)'
     end
   end

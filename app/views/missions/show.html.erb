@@ -23,7 +23,8 @@
         </h2>
 
         <% @mission.members.each do |member| %>
-          <div class="my-4 text-lg line-height-1_8 d-flex justify-content-between">
+          <div class="my-4 text-lg line-height-1_8 d-flex justify-content-between"
+               id="member_<%= member.id %>">
             <span>
               <%= link_to "#{member.first_name} #{member.last_name}", member_path(member.id) %>
             </span>

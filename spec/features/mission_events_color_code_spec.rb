@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe "Calendar events color codes:", type: :feature do
+RSpec.describe "Mission events color codes:", type: :feature do
   before { sign_in create(:member) }
 
   context "when a delivery is expected at the shop" do
@@ -47,6 +47,19 @@ RSpec.describe "Calendar events color codes:", type: :feature do
 
       expect(first("a[href='/missions/#{mission.id}']").native.style('background-color'))
         .to eq 'rgb(255, 165, 0)'
+    end
+  end
+
+  context "when a member enrolls for a smaller duration than the full mission duration" do
+    it "shows the member's name in light blue", js: true do
+      pending("currently implementing feature")
+      mission = create :mission
+      jack = create :member, first_name: 'Jack'
+      create :members_mission, :one_hour, mission: mission, member: jack
+
+      visit mission_path(mission.id)
+
+      expect(find("#member_#{jack.id}").native.style('background-color')).to eq 'rgb(240, 248, 255)'
     end
   end
 end
