@@ -29,6 +29,8 @@ fr:
           title: Modifier un créneau
         _form:
           address_fields: Addresses optionnelles
+          delivery_expected: Livraison prévue sur ce créneau ?
+          event: Est-ce un évènement ?
           recurrence_type: Type de récurrence
           recurrence_end_date: Date de fin de récurrence
         index:
@@ -44,6 +46,9 @@ fr:
           cannot_enroll: Le nombre maximum de participants est déjà atteint
           confirm_enroll: Vous vous êtes inscrit à cette mission
           disenroll: Vous ne participez plus à cette mission
+          enroll: Inscription
+          from: de
+          to: à
       navbar:
         about_us: En savoir plus
         admin_section: Gestion admin

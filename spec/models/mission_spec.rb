@@ -4,17 +4,19 @@
 #
 # Table name: missions
 #
-#  id               :bigint(8)        not null, primary key
-#  name             :string           not null
-#  description      :text             not null
-#  due_date         :datetime
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  author_id        :bigint(8)
-#  start_date       :datetime
-#  recurrent        :boolean
-#  max_member_count :integer
-#  min_member_count :integer
+#  id                :bigint(8)        not null, primary key
+#  name              :string           not null
+#  description       :text             not null
+#  due_date          :datetime
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  author_id         :bigint(8)
+#  start_date        :datetime
+#  recurrent         :boolean
+#  max_member_count  :integer
+#  min_member_count  :integer
+#  delivery_expected :boolean          default(FALSE)
+#  event             :boolean          default(FALSE)
 #
 
 require 'rails_helper'
@@ -45,7 +47,7 @@ RSpec.describe Mission, type: :model do
 
     describe 'associations' do
       it { is_expected.to belong_to(:author).class_name('Member').inverse_of('created_missions') }
-      it { is_expected.to have_and_belong_to_many(:members) }
+      it { is_expected.to have_many(:members).through(:enrollments) }
       it { is_expected.to have_and_belong_to_many(:productors) }
       it { is_expected.to have_and_belong_to_many(:addresses) }
     end

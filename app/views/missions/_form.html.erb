@@ -11,9 +11,19 @@
       </div><br />
 
       <div class="field">
+        <%= f.label :event, t('main_app.views.missions._form.event')%>
+        <%= f.check_box :event %>
+      </div><br />
+
+      <div class="field">
         <%= f.label :description, Mission.human_attribute_name(:description) %><br />
         <%= f.hidden_field :description %>
         <trix-editor input="mission_description"></trix-editor>
+      </div><br />
+
+      <div class="field">
+        <%= f.label :delivery_expected, t('main_app.views.missions._form.delivery_expected')%>
+        <%= f.check_box :delivery_expected %>
       </div><br />
 
       <div class="d-flex mb-4">

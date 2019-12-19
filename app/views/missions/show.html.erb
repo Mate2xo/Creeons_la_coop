@@ -1,5 +1,6 @@
 <% provide :head_tags do %>
   <%= stylesheet_link_tag 'missions' %>
+  <%= javascript_include_tag 'missionForm', 'data-turbolinks-track': 'reload' %>
 <% end %>
 
 <div class="container py-3">
@@ -21,11 +22,23 @@
           <hr class="mt-0 mb-0">
         </h2>
 
-        <% @mission.members.each do |member| %>
-          <div class="my-4 text-lg line-height-1_8 d-flex justify-content-between">
-            <span>
-              <%= link_to "#{member.first_name} #{member.last_name}", member_path(member.id) %>
-            </span>
+        <% @mission.enrollments.each do |enrollment| 
+          member = enrollment.member %>
+          <div class="my-4 text-lg line-height-1_8 d-flex justify-content-between"
+               id="member_<%= member.id %>">
+             <% if enrollment.start_time.strftime('%T') != @mission.start_date.strftime('%T') || enrollment.end_time.strftime('%T') != @mission.due_date.strftime('%T') %>
+               <span>
+                 <%= link_to "#{member.first_name} #{member.last_name}", member_path(member.id),
+                   class: "bg-info rounded text-white p-1" %>
+               </span>
+               <span>
+                 <%= enrollment.start_time.strftime('%H:%M') %> - <%= enrollment.end_time.strftime('%H:%M') %>
+               </span>
+             <% else %>
+               <span>
+                 <%= link_to "#{member.first_name} #{member.last_name}", member_path(member.id) %>
+               </span>
+             <% end %>
             <span>
               <%= translate member.cash_register_proficiency,
                 scope: "activerecord.attributes.member.cash_register_proficiencies" %>
@@ -39,8 +52,8 @@
           </p>
           <p>
             <%= Mission.human_attribute_name(:max_member_count)
-            %> : <%= @mission.max_member_count != 0 ?
-              @mission.max_member_count : t("main_app.views.application.messages.undefined") %>
+            %> : <%= @mission.max_member_count.nil? ?
+              t("main_app.views.application.messages.undefined") : @mission.max_member_count %>
           </p>
         </div>
       </section>
@@ -81,17 +94,35 @@
         <% end %>
       </div>
 
-      <hr class="mt-0 mb-0">
-      <% if @mission.members.where(id: current_member.id).present? %>
-        <%= link_to translate("main_app.views.missions.show.button_disenroll"),
-          enroll_in_mission_path(@mission.id),
-          method: "DELETE",
-          class: "d-block text-center btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %>
-      <% else %>
-        <%= link_to translate("main_app.views.missions.show.button_enroll"),
-          enroll_in_mission_path(@mission.id),
-          method: "POST",
-          class: "d-block text-center btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4"%>
+      <hr class="mt-0">
+
+      <%= form_with scope: 'duty_duration', url: enroll_in_mission_path(@mission.id) do |f| %>
+        <h4 class="d-block text-center mx-auto">
+          <%= translate "main_app.views.missions.show.enroll" %>
+        </h4>
+        <div class="d-flex align-items-center">
+          <%= translate "main_app.views.missions.show.from" %>
+          <%= f.text_field :start_time,
+                           class: "form-control datetimepicker-input m-2",
+                           data: { toggle: "datetimepicker", target: "#duty_duration_start_time" },
+                           value: @mission.start_date.strftime('%T')
+          %>
+          <%= translate "main_app.views.missions.show.to" %>
+          <%= f.text_field :end_time,
+                           class: "form-control datetimepicker-input m-2",
+                           data: { toggle: "datetimepicker", target: "#duty_duration_end_time" },
+                           value: @mission.due_date.strftime('%T')
+          %>
+        </div>
+        <% if @mission.members.select { |m| m.id == current_member.id }.present? %>
+          <%= link_to translate("main_app.views.missions.show.button_disenroll"),
+            enroll_in_mission_path(@mission.id),
+            method: "DELETE",
+            class: "d-block text-center btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %>
+        <% else %>
+          <%= f.submit translate("main_app.views.missions.show.button_enroll"),
+            class: "d-block text-center btn btn-base-1 btn-shadow btn-circle px-4 mx-auto mt-2"%>
+        <% end %>
       <% end %>
 
       <div class="progress-wrapper mt-4 d-flex justify-content-between">

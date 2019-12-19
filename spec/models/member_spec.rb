@@ -67,7 +67,7 @@ RSpec.describe Member, type: :model do
       it { is_expected.to accept_nested_attributes_for(:address).allow_destroy(true) }
       it { is_expected.to have_one(:address).dependent(:destroy) }
       it { is_expected.to have_many(:created_missions).class_name('Mission').with_foreign_key('author_id').dependent(:nullify) }
-      it { is_expected.to have_and_belong_to_many(:missions).dependent(:nullify) }
+      it { is_expected.to have_many(:missions).through(:enrollments) }
     end
 
     describe "validations" do

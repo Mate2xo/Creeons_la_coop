@@ -48,11 +48,11 @@ class MissionsController < ApplicationController
   end
 
   def enroll
-    if member_slots_full?
-      flash[:alert] = translate "main_app.views.missions.show.cannot_enroll"
-    else
-      @mission.members << current_member
+    if !member_slots_full?
+      Enrollment.create(enrollment_params)
       flash[:notice] = translate "main_app.views.missions.show.confirm_enroll"
+    else
+      flash[:alert] = translate "main_app.views.missions.show.cannot_enroll"
     end
 
     redirect_to mission_path(params[:id])
@@ -88,15 +88,21 @@ class MissionsController < ApplicationController
   end
 
   def member_slots_full?
+    return false if @mission.max_member_count.nil?
+
     @mission.members.count >= @mission.max_member_count || @mission.members.where(id: current_member.id).present?
   end
 
   def permitted_params
-    params.require(:mission).permit(:name, :description,
+    params.require(:mission).permit(:name, :description, :event,
                                     :recurrent, :recurrence_rule, :recurrence_end_date,
                                     :max_member_count, :min_member_count,
                                     :due_date, :start_date,
                                     addresses_attributes: %i[id postal_code city street_name_1 street_name_2 _destroy])
+  end
+
+  def enrollment_params
+    params.require(:duty_duration).permit(:start_time, :end_time).merge(member: current_member, mission: @mission)
   end
 
   def set_authorized_mission

@@ -7,6 +7,8 @@ document.addEventListener('turbolinks:load', () => {
       plugins: ['dayGrid', 'timeGrid', 'bootstrap'],
       themeSystem: 'bootstrap',
       height: 'auto',
+      defaultView: 'timeGridWeek',
+      firstDay: 1,
       locale: 'fr',
       buttonText: {
         today: "aujourd'hui",
@@ -24,9 +26,20 @@ document.addEventListener('turbolinks:load', () => {
       eventClick(info) {
         $.get(info.event.show_url);
       },
+
+      eventRender(info) {
+        const eventEl = info.el.querySelector('.fc-content');
+        const icon = document.createElement('i');
+
+        icon.classList.add('fas', 'fa-truck');
+        icon.style.color = 'yellow';
+
+        if (info.event.extendedProps.delivery_expected) {
+          eventEl.insertBefore(icon, eventEl.firstChild);
+        }
+      },
     });
 
     calendar.render();
   }
 });
-

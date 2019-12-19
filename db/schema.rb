@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_11_171633) do
+ActiveRecord::Schema.define(version: 2019_12_17_155329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,14 @@ ActiveRecord::Schema.define(version: 2019_12_11_171633) do
   create_table "addresses_missions", id: false, force: :cascade do |t|
     t.bigint "mission_id", null: false
     t.bigint "address_id", null: false
+  end
+
+  create_table "enrollments", force: :cascade do |t|
+    t.bigint "member_id", null: false
+    t.bigint "mission_id", null: false
+    t.time "start_time"
+    t.time "end_time"
+    t.index ["mission_id"], name: "index_enrollments_on_mission_id"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -134,11 +142,6 @@ ActiveRecord::Schema.define(version: 2019_12_11_171633) do
     t.index ["reset_password_token"], name: "index_members_on_reset_password_token", unique: true
   end
 
-  create_table "members_missions", id: false, force: :cascade do |t|
-    t.bigint "member_id", null: false
-    t.bigint "mission_id", null: false
-  end
-
   create_table "members_productors", id: false, force: :cascade do |t|
     t.bigint "member_id", null: false
     t.bigint "productor_id", null: false
@@ -155,6 +158,8 @@ ActiveRecord::Schema.define(version: 2019_12_11_171633) do
     t.boolean "recurrent"
     t.integer "max_member_count"
     t.integer "min_member_count"
+    t.boolean "delivery_expected", default: false
+    t.boolean "event", default: false
     t.index ["author_id"], name: "index_missions_on_author_id"
   end
 

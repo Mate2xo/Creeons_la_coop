@@ -7,14 +7,18 @@ json.array! @missions do |mission|
   json.start mission.start_date
   json.end mission.due_date
   json.url mission_path(mission.id)
+  json.extendedProps delivery_expected: mission.delivery_expected
 
   # events colors
   members = mission.members
   if members.length == mission.max_member_count
-    json.color('grey')
+    json.color 'grey'
+  elsif mission.event then json.color 'orange'
+  elsif mission.min_member_count != 0 && members.empty?
+    json.color 'red'
   elsif members.length < mission.min_member_count || members.all?(&:untrained?)
-    json.color('purple')
+    json.color 'purple'
   elsif members.length >= mission.min_member_count
-    json.color('green')
+    json.color 'green'
   end
 end

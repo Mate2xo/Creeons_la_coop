@@ -12,7 +12,7 @@ RSpec.describe "Member count limit on missions :", type: :feature do
     before { visit mission_path(mission.id) }
 
     context "when the enrolled member count has NOT been reached," do
-      before { click_link I18n.t("main_app.views.missions.show.button_enroll") }
+      before { click_button I18n.t("main_app.views.missions.show.button_enroll") }
 
       it "subscribes the member to this Mission" do
         expect(mission.reload.members).to include(member)
@@ -27,7 +27,7 @@ RSpec.describe "Member count limit on missions :", type: :feature do
         mission.members << create_list(:member, 4)
         mission.save
 
-        click_link I18n.t("main_app.views.missions.show.button_enroll")
+        click_button I18n.t("main_app.views.missions.show.button_enroll")
       }
 
       it "does not subscribe the member to this Mission" do
