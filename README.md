@@ -63,11 +63,6 @@ Members buy products from productors, and sell these products to themselves. Eac
 - Rails => 5.2.3
 
 
-## Demo:
-
-* https://creeons-coop-staging.herokuapp.com/
-* access to mess around: `super@admin.com`, `password`.
-
 ## Contributions / set up
 
 Any contributions would be very welcome. See projects tab if something interests you, or post an issue with a feature suggestion that you think would be useful considering the scope of this kind of app.
