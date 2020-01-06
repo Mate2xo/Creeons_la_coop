@@ -10,8 +10,11 @@ document.addEventListener('turbolinks:load', () => {
       defaultView: 'timeGridWeek',
       firstDay: 1,
       locale: 'fr',
+      timeZone: 'UTC', // override browser default (since the shop is local)
+      minTime: '09:00:00',
+      maxTime: '23:00:00',
       buttonText: {
-        today: "aujourd'hui",
+        today: "Aujourd'hui",
         day: 'Jour',
         month: 'Mois',
         week: 'Semaine',

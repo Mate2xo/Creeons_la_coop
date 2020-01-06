@@ -52,14 +52,13 @@ RSpec.describe "Mission events color codes:", type: :feature do
 
   context "when a member enrolls for a smaller duration than the full mission duration" do
     it "shows the member's name in light blue", js: true do
-      pending("currently implementing feature")
       mission = create :mission
       jack = create :member, first_name: 'Jack'
       create :enrollment, :one_hour, mission: mission, member: jack
 
       visit mission_path(mission.id)
 
-      expect(find("#member_#{jack.id}").native.style('background-color')).to eq 'rgb(240, 248, 255)'
+      expect(find("#member_#{jack.id}")).to have_css('.bg-info')
     end
   end
 end

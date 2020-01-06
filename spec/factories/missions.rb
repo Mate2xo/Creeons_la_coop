@@ -27,7 +27,8 @@ FactoryBot.define do
     min_member_count { rand(1..3) }
     start_date {
       Faker::Time.between_dates(from: Date.current.at_beginning_of_week,
-                                to: Date.current.at_end_of_week)
+                                to: Date.current.at_end_of_week,
+                                period: :day)
     }
     due_date { start_date + 7200 }
     association :author, factory: :member
