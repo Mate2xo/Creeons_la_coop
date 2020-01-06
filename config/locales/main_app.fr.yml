@@ -35,7 +35,12 @@ fr:
           recurrence_end_date: Date de fin de récurrence
         index:
           create: Ajouter un créneau
-          instructions_html: 'Les créneaux qui ont besoin de membres sont en <em class="btn-danger p-1">rouge</em>, ceux ayant encore de la place sont en <em class="btn-success p-1">vert</em>. Les créneaux pleins sont en <em class="btn-secondary p-1">gris</em>'
+          instructions_html: "<p><i class='fas fa-truck bg-dark rounded p-1' style='color: yellow;'></i> : livraison attendue sur ce créneau</p>
+          <p><em class='rounded bg-red p-1'>rouge</em> : aucun membre inscrit sur ce créneau<br></p>
+          <p><em class='rounded bg-purple p-1'>violet</em> : créneau à remplir, ou nécessitant encore quelqu'un sachant manipuler la caisse.<br> </p>
+          <p><em class='rounded bg-green p-1'>vert</em> : créneau ok, et encore ouvert aux inscriptions.<br> </p>
+          <p><em class='rounded bg-orange p-1'>orange</em> : évènement organisé.  </p>
+          <p><em class='rounded btn-secondary p-1'>gris</em> : créneau plein </p>"
         new:
           title: Créer un créneau
         show:
