@@ -1,0 +1,16 @@
+  <tr>
+    <td scope="row">
+      <%= document.file.filename.to_s %>
+    </td>
+    <td scope="row">
+      <% if document.file.previewable? %>
+        <%= link_to(image_tag(document.file.preview(resize: "90x90")),
+                    rails_blob_path(document.file, disposition: "attachment")) %>
+      <% end %>
+    </td>
+    <td scope="row">
+      <%= link_to 'Supprimer', document, method: :delete, id: document.id,
+        :class => 'btn btn-mini btn-danger',
+        data: { confirm: 'Supprimer le document ?', remote: true } %>
+    </td>
+  </tr>

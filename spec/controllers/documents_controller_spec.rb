@@ -2,5 +2,5 @@
 
 require 'rails_helper'
 
-RSpec.describe LibrariesController, type: :controller do
+RSpec.describe DocumentsController, type: :controller do
 end

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-class LibrariesController < ApplicationController
+class DocumentsController < ApplicationController
   def index; end
 
   def new
     if current_member.role == "super_admin" || current_member.role == "admin"
-      @library = Library.new(permitted_params)
+      @document = Document.new(permitted_params)
     else
       flash[:error] = "Veuillez contacter votre administrateur"
       redirect_to "/infos"
@@ -14,15 +14,15 @@ class LibrariesController < ApplicationController
 
   def create
     if current_member.role == "super_admin" || current_member.role == "admin"
-      @library = Library.new
-      @library.document.attach(params[:library][:document])
-      @libraries = Library.with_attached_document
+      @document = Document.new
+      @document.file.attach(params[:document][:file])
+      @documents = Document.with_attached_file
       respond_to do |format|
         format.js
-        if @library.save
-          format.html { redirect_to @library, notice: "Le document a été ajouté" }
+        if @document.save
+          format.html { redirect_to @document, notice: "Le document a été ajouté" }
         else
-          format.html { redirect_to new_library_path, error: "Le téléchargement du document a échoué" }
+          format.html { redirect_to new_document_path, error: "Le téléchargement du document a échoué" }
         end
       end
     else
@@ -34,8 +34,8 @@ class LibrariesController < ApplicationController
 
   def destroy
     if current_member.role == "super_admin" || current_member.role == "admin"
-      @library = Library.find(params[:id])
-      @library.destroy
+      @document = Document.find(params[:id])
+      @document.destroy
     end
     respond_to do |format|
       format.js
@@ -46,6 +46,6 @@ class LibrariesController < ApplicationController
   private
 
   def permitted_params
-    params.require(:library).permit(:document)
+    params.require(:document).permit(:file)
   end
 end

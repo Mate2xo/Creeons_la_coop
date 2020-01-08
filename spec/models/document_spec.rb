@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: libraries
+# Table name: documents
 #
 #  id         :bigint(8)        not null, primary key
 #  created_at :datetime         not null
@@ -11,6 +11,6 @@
 
 require 'rails_helper'
 
-RSpec.describe Library, type: :model do
+RSpec.describe Document, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end

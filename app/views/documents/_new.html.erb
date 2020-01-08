@@ -1,12 +1,12 @@
 <div class="form-default mt-3">
-  <%= form_for @library, { remote: true, url: libraries_url, method: 'POST' }  do |form|%>
+  <%= form_for @document, { remote: true, url: documents_url, method: 'POST' }  do |form|%>
   <div class="col">
     <div class="col-lg-12">
 
       <div class="field">
         <%= form.label :document, "Ajouter un document" %><br/>
         <%= form.file_field(:document, accept: 'application/pdf', class: "btn-base-1 m-2") %>
-        <%= form.submit :libraries, value: "Ajouter", class: "btn-base-1 m-2" %>
+        <%= form.submit :documents, value: "Ajouter", class: "btn-base-1 m-2" %>
       </div>
     </div>
   </div>
