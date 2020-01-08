@@ -6,23 +6,13 @@
 
   <div class="card no-border">
     <table class="table table-sm table-hover">
-      <thead>
-        <tr>
-          <th scope="col">Titre</th>
-          <th scope="col">Contenu</th>
-          <th>
-            <!--btn show-->
-          </th>
-        </tr>
-      </thead>
-
-      <% @infos.each do |info| %>
-        <tbody>
+      <tbody>
+        <% @infos.each do |info| %>
           <tr>
             <td scope="row">
               <%= info.title %>
             </td>
-            <td scope="row">
+            <td class="d-none d-md-block" scope="row">
               <%= sanitize info.content.truncate(80) %>
             </td>
             <td scope="row">
