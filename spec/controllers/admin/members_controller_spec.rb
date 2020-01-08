@@ -6,95 +6,63 @@ RSpec.describe Admin::MembersController, type: :controller do
   # this lets us inspect the rendered results
   render_views
 
-  let(:page) { Capybara::Node::Simple.new(response.body) }
   before { sign_in create(:member, :super_admin) }
 
+  let(:page) { Capybara::Node::Simple.new(response.body) }
   let!(:member) { create(:member) }
-
-  let(:valid_attributes) { attributes_for(:member) }
-
+  let(:valid_attributes) { attributes_for(:member, cash_register_proficiency: "beginner") }
   let(:invalid_attributes) { { first_name: '' } }
 
   describe "GET index" do
+    before { get :index }
+
     it 'returns http success' do
-      get :index
       expect(response).to have_http_status(:success)
     end
     it 'assigns the member' do
-      get :index
       expect(assigns(:members)).to include(member)
     end
-    it "should render the expected columns" do
-      get :index
-      expect(page).to have_content(member.first_name)
-      expect(page).to have_content(member.last_name)
-      expect(page).to have_content(member.email)
-      expect(page).to have_content(member.role)
+
+    %i(first_name last_name email role cash_register_proficiency group).each do |attribute|
+      it "renders the expected columns" do
+        expect(page).to have_content(member.send(attribute))
+      end
     end
-    #   let(:filters_sidebar) { page.find('#filters_sidebar_section') }
-    #   it "filter Name exists" do
-    #     get :index
-    #     expect(filters_sidebar).to have_css('label[for="q_first_name_or_last_name_cont"]', text: 'Name')
-    #     expect(filters_sidebar).to have_css('input[name="q[first_name_or_last_name_cont]"]')
-    #   end
-    #   it "filter Name works" do
-    #     matching_person = Fabricate :person, first_name: 'ABCDEFG'
-    #     non_matching_person = Fabricate :person, first_name: 'HIJKLMN'
-
-    #     get :index, params: { q: { first_name_or_last_name_cont: 'BCDEF' } }
-
-    #     expect(assigns(:persons)).to include(matching_person)
-    #     expect(assigns(:persons)).not_to include(non_matching_person)
-    #   end
   end
 
   describe "GET new" do
+    before { get :new }
+
     it 'returns http success' do
-      get :new
       expect(response).to have_http_status(:success)
     end
     it 'assigns the member' do
-      get :new
       expect(assigns(:member)).to be_a_new(Member)
     end
-    it "should render the form elements" do
-      get :new
-      expect(page).to have_field('First name')
-      expect(page).to have_field('Last name')
-      expect(page).to have_field('Email')
-      expect(page).to have_field('Group')
-      expect(page).to have_field('Phone number')
-      expect(page).to have_field('Biography')
+
+    %i(
+      first_name last_name email group phone_number cash_register_proficiency biography
+    ).each do |attribute|
+      it "should render the #{attribute} field" do
+        expect(page).to have_field(Member.human_attribute_name(attribute))
+      end
     end
   end
 
   describe "POST create" do
     context "with valid params" do
-      it "creates a new Member" do
-        expect {
-          post :create, params: { member: valid_attributes }
-        }.to change(Member, :count).by(1)
+      before { post :create, params: { member: valid_attributes } }
+
+      it "assigns @member" do
+        expect(assigns(:member)).to be_a(Member)
       end
 
-      it "assigns a newly created person as @person" do
-        post :create, params: { member: valid_attributes }
-        expect(assigns(:member)).to be_a(Member)
+      it 'creates the member' do
         expect(assigns(:member)).to be_persisted
       end
 
       it "redirects to the created member" do
-        post :create, params: { member: valid_attributes }
-        expect(response).to have_http_status(:redirect)
         expect(response).to redirect_to(admin_member_path(Member.last))
-      end
-
-      it 'should create the member' do
-        post :create, params: { member: valid_attributes }
-        member = Member.last
-
-        expect(member.first_name).to eq(valid_attributes[:first_name])
-        expect(member.last_name).to  eq(valid_attributes[:last_name])
-        expect(member.email).to      eq(valid_attributes[:email])
       end
     end
 
@@ -126,11 +94,6 @@ RSpec.describe Admin::MembersController, type: :controller do
     it 'assigns the member' do
       expect(assigns(:member)).to eq(member)
     end
-    it "should render the form elements" do
-      expect(page).to have_field('First name', with: member.first_name)
-      expect(page).to have_field('Last name', with: member.last_name)
-      expect(page).to have_field('Email', with: member.email)
-    end
   end
 
   describe "PUT update" do
@@ -141,18 +104,19 @@ RSpec.describe Admin::MembersController, type: :controller do
         expect(assigns(:member)).to eq(member)
       end
       it 'returns http redirect' do
-        expect(response).to have_http_status(:redirect)
         expect(response).to redirect_to(admin_member_path(member))
       end
-      it "should update the member" do
-        member.reload
-        expect(member.last_name).to  eq(valid_attributes[:last_name])
-        expect(member.first_name).to eq(valid_attributes[:first_name])
-        expect(member.biography).to eq(valid_attributes[:biography])
-        expect(member.phone_number).to eq(valid_attributes[:phone_number])
-        expect(member.group).to eq(valid_attributes[:group])
+
+      %i(
+        first_name last_name group phone_number cash_register_proficiency biography
+      ).each do |attribute|
+        it "updates the #{attribute} attribute" do
+          member.reload
+          expect(member.reload.send(attribute)).to eq(valid_attributes[attribute])
+        end
       end
     end
+
     context 'with invalid params' do
       it 'returns http success' do
         put :update, params: { id: member.id, member: invalid_attributes }
@@ -175,11 +139,6 @@ RSpec.describe Admin::MembersController, type: :controller do
     it 'assigns the member' do
       expect(assigns(:member)).to eq(member)
     end
-    it "should render the form elements" do
-      expect(page).to have_content(member.last_name)
-      expect(page).to have_content(member.first_name)
-      expect(page).to have_content(member.email)
-    end
   end
 
   describe "DELETE #destroy" do
@@ -189,13 +148,13 @@ RSpec.describe Admin::MembersController, type: :controller do
       }.to change(Member, :count).by(-1)
     end
 
-    it "redirects to the field" do
+    it "redirects to the members index" do
       delete :destroy, params: { id: member.id }
       expect(response).to redirect_to(admin_members_path)
     end
 
     context "when a member has created a ressource" do
-      it " gets deleted even if the member has previously created an info" do
+      it "gets deleted even if the member has previously created an info" do
         create(:info, author_id: member.id)
         expect {
           delete :destroy, params: { id: member.id }

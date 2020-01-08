@@ -1,0 +1,79 @@
+fr:
+  main_app:
+    views:
+      address:
+        delete_button: Supprimer cette addresse
+      application:
+        buttons:
+          add_address: Ajouter une addresse
+          back: " Retour"
+          edit: Modifier
+          edit_submit: Sauvegarder les changements
+          destroy: Supprimer
+          destroy_confirm: Supprimer ce(tte) %{model}?
+          submit: Valider
+        messages:
+          undefined: Indéfini
+      members:
+        edit:
+          title: modifier le profil
+          change_password: Modifier votre mot de passe
+        index:
+          all_tab: Tous
+          member_unconfirmed: Invitation en attente de confirmation
+        show:
+          biography_title: présentation
+          member_unconfirmed: invitation en attente de confirmation
+      missions:
+        edit:
+          title: Modifier un créneau
+        _form:
+          address_fields: Addresses optionnelles
+          delivery_expected: Livraison prévue sur ce créneau ?
+          event: Est-ce un évènement ?
+          recurrence_type: Type de récurrence
+          recurrence_end_date: Date de fin de récurrence
+        index:
+          create: Ajouter un créneau
+          instructions_html: "<p><i class='fas fa-truck bg-dark rounded p-1' style='color: yellow;'></i> : livraison attendue sur ce créneau</p>
+          <p><em class='rounded bg-red p-1'>rouge</em> : aucun membre inscrit sur ce créneau<br></p>
+          <p><em class='rounded bg-purple p-1'>violet</em> : créneau à remplir, ou nécessitant encore quelqu'un sachant manipuler la caisse.<br> </p>
+          <p><em class='rounded bg-green p-1'>vert</em> : créneau ok, et encore ouvert aux inscriptions.<br> </p>
+          <p><em class='rounded bg-orange p-1'>orange</em> : évènement organisé.  </p>
+          <p><em class='rounded btn-secondary p-1'>gris</em> : créneau plein </p>"
+        new:
+          title: Créer un créneau
+        show:
+          addresses: Lieux
+          attendees: Participants
+          button_enroll: S'inscrire sur ce créneau
+          button_disenroll: Se désinscrire de ce créneau
+          cannot_enroll: Le nombre maximum de participants est déjà atteint
+          confirm_enroll: Vous vous êtes inscrit à cette mission
+          disenroll: Vous ne participez plus à cette mission
+          enroll: Inscription
+          from: de
+          to: à
+      navbar:
+        about_us: En savoir plus
+        admin_section: Gestion admin
+        member_access: Espace Membres
+        schedule: Planning
+        sign_out: Déconnexion
+        profile: Votre profil
+      productors:
+        index:
+          tabs:
+            locals: Locaux
+            suppliers: Fournisseurs
+        new:
+          title: Ajouter Un %{model}
+        edit:
+          title: Modifier %{model}
+          type:
+            label: Type de %{model}
+            local: Local
+            supplier: Fournisseur
+        show:
+          no_address: Addresse non renseignée
+          no_catalogs: Aucun catalogue disponible pour l'instant. Contactez si besoin un administrateur pour consulter les prix de ce fournisseur.

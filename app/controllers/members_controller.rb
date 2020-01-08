@@ -3,37 +3,40 @@
 # The websites users. Their 'role' attributes determines if fhey're an unvalidated user, a member, admin or super-admmin
 class MembersController < ApplicationController
   before_action :authenticate_member!
-  before_action :set_member, only: %i[show edit update]
+  before_action :set_authorized_member, only: %i[show edit update]
 
   def index
-    @members = Member.all
+    @members = Member.includes(:address, :avatar_attachment)
   end
 
   def show; end
 
   def edit
-    authorize @member
     @member_address = @member.address || @member.build_address
   end
 
   def update
-    authorize @member
     if @member.update_attributes(permitted_params)
-      flash[:notice] = "Votre profil a été mis à jour"
-      redirect_to @member
+      flash[:notice] = t "activerecord.notices.messages.update_success"
+      render :show
     else
-      flash[:error] = "Une erreur est survenue, l'opération a été annulée"
-      redirect_to edit_member_path(@member.id)
+      flash[:error] = t "activerecord.errors.messages.update_fail"
+      render :edit
     end
   end
 
   private
 
   def permitted_params
-    params.require(:member).permit(:email, :first_name, :last_name, :group, :avatar, :phone_number, :biography, address_attributes: %i[postal_code city street_name_1 street_name_2 coordinates])
+    params.require(:member).permit(
+      :email, :first_name, :last_name, :group,
+      :avatar, :phone_number, :biography,
+      :cash_register_proficiency,
+      address_attributes: %i[id postal_code city street_name_1 street_name_2 _destroy],
+    )
   end
 
-  def set_member
-    @member = Member.find(params[:id])
+  def set_authorized_member
+    @member = authorize Member.find(params[:id])
   end
 end

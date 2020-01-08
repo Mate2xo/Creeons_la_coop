@@ -31,7 +31,7 @@ RSpec.describe Admin::InfosController, type: :controller do
       get :index
       expect(page).to have_content(info.content)
       expect(page).to have_content(info.title)
-      expect(page).to have_content(info.author.email)
+      expect(page).to have_content(info.author.display_name)
     end
     #   let(:filters_sidebar) { page.find('#filters_sidebar_section') }
     #   it "filter Name exists" do
@@ -178,7 +178,7 @@ RSpec.describe Admin::InfosController, type: :controller do
     it "should render the form elements" do
       expect(page).to have_content(info.title)
       expect(page).to have_content(info.content)
-      expect(page).to have_content(info.author.email)
+      expect(page).to have_content(info.author.display_name)
     end
   end
 

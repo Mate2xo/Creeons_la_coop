@@ -14,7 +14,7 @@
 
 FactoryBot.define do
   factory :info do
-    content { Faker::Lorem.paragraph(3) }
+    content { Faker::Lorem.paragraph(sentence_count: 3) }
     title { Faker::Movie.quote }
     association :author, factory: :member
   end

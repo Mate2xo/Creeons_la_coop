@@ -3,17 +3,14 @@
 require 'rails_helper'
 
 RSpec.describe MemberPolicy, type: :policy do
+  subject { described_class }
+
   let(:member) { build(:member) }
-  let(:other_member) { create(:member) }
+  let(:other_member) { build(:member) }
   let(:admin) { build :member, :admin }
   let(:super_admin) { build :member, :super_admin }
 
-  subject { described_class }
-
-  permissions ".scope" do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
+  # rubocop: disable RSpec/RepeatedExample
   permissions :show?, :index? do
     it { is_expected.to permit member, other_member }
     it { is_expected.to permit admin, other_member }
@@ -26,7 +23,7 @@ RSpec.describe MemberPolicy, type: :policy do
     it { is_expected.to permit super_admin, other_member }
   end
 
-  permissions :update? do
+  permissions :edit?, :update? do
     it { is_expected.to permit member, member }
     it { is_expected.not_to permit member, other_member }
 
@@ -41,4 +38,5 @@ RSpec.describe MemberPolicy, type: :policy do
     it { is_expected.not_to permit admin, other_member }
     it { is_expected.to permit super_admin }
   end
+  # rubocop: enable RSpec/RepeatedExample
 end

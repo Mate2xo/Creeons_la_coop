@@ -1,0 +1,19 @@
+en:
+  main_app:
+    views:
+      address:
+        delete_button: Delete this address
+      application:
+        buttons:
+          back: Back
+          edit: Edit
+          edit_submit: Save changes
+      members:
+        edit:
+          title: modify profile
+          change_password: Change password
+        index:
+          all_tab: All
+        show:
+          biography_title: presentation
+          member_unconfirmed: waiting invitation confirmation

@@ -1,54 +1,60 @@
 # Créons la Coop (CLAC) :ear_of_rice:
 
 
-## Description de l'association:
+## What's this app for:
 
-Une association Picarde (Créons La Coop') est en train de monter un supermarché coopératif. Son activité sera d'acheter en gros des fruits, légumes et viandes aux producteurs locaux afin de les revendre à prix réduit à ses membres. Chacun des membres se doit de participer au moins 3 heures par mois à l'organisation.
-Modèle inspiré par le modèle du supermarché coopératif Park Slope Food Coop :
-https://fr.wikipedia.org/wiki/Park_Slope_Food_Coop
+An association ('Créons la Coop') located north of France has created a food co-op, inspired by [Park Slope Food Coop](https://fr.wikipedia.org/wiki/Park_Slope_Food_Coop). Members of this co-op need to use more efficient means of communication than just e-mail and phone.
+Members buy products from productors, and sell these products to themselves. Each member must give at least 3 hours/month of their time to the association.
 
 
-## Utilité de l'application:
+## Details
 
-### Pour Qui ?
+### Why?
 
-- Plateforme de communication entre les membres de l'association pour faciliter l'organisation commune
+- Communicate quickly, easily find relevant info, facilitate organisation
 
-### Comment ?
+### How?
 
-- liste de membres pour contacter quelqu'un rapidement en fonction de leurs groupes de travail
-- liste de producteurs pour voir leurs coordonnées de contact et la liste de leurs produits
-- calendrier de missions pour une organisation claire et facilitée entre les membres
-- listes d'infos générales concernant l'association (compte rendus réunions plénières, etc)
+- Members list with contact infos, by workgroup
+- Productors list with contact infos, products lists, quick geographic lookup
+- Activities calendar: see in a glance what needs to be done in the co-op
+- Forum to chat and get involved in decisions that need to be made
+- General announcements and common administrative documents share
+- Admin interface to manage resources in bulk
 
-### Où ?
+## Features
 
-- Régional: 60km autour de la ville de Creil
+- Admin interface with [ActiveAdmin](https://activeadmin.info/), config via `app/admin`
 
-## Fonctionnalités de l'application:
+### Members
 
-- Interface Administateur via [ActiveAdmin](https://activeadmin.info/), config via `app/admin`
-- CRUD sur les modèles `Productor`, `Member`, `Info`, `Mission` en fonction des `policies`
+- Authentication with [Devise](https://github.com/plataformatec/devise), member registration by invitaion only
+- CRUD on `Member` model
+- Privilege level set on the `role` attribute
+- Authorizations `policies` managed with [Pundit](https://github.com/varvet/pundit)
 
-### Membres
+### Produtors
 
-- 3 niveaux d'authorization via un attribut `role`
-- Gestion des authorizations (`policies`) via [Pundit](https://github.com/varvet/pundit)
+- CRUD on `Produtor` model
+- Geolocation on `index` page, coordinates auto-lookup on `Address` model instanciation, with [Leaflet.js](https://github.com/axyjo/leaflet-rails/) and [OpenStreetMap](https://wiki.openstreetmap.org/wiki/API_v0.6)
 
-### Produteurs
+### Activities
 
-- Carte géographique en index, illustrant la position des producteurs via [Leaflet.js](https://github.com/axyjo/leaflet-rails/) et [OpenStreetMap](https://wiki.openstreetmap.org/wiki/API_v0.6)
+- CRUD on `Mission` model (will probably be renamed in the future)
+- Calendar on `index` page with [FullCalendar](https://fullcalendar.io/)
+- Event Recurrence management with [IceCube](https://github.com/seejohnrun/ice_cube)
+- Member subscription on events, with member count validations
 
-### Missions
+### Share
 
-- Liste des missions à réaliser sous forme de calendrier récapitulatif via [FullCalendar](https://fullcalendar.io/)
-- Gestion de récurrence évènementielle en s'aidant de la gem [IceCube](https://github.com/seejohnrun/ice_cube)
-- Possibilité d'afficher sa participation à des missions (validations min/max en fonction du nombre de participants)
+- CRUD on `Info` model
+- Basic blog interface
+- Administrative documents upload set up with S3
+- Forum set with [Thredded](https://github.com/thredded/thredded) engine
 
-### Infos
-
-- Interface de blog basique, cette partie sera enrichie quand les autres features seront complétées et que les retours utilisateurs seront ok.
-- TODO : forum de discussion, upload de documents officiels
+### Theme
+- Currently using [Boomerang](https://themes.getbootstrap.com/product/boomerang-bootstrap-4-business-corporate-theme/) bootstrap theme
+- If you want to use this app as it is, you must buy a Boomerang license. Otherwise, set up your own theme by deleting Boomerang resources from `/vendor` and asset pipeline. Libs and asset pipeline will be cleaned soon to facilitate this
 
 
 ## Versions:
@@ -57,13 +63,14 @@ https://fr.wikipedia.org/wiki/Park_Slope_Food_Coop
 - Rails => 5.2.3
 
 
-## Démo:
+## Contributions / set up
 
-https://creeons-coop-staging.herokuapp.com/
+Any contributions would be very welcome. See projects tab if something interests you, or post an issue with a feature suggestion that you think would be useful considering the scope of this kind of app.
 
-## Contributions
-
-- Lancer `$ npm install` la première fois qu'on participe au projet, pour setup le lancement automatique de Rubocop, Annotate à chaque commit, et RSpec à chaque push. CircleCi donnera également un retour une fois le code pushé.
-- Branche principale : `development`. (`master` est inutilisée actuellement). Créez votre propre branche à partir de `development`.
-- Lorsqu'on résout une `issue`, Pull-Request d'une branche du même nom que l'`issue` sur la branche `development`. Tim fera la code review.
-- Guard est dispo (`$ bundle exec guard`) pour le lancement automatique des tests sur les fichiers en cours de travail
+To get started:
+- Choose one:
+  * [Docker Compose](https://docs.docker.com/compose/install/) setup : `$ docker-compose up` to setup containers, DB, and launch server on `localhost:3000`. `$ docker-compose down` to unmount. You might need administrative privileges.
+  * Manual setup: You need to install [PostgreSQL](https://www.postgresql.org/). Then `$ rails db:setup` to create + migrate + seed DB, then `$ rails server` launch server on `localhost:3000`.
+- The main branch is `development`, start your branch from there.
+- Launch `$ bundle exec guard` if you want to auto-run tests on file save.
+- Launch `$ npm install` if you want to setup git hooks via `package.json`

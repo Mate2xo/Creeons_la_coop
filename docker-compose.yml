@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  clac-app:
+    container_name: app
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && rails db:setup && rails server"
+    working_dir: /application
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_HOST: database
+    depends_on:
+      - database
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/application
+
+  database:
+    image: postgres
+    ports:
+      - "5434:5432"

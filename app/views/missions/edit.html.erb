@@ -1,28 +1,22 @@
-<div class="body-wrap">
-  <section class="slice sct-color-2">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="card form-card form-card--style-1">
-            <div class="form-header text-center">
-              <div class="form-header-icon">
-                  <i class="fas fa-calendar-alt fa-3x"></i>
-              </div>
-            </div>
-            <div class="form-body">
-              <div class="text-center px-2">
-                <h4 class="heading heading-4 strong-400 mb-0"><h2>Editer Mission</h2></h4>
-              </div>
+<% provide :head_tags do %>
+  <%= stylesheet_link_tag 'missions' %>
+<% end %>
 
-              <%= render partial: 'form', locals: {mission: @mission, mission_addresses: @mission_addresses} %>
-
-            </div>
-          </div>
+<div class="container slice-xs">
+  <div class="row justify-content-center">
+    <main class="card form-card form-card--style-1">
+      <header class="form-header text-center">
+        <div class="form-header-icon">
+          <i class="fas fa-calendar-alt fa-3x"></i>
         </div>
+      </header>
+      <div class="form-body">
+        <h1 class="text-center heading heading-3 strong-400 mb-4">
+          <%= translate "main_app.views.missions.edit.title" %>
+        </h1>
+
+        <%= render 'form', mission: @mission, mission_addresses: @mission_addresses %>
       </div>
-    </div>
-  </section>
+    </main>
+  </div>
 </div>
-
-
-

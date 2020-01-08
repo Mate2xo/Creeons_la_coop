@@ -3,65 +3,140 @@ fr:
   activerecord:
     errors:
       messages:
-        record_invalid: 'La validation a échoué : %{errors}'
+        creation_fail: La création de %{model} a échoué
+        destroy_fail: La suppression de %{model} a échoué
+        record_invalid: "La validation a échoué : %{errors}"
         restrict_dependent_destroy:
-          has_one: Vous ne pouvez pas supprimer l'enregistrement car un(e) %{record}
+          has_one:
+            Vous ne pouvez pas supprimer l'enregistrement car un(e) %{record}
             dépendant(e) existe
-          has_many: Vous ne pouvez pas supprimer l'enregistrement parce que les %{record}
+          has_many:
+            Vous ne pouvez pas supprimer l'enregistrement parce que les %{record}
             dépendants existent
+        update_fail: La mise à jour à échoué.
+    notices:
+      messages:
+        record_created: Le/la %{model} a bien été créé.
+        records_created: Les %{model} ont bien été créé(e)s.
+        record_destroyed: Le/la %{model} a été supprimé.
+        update_success: La mise à jour a été effectuée.
+    models:
+      address:
+        one: Addresse
+        other: Addresses
+      member:
+        one: Membre
+        other: Membres
+      mission:
+        one: Mission
+        other: Missions
+      productor:
+        one: Producteur
+        other: Producteurs
+    attributes:
+      address:
+        city: ville
+        postal_code: code postal
+        street_name_1: Numéro et nom de voie
+        street_name_2: Complément d'addresse
+      member:
+        avatar: Photo de profil
+        biography: Présentation
+        cash_register_proficiency: Formation à la caisse
+        cash_register_proficiencies:
+          untrained: non formé à la caisse
+          beginner: débutant à la caisse
+          proficient: formé à la caisse
+        email: E-mail
+        first_name: Prénom
+        group: Groupe
+        groups:
+          no_group: Aucun
+          collective: Collectif
+          management: Gestion
+          communication: Communication
+          maintenance_supply: Maintenance/approvisionnement
+          community_projects: Vie associative
+          it: Informatique
+        last_name: Nom
+        moderator: Modérateur (forum)
+        phone_number: Numéro de téléphone
+        roles:
+          member: Membre
+          admin: Administrateur
+          super_admin: Administrateur général
+      mission:
+        author: Auteur
+        description: Description
+        due_date: Date et heure limite
+        delivery_expected: Livraison attendue
+        event: Évènement
+        max_member_count: Nombre maximum de participants
+        min_member_count: Nombre minimum de personnes souhaitées
+        name: Nom
+        start_date: Date et heure de début
+        recurrent: Créneau récurrent
+      productor:
+        avatar: Photo de profil
+        catalogs: Catalogues
+        description: Description
+        name: Nom
+        phone_number: Numéro de téléphone
+        website_url: Site internet
+
   date:
     abbr_day_names:
-    - dim
-    - lun
-    - mar
-    - mer
-    - jeu
-    - ven
-    - sam
+      - dim
+      - lun
+      - mar
+      - mer
+      - jeu
+      - ven
+      - sam
     abbr_month_names:
-    - 
-    - jan.
-    - fév.
-    - mar.
-    - avr.
-    - mai
-    - juin
-    - juil.
-    - août
-    - sept.
-    - oct.
-    - nov.
-    - déc.
+      -
+      - jan.
+      - fév.
+      - mar.
+      - avr.
+      - mai
+      - juin
+      - juil.
+      - août
+      - sept.
+      - oct.
+      - nov.
+      - déc.
     day_names:
-    - dimanche
-    - lundi
-    - mardi
-    - mercredi
-    - jeudi
-    - vendredi
-    - samedi
+      - dimanche
+      - lundi
+      - mardi
+      - mercredi
+      - jeudi
+      - vendredi
+      - samedi
     formats:
       default: "%d/%m/%Y"
       long: "%e %B %Y"
       short: "%e %b"
     month_names:
-    - 
-    - janvier
-    - février
-    - mars
-    - avril
-    - mai
-    - juin
-    - juillet
-    - août
-    - septembre
-    - octobre
-    - novembre
-    - décembre
+      -
+      - janvier
+      - février
+      - mars
+      - avril
+      - mai
+      - juin
+      - juillet
+      - août
+      - septembre
+      - octobre
+      - novembre
+      - décembre
     order:
-    - :day
-    - :month
-    - :year
+      - :day
+      - :month
+      - :year
   datetime:
     distance_in_words:
       about_x_hours:
@@ -126,7 +201,7 @@ fr:
       invalid: n'est pas valide
       less_than: doit être inférieur à %{count}
       less_than_or_equal_to: doit être inférieur ou égal à %{count}
-      model_invalid: 'Validation échouée : %{errors}'
+      model_invalid: "Validation échouée : %{errors}"
       not_a_number: n'est pas un nombre
       not_an_integer: doit être un nombre entier
       odd: doit être impair
@@ -144,10 +219,10 @@ fr:
         one: ne fait pas la bonne longueur (doit comporter un seul caractère)
         other: ne fait pas la bonne longueur (doit comporter %{count} caractères)
     template:
-      body: 'Veuillez vérifier les champs suivants : '
+      body: "Veuillez vérifier les champs suivants : "
       header:
-        one: 'Impossible d''enregistrer ce(tte) %{model} : 1 erreur'
-        other: 'Impossible d''enregistrer ce(tte) %{model} : %{count} erreurs'
+        one: "Impossible d'enregistrer ce(tte) %{model} : 1 erreur"
+        other: "Impossible d'enregistrer ce(tte) %{model} : %{count} erreurs"
   helpers:
     select:
       prompt: Veuillez sélectionner
@@ -180,9 +255,9 @@ fr:
           quadrillion: million de milliards
           thousand: millier
           trillion: billion
-          unit: ''
+          unit: ""
       format:
-        delimiter: ''
+        delimiter: ""
         precision: 3
         significant: true
         strip_insignificant_zeros: true
@@ -200,11 +275,11 @@ fr:
           tb: To
     percentage:
       format:
-        delimiter: ''
+        delimiter: ""
         format: "%n%"
     precision:
       format:
-        delimiter: ''
+        delimiter: ""
   support:
     array:
       last_word_connector: " et "

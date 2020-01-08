@@ -10,7 +10,7 @@ gem 'erd', '~> 0.6.3'
 gem 'image_processing', '~> 1.9', '>= 1.9.3'
 gem 'jquery-rails'
 gem 'pg', '>= 0.18', '< 2.0'
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 3.12'
 gem 'rails', '~> 5.2', '>= 5.2.3'
 gem 'sass-rails', '~> 5.0'
 gem 'turbolinks', '~> 5'
@@ -25,36 +25,26 @@ gem 'uglifier', '>= 1.3.0'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-# Use ActiveStorage variant
-gem 'mini_magick', '~> 4.9.5'
+gem 'mini_magick', '~> 4.9.5' # Use ActiveStorage variant
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
-# Admin interface
-gem 'activeadmin'
-# Authorization management
-gem 'pundit'
-# Users login/registration management
-gem "devise", "~> 4.6"
+gem 'activeadmin' # Admin interface
+gem 'addressable' # URI manipulations
+gem "aws-sdk-s3", require: false # S3 file upload storage
+gem 'bootstrap4-datetime-picker-rails'
+gem 'cocoon', '~> 1.2', '>= 1.2.12' # Dynamic nested forms
+gem "devise", "~> 4.7" # Users login/registration management
 gem 'devise_invitable', '~> 2.0.0'
-# Calendar events recurrence (for Missions)
-gem 'ice_cube'
-gem 'recurring_select'
-# Dynamic nested forms
-gem 'cocoon', '~> 1.2', '>= 1.2.12'
-# Generate fake data for the seed.rb and spec factories
-gem 'faker'
-# Production Mailer API
-gem 'mailjet'
-# Http requests
-gem 'httparty'
-# URI manipulations
-gem 'addressable'
-# S3 file upload storage
-gem "aws-sdk-s3", require: false
-# Map generator
-gem 'leaflet-rails'
+gem 'faker' # Generate fake data for the seed.rb and spec factories
+gem 'httparty' # Http requests
+gem 'ice_cube' # Calendar events recurrence (for Missions)
+gem 'leaflet-rails' # GeoMap generator
+gem 'mailjet' # Production mailer API
+gem 'pundit' # Authorization management
+gem 'recurring_select' # Events recurrence rules set helper
+gem 'thredded', '~> 0.16.13' # Forum engine
 
 group :development, :test do
   gem 'factory_bot_rails', '~> 4.0'
@@ -66,9 +56,10 @@ end
 group :development do
   gem 'annotate', '~> 2.7', '>= 2.7.4'
   gem 'letter_opener'
+  gem 'solargraph' # LSP provinding app documention through IDE
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
-  gem 'rubocop', '~> 0.63.0', require: false
+  gem 'rubocop', '~> 0.75.0', require: false
   gem 'rubocop-rspec', '~> 1.31.0'
   gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
@@ -84,8 +75,7 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
-  # Easy database + association testing
-  gem 'database_cleaner'
+  gem 'database_cleaner' # Easy database + association testing
   gem 'rails-controller-testing' # If you are using Rails 5.x
   gem 'shoulda-matchers', '4.0.0.rc1'
   gem 'simplecov', require: false

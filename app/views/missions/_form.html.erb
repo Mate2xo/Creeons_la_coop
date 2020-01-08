@@ -1,76 +1,109 @@
+<% provide :head_tags do %>
+  <%= javascript_include_tag 'missionForm', 'data-turbolinks-track': 'reload' %>
+<% end %>
+
 <div class="form-default mt-4">
   <%= form_with model: mission, local: true do |f| %>
-  <div class="col">
-    <small class="my-2">Les champs marqués d'un * sont obligatoires</small>
-    <div class="col-lg-12">
+    <section class="col-lg-12">
       <div class="field">
-      <%= f.label :name, "Nom de la mission *" %><br />
-      <%= f.text_field :name, class: "form-control form-control-lg", required: true %>
+        <%= f.label :name, Mission.human_attribute_name(:name) %><br />
+        <%= f.text_field :name, class: "form-control form-control-lg", required: true %>
       </div><br />
-      
+
       <div class="field">
-        <%= f.label :description, "Description *" %><br />
+        <%= f.label :event, t('main_app.views.missions._form.event')%>
+        <%= f.check_box :event %>
+      </div><br />
+
+      <div class="field">
+        <%= f.label :description, Mission.human_attribute_name(:description) %><br />
         <%= f.hidden_field :description %>
         <trix-editor input="mission_description"></trix-editor>
       </div><br />
-      
+
+      <div class="field">
+        <%= f.label :delivery_expected, t('main_app.views.missions._form.delivery_expected')%>
+        <%= f.check_box :delivery_expected %>
+      </div><br />
+
       <div class="d-flex mb-4">
-        <div class="field mr-auto">
-          <%= f.label :min_member_count, "Nombre de personnes minimun souhaité *" %><br />
-          <%= f.number_field :min_member_count, class: "form-control form-control-lg", required: true %>
+        <div class="field mr-auto pr-3">
+          <%= f.label :min_member_count,
+                      Mission.human_attribute_name(:min_member_count) %>
+          <br />
+          <%= f.number_field :min_member_count,
+                             class: "form-control form-control-lg",
+                             required: true %>
         </div><br />
-        
+
         <div class="field">
-          <%= f.label :max_member_count, "Nombre maximum de participants *" %><br />
-          <%= f.number_field :max_member_count, class: "form-control form-control-lg", required: true %>
+          <%= f.label :max_member_count,
+                      Mission.human_attribute_name(:max_member_count) %>
+          <br />
+          <%= f.number_field :max_member_count,
+                             class: "form-control form-control-lg" %>
         </div><br />
       </div>
-      
-      <div class="d-flex mb-4">
+
+      <div class="d-flex flex-wrap mb-4">
         <div class="field mr-auto">
-         <%= f.label :start_date, "Date et heure de début" %>
-         <%= f.datetime_field :start_date, class: "form-control form-control-lg" %>
+          <%= f.label :start_date, Mission.human_attribute_name(:start_date) %>
+          <%= f.text_field :start_date,
+            class: "form-control form-control-lg datetimepicker-input",
+            data: { toggle: "datetimepicker", target: "#mission_start_date" },
+            value: mission.start_date
+          %>
         </div>
-        
+
         <div class="field">
-          <%= f.label :due_date, "Date et heure de fin" %><br />
-          <%= f.datetime_field :due_date, class: "form-control form-control-lg" %>
-        </div>  
+          <%= f.label :due_date, Mission.human_attribute_name(:due_date) %><br />
+          <%= f.text_field :due_date,
+            class: "form-control form-control-lg datetimepicker-input",
+            data: { toggle: "datetimepicker", target: "#mission_due_date" }
+          %>
+        </div>
       </div>
-      
+
       <div class="d-flex mb-4">
         <div class="field mr-4">
-          <%= f.label :recurrent, "Mission récurrente?" %>
+          <%= f.label :recurrent, Mission.human_attribute_name(:recurrent) %>
           <%= f.check_box :recurrent %>
         </div>
-        
+
         <div id="recurrence-selector">
           <div class="field mb-2">
-            <%= f.label "recurrence_rule", "Choix de la récurrence" %>
-            <%= f.select_recurring :recurrence_rule, nil, {:allow_blank => true}, {:class => "form-control"} %>
+            <%= f.label "recurrence_rule",
+                        t("main_app.views.missions._form.recurrence_type") %>
+            <%= f.select_recurring :recurrence_rule,
+                                   nil,
+                                   {:allow_blank => true},
+                                   {:class => "form-control"} %>
           </div>
-          
+
           <div class="field">
-            <%= f.label :recurrence_end_date, "Date de fin de récurrence" %><br />
-            <%= f.date_field :recurrence_end_date, class: "form-control form-control-lg" %>
-          </div>  
+            <%= f.label :recurrence_end_date,
+                        t("main_app.views.missions._form.recurrence_end_date")%>
+            <br />
+            <%= f.date_field :recurrence_end_date,
+                             class: "form-control form-control-lg" %>
+          </div>
         </div>
       </div>
-      
-    </div>
-  </div>
-  <br />
-  
-  <h4>Adresses optionnelles</h4>
-    <%= f.fields_for :addresses, mission.addresses do |address| %>
-      <%= render 'address_fields', f: address %>
-    <% end %>
-    <div>
-      <%= link_to_add_association 'Ajouter une addresse', f, :addresses %> 
-    </div>
+    </section>
 
-  <div class="actions">
-    <%= f.submit "Valider", class: "btn-update btn btn-styled btn-lg btn-block btn-base-1 mt-4" %>
+    <br />
+    <h4><%= translate "main_app.views.missions._form.address_fields" %></h4>
+    <%= f.fields_for :addresses, mission.addresses do |address| %>
+      <%= render 'layouts/address_fields', f: address %>
+    <% end %>
+    <%= link_to_add_association t("main_app.views.application.buttons.add_address"),
+                                f,
+                                :addresses,
+                                partial: 'layouts/address_fields' %>
+
+    <div class="actions">
+      <%= f.submit translate("main_app.views.application.buttons.submit"),
+                   class: "btn-update btn btn-styled btn-lg btn-block btn-base-1 mt-4" %>
+    </div>
   <% end %>
-  </div>
 </div>

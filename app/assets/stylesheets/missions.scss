@@ -1,11 +1,21 @@
+@import "tempusdominus-bootstrap-4";
+
 .heading-missions {
-	margin-left: 15px !important;
+  margin-left: 15px !important;
 }
 
 .fa-calendar-alt {
-	color: white;
+  color: white;
 }
 
 #recurrence-selector {
-	display: none;
+  display: none;
 }
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+  width: initial;
+  opacity: inherit;
+  visibility: inherit;
+  transform: translateX(-13%);
+}
+

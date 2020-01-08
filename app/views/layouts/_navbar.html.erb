@@ -2,7 +2,8 @@
   <div class="container navbar-container">
     <!-- Brand/Logo -->
     <div class="block-logo">
-      <%= link_to (image_tag("clac.png", :class => "navbar__clac-logo", :alt => "clac")), root_path %>
+      <%= link_to (image_tag("logo.png", :class => "navbar__clac-logo", :alt => "clac")),
+                  root_path %>
     </div>
 
     <div class="d-inline-block">
@@ -16,53 +17,76 @@
     </div>
 
     <div class="collapse navbar-collapse align-items-center justify-content-end" id="navbar_main">
-      <!-- Navbar links --> 
+      <!-- Navbar links -->
       <% if member_signed_in? %>
         <ul class="navbar-nav">
           <li class="nav-item dropdown megamenu">
-            <%= link_to 'Membres', members_path, class: "nav-link" %>
+            <%= link_to Member.model_name.human.pluralize,
+                        main_app.members_path,
+                        class: "nav-link" %>
           </li>
-          
+
           <li class="nav-item dropdown">
-            <%= link_to 'Producteurs', productors_path, class: "nav-link" %>
+            <%= link_to Productor.model_name.human.pluralize,
+                        main_app.productors_path,
+                        class: "nav-link" %>
           </li>
-          
+
           <li class="nav-item dropdown megamenu">
-            <%= link_to 'Missions', missions_path, class: "nav-link"  %>
+            <%= link_to translate("main_app.views.navbar.schedule"),
+                        main_app.missions_path,
+                        class: "nav-link"  %>
           </li>
-          
+
           <li class="nav-item dropdown megamenu">
-            <%= link_to 'Infos', infos_path, class: "nav-link"  %>
+            <%= link_to 'Forum', main_app.thredded_path, class: "nav-link"  %>
+          </li>
+
+          <li class="nav-item dropdown megamenu">
+            <%= link_to Info.model_name.human.pluralize,
+                        main_app.infos_path,
+                        class: "nav-link"  %>
           </li>
         </ul>
-      
-      <% else %> 
+
+      <% else %>
        <ul class="navbar-nav">
         <li class="nav-item dropdown megamenu">
-          <%= link_to 'En savoir plus', about_us_path, class: "nav-link" %>
+          <%= link_to translate("main_app.views.navbar.about_us"),
+                      main_app.about_us_path,
+                      class: "nav-link" %>
         </li>
       </ul>
       <% end %>
-      
+
       <ul class="navbar-nav ml-lg-auto">
         <% if member_signed_in? %>
-          <% if current_member.role == "super_admin"  %>
+          <% if super_admin?  %>
             <li class="nav-item">
-              <%= link_to  "Gestion admin", admin_members_path, class:"nav-link" %>
+              <%= link_to translate("main_app.views.navbar.admin_section"),
+                          main_app.admin_members_path,
+                          class:"nav-link" %>
             </li>
           <% end %>
-            
+
           <li class="nav-item">
-            <%= link_to  "Profil de #{current_member.first_name} #{current_member.last_name}", edit_member_path(current_member.id), class:"nav-link" %>
+            <%= link_to translate("main_app.views.navbar.profile"),
+                        main_app.edit_member_path(current_member.id),
+                        class:"nav-link" %>
           </li>
-          
+
           <li class="nav-item">
-            <%= link_to  "Déconnexion", destroy_member_session_url, method:"delete", class:"nav-link" %>
+            <%= link_to translate("main_app.views.navbar.sign_out"),
+                        main_app.destroy_member_session_url,
+                        method:"delete",
+                        class:"nav-link" %>
           </li>
-        
+
         <% else %>
           <li class="nav-item">
-            <%= link_to "Espace Membres", new_member_session_path, class: "nav-link"  %>
+            <%= link_to translate("main_app.views.navbar.member_access"),
+                        main_app.new_member_session_path,
+                        class: "nav-link"  %>
           </li>
         <% end %>
       </ul>

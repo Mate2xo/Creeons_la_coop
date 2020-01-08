@@ -80,15 +80,15 @@ RSpec.describe ProductorsController, type: :controller do
 
         it "redirects to the created productor" do
           post :create, params: { productor: valid_attributes }
-          expect(response).to have_http_status(:redirect)
-          expect(response).to redirect_to(productor_path(Productor.last))
+          expect(response).to have_http_status(:success)
+          expect(response).to render_template(:show)
         end
       end
 
       context "with invalid params" do
         it "redirects to the new form" do
           post :create, params: { productor: invalid_attributes }
-          expect(response).to redirect_to(new_productor_path)
+          expect(response).to render_template(:new)
         end
 
         it "assigns a newly created but unsaved productor as @productor" do
@@ -123,9 +123,9 @@ RSpec.describe ProductorsController, type: :controller do
         it 'assigns the productor' do
           expect(assigns(:productor)).to eq(productor)
         end
-        it 'returns http redirect' do
-          expect(response).to have_http_status(:redirect)
-          expect(response).to redirect_to(productor_path(productor))
+        it 'redirects to the productor page' do
+          expect(response).to have_http_status(:success)
+          expect(response).to render_template(:show)
         end
         it "update the attributes" do
           productor.reload
@@ -150,7 +150,7 @@ RSpec.describe ProductorsController, type: :controller do
       context 'with invalid params' do
         it 'redirect to the edit form' do
           put :update, params: { id: productor.id, productor: invalid_attributes }
-          expect(response).to redirect_to(edit_productor_path)
+          expect(response).to render_template(:edit)
         end
 
         it 'does not change productor' do

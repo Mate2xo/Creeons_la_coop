@@ -1,0 +1,72 @@
+<%= form_with model: member, local: true do |form| %>
+  <div class="col">
+    <div class="col-lg-12">
+      <div class="field">
+        <%= form.label :email, Member.human_attribute_name(:email).humanize %><br />
+        <%= form.text_field :email, class: "form-control form-control-lg" %>
+      </div>
+      <br/>
+
+      <div class="d-flex justify-content-between flex-wrap">
+        <div class="field flex-fill">
+          <%= form.label :first_name, Member.human_attribute_name(:first_name).humanize %>
+          <br />
+          <%= form.text_field :first_name, class: "form-control form-control-lg" %>
+        </div>
+
+        <div class="mx-2"></div>
+
+        <div class="field flex-fill">
+          <%= form.label :last_name, Member.human_attribute_name(:last_name).humanize %>
+          <br />
+          <%= form.text_field :last_name, class: "form-control form-control-lg" %>
+        </div>
+      </div>
+      <br>
+
+      <div class="field">
+        <%= form.label :phone_number, Member.human_attribute_name(:phone_number).humanize %>
+        <br />
+        <%= form.text_field :phone_number, class: "form-control form-control-lg" %>
+      </div>
+      <br />
+
+      <div class="field">
+        <%= form.label :avatar, Member.human_attribute_name(:avatar).humanize %><br />
+        <%= form.file_field(:avatar, key: "avatar", accept: 'image/gif, image/png, image/jpeg', class: "btn-base-1") %>
+      </div>
+      <br/>
+
+      <div class="field">
+        <%= form.label :biography, Member.human_attribute_name(:biography).humanize %>
+        <%= form.hidden_field :biography, class:'form-control' %>
+        <trix-editor input="member_biography"></trix-editor>
+      </div>
+      <br>
+
+      <div class="field">
+        <%= form.label :cash_register_proficiency,
+          Member.human_attribute_name(:cash_register_proficiency).humanize %>
+        <%= form.select :cash_register_proficiency,
+          Member.cash_register_proficiencies.keys.map { |level|
+            [
+              t(level, scope: "activerecord.attributes.member.cash_register_proficiencies"),
+              level
+            ]
+          },
+          {},
+          class:'form-control' %>
+      </div>
+
+    </div>
+  </div>
+  <br />
+
+  <%= form.fields_for :address, member.address do |address| %>
+    <%= render "layouts/address_fields", f: address %>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit t("main_app.views.application.buttons.edit_submit"), class: "btn-update btn btn-styled btn-lg btn-block btn-base-1 mt-4" %>
+  </div><br />
+<% end %>
