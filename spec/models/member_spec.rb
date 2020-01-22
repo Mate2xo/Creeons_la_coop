@@ -51,8 +51,6 @@ RSpec.describe Member, type: :model do
       it { is_expected.to have_db_column(:biography).of_type(:text) }
       it { is_expected.to have_db_column(:phone_number).of_type(:string) }
       it { is_expected.to have_db_column(:role).of_type(:integer) }
-      it { is_expected.to have_db_column(:inscription_date).of_type(:datetime) }
-			it { is_expected.to have_db_column(:renewel_date).of_type(:datetime) }
       it { is_expected.to define_enum_for(:role) }
       it { is_expected.to have_db_column(:group).of_type(:integer) }
       it { is_expected.to define_enum_for(:group) }
