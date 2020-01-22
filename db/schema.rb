@@ -98,11 +98,6 @@ ActiveRecord::Schema.define(version: 2019_12_17_155329) do
     t.index ["author_id"], name: "index_infos_on_author_id"
   end
 
-  create_table "libraries", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "members", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
