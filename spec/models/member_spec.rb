@@ -26,6 +26,7 @@
 #  invitation_created_at     :datetime
 #  invitation_sent_at        :datetime
 #  invitation_accepted_at    :datetime
+#  subscription_date         :datetime
 #  invitation_limit          :integer
 #  invited_by_type           :string
 #  invited_by_id             :bigint(8)
@@ -51,7 +52,7 @@ RSpec.describe Member, type: :model do
       it { is_expected.to have_db_column(:biography).of_type(:text) }
       it { is_expected.to have_db_column(:phone_number).of_type(:string) }
       it { is_expected.to have_db_column(:confirmed_at).of_type(:datetime) }
-      it { is_expected.to have_db_column(:renewed_date).of_type(:datetime) }
+      it { is_expected.to have_db_column(:subscription_date).of_type(:datetime) }
       it { is_expected.to have_db_column(:role).of_type(:integer) }
       it { is_expected.to define_enum_for(:role) }
       it { is_expected.to have_db_column(:group).of_type(:integer) }
