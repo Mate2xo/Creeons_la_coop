@@ -163,4 +163,34 @@ RSpec.describe Member, type: :model do
       it { is_expected.not_to be_thredded_admin }
     end
   end
+
+	describe "renewed_subscription" do
+		context "when is the first subscription" do
+
+			before(:each) do
+				member = create :member
+			end
+
+			#before { Time.stub(:now) { DateTime.new(2001, 2, 5) } }
+			#
+			before {allow(Time).to receive(:now) { DateTime.new(2001, 2, 5) }}
+			it { expect(member.subscription_date).to eq(DateTime.new(2002, 2, 4)) }
+
+			#before { Time.stub(:now) { DateTime.new(2020, 7, 21) } }
+			before {allow(Time).to receive(:now) { DateTime.new(2020, 7,21) }}
+			it { expect(member.subscription_date).to eq(DateTime.new(2021, 7, 20)) }
+
+			#before { Time.stub(:now) { DateTime.new(2023, 2, 1) } }
+			before {allow(Time).to receive(:now) { DateTime.new(2023, 2, 1) }}
+			it { expect(member.subscription_date).to eq(DateTime.new(2024, 1, 1)) }
+
+			#before { Time.stub(:now) { DateTime.new(2001, 2, 5) } }
+			before {allow(Time).to receive(:now) { DateTime.new(2001, 2, 5) }}
+			it { expect(member.subscription_date).to eq(DateTime.new(2002, 2, 4)) }
+		end
+	end
+	
+
+
+
 end
