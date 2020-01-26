@@ -198,9 +198,68 @@ RSpec.describe Member, type: :model do
 			it { expect(member.subscription_date).to eq(DateTime.new(2401, 10, 23)) }
 
 		end
-	end
+
+		context "when the subscription is outdated" do
+
+			before(:each) do
+				member = create :member, member.subscription_date = DateTime.new(1800, 2, 5)
+			end
+
+			before {allow(Time).to receive(:now) { DateTime.new(2001, 2, 5) }}
+			it { expect(member.subscription_date).to eq(DateTime.new(2002, 2, 4)) }
+
+			#before { Time.stub(:now) { DateTime.new(2020, 7, 21) } }
+			before {allow(Time).to receive(:now) { DateTime.new(2121, 7,21) }}
+			it { expect(member.subscription_date).to eq(DateTime.new(2122, 7, 20)) }
+
+			#before { Time.stub(:now) { DateTime.new(2023, 2, 1) } }
+			before {allow(Time).to receive(:now) { DateTime.new(2023, 2, 1) }}
+			it { expect(member.subscription_date).to eq(DateTime.new(2024, 1, 1)) }
+
+			#before { Time.stub(:now) { DateTime.new(2001, 2, 5) } }
+			before {allow(Time).to receive(:now) { DateTime.new(2001, 2, 5) }}
+			it { expect(member.subscription_date).to eq(DateTime.new(2002, 2, 4)) }
+
+			before {allow(Time).to receive(:now) { DateTime.new(2100, 11, 15) }}
+			it { expect(member.subscription_date).to eq(DateTime.new(2002, 11, 14)) }
+
+			before {allow(Time).to receive(:now) { DateTime.new(2020, 2, 5) }}
+			it { expect(member.subscription_date).to eq(DateTime.new(2021, 2, 4)) }
+
+			before {allow(Time).to receive(:now) { DateTime.new(2400, 10, 24) }}
+			it { expect(member.subscription_date).to eq(DateTime.new(2401, 10, 23)) }
+
+		end
 	
+		context "when is subscription is still active" do 
 
+		
+			before {allow(Time).to receive(:now) { DateTime.new(2001, 2, 5) }}
+			it { expect(member.subscription_date).to eq(DateTime.new(2002, 2, 4)) }
 
+			#before { Time.stub(:now) { DateTime.new(2020, 7, 21) } }
+			before {allow(Time).to receive(:now) { DateTime.new(2121, 7,21) }}
+			it { expect(member.subscription_date).to eq(DateTime.new(2122, 7, 20)) }
+
+			#before { Time.stub(:now) { DateTime.new(2023, 2, 1) } }
+			before {allow(Time).to receive(:now) { DateTime.new(2023, 2, 1) }}
+			it { expect(member.subscription_date).to eq(DateTime.new(2024, 1, 1)) }
+
+			#before { Time.stub(:now) { DateTime.new(2001, 2, 5) } }
+			before {allow(Time).to receive(:now) { DateTime.new(2001, 2, 5) }}
+			it { expect(member.subscription_date).to eq(DateTime.new(2002, 2, 4)) }
+
+			before {allow(Time).to receive(:now) { DateTime.new(2100, 11, 15) }}
+			it { expect(member.subscription_date).to eq(DateTime.new(2002, 11, 14)) }
+
+			before {allow(Time).to receive(:now) { DateTime.new(2020, 2, 5) }}
+			it { expect(member.subscription_date).to eq(DateTime.new(2021, 2, 4)) }
+
+			before {allow(Time).to receive(:now) { DateTime.new(2400, 10, 24) }}
+			it { expect(member.subscription_date).to eq(DateTime.new(2401, 10, 23)) }
+
+		end
+
+	end
 
 end
