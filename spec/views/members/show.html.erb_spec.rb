@@ -12,4 +12,14 @@ RSpec.describe "members/show" do
     }
   end
 end
+
+RSpec.describe "member/show.html.erb", type: :view do
+	context 'it display the subscription_date' do
+		it "displays subscription_date" do
+			assign(:member, build(:member, subscription_date: DateTime.new(2020, 10, 10) ))
+			render
+			expect(rendered).to match DateTime.new(2020, 10, 10)
+		end
+	end
+end
 # rubocop: enable RSpec/DescribeClass
