@@ -87,4 +87,30 @@ class Member < ApplicationRecord
 
     self.display_name = display_name
   end
+
+	def self.renewed_subscription
+		 
+		if member.end_subscription == nil || member.end_subscription < Date.today
+			base = Date.today
+		else
+			base = member.end_subscription + 1
+		end
+			
+		if leap_subscription?(base)
+			member.end_subscription = base + 365
+		else
+			member.end_subscription = base + 364
+		end
+
+	end
+
+	def leap_subscription?(base)
+		if (base.leap? && base.month <= 2)
+			return true
+		end 
+
+		if ((base + 365).leap? && base.month > 2)
+			return false
+		end
+	end
 end
