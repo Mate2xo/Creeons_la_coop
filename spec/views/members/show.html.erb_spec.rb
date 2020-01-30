@@ -14,9 +14,9 @@ RSpec.describe "members/show" do
 end
 
 RSpec.describe "member/show.html.erb", type: :view do
-	context 'it display the subscription_date' do
-		it "displays subscription_date" do
-			assign(:member, build(:member, subscription_date: DateTime.new(2020, 10, 10) ))
+	context 'it display the end_subscription' do
+		it "displays end_subscription" do
+			assign(:member, build(:member, end_subscription: DateTime.new(2020, 10, 10) ))
 			render
 			expect(rendered).to match DateTime.new(2020, 10, 10)
 		end

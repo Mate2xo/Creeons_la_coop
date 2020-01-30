@@ -26,7 +26,7 @@
 #  invitation_created_at     :datetime
 #  invitation_sent_at        :datetime
 #  invitation_accepted_at    :datetime
-#  subscription_date         :datetime
+#  end_subscription          :datetime
 #  invitation_limit          :integer
 #  invited_by_type           :string
 #  invited_by_id             :bigint(8)
