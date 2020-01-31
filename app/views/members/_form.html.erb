@@ -59,7 +59,7 @@
       </div>
       <br>
       <div class="field">
-				<%= form.label :end_subscription, Member.human_attribute_name(:fin_de_souscription).humanize %>
+				<%= form.label :end_subscription, Member.human_attribute_name(:votre_adhésion_prend_fin_le).humanize %>
 			</br>
 				<% if member.end_subscription.present? %>
 					<%= form.label :end_subscription, value: member.end_subscription.strftime('%d-%m-%Y') %>
