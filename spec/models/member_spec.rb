@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+	# frozen_string_literal: true
 
 # == Schema Information
 #
@@ -26,7 +26,7 @@
 #  invitation_created_at     :datetime
 #  invitation_sent_at        :datetime
 #  invitation_accepted_at    :datetime
-#  end_subscription         :datetime
+#  end_subscription          :date
 #  invitation_limit          :integer
 #  invited_by_type           :string
 #  invited_by_id             :bigint(8)
@@ -52,7 +52,7 @@ RSpec.describe Member, type: :model do
       it { is_expected.to have_db_column(:biography).of_type(:text) }
       it { is_expected.to have_db_column(:phone_number).of_type(:string) }
       it { is_expected.to have_db_column(:confirmed_at).of_type(:datetime) }
-      it { is_expected.to have_db_column(:end_subscription).of_type(:datetime) }
+      it { is_expected.to have_db_column(:end_subscription).of_type(:date) }
       it { is_expected.to have_db_column(:role).of_type(:integer) }
       it { is_expected.to define_enum_for(:role) }
       it { is_expected.to have_db_column(:group).of_type(:integer) }
@@ -165,116 +165,161 @@ RSpec.describe Member, type: :model do
   end
 
 	describe "renewed_subscription" do
-		context "when is the first subscription" do
 
 			before(:each) do
-				member = create :member
+				@member = FactoryBot.create(:member)
 			end
 
-			before {allow(Time).to receive(:now) { DateTime.new(2001, 2, 5) }}
-			it { expect(member.end_subscription).to eq(DateTime.new(2002, 2, 4)) }
+		context "when is the first subscription" do
 
-			before {allow(Time).to receive(:now) { DateTime.new(2121, 7,21) }}
-			it { expect(member.end_subscription).to eq(DateTime.new(2122, 7, 20)) }
+			it { 
+				allow(Date).to receive(:today) { Date.new(2001, 2, 5) }
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2002, 2, 4)) 
+			}
 
-			before {allow(Time).to receive(:now) { DateTime.new(2023, 2, 1) }}
-			it { expect(member.end_subscription).to eq(DateTime.new(2024, 1, 31)) }
+			it { 
+				allow(Date).to receive(:today) { Date.new(2121, 7,21) }
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2122, 7, 20)) 
+			}
 
-			before {allow(Time).to receive(:now) { DateTime.new(2001, 2, 5) }}
-			it { expect(member.end_subscription).to eq(DateTime.new(2002, 2, 4)) }
+			it { 
+				allow(Date).to receive(:today) { Date.new(2023, 2, 1) }
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2024, 1, 31)) 
+			}
 
-			before {allow(Time).to receive(:now) { DateTime.new(2100, 11, 15) }}
-			it { expect(member.end_subscription).to eq(DateTime.new(2101, 11, 14)) }
+			it { 
+				allow(Date).to receive(:today) { Date.new(2100, 11, 15) }
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2101, 11, 14)) 
+			}
 
-			before {allow(Time).to receive(:now) { DateTime.new(2020, 2, 5) }}
-			it { expect(member.end_subscription).to eq(DateTime.new(2021, 2, 4)) }
+			it { 
+				allow(Date).to receive(:today) { Date.new(2020, 2, 5) }
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2021, 2, 4)) 
+			}
 
-			before {allow(Time).to receive(:now) { DateTime.new(2399, 10, 24) }}
-			it { expect(member.end_subscription).to eq(DateTime.new(2400, 10, 23)) }
+			it { 
+				allow(Date).to receive(:today) { Date.new(2399, 10, 24) }
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2400, 10, 23)) 
+			}
+
+			it { 
+				allow(Date).to receive(:today) { Date.new(2060, 2, 29) }
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2061, 2, 28)) 
+			}
 
 		end
 
 		context "when the subscription is outdated" do
 
-			before(:each) do
-				member = create :member, member.end_subscription = DateTime.new(1800, 2, 5)
-			end
+			it { 
+				allow(Date).to receive(:today) { Date.new(2001, 2, 5) }
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2002, 2, 4)) 
+			}
 
-			before {allow(Time).to receive(:now) { DateTime.new(2001, 2, 5) }}
-			it { expect(member.end_subscription).to eq(DateTime.new(2002, 2, 4)) }
+			it { 
+				allow(Date).to receive(:today) { Date.new(2121, 7,21) }
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2122, 7, 20)) 
+			}
 
-			before {allow(Time).to receive(:now) { DateTime.new(2121, 7,21) }}
-			it { expect(member.end_subscription).to eq(DateTime.new(2122, 7, 20)) }
+			it { 
+				allow(Date).to receive(:today) { Date.new(2023, 2, 1) }
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2024, 1, 31)) 
+			}
 
-			before {allow(Time).to receive(:now) { DateTime.new(2023, 2, 1) }}
-			it { expect(member.end_subscription).to eq(DateTime.new(2024, 1, 31)) }
+			it { 
+				allow(Date).to receive(:today) { Date.new(2100, 11, 15) }
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2101, 11, 14)) 
+			}
 
-			before {allow(Time).to receive(:now) { DateTime.new(2001, 2, 5) }}
-			it { expect(member.end_subscription).to eq(DateTime.new(2002, 2, 4)) }
+			it { 
+				allow(Date).to receive(:today) { Date.new(2020, 2, 5) }
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2021, 2, 4)) 
+			}
 
-			before {allow(Time).to receive(:now) { DateTime.new(2100, 11, 15) }}
-			it { expect(member.end_subscription).to eq(DateTime.new(2101, 11, 14)) }
+			it { 
+				allow(Date).to receive(:today) { Date.new(2399, 10, 24) }
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2400, 10, 23)) 
+			}
 
-			before {allow(Time).to receive(:now) { DateTime.new(2020, 2, 5) }}
-			it { expect(member.end_subscription).to eq(DateTime.new(2021, 2, 4)) }
-
-			before {allow(Time).to receive(:now) { DateTime.new(2399, 10, 24) }}
-			it { expect(member.end_subscription).to eq(DateTime.new(2400, 10, 23)) }
+			it { 
+				allow(Date).to receive(:today) { Date.new(2060, 2, 29) }
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2061, 2, 28)) 
+			}
 
 		end
 	
 		context "when is subscription is still active" do 
 
+			it { 
+				allow(Date).to receive(:today) { Date.new(2001, 2, 5) }
+				@member.end_subscription = Date.new(2001, 4, 7)
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2002, 4, 7)) 
+			}
+
+			it { 
+				allow(Date).to receive(:today) { Date.new(2121, 7,21) }
+				@member.end_subscription = Date.new(2121, 10, 5)
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2122, 10, 5)) 
+			}
+
+			it { 
+				allow(Date).to receive(:today) { Date.new(3014, 5, 5) }
+				@member.end_subscription = Date.new(3015, 2, 2)
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(3016, 2, 2)) 
+			}
+
+			it { 
+				allow(Date).to receive(:today) { Date.new(2001, 11, 11) }
+				@member.end_subscription = Date.new(2001, 11, 11)
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2002, 11, 11)) 
+			}
+
+			it { 
+				allow(Date).to receive(:today) { Date.new(2004, 2, 5) }
+				@member.end_subscription = Date.new(2004, 2, 12)
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2005, 2, 12)) 
+			}
+
+			it { 
+				allow(Date).to receive(:today) { Date.new(2399, 10, 24) }
+				@member.end_subscription = Date.new(2400, 2, 9)
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2401, 2, 9)) 
+			}
+
+			it { 
+				allow(Date).to receive(:today) { Date.new(2015, 7, 24) }
+				@member.end_subscription = Date.new(2015, 8, 26)
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2016, 8, 26)) 
+			}
 		
-			before do 
-				allow(Time).to receive(:now) { DateTime.new(2001, 2, 5) }
-				member = create :member, member.end_subscription = DateTime.new(2001, 4, 5)
-			end
-
-			it { expect(member.end_subscription).to eq(DateTime.new(2002, 4, 5)) }
-
-			before do 
-				allow(Time).to receive(:now) { DateTime.new(2121, 7,21) }
-				member = create :member, member.end_subscription = DateTime.new(2121, 10, 5)
-			end
-
-			it { expect(member.end_subscription).to eq(DateTime.new(2122, 10, 5)) }
-
-			before do 
-				allow(Time).to receive(:now) { DateTime.new(3014, 5, 5) }
-				member = create :member, member.end_subscription = DateTime.new(3015, 2, 2)
-			end
-
-			it { expect(member.end_subscription).to eq(DateTime.new(3016, 2, 2)) }
-
-			before do 
-				allow(Time).to receive(:now) { DateTime.new(2001, 11, 11) }
-				member = create :member, member.end_subscription = DateTime.new(2001, 11, 11)
-			end
-
-			it { expect(member.end_subscription).to eq(DateTime.new(2002, 11, 11)) }
-
-			before do 
-				allow(Time).to receive(:now) { DateTime.new(2004, 2, 5) }
-				member = create :member, member.end_subscription = DateTime.new(2004, 2, 12)
-			end
-
-			it { expect(member.end_subscription).to eq(DateTime.new(2005, 2, 12)) }
-
-			before do 
-				allow(Time).to receive(:now) { DateTime.new(2400, 1, 3) }
-				member = create :member, member.end_subscription = DateTime.new(2400, 2, 9)
-			end
-
-			it { expect(member.end_subscription).to eq(DateTime.new(2401, 2, 9)) }
-
-			before do 
-				allow(Time).to receive(:now) { DateTime.new(2015, 7, 24) }
-				member = create :member, member.end_subscription = DateTime.new(2015, 8, 26)
-			end
-
-			it { expect(member.end_subscription).to eq(DateTime.new(2016, 8, 26)) }
-
+			it { 
+				allow(Date).to receive(:today) { Date.new(2024, 1, 24) }
+				@member.end_subscription = Date.new(2024, 2, 29)
+				@member.renewed_subscription
+				expect(@member.end_subscription).to eq(Date.new(2025, 2, 28)) 
+			}
+		
 		end
 
 	end
