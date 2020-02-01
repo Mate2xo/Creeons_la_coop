@@ -1,0 +1,2 @@
+class MemberMailer < ApplicationMailer
+end
