@@ -1,15 +1,15 @@
+# frozen_string_literal: true
+
 class SendNotificationJob < ApplicationJob
   queue_as :default
 
-  def perform(*args)
+  def perform(*_args)
+    members = Member.all
 
-		members = Member.all
-
-		members.each do |member|
-			if member.end_subscription.present? && ((member.end_subscription - Date.today == 7) || (member.end_subscription - Date.today == 3))
-				MemberMailer.welcome_email(member).deliver_now
-			end
-		end
-
+    members.each do |member|
+      if member.end_subscription.present? && ((member.end_subscription - Date.today == 7) || (member.end_subscription - Date.today == 3))
+        MemberMailer.welcome_email(member).deliver_now
+      end
+    end
   end
 end

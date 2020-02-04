@@ -73,33 +73,31 @@ class Member < ApplicationRecord
     admin? || super_admin?
   end
 
-	def renewed_subscription
-		 
-		if self.end_subscription == nil || self.end_subscription < Date.today
-			base = Date.today
-		else
-			base = self.end_subscription + 1
-		end
-			
-		if leap_subscription?(base)
-			self.end_subscription = base + 365
-		else
-			self.end_subscription = base + 364
-		end
+  def renewed_subscription
+    base = if end_subscription.nil? || end_subscription < Date.today
+             Date.today
+           else
+             end_subscription + 1
+           end
 
-	end
+    self.end_subscription = if leap_subscription?(base)
+                              base + 365
+                            else
+                              base + 364
+                            end
+  end
 
-	def leap_subscription?(base)
-		if (base.leap? && base.month <= 2)
-			return true
-		end 
+  def leap_subscription?(base)
+    if base.leap? && base.month <= 2
+      return true
+    end
 
-		if ((base + 365).leap? && base.month > 2)
-			return true
-		end
+    if (base + 365).leap? && base.month > 2
+      return true
+    end
 
-		return false
-	end
+    false
+  end
 
   private
 
@@ -115,5 +113,4 @@ class Member < ApplicationRecord
 
     self.display_name = display_name
   end
-
 end
