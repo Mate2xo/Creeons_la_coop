@@ -4,9 +4,9 @@
     <div class="col-lg-12">
 
       <div class="field">
-        <%= form.label :document, "Ajouter un document" %><br/>
-        <%= form.file_field(:document, accept: 'application/pdf', class: "btn-base-1 m-2") %>
-        <%= form.submit :documents, value: "Ajouter", class: "btn-base-1 m-2" %>
+        <%= form.label :file, "Ajouter un document" %><br/>
+        <%= form.file_field(:file, accept: 'application/pdf', class: "btn-base-1 m-2") %>
+        <%= form.submit value: "Ajouter", class: "btn-base-1 m-2" %>
       </div>
     </div>
   </div>

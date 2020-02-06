@@ -5,7 +5,7 @@ class DocumentsController < ApplicationController
 
   def new
     if current_member.role == "super_admin" || current_member.role == "admin"
-      @document = Document.new(permitted_params)
+      @document = Document.new
     else
       flash[:error] = "Veuillez contacter votre administrateur"
       redirect_to "/infos"
@@ -14,9 +14,7 @@ class DocumentsController < ApplicationController
 
   def create
     if current_member.role == "super_admin" || current_member.role == "admin"
-      @document = Document.new
-      @document.file.attach(params[:document][:file])
-      @documents = Document.with_attached_file
+      @document = Document.new(permitted_params)
       respond_to do |format|
         format.js
         if @document.save
