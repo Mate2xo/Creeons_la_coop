@@ -73,7 +73,7 @@ class Member < ApplicationRecord
     admin? || super_admin?
   end
 
-  def renewed_subscription
+  def renew_subscription_date
     base = if end_subscription.nil? || end_subscription < Date.today
              Date.today
            else
@@ -87,6 +87,8 @@ class Member < ApplicationRecord
                             end
   end
 
+  private
+
   def leap_subscription?(base)
     if base.leap? && base.month <= 2
       return true
@@ -98,8 +100,6 @@ class Member < ApplicationRecord
 
     false
   end
-
-  private
 
   def set_unique_display_name
     return unless display_name.nil? || changed.any?('first_name') || changed.any?('last_name')

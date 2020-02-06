@@ -164,155 +164,153 @@ RSpec.describe Member, type: :model do
     end
   end
 
-  describe "renewed_subscription" do
-    before(:each) do
-      @member = FactoryBot.create(:member)
-    end
+  describe "renew_subscription" do
+    
+    #This tests check if the method renew_subscription_date update correctly the end_subscription date.
+    #The method must manage the leapyears.
+    #If a year is a multiple of 4, it is a leapyear.
+    #If a year is a multiple of 100 and not a multiple of 400, it is not a leapyear.
+    #If a year is a multiple of 400 and ,it is a leapyear.
 
-    context "when is the first subscription" do
-      it {
-        allow(Date).to receive(:today) { Date.new(2001, 2, 5) }
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2002, 2, 4))
-      }
+    context "when a member subscribes for the first time" do
 
-      it {
-        allow(Date).to receive(:today) { Date.new(2121, 7, 21) }
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2122, 7, 20))
-      }
+			before(:each) do
+				let (:member) {:member}
+				member.end_subscription = nil
+			end
 
-      it {
-        allow(Date).to receive(:today) { Date.new(2023, 2, 1) }
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2024, 1, 31))
-      }
+			it "define the end_subscription date one year after the day of subscription" do
 
-      it {
+        arr_date = []
+        arr_date << [Date.new(2001, 2, 5), Date.new(2002, 2, 4)] 
+        arr_date << [Date.new(2121, 7, 21), Date.new(2122, 7, 20)] 
+        arr_date << [Date.new(2023, 2, 1), Date.new(2024, 1, 31)] 
+
+        arr_date.each do |tab|
+          allow(Date).to receive(:today) { tab[0] }
+          member.renew_subscription_date
+          expect(member.end_subscription).to eq(tab[1])
+        end
+
+			end
+
+			it "define the end_subscription date one year after the day of subscription when the year is a multiple of 100" do
         allow(Date).to receive(:today) { Date.new(2100, 11, 15) }
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2101, 11, 14))
-      }
+        member.renew_subscription_date
+        expect(member.end_subscription).to eq(Date.new(2101, 11, 14))
+			end
 
-      it {
+			it "define the end_subscription date one year after the day of subscription when the year is a leap year" do
         allow(Date).to receive(:today) { Date.new(2020, 2, 5) }
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2021, 2, 4))
-      }
+        member.renew_subscription_date
+        expect(member.end_subscription).to eq(Date.new(2021, 2, 4))
+			end
 
-      it {
+			it "define the end_subscription date one year after the day of subscription when the year is a multiple of 400" do
         allow(Date).to receive(:today) { Date.new(2399, 10, 24) }
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2400, 10, 23))
-      }
+        member.renew_subscription_date
+        expect(member.end_subscription).to eq(Date.new(2400, 10, 23))
+			end
 
-      it {
+			it "define the end_subscription date one year after the day of subscription when the day is 29 february" do
         allow(Date).to receive(:today) { Date.new(2060, 2, 29) }
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2061, 2, 28))
-      }
+        member.renew_subscription_date
+        expect(member.end_subscription).to eq(Date.new(2061, 2, 28))
+			end
     end
 
     context "when the subscription is outdated" do
-      it {
-        allow(Date).to receive(:today) { Date.new(2001, 2, 5) }
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2002, 2, 4))
-      }
 
-      it {
-        allow(Date).to receive(:today) { Date.new(2121, 7, 21) }
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2122, 7, 20))
-      }
+			before(:each) do
+				let (:member) {:member}
+				member.end_subscription = Date.new(1800, 5, 5)
+			end
 
-      it {
-        allow(Date).to receive(:today) { Date.new(2023, 2, 1) }
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2024, 1, 31))
-      }
+			it "define the end_subscription date one year after the day of subscription" do
 
-      it {
+        arr_date = []
+        arr_date << [Date.new(2001, 2, 5), Date.new(2002, 2, 4)] 
+        arr_date << [Date.new(2121, 7, 21), Date.new(2122, 7, 20)] 
+        arr_date << [Date.new(2023, 2, 1), Date.new(2024, 1, 31)] 
+
+        arr_date.each do |tab|
+          allow(Date).to receive(:today) { tab[0] }
+          member.renew_subscription_date
+          expect(member.end_subscription).to eq(tab[1])
+        end
+
+			end
+
+			it "define the end_subscription date one year after the day of subscription when the year is a multiple of 100 define" do
         allow(Date).to receive(:today) { Date.new(2100, 11, 15) }
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2101, 11, 14))
-      }
+        member.renew_subscription_date
+        expect(member.end_subscription).to eq(Date.new(2101, 11, 14))
+			end
 
-      it {
+			it "define the end_subscription date one year after the day of subscription when the year is a leap year" do
         allow(Date).to receive(:today) { Date.new(2020, 2, 5) }
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2021, 2, 4))
-      }
+        member.renew_subscription_date
+        expect(member.end_subscription).to eq(Date.new(2021, 2, 4))
+			end
 
-      it {
+			it "define the end_subscription date one year after the day of subscription when the year is a multiple of 400" do
         allow(Date).to receive(:today) { Date.new(2399, 10, 24) }
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2400, 10, 23))
-      }
+        member.renew_subscription_date
+        expect(member.end_subscription).to eq(Date.new(2400, 10, 23))
+			end
 
-      it {
+			it "define the end_subscription date one year after the day of subscription when the day is 29 february" do
         allow(Date).to receive(:today) { Date.new(2060, 2, 29) }
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2061, 2, 28))
-      }
+        member.renew_subscription_date
+        expect(member.end_subscription).to eq(Date.new(2061, 2, 28))
+			end
     end
 
     context "when is subscription is still active" do
-      it {
-        allow(Date).to receive(:today) { Date.new(2001, 2, 5) }
-        @member.end_subscription = Date.new(2001, 4, 7)
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2002, 4, 7))
-      }
 
-      it {
-        allow(Date).to receive(:today) { Date.new(2121, 7, 21) }
-        @member.end_subscription = Date.new(2121, 10, 5)
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2122, 10, 5))
-      }
+			it "define the end_subscription date one year after the day of subscription" do
 
-      it {
-        allow(Date).to receive(:today) { Date.new(3014, 5, 5) }
-        @member.end_subscription = Date.new(3015, 2, 2)
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(3016, 2, 2))
-      }
+        arr_date = []
+        arr_date << [Date.new(2001, 2, 5), Date.new(2001, 4, 7), Date.new(2002, 4, 7)] 
+        arr_date << [Date.new(2121, 7, 21), Date.new(2121, 10, 5), Date.new(2122, 10, 5)] 
+        arr_date << [Date.new(3014, 5, 5), Date.new(3015, 2, 2), Date.new(3016, 2, 2)] 
 
-      it {
-        allow(Date).to receive(:today) { Date.new(2001, 11, 11) }
-        @member.end_subscription = Date.new(2001, 11, 11)
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2002, 11, 11))
-      }
+        arr_date.each do |tab|
+          allow(Date).to receive(:today) { tab[0] }
+          member.end_subscription = tab[1] 
+          member.renew_subscription_date
+          expect(member.end_subscription).to eq(tab[2])
+        end
 
-      it {
+			end
+
+			it "define the end_subscription date one year and one day after the actual end_subscription date when the is a multiple of 100" do
+        allow(Date).to receive(:today) { Date.new(2099, 11, 11) }
+        member.end_subscription = Date.new(2100, 1, 11)
+        member.renew_subscription_date
+        expect(member.end_subscription).to eq(Date.new(2101, 1, 11))
+			end
+
+			it "define the end_subscription date one year and one day after the actual end_subscription date when the year is a leapyear" do
         allow(Date).to receive(:today) { Date.new(2004, 2, 5) }
-        @member.end_subscription = Date.new(2004, 2, 12)
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2005, 2, 12))
-      }
+        member.end_subscription = Date.new(2004, 2, 12)
+        member.renew_subscription_date
+        expect(member.end_subscription).to eq(Date.new(2005, 2, 12))
+			end 
 
-      it {
+			it "define the end_subscription date one year and one day after the actual end_subscription date when the year is a multiple of 400" do
         allow(Date).to receive(:today) { Date.new(2399, 10, 24) }
-        @member.end_subscription = Date.new(2400, 2, 9)
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2401, 2, 9))
-      }
+        member.end_subscription = Date.new(2400, 2, 9)
+        member.renew_subscription_date
+        expect(member.end_subscription).to eq(Date.new(2401, 2, 9))
+			end 
 
-      it {
-        allow(Date).to receive(:today) { Date.new(2015, 7, 24) }
-        @member.end_subscription = Date.new(2015, 8, 26)
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2016, 8, 26))
-      }
-
-      it {
+			it "define the end_subscription date one year and one day after the actual end_subscription date when the end_subscription date is a 29 fubruary" do
         allow(Date).to receive(:today) { Date.new(2024, 1, 24) }
-        @member.end_subscription = Date.new(2024, 2, 29)
-        @member.renewed_subscription
-        expect(@member.end_subscription).to eq(Date.new(2025, 2, 28))
-      }
+        member.end_subscription = Date.new(2024, 2, 29)
+        member.renewed_subscription_date
+        expect(member.end_subscription).to eq(Date.new(2025, 2, 28))
+			end 
     end
   end
 end
