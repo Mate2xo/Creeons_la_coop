@@ -30,5 +30,3 @@ coverage
 /config/master.key
 .env
 
-*.swp
-memo_Fabio.txt
