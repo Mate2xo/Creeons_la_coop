@@ -5,12 +5,11 @@ require Rails.root.join('spec', 'support', 'shared_examples.rb')
 
 # rubocop: disable RSpec/DescribeClass
 RSpec.describe "members/edit" do
+
   it_behaves_like "a view without missing translations" do
     before { assign(:member, build_stubbed(:member)) }
   end
-end
 
-RSpec.describe "members/show.html.erb", type: :view do
   context 'it display the end_subscription' do
     it "displays end_subscription" do
       assign(:member, build(:member, end_subscription: Date.new(2020, 10, 10) ))
@@ -19,5 +18,6 @@ RSpec.describe "members/show.html.erb", type: :view do
       expect(rendered).to match match '10-10-2020'
     end
   end
+
 end
 # rubocop: enable RSpec/DescribeClass
