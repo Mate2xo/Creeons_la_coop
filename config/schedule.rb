@@ -18,3 +18,8 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+#
+
+every 2.weeks do
+  runner MemberMailer.end_subscription_alert
+end
