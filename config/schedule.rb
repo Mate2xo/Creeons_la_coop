@@ -20,6 +20,10 @@
 # Learn more: http://github.com/javan/whenever
 #
 
+set :output, "log/cron_log.log"
+env :PATH, ENV['PATH']
+
+
 every :saturday, at: '11pm' do
-  runner 'SendNotificationJob.perform'
+  runner "SendNotificationJob.perform_now"
 end
