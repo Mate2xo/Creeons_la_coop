@@ -20,6 +20,6 @@
 # Learn more: http://github.com/javan/whenever
 #
 
-every 2.weeks do
-  runner MemberMailer.end_subscription_alert
+every :saturday, at: '11pm' do
+  runner 'SendNotificationJob.perform'
 end

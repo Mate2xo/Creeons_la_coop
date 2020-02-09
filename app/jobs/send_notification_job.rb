@@ -7,7 +7,7 @@ class SendNotificationJob < ApplicationJob
     members = Member.all
 
     members.each do |member|
-      if member.end_subscription.present? && ((member.end_subscription - Date.today == 7) || (member.end_subscription - Date.today == 3))
+      if member.end_subscription.present? && (member.end_subscription - Date.today >= 15)
         MemberMailer.welcome_email(member).deliver_now
       end
     end
