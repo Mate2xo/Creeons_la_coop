@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <% if @members.size > 0 %>
+
+      <h1> <%= t("mailer.admin.info.title_list") %> </h1>
+
+      <div>
+        <% @members.each do |member| %>
+          <p> <%= member.first_name + ' ' + member.last_name + ' ' + member.end_subscription.to_s %> </p>
+        <% end %>
+      </div>
+
+    <% else %> 
+      <p> <%= t("mailer.admin.info.no_end_subscription") %> </p>
+    <% end %>
+
+  </body>
+</html>

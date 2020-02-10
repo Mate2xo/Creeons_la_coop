@@ -5,8 +5,8 @@ class AdminMailer < ApplicationMailer
   default from: Rails.application.credentials.dig(:noreply_mail_address) || 'no-reply@example.com'
   
   def end_subscription_info(admin)
-    @admin = admin
-    mail(to: @admin.email, subject: "Liste des membres en fin de souscription")
+    @members = Member.where(":start_date <= end_subscription AND end_subscription <= :end_date", {start_date: Date.today - 15, end_date: Date.today})
+    mail(to: admin.email, subject: "Liste des membres en fin de souscription")
   end
 
 end

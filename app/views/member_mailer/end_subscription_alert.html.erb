@@ -4,12 +4,12 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1> <%= t("mailer.alert.salutation", member_last_name: @member.first_name, member_first_name: @member.first_name) %></h1>
+    <h1> <%= t("mailer.member.alert.salutation", member_last_name: @member.first_name, member_first_name: @member.first_name) %></h1>
     <p>
-    <%= t("mailer.alert.end_subscription", member_end_subscription: @member.end_subscription) %>
+    <%= t("mailer.member.alert.end_subscription", member_end_subscription: @member.end_subscription) %>
     </p>
     <p>
-      <%= t("mailer.alert.remember")%>
+      <%= t("mailer.member.alert.remember")%>
     </p>
   </body>
 </html>
