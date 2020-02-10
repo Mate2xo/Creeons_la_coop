@@ -26,6 +26,7 @@
 #  invitation_created_at     :datetime
 #  invitation_sent_at        :datetime
 #  invitation_accepted_at    :datetime
+#  end_subscription          :date
 #  invitation_limit          :integer
 #  invited_by_type           :string
 #  invited_by_id             :bigint(8)
@@ -44,6 +45,7 @@ FactoryBot.define do
     email { Faker::Internet.email(name: first_name) }
     password { "password" }
     password_confirmation { "password" }
+    end_subscription { Date.today - 10 }
     confirmed_at { Time.zone.today }
 
     trait :group do group { Member.groups.keys.sample } end
