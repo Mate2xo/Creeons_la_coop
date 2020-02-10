@@ -24,6 +24,10 @@ set :output, "log/cron_log.log"
 env :PATH, ENV['PATH']
 
 
+every :saturday, at: '10pm' do
+  runner "SendNotificationJob.perform_later"
+end
+
 every :saturday, at: '11pm' do
-  runner "SendNotificationJob.perform_now"
+  runner "SendNotificationSummaryJob.perform_later"
 end

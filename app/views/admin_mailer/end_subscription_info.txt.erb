@@ -1,0 +1,17 @@
+
+Liste des membres en fin d'adhésion 
+
+============================================================
+
+
+<% if @members.size > 0 %>
+
+  <%= t("mailer.admin.info.title_list") %> 
+
+  <% @members.each do |member| %>
+    <%= member.first_name + ' ' + member.last_name + ' ' + member.end_subscription.to_s %>
+  <% end %>
+
+<% else %> 
+  <%= t("mailer.admin.info.no_end_subscription") %>
+<% end %>
