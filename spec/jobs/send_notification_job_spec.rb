@@ -12,7 +12,7 @@ RSpec.describe SendNotificationJob, :type => :job do
     end
 
 
-    context "when the job must send mails" do
+    context "when the job must send mails to the members" do
 
      it "send a great number of mail" do
         rand_number1 = rand(100)
