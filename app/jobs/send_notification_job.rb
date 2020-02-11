@@ -5,11 +5,9 @@ class SendNotificationJob < ApplicationJob
 
 
   def perform(*_args)
-    
+    members = Member.where(":start_date <= end_subscription AND end_subscription <= :end_date", {start_date: Date.today - 15, end_date: Date.today})
     members.each do |member|
-      if member.end_subscription.present? && (Date.today - 15 <= member.end_subscription && member.end_subscription <= Date.today)
         MemberMailer.end_subscription_alert(member).deliver_now
-      end
     end
     
   end
