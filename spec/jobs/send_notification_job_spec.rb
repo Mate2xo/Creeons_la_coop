@@ -19,7 +19,7 @@ RSpec.describe SendNotificationJob, :type => :job do
         rand_number2 = rand(100)
         rand_number3 = rand(100)
 
-        create_list :member, rand_number1, end_subscription: Faker::Date.between(from: 15.days.ago, to: Date.today)
+        create_list :member, rand_number1, end_subscription: Faker::Date.between(from: Date.today, to: Date.today + 15)
         create_list :member, rand_number2, end_subscription: Date.today - rand(16..30)
         create_list :member, rand_number3, end_subscription: nil
 

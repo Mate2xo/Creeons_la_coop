@@ -11,8 +11,8 @@ RSpec.describe AdminMailer, type: :mailer do
       let (:admin) {create :member}
 
       before(:each) do
-        @members = create_list :member, 20, end_subscription: Faker::Date.between(from: 15.days.ago, to: Date.today)
-        @members_which_are_not_in_end_subscription = create_list :member, 20, end_subscription: Faker::Date.between(from: 200.days.ago, to: 16.days.ago)
+        @members = create_list :member, 20, end_subscription: Faker::Date.between(from: Date.today, to: Date.today + 15)
+        @members_which_are_not_in_end_subscription = create_list :member, 20, end_subscription: Faker::Date.between(from: Date.today + 16, to: Date.today + 200)
         @mail = AdminMailer.end_subscription_info(admin)
       end
 
