@@ -81,6 +81,7 @@ RSpec.describe Member, type: :model do
   end
 
   describe "#set_unique_display_name" do
+
     let(:member) { create :member }
 
     it "sets the display_name attribute on creation" do
@@ -174,10 +175,7 @@ RSpec.describe Member, type: :model do
 
     context "when a member subscribes for the first time" do
 
-			before(:each) do
-				let (:member) {:member}
-				member.end_subscription = nil
-			end
+      let(:member) { create :member, end_subscription: nil }
 
 			it "define the end_subscription date one year after the day of subscription" do
 
@@ -190,11 +188,13 @@ RSpec.describe Member, type: :model do
           allow(Date).to receive(:today) { tab[0] }
           member.renew_subscription_date
           expect(member.end_subscription).to eq(tab[1])
+          member.end_subscription = nil
         end
 
 			end
 
 			it "define the end_subscription date one year after the day of subscription when the year is a multiple of 100" do
+
         allow(Date).to receive(:today) { Date.new(2100, 11, 15) }
         member.renew_subscription_date
         expect(member.end_subscription).to eq(Date.new(2101, 11, 14))
@@ -221,10 +221,7 @@ RSpec.describe Member, type: :model do
 
     context "when the subscription is outdated" do
 
-			before(:each) do
-				let (:member) {:member}
-				member.end_subscription = Date.new(1800, 5, 5)
-			end
+      let(:member) { create :member, end_subscription: Date.new(1800, 5, 5)}
 
 			it "define the end_subscription date one year after the day of subscription" do
 
@@ -237,6 +234,7 @@ RSpec.describe Member, type: :model do
           allow(Date).to receive(:today) { tab[0] }
           member.renew_subscription_date
           expect(member.end_subscription).to eq(tab[1])
+          member.end_subscription = nil
         end
 
 			end
@@ -267,6 +265,8 @@ RSpec.describe Member, type: :model do
     end
 
     context "when is subscription is still active" do
+
+      let(:member) { create :member}
 
 			it "define the end_subscription date one year after the day of subscription" do
 
@@ -308,7 +308,7 @@ RSpec.describe Member, type: :model do
 			it "define the end_subscription date one year and one day after the actual end_subscription date when the end_subscription date is a 29 fubruary" do
         allow(Date).to receive(:today) { Date.new(2024, 1, 24) }
         member.end_subscription = Date.new(2024, 2, 29)
-        member.renewed_subscription_date
+        member.renew_subscription_date
         expect(member.end_subscription).to eq(Date.new(2025, 2, 28))
 			end 
     end
