@@ -16,16 +16,17 @@ RSpec.describe SendNotificationJob, :type => :job do
 
       it "send a mail to all members in end subscription period" do
 
-
         end_subscription_period_params = {from: Date.today, to: Date.today + 15}
         members_number = rand(1..500) 
-
         create_list :member, members_number, end_subscription: Faker::Date.between(end_subscription_period_params)
+        member_mails = Member.all.map {|m| m.email}
 
         ActiveJob::Base.queue_adapter = :test
-        expect {
-          SendNotificationJob.perform_now
-        }.to change { ActionMailer::Base.deliveries.size }.by(members_number) 
+        SendNotificationJob.perform_now
+        email_sended_adress = ActionMailer::Base.deliveries.map {|m| m.to[0]}
+        
+        expect(member_mails.sort == email_sended_adress.sort).to eq(true)
+
       end
 
       it "not send a mail to members which are not in end subscription period" do
@@ -73,10 +74,10 @@ RSpec.describe SendNotificationJob, :type => :job do
         member_which_have_a_nil_end_end_subscription_date = create :member, end_subscription: nil
         ActiveJob::Base.queue_adapter = :test
         SendNotificationJob.perform_now
-        expect(ActionMailer::Base.deliveries.any? {|m| m.to[0] == member1.email}).to eq true
-        expect(ActionMailer::Base.deliveries.any? {|m| m.to[0] == member2.email}).to eq false
-        expect(ActionMailer::Base.deliveries.any? {|m| m.to[0] == member3.email}).to eq false
-        expect(ActionMailer::Base.deliveries.any? {|m| m.to[0] == member4.email}).to eq false
+        expect(ActionMailer::Base.deliveries.any? {|m| m.to[0] == member_which_are_in_end_subscription_period.email}).to eq true
+        expect(ActionMailer::Base.deliveries.any? {|m| m.to[0] == member_which_are_not_in_end_subscription_period.email}).to eq false
+        expect(ActionMailer::Base.deliveries.any? {|m| m.to[0] == member_which_have_a_outdated_end_subscription_date.email}).to eq false
+        expect(ActionMailer::Base.deliveries.any? {|m| m.to[0] == member_which_have_a_nil_end_end_subscription_date.email}).to eq false
       end
 
     end
