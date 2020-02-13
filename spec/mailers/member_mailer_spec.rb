@@ -15,6 +15,10 @@ RSpec.describe MemberMailer, type: :mailer do
         expect(mail.body.encoded).to match(/#{member.first_name}/)
       end
       
+      it "contain the last name of member" do
+        expect(mail.body.encoded).to match(/#{member.last_name}/)
+      end
+
       it "contain the end subsription date of the member" do
         expect(mail.body.encoded).to match(/#{member.end_subscription}/)
       end
