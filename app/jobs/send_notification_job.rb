@@ -8,7 +8,6 @@ class SendNotificationJob < ApplicationJob
     members = Member.where(":start_date <= end_subscription AND end_subscription <= :end_date", {start_date: Date.today, end_date: Date.today + 15}).find_each(batch_size: 200) do |member|
         MemberMailer.end_subscription_alert(member).deliver_now
     end
-    
   end
 
 end
