@@ -22,6 +22,7 @@ fr:
     has_many_new: "Ajouter un(e) %{model}"
     has_many_delete: "Supprimer"
     has_many_remove: "Enlever"
+    renew_member_alert: "Les adhésions des membres sélectionnés ont été renouvelées"
     filters:
       buttons:
         filter: "Filtrer"
@@ -71,6 +72,7 @@ fr:
     batch_actions:
       button_label: "Actions groupées"
       default_confirmation: "Êtes-vous sûr de vouloir faire cela ?"
+      renew_confirmation: "Êtes-vous certain de vouloir renouveler les membres sélectionnés?"
       delete_confirmation: "Êtes-vous sûr de vouloir supprimer ces %{plural_model} ?"
       succesfully_destroyed:
         one: "1 %{model} supprimé"
@@ -79,6 +81,7 @@ fr:
       action_label: "%{title} les éléments sélectionnés"
       labels:
         destroy: "Supprimer"
+        renew: "Renouveler"
     comments:
       created_at: "Créé le"
       resource_type: "Type de ressource"
