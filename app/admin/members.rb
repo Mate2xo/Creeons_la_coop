@@ -14,12 +14,14 @@ ActiveAdmin.register Member do
     column :group do |member| Member.human_enum_name(:group, member.group) end
     column :cash_register_proficiency
     column :email
+    column :end_subscription
     actions
   end
 
   form do |f|
     f.inputs :first_name, :last_name, :email, :phone_number, :role,
              :moderator, :group, :cash_register_proficiency, :biography
+             :end_subscription
     actions
   end
 
@@ -30,9 +32,18 @@ ActiveAdmin.register Member do
   filter :role
   filter :group
   filter :cash_register_proficiency
+  filter :end_subscription
 
   action_item :invite_member, only: :index do
     link_to t("active_admin.invite_member"), new_member_invitation_path
   end
+
+  batch_action :renew do |ids|
+    batch_action_collection.find(ids).each do |member|
+      member.renew_subscription_date 
+    end
+    redirect_to collection_path, alert: t("active_admin.renew_member_alert")
+  end
+
 end
 # rubocop: enable Metrics/BlockLength
