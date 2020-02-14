@@ -38,6 +38,7 @@ en:
     has_many_new: "Add New %{model}"
     has_many_delete: "Delete"
     has_many_remove: "Remove"
+    renew_member_alert: "The subscription of selected member has been renewed"
     move: "Move"
     filters:
       buttons:

@@ -22,6 +22,7 @@ fr:
     has_many_new: "Ajouter un(e) %{model}"
     has_many_delete: "Supprimer"
     has_many_remove: "Enlever"
+    renew_member_alert: "Les adhésion des membres sélectionnés ont été renouvellé"
     filters:
       buttons:
         filter: "Filtrer"
@@ -79,6 +80,7 @@ fr:
       action_label: "%{title} les éléments sélectionnés"
       labels:
         destroy: "Supprimer"
+        renew: "Renouveller"
     comments:
       created_at: "Créé le"
       resource_type: "Type de ressource"
