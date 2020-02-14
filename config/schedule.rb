@@ -28,6 +28,3 @@ every :saturday, at: '10pm' do
   runner "SendNotificationJob.perform_later"
 end
 
-every :saturday, at: '11pm' do
-  runner "SendNotificationSummaryJob.perform_later"
-end
