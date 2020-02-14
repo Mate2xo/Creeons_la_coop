@@ -85,6 +85,7 @@ class Member < ApplicationRecord
                             else
                               base + 364
                             end
+    self.save
   end
 
   private
