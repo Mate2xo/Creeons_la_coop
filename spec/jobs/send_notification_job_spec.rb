@@ -3,83 +3,55 @@
 require 'rails_helper'
 
 RSpec.describe SendNotificationJob, :type => :job do
-  describe "SendNotificationJob" do
-    it "is enqueued" do
-      ActiveJob::Base.queue_adapter = :test
-      expect {
-        SendNotificationJob.perform_later
-      }.to have_enqueued_job
+  
+  subject {ActionMailer::Base.deliveries}
+
+  before do
+    ActiveJob::Base.queue_adapter = :test
+  end
+
+  context "when members are in end subscription period" do
+    it "sends an email to all of them" do
+
+      end_subscription_period_params = {from: Date.today, to: Date.today + 15}
+      create_list :member, 5, end_subscription: Faker::Date.between(end_subscription_period_params)
+      member_mails = Member.all.map(&:email)
+      SendNotificationJob.perform_now
+      
+      expect(subject.map {|m| m.to[0]}).to match_array(member_mails)
+
     end
+  end
 
+  context "when members are not in end subscription period" do
+    it "does not sends an email" do
 
-    context "when the job must send mails to the members" do
+      before_end_subscription_period_params = {from: Date.today + 16, to: Date.today + 300}
+      create_list :member, 5, end_subscription: Faker::Date.between(before_end_subscription_period_params)
+      SendNotificationJob.perform_now
 
-      it "send a mail to all members in end subscription period" do
+      expect(subject.size).to eq(0)
+    end
+  end
+   
+  context "when members have an outdated subscription date" do
+    it "does not sends an email" do
 
-        end_subscription_period_params = {from: Date.today, to: Date.today + 15}
-        members_number = rand(1..500) 
-        create_list :member, members_number, end_subscription: Faker::Date.between(end_subscription_period_params)
-        member_mails = Member.all.map {|m| m.email}
+      before_end_subscription_period_params = {from: Date.today - 1, to: Date.today - 300}
+      create_list :member, 5, end_subscription: Faker::Date.between(before_end_subscription_period_params)
+      SendNotificationJob.perform_now
 
-        ActiveJob::Base.queue_adapter = :test
-        SendNotificationJob.perform_now
-        email_sended_adress = ActionMailer::Base.deliveries.map {|m| m.to[0]}
-        
-        expect(member_mails.sort == email_sended_adress.sort).to eq(true)
+      expect(subject.size).to eq(0)
+    end
+  end
 
-      end
+  context "when members have a nil subscription date" do
+    it "does not sends an email" do
 
-      it "not send a mail to members which are not in end subscription period" do
+      create_list :member, 5, end_subscription: nil
+      SendNotificationJob.perform_now
 
-        before_end_subscription_period_params = {from: Date.today + 16, to: Date.today + 300}
-        members_number = rand(1..500) 
-
-        create_list :member, members_number, end_subscription: Faker::Date.between(before_end_subscription_period_params)
-
-        ActiveJob::Base.queue_adapter = :test
-        expect {
-          SendNotificationJob.perform_now
-        }.to change { ActionMailer::Base.deliveries.size }.by(0) 
-      end
-     
-      it "not send a mail to members which have an outdated subscription date " do
-
-        before_end_subscription_period_params = {from: Date.today - 1, to: Date.today - 300}
-        members_number = rand(1..500) 
-
-        create_list :member, members_number, end_subscription: Faker::Date.between(before_end_subscription_period_params)
-
-        ActiveJob::Base.queue_adapter = :test
-        expect {
-          SendNotificationJob.perform_now
-        }.to change { ActionMailer::Base.deliveries.size }.by(0) 
-      end
-
-      it "not send a mail to members which have a nil subscription date " do
-
-        members_number = rand(1..500) 
-
-        create_list :member, members_number, nil
-
-        ActiveJob::Base.queue_adapter = :test
-        expect {
-          SendNotificationJob.perform_now
-        }.to change { ActionMailer::Base.deliveries.size }.by(0) 
-      end
-
-      it "send mails to the right members" do
-        member_which_are_in_end_subscription_period = create :member, end_subscription: Date.today + 10
-        member_which_are_not_in_end_subscription_period = create :member, end_subscription: Date.today + 30 
-        member_which_have_a_outdated_end_subscription_date = create :member, end_subscription: Date.today - 5
-        member_which_have_a_nil_end_end_subscription_date = create :member, end_subscription: nil
-        ActiveJob::Base.queue_adapter = :test
-        SendNotificationJob.perform_now
-        expect(ActionMailer::Base.deliveries.any? {|m| m.to[0] == member_which_are_in_end_subscription_period.email}).to eq true
-        expect(ActionMailer::Base.deliveries.any? {|m| m.to[0] == member_which_are_not_in_end_subscription_period.email}).to eq false
-        expect(ActionMailer::Base.deliveries.any? {|m| m.to[0] == member_which_have_a_outdated_end_subscription_date.email}).to eq false
-        expect(ActionMailer::Base.deliveries.any? {|m| m.to[0] == member_which_have_a_nil_end_end_subscription_date.email}).to eq false
-      end
-
+      expect(subject.size).to eq(0)
     end
   end
 end
