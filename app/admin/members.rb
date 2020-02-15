@@ -38,7 +38,7 @@ ActiveAdmin.register Member do
     link_to t("active_admin.invite_member"), new_member_invitation_path
   end
 
-  batch_action :renew do |ids|
+  batch_action :renew, confirm: I18n.t("active_admin.renew_confirmation") do |ids|
     batch_action_collection.find(ids).each do |member|
       member.renew_subscription_date 
     end
