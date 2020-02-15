@@ -39,7 +39,7 @@ en:
     has_many_delete: "Delete"
     has_many_remove: "Remove"
     renew_member_alert: "The subscriptions of selected members has been renewed"
-    delete_confirmation: "Are you sure you want to renew this?"
+    renew_confirmation: "Are you sure you want to renew this?"
     move: "Move"
     filters:
       buttons:
