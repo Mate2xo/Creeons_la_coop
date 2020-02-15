@@ -22,7 +22,7 @@ fr:
     has_many_new: "Ajouter un(e) %{model}"
     has_many_delete: "Supprimer"
     has_many_remove: "Enlever"
-    renew_member_alert: "Les adhésion des membres sélectionnés ont été renouvellé"
+    renew_member_alert: "Les adhésions des membres sélectionnés ont été renouvellées"
     filters:
       buttons:
         filter: "Filtrer"
