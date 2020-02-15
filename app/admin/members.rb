@@ -5,6 +5,7 @@ ActiveAdmin.register Member do
   permit_params :email, :encrypted_password, :first_name, :last_name, :biography,
                 :phone_number, :role, :moderator, :group, :confirmed_at,
                 :password, :password_confirmation, :cash_register_proficiency
+                :end_subscription
 
   index do
     selectable_column
@@ -20,8 +21,8 @@ ActiveAdmin.register Member do
 
   form do |f|
     f.inputs :first_name, :last_name, :email, :phone_number, :role,
-             :moderator, :group, :cash_register_proficiency, :biography
-             :end_subscription
+             :moderator, :group, :cash_register_proficiency,:end_subscription,
+             :biography
     actions
   end
 
