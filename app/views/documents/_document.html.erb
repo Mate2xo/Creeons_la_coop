@@ -9,8 +9,9 @@
       <% end %>
     </td>
     <td scope="row">
-      <%= link_to 'Supprimer', document, method: :delete, id: document.id,
-        :class => 'btn btn-mini btn-danger',
-        data: { confirm: 'Supprimer le document ?', remote: true } %>
+      <%= link_to 'Supprimer',
+        document, method: :delete, id: document.id,
+        class: 'btn btn-mini btn-danger',
+        data: { confirm: 'Supprimer le document ?', remote: true } if policy(Document).destroy? %>
     </td>
   </tr>

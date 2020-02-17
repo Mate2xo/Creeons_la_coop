@@ -2,29 +2,34 @@
 
 class DocumentsController < ApplicationController
   def create
-    if current_member.role == 'super_admin' || current_member.role == 'admin'
-      @document = Document.new(permitted_params)
-      respond_to do |format|
-        if @document.save
-          format.html { redirect_to infos_path(anchor: 'documents'), notice: "Le document a été ajouté" }
-          format.js
-        else
-          format.html { redirect_to new_document_path, error: "Le téléchargement du document a échoué" }
-        end
+    @document = authorize Document.new(permitted_params)
+
+    respond_to do |format|
+      if @document.save
+        format.js
+        format.html {
+          redirect_to infos_path(anchor: 'documents'),
+                      notice: "Le document a été ajouté"
+        }
+      else
+        format.html {
+          redirect_to infos_path(anchor: 'documents'),
+                      error: "Le téléchargement du document a échoué"
+        }
       end
-    else
-      redirect_to "/infos#documents", error: "Une erreur est survenue. Veuillez réessayer ou contacter votre administrateur"
     end
   end
 
   def destroy
-    if current_member.role == 'super_admin' || current_member.role == 'admin'
-      @document = Document.find(params[:id])
-      @document.destroy
-    end
+    @document = authorize Document.find(params[:id])
+    @document.destroy
+
     respond_to do |format|
       format.js
-      format.html { redirect_to infos_path(anchor: 'documents'), notice: "Le document a été supprimé" }
+      format.html {
+        redirect_to infos_path(anchor: 'documents'),
+                    notice: "Le document a été supprimé"
+      }
     end
   end
 

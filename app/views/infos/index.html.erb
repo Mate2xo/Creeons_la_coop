@@ -22,7 +22,8 @@
       </div>
 
       <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
-        <%= render partial: "documents/new", locals: {document: @document} %>
+        <%= render partial: "documents/new",
+                   locals: {document: @document} if policy(Document).create? %>
         <%= render partial: "documents/index", locals: {documents: @documents} %>
       </div>
     </div>
