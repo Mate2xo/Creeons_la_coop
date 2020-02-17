@@ -9,10 +9,14 @@
 #  updated_at :datetime         not null
 #
 
+# rubocop:disable Style/MixinUsage
+include ActionDispatch::TestProcess::FixtureFile
+# rubocop:enable Style/MixinUsage
+
 FactoryBot.define do
   factory :document do
     trait :with_file do
-      documents { fixture_file_upload(Rails.root.join('erd.pdf'), 'application/pdf') }
+      file { fixture_file_upload(Rails.root.join('spec', 'support', 'fixtures', 'erd.pdf'), 'application/pdf') }
     end
   end
 end
