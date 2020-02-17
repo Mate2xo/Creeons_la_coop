@@ -19,7 +19,7 @@ RSpec.feature "DocumentUploadsAtInfoSections", type: :feature do
 
       visit infos_path(anchor: 'documents')
 
-      expect(page).not_to have_link("Supprimer")
+      expect(page).not_to have_link(I18n.t('main_app.views.application.buttons.destroy'))
     end
   end
 
@@ -47,7 +47,7 @@ RSpec.feature "DocumentUploadsAtInfoSections", type: :feature do
       sign_in admin
       create :document, :with_file
       visit infos_path(anchor: 'documents')
-      click_on "Supprimer"
+      click_on I18n.t("main_app.views.application.buttons.destroy")
     }
 
     it "deletes the document from infos/index#document view" do

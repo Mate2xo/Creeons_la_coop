@@ -12,7 +12,9 @@
         <a class="nav-link active" href="#annonces" data-toggle="tab" role="tab">Annonces</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#documents" data-toggle="tab" role="tab">Documents</a>
+        <a class="nav-link" href="#documents" data-toggle="tab" role="tab">
+          <%= Document.model_name.plural.capitalize %>
+        </a>
       </li>
     </ul>
 
