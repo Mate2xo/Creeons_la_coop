@@ -1,3 +1,7 @@
+<% provide :head_tags do %>
+  <%= javascript_include_tag 'infos', "data-turbolinks-track" => "reload" %>
+<% end %>
+
 <div class="container mb-4">
   <div class="main-content">
 
@@ -7,7 +11,7 @@
       </h2>
     </div>
 
-    <ul class="nav nav-tabs justify-content-center mb-5" id="myTab">
+    <ul class="nav nav-tabs justify-content-center mb-5" id="infosTabs">
       <li class="nav-item">
         <a class="nav-link active" href="#annonces" data-toggle="tab" role="tab">Annonces</a>
       </li>
@@ -33,19 +37,3 @@
   </div>
 </div>
 
-<script type="text/javascript">
-  $('#myTab a').click(function (e) {
-    e.preventDefault();
-    $(this).tab('show');
-  });
-
-  // store the currently selected tab in the hash value
-  $("ul.nav-tabs > li > a").on("shown.bs.tab", function (e) {
-    var id = $(e.target).attr("href").substr(1);
-    window.location.hash = id;
-  });
-
-  // on load of the page: switch to the currently selected tab
-  var hash = window.location.hash;
-  $('#myTab a[href="' + hash + '"]').tab('show');
-</script>
