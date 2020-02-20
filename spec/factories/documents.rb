@@ -20,7 +20,7 @@ FactoryBot.define do
     end
 
     trait :with_invalid_file_type do
-      file { fixture_file_upload(Rails.root.join('spec', 'support', 'fixtures','fixture.json'), 'application/json') }
+      file { fixture_file_upload(Rails.root.join('spec', 'support', 'fixtures', 'fixture.json'), 'application/json') }
     end
   end
 end
