@@ -1,0 +1,15 @@
+<br/>
+<div class="card no-border">
+  <table id="documents" class="table table-sm table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Nom du document</th>
+        <th scope="col">Télécharger</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= render partial: "documents/document", collection: @documents %>
+    </tbody>
+  </table>
+</div>

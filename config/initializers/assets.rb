@@ -19,4 +19,5 @@ Rails.application.config.assets.precompile += %w(
   fullCalendar.js fullCalendar.css
   openStreetMaps.js
   missionForm.js missions.css
+  infos.js infos.css
 )

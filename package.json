@@ -1,7 +1,9 @@
 {
   "name": "creons_la_coop",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "jquery-stickytabs": "^1.2.4"
+  },
   "devDependencies": {
     "husky": "^1.3.1"
   },

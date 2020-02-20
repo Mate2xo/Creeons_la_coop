@@ -7,6 +7,7 @@ Address.destroy_all
 Mission.destroy_all
 Member.destroy_all
 Productor.destroy_all
+Document.destroy_all
 Thredded::Messageboard.destroy_all
 Thredded::MessageboardGroup.destroy_all
 
@@ -37,6 +38,13 @@ puts "Missions seeded"
 
 FactoryBot.create_list :info, 5, author: Member.all.sample
 puts "Infos seeded"
+
+5.times do
+  document = Document.new
+  document.file.attach(io: File.open('erd.pdf'), filename: 'erd.pdf', content_type: 'application/pdf')
+  document.save!
+end
+puts "Documents seeded"
 
 FactoryBot.create_list :messageboard_group, 2
 FactoryBot.create_list :messageboard, 6,

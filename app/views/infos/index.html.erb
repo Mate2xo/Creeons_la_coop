@@ -1,33 +1,39 @@
-<div class="container">
-  <div class="col-lg-12 mb-5 main-content">
+<% provide :head_tags do %>
+  <%= javascript_include_tag 'infos', "data-turbolinks-track" => "reload" %>
+<% end %>
+
+<div class="container mb-4">
+  <div class="main-content">
+
     <div class="page-title">
       <h2 class="heading-infos heading heading-2 text-uppercase border-bottom border-dark strong-800 mt-5 mb-5">
-          Infos
+        Infos
       </h2>
     </div>
 
-    <ul class="nav nav-tabs justify-content-center mb-5">
+    <ul class="nav nav-tabs justify-content-center mb-5" id="infosTabs">
       <li class="nav-item">
-          <a class="nav-link active" href="#">Annonces</a>
+        <a class="nav-link active" href="#annonces" data-toggle="tab" role="tab">Annonces</a>
       </li>
       <li class="nav-item">
-          <a class="nav-link" href="#">Documents</a>
+        <a class="nav-link" href="#documents" data-toggle="tab" role="tab">
+          <%= Document.model_name.plural.capitalize %>
+        </a>
       </li>
     </ul>
 
-    <% if super_admin? || admin? %>
-      <div class="d-flex">
-        <%= link_to  "Créer une annonce", new_info_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mx-auto" %>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="annonces" role="tabpanel" aria-labelledby="annonces-tab">
+        <%= render partial: "annonces", locals: {infos: @infos} %>
       </div>
-    <% end %>
-        
-    <div class="card no-border">
-      <table class="table table-sm table-hover">
-        <tbody>
-          <%= render partial: "info", collection: @infos %>
-        </tbody>
-      </table>
+
+      <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
+        <%= render partial: "documents/new",
+                   locals: {document: @document} if policy(Document).create? %>
+        <%= render partial: "documents/index", locals: {documents: @documents} %>
+      </div>
     </div>
 
   </div>
 </div>
+

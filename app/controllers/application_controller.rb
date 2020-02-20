@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  add_flash_types :error
   include Pundit
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_locale
