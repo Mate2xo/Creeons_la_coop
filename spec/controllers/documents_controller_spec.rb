@@ -15,12 +15,32 @@ RSpec.describe DocumentsController, type: :controller do
       end
     end
 
-    context "when failed" do
-      it "gives an error feedback to the user" do
+    context "when it is an invalid content type" do
+      before { post :create, params: { document: attributes_for(:document, :with_invalid_file_type) } }
+
+      it "gives a 'invalid file type' feedback to the user" do
+        expect(flash[:alert]).to eq(I18n.t('errors.format',
+                                           attribute: Document.human_attribute_name(:file),
+                                           message: I18n.t('errors.messages.content_type_invalid')))
+      end
+
+      # ActiveStorage in Rails 5.2 *immediatly* uploads files on assignment, even without using .save (thus without validation)
+      # So additionnal deletion of attachements, blobs, and stored file is necessary on invalid files
+      it "purges the attached file" do
+        new_document_instance = @controller.instance_variable_get(:@document)
+
+        expect(new_document_instance.file).not_to be_attached
+        expect(ActiveStorage::Blob.count).to eq 0
+      end
+    end
+
+    context "when no file is attached" do
+      it "gives an 'no file attached' feedback to the user" do
         post :create, params: { document: { random: 'whatever' } }
 
-        expect(flash[:error]).to eq I18n.t('activerecord.errors.messages.creation_fail',
-                                           model: Document.model_name.singular)
+        expect(flash[:alert]).to eq(I18n.t('errors.format',
+                                           attribute: Document.human_attribute_name(:file),
+                                           message: I18n.t('errors.messages.blank')))
       end
     end
   end

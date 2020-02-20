@@ -30,6 +30,7 @@ gem 'mini_magick', '~> 4.9.5' # Use ActiveStorage variant
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
+gem 'active_storage_validations'
 gem 'activeadmin' # Admin interface
 gem 'addressable' # URI manipulations
 gem "aws-sdk-s3", require: false # S3 file upload storage

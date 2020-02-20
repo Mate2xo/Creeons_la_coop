@@ -37,6 +37,10 @@ class DocumentsController < ApplicationController
       message = t("activerecord.notices.messages.record_created",
                   model: @document.model_name.singular)
       { notice: message }
+    elsif record.invalid?
+      message = record.errors.full_messages.join(', ')
+      record.file.purge
+      { alert: message }
     else
       message = t('activerecord.errors.messages.creation_fail',
                   model: @document.model_name.singular)
