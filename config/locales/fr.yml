@@ -52,11 +52,17 @@ fr:
         group: Groupe
         groups:
           no_group: Aucun
-          collective: Collectif
-          management: Gestion
-          communication: Communication
-          maintenance_supply: Maintenance/approvisionnement
-          community_projects: Vie associative
+          welcome: Accueil
+          financial_management: Gestion financière
+          members_management: Gestion adhérents
+          core: Coeur
+          schedule: Planning
+          diy: Bricolage
+          internal_culture: Culture interne
+          local_suppliers: Fournisseurs locaux
+          other_suppliers: Autres fournisseurs
+          supply: Approvisionnement
+          orders_management: Commande
           it: Informatique
         last_name: Nom
         moderator: Modérateur (forum)

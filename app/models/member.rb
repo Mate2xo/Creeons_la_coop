@@ -63,8 +63,18 @@ class Member < ApplicationRecord
 
   enum role: { member: 0, admin: 1, super_admin: 2 }
   enum group: {
-    collective: 1, management: 2, communication: 3,
-    maintenance_supply: 4, community_projects: 5, it: 6
+    welcome: 1,
+    financial_management: 2,
+    members_management: 3,
+    core: 4,
+    schedule: 5,
+    diy: 6,
+    internal_culture: 7,
+    local_suppliers: 8,
+    other_suppliers: 9,
+    supply: 10,
+    orders_management: 11,
+    it: 12
   }
   enum cash_register_proficiency: { untrained: 0, beginner: 1, proficient: 2 }
 
