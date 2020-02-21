@@ -1,1 +1,1 @@
-$('table#documents tbody').append("<%= j render @document %>");
+$('table#documents tbody').append("<%= j render @document unless @document.invalid? %>");

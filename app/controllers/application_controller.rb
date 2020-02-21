@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   include Pundit
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_locale
+  after_action :ajax_flash_to_headers
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   #  The following lines are useful when developping Pundit policies
@@ -47,5 +48,21 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     I18n.locale = :fr
+  end
+
+  def ajax_flash_to_headers
+    return unless request.xhr?
+
+    flash_type, flash_message = extract_flash
+    response.headers['Flash-message'] = flash_message
+    response.headers['Flash-message-type'] = flash_type
+
+    flash.discard
+  end
+
+  def extract_flash
+    flash.each do |type, msg|
+      return [type, msg] unless flash[type].blank?
+    end
   end
 end

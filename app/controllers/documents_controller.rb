@@ -4,25 +4,23 @@ class DocumentsController < ApplicationController
   def create
     @document = authorize Document.new(permitted_params)
     @document.save
+
+    flash.merge! user_feedback_on_create(@document)
     respond_to do |format|
       format.js
-      format.html {
-        redirect_to infos_path(anchor: 'documents'), user_feedback_on_create(@document)
-      }
+      format.html { redirect_to infos_path(anchor: 'documents') }
     end
   end
 
   def destroy
     @document = authorize Document.find(params[:id])
     @document.destroy
+    flash[:notice] = t('activerecord.notices.messages.record_destroyed',
+                       model: @document.model_name.singular)
 
     respond_to do |format|
       format.js
-      format.html {
-        redirect_to infos_path(anchor: 'documents'),
-                    notice: t('activerecord.notices.messages.record_destroyed',
-                              model: @document.model_name.singular)
-      }
+      format.html { redirect_to infos_path(anchor: 'documents') }
     end
   end
 

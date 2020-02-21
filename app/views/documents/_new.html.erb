@@ -5,8 +5,15 @@
 
       <div class="field">
         <%= form.label :file, "Ajouter un document" %><br/>
-        <%= form.file_field(:file, accept: 'application/pdf', class: "btn-base-1 m-2") %>
-        <%= form.submit value: "Ajouter", class: "btn-base-1 m-2" %>
+        <%= form.file_field(:file,
+                            accept: 'application/pdf, application/msword, 
+                                    application/vnd.openxmlformats-officedocument.wordprocessingml.document, 
+                                    application/vnd.oasis.opendocument.text,
+                                    application/vnd.ms-excel,
+                                    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                            class: "btn-base-1 m-2",
+                            required: true) %>
+            <%= form.submit value: "Ajouter", class: "btn-base-1 m-2" %>
       </div>
     </div>
   </div>

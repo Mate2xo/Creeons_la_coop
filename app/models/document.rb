@@ -11,7 +11,7 @@
 
 class Document < ApplicationRecord
   has_one_attached :file
-  validates :file, attached: true, content_type: [
+  validates :file, attached: true, size: { less_than: 20.megabytes }, content_type: [
     'application/pdf',
     'application/msword', # .doc
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document', # .docx
