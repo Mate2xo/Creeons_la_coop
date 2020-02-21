@@ -22,16 +22,20 @@
   <body>
     <%= render 'layouts/navbar' %>
 
-    <% if flash[:notice] %>
-      <div class="alert alert-success text-center"><%= flash[:notice]%></div>
-    <% end %>
-    <% if flash[:alert] %>
-      <div class="alert alert-warning text-center"><%= flash[:alert]%></div>
-    <% end %>
-    <% if flash[:error] %>
-      <div class="alert alert-danger text-center"><%= flash[:error]%></div>
-    <% end %>
+    <div id="flash_messages">
+      <% if flash[:notice] %>
+        <div class="alert alert-success text-center" id="flash_notice"><%= flash[:notice]%></div>
+      <% end %>
+      <% if flash[:alert] %>
+        <div class="alert alert-warning text-center" id="flash_alert"><%= flash[:alert]%></div>
+      <% end %>
+      <% if flash[:error] %>
+        <div class="alert alert-danger text-center" id="flash_error"><%= flash[:error]%></div>
+      <% end %>
+    </div>
+
     <%= yield %>
-      <%= render 'layouts/footer' %>
-    </body>
-  </html>
+
+    <%= render 'layouts/footer' %>
+  </body>
+</html>

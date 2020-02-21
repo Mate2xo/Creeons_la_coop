@@ -1,2 +1,1 @@
-let element = document.getElementById("<%= @document.id %>");
-element.parentNode.parentNode.remove();
+document.getElementById("<%= @document.id %>").parentNode.parentNode.remove();
