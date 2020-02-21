@@ -5,9 +5,9 @@ require 'rails_helper'
 RSpec.feature "MemberInvitations", type: :feature do
   let(:admin) { create :member, :admin }
   before {
-    I18n.locale = 'fr'
     create_list :member, 10 
     sign_in admin
+    I18n.locale = :fr
   }
 
   it "renew selected members" do 
@@ -21,7 +21,7 @@ RSpec.feature "MemberInvitations", type: :feature do
     checkboxes[0].set(true)
 
     click_on I18n.t("active_admin.batch_actions.button_label")
-    click_on "Renouveler les éléments sélectionnés"
+    click_on I18n.t("active_admin.batch_actions.action_label", title: 'Renouveler')
     click_button "OK"
 
     expect(page).to have_content I18n.t("active_admin.renew_member_alert") 
