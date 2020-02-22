@@ -18,6 +18,5 @@ RSpec.describe "members/edit" do
       expect(rendered).to match match '10-10-2020'
     end
   end
-
 end
 # rubocop: enable RSpec/DescribeClass

@@ -90,18 +90,6 @@ class Member < ApplicationRecord
 
   private
 
-  def leap_subscription?(base)
-    if base.leap? && base.month <= 2
-      return true
-    end
-
-    if (base + 365).leap? && base.month > 2
-      return true
-    end
-
-    false
-  end
-
   def set_unique_display_name
     return unless display_name.nil? || changed.any?('first_name') || changed.any?('last_name')
 
@@ -114,4 +102,17 @@ class Member < ApplicationRecord
 
     self.display_name = display_name
   end
+
+  def leap_subscription?(base)
+    if base.leap? && base.month <= 2
+      return true
+    end
+
+    if (base + 365).leap? && base.month > 2
+      return true
+    end
+
+    false
+  end
+
 end
