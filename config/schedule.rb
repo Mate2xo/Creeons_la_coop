@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Use this file to easily define all of your cron jobs.
 #
 # It's helpful, but not entirely necessary to understand cron before proceeding.
@@ -23,8 +25,6 @@
 set :output, "log/cron_log.log"
 env :PATH, ENV['PATH']
 
-
 every :saturday, at: '10pm' do
   runner "SendNotificationJob.perform_later"
 end
-

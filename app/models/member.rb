@@ -95,10 +95,10 @@ class Member < ApplicationRecord
                             else
                               base + 364
                             end
-    self.save
+    save
 end
 
-private
+  private
 
   def set_unique_display_name
     return unless display_name.nil? || changed.any?('first_name') || changed.any?('last_name')
@@ -124,5 +124,4 @@ private
 
     false
   end
-
 end
