@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe MemberMailer, type: :mailer do
-  describe "end_subscription_alert" do
+  describe "#end_subscription_alert" do
     context "when a mail is sended" do
       let (:member) { create :member }
       let (:mail) { MemberMailer.end_subscription_alert(member) }

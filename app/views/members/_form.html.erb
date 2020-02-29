@@ -60,9 +60,9 @@
       <br>
       <div class="field">
       <% if member.end_subscription.present? %>
-        <%= form.label :end_subscription, t("main_app.views.members.edit.end_subscription") %>
+        <%= label :end_subscription, t("main_app.views.members.edit.end_subscription") %>
 			</br>
-					<%= form.label :end_subscription, value: member.end_subscription.strftime('%d-%m-%Y') %>
+					<%= label :end_subscription, value: member.end_subscription.strftime('%d-%m-%Y') %>
       <% end %>
 			</div>
 

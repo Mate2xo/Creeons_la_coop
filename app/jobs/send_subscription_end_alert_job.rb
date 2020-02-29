@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SendNotificationJob < ApplicationJob
+class SendSubscriptionEndAlertJob < ApplicationJob
   queue_as :default
 
   def perform(*_args)

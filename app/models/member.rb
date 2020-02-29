@@ -114,13 +114,9 @@ end
   end
 
   def leap_subscription?(base)
-    if base.leap? && base.month <= 2
-      return true
-    end
+    return true if base.leap? && base.month <= 2
 
-    if (base + 365).leap? && base.month > 2
-      return true
-    end
+    return true if (base + 365).leap? && base.month > 2
 
     false
   end

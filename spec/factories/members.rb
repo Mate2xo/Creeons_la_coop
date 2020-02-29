@@ -45,7 +45,6 @@ FactoryBot.define do
     email { Faker::Internet.email(name: first_name) }
     password { "password" }
     password_confirmation { "password" }
-    end_subscription { Date.today - 10 }
     confirmed_at { Time.zone.today }
 
     trait :group do group { Member.groups.keys.sample } end

@@ -2,10 +2,7 @@ fr:
   mailer:
     member:
       alert:
+        subject: "Notification de fin d'inscription" 
         salutation: "Bonjour %{member_first_name} %{member_last_name}."
         end_subscription: "Votre inscription prendra fin le %{member_end_subscription}." 
         remember: "Si vous souhaitez continuer l'aventure parmi nous, n'oubliez pas de vous réinscrire." 
-    admin: 
-      info:
-        title_list: "Liste des membres en fin d'adhésion" 
-        no_end_subscription: "Aucun membre en fin d'adhésion cette semaine" 

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.feature "MemberInvitations", type: :feature do
+RSpec.feature "RenewSubscriptionGroupAction", type: :feature do
   let(:admin) { create :member, :admin }
   before {
     create_list :member, 10
@@ -21,7 +21,7 @@ RSpec.feature "MemberInvitations", type: :feature do
     checkboxes[0].set(true)
 
     click_on I18n.t("active_admin.batch_actions.button_label")
-    click_on I18n.t("active_admin.batch_actions.action_label", title: 'Renouveler')
+    click_on I18n.t("active_admin.batch_actions.action_label", title: 'Renouveler les adhésions des')
     click_button "OK"
 
     expect(page).to have_content I18n.t("active_admin.renew_member_alert")

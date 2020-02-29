@@ -5,7 +5,7 @@ ActiveAdmin.register Member do
   permit_params :email, :encrypted_password, :first_name, :last_name, :biography,
                 :phone_number, :role, :moderator, :group, :confirmed_at,
                 :password, :password_confirmation, :cash_register_proficiency
-  :end_subscription
+                :end_subscription
 
   index do
     selectable_column
