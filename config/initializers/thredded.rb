@@ -75,10 +75,10 @@ Thredded.currently_online_enabled = true
 Thredded.private_messaging_enabled = true
 
 # The number of topics to display per page.
-# Thredded.topics_per_page = 50
+Thredded.topics_per_page = 50
 
 # The number of posts to display per page in a topic.
-# Thredded.posts_per_page = 25
+Thredded.posts_per_page = 25
 
 # The layout for rendering Thredded views.
 Thredded.layout = 'layouts/application'
@@ -159,12 +159,17 @@ Thredded.email_outgoing_prefix = '[Forum ClaC] '
 #
 #     $ grep view_hooks -R --include '*.html.erb' "$(bundle show thredded)"
 #
-# Rails.application.config.to_prepare do
-#   Thredded.view_hooks.post_form.content_text_area.config.before do |form:, **args|
-#     # This is called in the Thredded view context, so all Thredded helpers and URLs are accessible here directly.
-#     'hi'
-#   end
-# end
+Rails.application.config.to_prepare do
+  # Thredded.view_hooks.post_form.content_text_area.config.before do |form:, **args|
+  #   # This is called in the Thredded view context, so all Thredded helpers and URLs are accessible here directly.
+  #   'hi'
+  # end
+
+  # Use Trix HTML editor when writing posts
+  Thredded.view_hooks.post_form.content_text_area.config.after do |form|
+    content_tag 'trix-editor', '', input: "#{form[:form].object_name}_content"
+  end
+end
 
 # ==> Topic following
 #

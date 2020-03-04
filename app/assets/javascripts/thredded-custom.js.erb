@@ -1,0 +1,10 @@
+document.addEventListener('turbolinks:load', () => {
+  const messageboardsMetadataNodes = document.querySelectorAll(
+    '.thredded--messageboard--meta--counts',
+  );
+  messageboardsMetadataNodes.forEach((metadata) => {
+    if (metadata.textContent.includes("<%= (I18n.t('thredded.nav.unread_topics')) %>".toLowerCase())) {
+      metadata.style.fontWeight = 'bold';
+    }
+  });
+});

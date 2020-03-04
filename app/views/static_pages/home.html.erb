@@ -1,6 +1,6 @@
 <!-- Force turbolinks reload to load the banner properly on navigation -->
 <% provide :head_tags do %>
-<meta name="turbolinks-visit-control" content="reload"> 
+<meta name="turbolinks-visit-control" content="reload">
 <% end %>
 
 <section class="swiper-js-container background-image-holder" data-holder-type="fullscreen" data-holder-offset=".navbar">
@@ -9,7 +9,8 @@
 
 			<!-- Slide -->
 			<div class="swiper-slide" data-swiper-autoplay="8000">
-				<div class="slice holder-item holder-item-light has-bg-cover bg-size-cover" style="background-image: url(<%= asset_path('stand.jpg') %>); background-position: bottom center;">
+        <div class="slice holder-item holder-item-light has-bg-cover bg-size-cover"
+             style="background: url(<%= asset_path('home/panier3.jpg') %>) center/cover;">
 					<span class="mask mask-dark--style-3"></span>
 					<div class="container d-flex align-items-center">
 						<div class="col">
@@ -22,8 +23,8 @@
 										Un projet collectif de magasin coopératif<br />
 									</p>
 									<div class="d-flex flex-column align-items-center mt-5">
-										<%= link_to "Comment adhérer", about_us_path, class: "btn btn-lg btn-base-1 btn-circle btn-styled mt-3 animated" %>		
-										<%= link_to "Espace membres", new_member_session_path, class: "text-white mt-3 animated" %>		 
+										<%= link_to "Comment adhérer", about_us_path, class: "btn btn-lg btn-base-1 btn-circle btn-styled mt-3 animated" %>
+										<%= link_to "Espace membres", new_member_session_path, class: "text-white mt-3 animated" %>
 									</div>
 								</div>
 							</div>
@@ -31,9 +32,9 @@
 					</div>
 				</div>
 			</div>
-			
+
 		</div>
-			<!-- Add Pagination -->
+    <!-- Add Pagination -->
 		<!--<div class="swiper-pagination"></div>-->
 	</div>
 </section>
