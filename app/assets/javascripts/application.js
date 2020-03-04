@@ -52,4 +52,5 @@
 //= require trix-custom
 //= require imagesloaded.pkgd.min
 //= require thredded
+//= require thredded-custom
 //= require flash_messages_on_xhr
