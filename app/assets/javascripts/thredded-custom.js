@@ -3,7 +3,7 @@ document.addEventListener('turbolinks:load', () => {
     '.thredded--messageboard--meta--counts',
   );
   messageboardsMetadataNodes.forEach((metadata) => {
-    if (metadata.textContent.includes("<%= (I18n.t('thredded.nav.unread_topics')) %>".toLowerCase())) {
+    if (metadata.textContent.includes("non lu")) {
       metadata.style.fontWeight = 'bold';
     }
   });
