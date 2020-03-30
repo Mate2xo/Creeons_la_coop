@@ -56,7 +56,6 @@ end
 
 group :development do
   gem 'annotate', '~> 2.7', '>= 2.7.4'
-  gem 'erd', '~> 0.6.3'
   gem 'letter_opener'
   gem 'solargraph' # LSP provinding app documention through IDE
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.

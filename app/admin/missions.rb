@@ -33,5 +33,36 @@ ActiveAdmin.register Mission do
 
     actions
   end
+
+  show do
+    attributes_table do
+      row :name
+      row :description
+      row :start_date
+      row :due_date
+      row :min_member_count
+      row :max_member_count
+      row :delivery_expected
+      row :event
+    end
+
+    panel 'Participants' do
+      table_for resource.enrollments do
+        column :member
+        column(:start_time) do |enrollment| enrollment.start_time.strftime('%H:%M') end
+        column(:end_time) do |enrollment| enrollment.end_time.strftime('%H:%M') end
+        column 'actions' do |enrollment|
+          link_to(t('active_admin.edit'), edit_admin_mission_enrollment_path(mission, enrollment)) +
+            ' ' +
+            link_to(t('active_admin.delete'), admin_mission_enrollment_path(mission, enrollment), method: :delete)
+        end
+      end
+    end
+  end
+
+  action_item :create_enrollment, only: :show do
+    link_to t('active_admin.new_model', model: Enrollment.model_name.human),
+            new_admin_mission_enrollment_path(resource)
+  end
 end
 # rubocop: enable Metrics/BlockLength
