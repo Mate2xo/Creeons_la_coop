@@ -11,3 +11,10 @@
 .bg-purple {
   background-color: purple !important;
 }
+
+
+@media only screen and (max-width: 600px) {
+.fc-axis {
+  display: none;
+}
+}
