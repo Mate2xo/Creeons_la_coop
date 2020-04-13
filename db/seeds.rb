@@ -41,7 +41,7 @@ puts "Infos seeded"
 
 5.times do
   document = Document.new
-  document.file.attach(io: File.open('erd.pdf'), filename: 'erd.pdf', content_type: 'application/pdf')
+  document.file.attach(io: File.open('spec/support/fixtures/erd.pdf'), filename: 'erd.pdf', content_type: 'application/pdf')
   document.save!
 end
 puts "Documents seeded"

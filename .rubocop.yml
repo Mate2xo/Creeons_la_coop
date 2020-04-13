@@ -15,10 +15,10 @@ AllCops:
 # Style/DateTime:
 #   Enabled: true
 
-Metrics/LineLength:
+Layout:
   Max: 120
 
-Lint/UnneededCopDisableDirective:
+Lint/RedundantCopDisableDirective:
   Enabled: false
 
 Metrics/BlockLength:

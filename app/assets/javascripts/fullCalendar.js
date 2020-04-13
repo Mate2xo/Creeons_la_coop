@@ -8,6 +8,7 @@ document.addEventListener('turbolinks:load', () => {
       themeSystem: 'bootstrap',
       height: 'auto',
       defaultView: 'timeGridWeek',
+      allDaySlot: false,
       firstDay: 1,
       locale: 'fr',
       timeZone: 'UTC', // override browser default (since the shop is local)
