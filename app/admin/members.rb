@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop: disable Metrics/BlockLength
 ActiveAdmin.register Member do
   permit_params :email, :encrypted_password, :first_name, :last_name, :biography,
                 :phone_number, :role, :moderator, :group, :confirmed_at,
@@ -34,5 +33,22 @@ ActiveAdmin.register Member do
   action_item :invite_member, only: :index do
     link_to t("active_admin.invite_member"), new_member_invitation_path
   end
+
+  controller do
+    def create(options = {}, &block)
+      new_unloggable_member = build_resource
+      first_name, last_name = new_unloggable_member.first_name, new_unloggable_member.last_name
+      new_unloggable_member.email = "#{first_name}.#{last_name}.#{Date.current}@compte.web.inactif"
+
+      def new_unloggable_member.password_required?; false; end
+
+      def new_unloggable_member.email_required?; false; end
+
+      if create_resource(new_unloggable_member)
+        options[:location] ||= smart_resource_url
+      end
+
+      respond_with_dual_blocks(new_unloggable_member, options, &block)
+    end
+  end
 end
-# rubocop: enable Metrics/BlockLength
