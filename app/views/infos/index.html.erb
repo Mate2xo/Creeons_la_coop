@@ -7,33 +7,15 @@
 
     <div class="page-title">
       <h2 class="heading-infos heading heading-2 text-uppercase border-bottom border-dark strong-800 mt-5 mb-5">
-        Infos
+        Documents
       </h2>
     </div>
 
-    <ul class="nav nav-tabs justify-content-center mb-5" id="infosTabs">
-      <li class="nav-item">
-        <a class="nav-link active" href="#annonces" data-toggle="tab" role="tab">Annonces</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#documents" data-toggle="tab" role="tab">
-          <%= Document.model_name.plural.capitalize %>
-        </a>
-      </li>
-    </ul>
-
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="annonces" role="tabpanel" aria-labelledby="annonces-tab">
-        <%= render partial: "annonces", locals: {infos: @infos} %>
-      </div>
-
-      <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
-        <%= render partial: "documents/new",
-                   locals: {document: @document} if policy(Document).create? %>
-        <%= render partial: "documents/index", locals: {documents: @documents} %>
-      </div>
+    <div class="" id="documents">
+      <%= render partial: "documents/new",
+                 locals: {document: @document} if policy(Document).create? %>
+      <%= render partial: "documents/index", locals: {documents: @documents} %>
     </div>
-
   </div>
 </div>
 

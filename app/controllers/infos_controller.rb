@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
-# Newsfeeds, creatable by admins
+# Newsfeeds, creatable by admins.
+#
+# TODO:  <15-04-20, tim> #
+# For the moment, the newsfeed feature is useless and is used only to manage documents.
+# This role should be replaced with a proper DocumentsController and related index view.
 class InfosController < ApplicationController
   before_action :authenticate_member!
 
