@@ -60,8 +60,9 @@ group :development do
   gem 'solargraph' # LSP provinding app documention through IDE
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
-  gem 'rubocop', '~> 0.75.0', require: false
-  gem 'rubocop-rspec', '~> 1.31.0'
+  gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
   gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
