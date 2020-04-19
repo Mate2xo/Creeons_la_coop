@@ -22,38 +22,17 @@
           <hr class="mt-0 mb-0">
         </h2>
 
-        <% @mission.enrollments.each do |enrollment| 
-          member = enrollment.member %>
-          <div class="my-4 text-lg line-height-1_8 d-flex justify-content-between"
-               id="member_<%= member.id %>">
-             <% if enrollment.start_time.strftime('%T') != @mission.start_date.strftime('%T') || enrollment.end_time.strftime('%T') != @mission.due_date.strftime('%T') %>
-               <span>
-                 <%= link_to "#{member.first_name} #{member.last_name}", member_path(member.id),
-                   class: "bg-info rounded text-white p-1" %>
-               </span>
-               <span>
-                 <%= enrollment.start_time.strftime('%H:%M') %> - <%= enrollment.end_time.strftime('%H:%M') %>
-               </span>
-             <% else %>
-               <span>
-                 <%= link_to "#{member.first_name} #{member.last_name}", member_path(member.id) %>
-               </span>
-             <% end %>
-            <span>
-              <%= translate member.cash_register_proficiency,
-                scope: "activerecord.attributes.member.cash_register_proficiencies" %>
-            </span>
-          </div>
-        <% end %>
+          <%= render partial: 'enrollment', collection: @mission.enrollments %>
+
         <div class="d-flex justify-content-around">
           <p>
-            <%= Mission.human_attribute_name(:min_member_count)
-            %> : <%= @mission.min_member_count %>
+            <%= Mission.human_attribute_name(:min_member_count) %> :
+            <%= @mission.min_member_count %>
           </p>
           <p>
-            <%= Mission.human_attribute_name(:max_member_count)
-            %> : <%= @mission.max_member_count.nil? ?
-              t("main_app.views.application.messages.undefined") : @mission.max_member_count %>
+            <%= Mission.human_attribute_name(:max_member_count) %> :
+            <%= @mission.max_member_count.nil? ?
+                  t("main_app.views.application.messages.undefined") : @mission.max_member_count %>
           </p>
         </div>
       </section>
