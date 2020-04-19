@@ -28,27 +28,27 @@ $(document).on('turbolinks:load', () => {
     });
   }
 
-  const dutyDurationStart = document.getElementById('duty_duration_start_time');
-  if (dutyDurationStart) {
-    $('#duty_duration_start_time').datetimepicker({
+  const enrollmentStart = document.getElementById('enrollment_start_time');
+  if (enrollmentStart) {
+    $('#enrollment_start_time').datetimepicker({
       locale: 'fr',
       format: 'LT',
       widgetPositioning: {
         horizontal: 'left',
       },
-      date: moment(dutyDurationStart.defaultValue, 'hh:mm'),
+      date: moment(enrollmentStart.defaultValue, 'hh:mm'),
     });
   }
 
-  const dutyDurationEnd = document.getElementById('duty_duration_end_time');
-  if (dutyDurationEnd) {
-    $('#duty_duration_end_time').datetimepicker({
+  const enrollmentEnd = document.getElementById('enrollment_end_time');
+  if (enrollmentEnd) {
+    $('#enrollment_end_time').datetimepicker({
       locale: 'fr',
       format: 'LT',
       widgetPositioning: {
         horizontal: 'left',
       },
-      date: moment(dutyDurationEnd.defaultValue, 'hh:mm'),
+      date: moment(enrollmentEnd.defaultValue, 'hh:mm'),
     });
   }
 

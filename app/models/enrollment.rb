@@ -11,6 +11,7 @@
 #  end_time   :time
 #
 
+# Represents a member enrolling to a given Mission
 class Enrollment < ApplicationRecord
   belongs_to :member
   belongs_to :mission

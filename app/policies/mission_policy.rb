@@ -1,14 +1,6 @@
 # frozen_string_literal: true
 
 class MissionPolicy < ApplicationPolicy
-  def enroll?
-    true
-  end
-
-  def disenroll?
-    true
-  end
-
   def index?
     true
   end

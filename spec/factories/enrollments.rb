@@ -17,7 +17,7 @@ FactoryBot.define do
     mission
 
     trait :one_hour do
-      start_time { mission.start_date.to_time + 3600 }
+      start_time { Time.zone.parse(mission.start_date.to_s) + 3600 }
     end
   end
 end

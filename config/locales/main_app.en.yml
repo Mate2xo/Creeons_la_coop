@@ -17,3 +17,12 @@ en:
         show:
           biography_title: presentation
           member_unconfirmed: waiting invitation confirmation
+      missions:
+        show:
+          addresses: Addresses
+          attendees: Attendees
+          button_enroll: Enroll on this slot
+          button_disenroll: Disenroll
+          enroll: Enroll
+          from: from
+          to: to

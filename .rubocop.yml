@@ -2,8 +2,8 @@ require:
   - rubocop-rspec
   - rubocop-rails
 
-inherit_from:
-  - http://relaxed.ruby.style/rubocop.yml
+# inherit_from:
+#   - http://relaxed.ruby.style/rubocop.yml
 
 AllCops:
   DisplayStyleGuide: true
@@ -17,7 +17,7 @@ AllCops:
 # Style/DateTime:
 #   Enabled: true
 
-Layout:
+Layout/LineLength:
   Max: 120
 
 Lint/RedundantCopDisableDirective:
