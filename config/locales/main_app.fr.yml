@@ -49,9 +49,6 @@ fr:
           attendees: Participants
           button_enroll: S'inscrire sur ce créneau
           button_disenroll: Se désinscrire de ce créneau
-          cannot_enroll: Le nombre maximum de participants est déjà atteint
-          confirm_enroll: Vous vous êtes inscrit à cette mission
-          disenroll: Vous ne participez plus à cette mission
           enroll: Inscription
           from: de
           to: à

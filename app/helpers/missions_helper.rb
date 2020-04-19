@@ -3,10 +3,10 @@
 # Helpers for views/missions
 module MissionsHelper
   def partial_enrollment?(enrollment)
-    mission_start =  enrollment.mission.start_date.strftime('%T')
-    mission_end = enrollment.mission.due_date.strftime('%T')
-    member_begins_after_mission_start = enrollment.start_time.strftime('%T') != mission_start
-    member_finishes_before_mission_end = enrollment.end_time.strftime('%T') != mission_end
+    mission_start = enrollment.mission.start_date.strftime('%R')
+    mission_end = enrollment.mission.due_date.strftime('%R')
+    member_begins_after_mission_start = enrollment.start_time.strftime('%R') != mission_start
+    member_finishes_before_mission_end = enrollment.end_time.strftime('%R') != mission_end
 
     member_begins_after_mission_start || member_finishes_before_mission_end
   end

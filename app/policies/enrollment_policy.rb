@@ -8,22 +8,22 @@ class EnrollmentPolicy < ApplicationPolicy
   end
 
   def index?
-    super_admin?
+    true
   end
 
   def show?
-    super_admin?
+    true
   end
 
   def create?
-    super_admin?
+    true
   end
 
   def update?
-    super_admin?
+    true
   end
 
   def destroy?
-    super_admin?
+    true
   end
 end
