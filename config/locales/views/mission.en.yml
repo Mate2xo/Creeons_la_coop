@@ -1,0 +1,9 @@
+en:
+  missions:
+    form:
+      enroll_another_member: Enroll another member
+      enrolled_members: Enrolled members
+    enrollment_fields:
+      delete_button: Disenroll this member
+    show:
+      quick_enroll: Quick enroll

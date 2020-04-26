@@ -26,25 +26,6 @@
         <%= f.check_box :delivery_expected %>
       </div><br />
 
-      <div class="d-flex mb-4">
-        <div class="field mr-auto pr-3">
-          <%= f.label :min_member_count,
-                      Mission.human_attribute_name(:min_member_count) %>
-          <br />
-          <%= f.number_field :min_member_count,
-                             class: "form-control form-control-lg",
-                             required: true %>
-        </div><br />
-
-        <div class="field">
-          <%= f.label :max_member_count,
-                      Mission.human_attribute_name(:max_member_count) %>
-          <br />
-          <%= f.number_field :max_member_count,
-                             class: "form-control form-control-lg" %>
-        </div><br />
-      </div>
-
       <div class="d-flex flex-wrap mb-4">
         <div class="field mr-auto">
           <%= f.label :start_date, Mission.human_attribute_name(:start_date) %>
@@ -89,17 +70,53 @@
           </div>
         </div>
       </div>
+
+      <h4><%= translate ".enrolled_members" %></h4>
+      <div class="d-flex mb-4">
+        <div class="field mr-auto pr-3">
+          <%= f.label :min_member_count,
+                      Mission.human_attribute_name(:min_member_count) %>
+          <br />
+          <%= f.number_field :min_member_count,
+                             class: "form-control form-control-lg",
+                             required: true %>
+        </div><br />
+
+        <div class="field">
+          <%= f.label :max_member_count,
+                      Mission.human_attribute_name(:max_member_count) %>
+          <br />
+          <%= f.number_field :max_member_count,
+                             class: "form-control form-control-lg" %>
+        </div><br />
+
+      </div>
+      <div id="enrollments">
+        <%= f.fields_for :enrollments, mission.enrollments do |enrollment| %>
+          <%= render 'enrollment_fields', f: enrollment %>
+
+        <% end %>
+        <div class="links">
+          <%= link_to_add_association t(".enroll_another_member"),
+                                      f,
+                                      :enrollments %>
+        </div>
+      </div>
     </section>
 
     <br />
     <h4><%= translate "main_app.views.missions._form.address_fields" %></h4>
-    <%= f.fields_for :addresses, mission.addresses do |address| %>
-      <%= render 'layouts/address_fields', f: address %>
-    <% end %>
-    <%= link_to_add_association t("main_app.views.application.buttons.add_address"),
-                                f,
-                                :addresses,
-                                partial: 'layouts/address_fields' %>
+    <div id="addresses">
+      <%= f.fields_for :addresses, mission.addresses do |address| %>
+        <%= render 'layouts/address_fields', f: address %>
+      <% end %>
+      <div class="links">
+        <%= link_to_add_association t("main_app.views.application.buttons.add_address"),
+                                    f,
+                                    :addresses,
+                                    partial: 'layouts/address_fields' %>
+        </div>
+    </div>
 
     <div class="actions">
       <%= f.submit translate("main_app.views.application.buttons.submit"),
