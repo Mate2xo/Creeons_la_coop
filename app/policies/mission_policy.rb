@@ -14,7 +14,7 @@ class MissionPolicy < ApplicationPolicy
   end
 
   def update?
-    (user == record.author) || super_admin?
+    true
   end
 
   def destroy?

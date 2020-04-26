@@ -23,7 +23,7 @@
 # Every member can create a mission
 # Available methods: #addresses, #author, #due_date, #name, #description
 class Mission < ApplicationRecord
-  belongs_to :author, class_name: "Member", inverse_of: 'created_missions'
+  belongs_to :author, class_name: 'Member', inverse_of: 'created_missions'
   has_many :enrollments, dependent: :destroy
   has_many :members, through: :enrollments
   has_and_belongs_to_many :productors
@@ -36,6 +36,7 @@ class Mission < ApplicationRecord
   validates :max_member_count, numericality: { only_integer: true }, allow_nil: true
 
   accepts_nested_attributes_for :addresses, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :enrollments, reject_if: :all_blank, allow_destroy: true
 
   # Virtual attributes
   attr_accessor :recurrence_rule
