@@ -7,7 +7,8 @@ json.array! @missions do |mission|
   json.start mission.start_date
   json.end mission.due_date
   json.url mission_path(mission.id)
-  json.extendedProps delivery_expected: mission.delivery_expected
+  json.extendedProps delivery_expected: mission.delivery_expected,
+                     members: mission.members
 
   # events colors
   members = mission.members

@@ -33,14 +33,27 @@ document.addEventListener('turbolinks:load', () => {
 
       eventRender(info) {
         const eventEl = info.el.querySelector('.fc-content');
-        const icon = document.createElement('i');
 
+        // Add a truck icon if delivery_expected
+        const icon = document.createElement('i');
         icon.classList.add('fas', 'fa-truck');
         icon.style.color = 'yellow';
-
         if (info.event.extendedProps.delivery_expected) {
           eventEl.insertBefore(icon, eventEl.firstChild);
         }
+
+        // Show enrolled members
+        const memberCount = document.createTextNode(`${info.event.extendedProps.members.length} inscrit(s)`);
+        eventEl.appendChild(memberCount)
+
+        const memberList = document.createElement('ul');
+        memberList.classList.add('memberList');
+        info.event.extendedProps.members.forEach(member => {
+          let first_name = document.createElement('li');
+          first_name.textContent = member.first_name
+          memberList.appendChild(first_name)
+        })
+        eventEl.appendChild(memberList);
       },
     });
 

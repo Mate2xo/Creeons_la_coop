@@ -17,7 +17,8 @@
 
       <div class="field">
         <%= f.label :description, Mission.human_attribute_name(:description) %><br />
-        <%= f.hidden_field :description %>
+        <small>(champs obligatoire)</small>
+        <%= f.hidden_field :description, required: true %>
         <trix-editor input="mission_description"></trix-editor>
       </div><br />
 
@@ -32,7 +33,8 @@
           <%= f.text_field :start_date,
             class: "form-control form-control-lg datetimepicker-input",
             data: { toggle: "datetimepicker", target: "#mission_start_date" },
-            value: mission.start_date
+            value: mission.start_date,
+            required: true
           %>
         </div>
 
@@ -40,7 +42,8 @@
           <%= f.label :due_date, Mission.human_attribute_name(:due_date) %><br />
           <%= f.text_field :due_date,
             class: "form-control form-control-lg datetimepicker-input",
-            data: { toggle: "datetimepicker", target: "#mission_due_date" }
+            data: { toggle: "datetimepicker", target: "#mission_due_date" },
+            required: true
           %>
         </div>
       </div>
@@ -91,17 +94,19 @@
         </div><br />
 
       </div>
-      <div id="enrollments">
-        <%= f.fields_for :enrollments, mission.enrollments do |enrollment| %>
-          <%= render 'enrollment_fields', f: enrollment %>
+      <% unless mission.new_record? %>
+        <div id="enrollments">
+          <%= f.fields_for :enrollments, mission.enrollments do |enrollment| %>
+            <%= render 'enrollment_fields', f: enrollment %>
 
-        <% end %>
-        <div class="links">
-          <%= link_to_add_association t(".enroll_another_member"),
-                                      f,
-                                      :enrollments %>
+          <% end %>
+          <div class="links">
+            <%= link_to_add_association t(".enroll_another_member"),
+                                        f,
+                                        :enrollments %>
+          </div>
         </div>
-      </div>
+      <% end %>
     </section>
 
     <br />
