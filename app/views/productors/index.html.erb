@@ -44,6 +44,8 @@
 						</div>
 					<% end %>
 
+          <%= image_tag 'producteurs/carte_producteurs_CLAC', class: 'img-fluid' %>
+
 					<div class="row cols-md-space cols-sm-space cols-xs-space">
             <%= render partial: "productors",
               locals: { productors: @productors.select {|productor|
