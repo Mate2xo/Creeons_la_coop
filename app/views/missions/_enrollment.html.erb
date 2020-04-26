@@ -5,6 +5,9 @@
     <%= link_to "#{member.first_name} #{member.last_name}",
           member_path(member.id),
           class: (partial_enrollment_css if partial_enrollment?(enrollment)) %>
+    <div>
+      <%= member.phone_number %>
+    </div>
   </span>
 
   <span>
