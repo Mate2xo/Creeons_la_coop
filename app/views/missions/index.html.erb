@@ -11,6 +11,10 @@
         <%= translate "main_app.views.navbar.schedule" %>
       </h1>
       <h2 class='text-center h5 mb-4'><%= t 'main_app.views.missions.index.welcome' %></h2>
+      <h3 class='text-center h6 mb-4'>
+        <%= t 'main_app.views.missions.index.orders' %> :
+        <%= link_to "commandes", Rails.application.credentials[:common_spreadsheet], target: '_blank' %>
+      </h3>
     </header>
 
     <!--Events are fed into the calendar via fullCalendar.js-->
