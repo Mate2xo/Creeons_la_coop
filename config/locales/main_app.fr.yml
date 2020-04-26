@@ -42,6 +42,7 @@ fr:
           <p><em class='rounded bg-orange p-1'>orange</em> : évènement organisé.  </p>
           <p><em class='rounded btn-secondary p-1'>gris</em> : créneau plein </p>"
           welcome: Inscrivez-vous aux permanences et évènements
+          orders: Pour les commandes aux producteurs, veuillez vous inscrire ici
         new:
           title: Créer un créneau
         show:
