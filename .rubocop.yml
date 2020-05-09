@@ -11,7 +11,6 @@ AllCops:
   Exclude:
     - 'db/schema.rb'
     - 'vendor/**/*'
-    - 'config/environments/*.rb'
     - 'bin/*'
 
 # Style/DateTime:
@@ -30,6 +29,7 @@ Metrics/BlockLength:
     - 'Guardfile'
     - 'vendor/bundle'
     - 'app/admin/productors.rb'
+    - 'config/environments/*.rb'
 
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
