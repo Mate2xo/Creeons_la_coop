@@ -5,6 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.1'
 
+# Rails base gems
 gem 'bootstrap', '~> 4.3.1'
 gem 'image_processing', '~> 1.9', '>= 1.9.3'
 gem 'jbuilder', '~> 2.5'
@@ -15,6 +16,9 @@ gem 'rails', '~> 5.2', '>= 5.2.4'
 gem 'sass-rails', '~> 5.0'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
+
+# Reduces boot times through caching; required in config/boot.rb
+gem 'bootsnap', '>= 1.1.0', require: false
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
@@ -27,18 +31,14 @@ gem 'uglifier', '>= 1.3.0'
 
 gem 'mini_magick', '~> 4.9.5' # Use ActiveStorage variant
 
-# Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
-
 gem 'active_storage_validations'
 gem 'activeadmin' # Admin interface
 gem 'addressable' # URI manipulations
-gem "aws-sdk-s3", require: false # S3 file upload storage
+gem 'aws-sdk-s3', require: false # S3 file upload storage
 gem 'bootstrap4-datetime-picker-rails'
 gem 'cocoon', '~> 1.2', '>= 1.2.12' # Dynamic nested forms
-gem "devise", "~> 4.7" # Users login/registration management
+gem 'devise', '~> 4.7' # Users login/registration management
 gem 'devise_invitable', '~> 2.0.0'
-gem 'faker' # Generate fake data for the seed.rb and spec factories
 gem 'httparty' # Http requests
 gem 'ice_cube' # Calendar events recurrence (for Missions)
 gem 'leaflet-rails' # GeoMap generator
@@ -49,6 +49,7 @@ gem 'thredded', '~> 0.16.13' # Forum engine
 
 group :development, :test do
   gem 'factory_bot_rails', '~> 4.0'
+  gem 'faker' # Generate fake data for the seed.rb and spec factories
   gem 'guard-rspec', require: false
   gem 'pry-byebug', '~> 3.6'
   gem 'rspec-rails', '~> 3.7', '>= 3.7.2'
