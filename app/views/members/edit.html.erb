@@ -19,19 +19,19 @@
                 <%= t '.title_enrollments' %>
               </h2>
 
-              <table class="table table-sm">
+              <table class="table table-sm text-center">
                 <tbody>
                   <tr>
                     <th scope="row"><%= l(Date.current, format: '%B').capitalize %></th>
-                    <td><%= month_total_hours(@member, Date.current.month) %> heures</td>
+                    <td><%= @member.monthly_worked_hours(Date.current) %> heures</td>
                   </tr>
                   <tr>
                     <th scope="row"><%= l(1.month.ago, format: '%B').capitalize %></th>
-                    <td><%= month_total_hours(@member, 1.months.ago.month) %> heures</td>
+                    <td><%= @member.monthly_worked_hours(1.month.ago) %> heures</td>
                   </tr>
                   <tr>
                     <th scope="row"><%= l(2.month.ago, format: '%B').capitalize %></th>
-                    <td><%= month_total_hours(@member, 2.months.ago.month) %> heures</td>
+                    <td><%= @member.monthly_worked_hours(2.months.ago) %> heures</td>
                   </tr>
                 </tbody>
               </table>
