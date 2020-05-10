@@ -41,10 +41,6 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
     end
   end
 
-  context 'when a member has enrolled for a task and done it at the shop,' do
-    it "increases his/her family members' worked hours count"
-  end
-
   context 'when a member has worked >= 3 hours this current month' do
     before { sign_in create :member, :admin }
 

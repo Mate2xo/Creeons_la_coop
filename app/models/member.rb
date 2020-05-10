@@ -85,7 +85,7 @@ class Member < ApplicationRecord
   def monthly_worked_hours(date)
     month_number = date.month
 
-    enrollments
+    family_enrollments
       .select { |enroll| enroll.mission.start_date.month == month_number }
       .reduce(0.0) { |sum, enrollment| sum + enrollment.duration }
   end
@@ -105,5 +105,11 @@ class Member < ApplicationRecord
     display_name = "#{first_name} #{last_name} #{i += 1}" while Member.exists?(display_name: display_name)
 
     self.display_name = display_name
+  end
+
+  def family_enrollments
+    return enrollments if register_id.nil?
+
+    Member.where(register_id: register_id).map(&:enrollments).flatten
   end
 end
