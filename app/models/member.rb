@@ -53,7 +53,7 @@ class Member < ApplicationRecord
 
   has_many :created_infos, class_name: 'Info', inverse_of: 'author', foreign_key: 'author_id', dependent: :nullify
 
-  has_and_belongs_to_many :managed_productors, class_name: "Productor"
+  has_and_belongs_to_many :managed_productors, class_name: 'Productor'
 
   validates :first_name, presence: true
   validates :last_name, presence: true
@@ -82,6 +82,18 @@ class Member < ApplicationRecord
     admin? || super_admin?
   end
 
+  def monthly_worked_hours(date)
+    month_number = date.month
+
+    enrollments
+      .select { |enroll| enroll.mission.start_date.month == month_number }
+      .reduce(0.0) { |sum, enrollment| sum + enrollment.duration }
+  end
+
+  def worked_three_hours?(date)
+    monthly_worked_hours(date) >= 3
+  end
+
   private
 
   def set_unique_display_name
@@ -90,9 +102,7 @@ class Member < ApplicationRecord
     display_name = "#{first_name} #{last_name}"
 
     i = 0
-    while Member.exists?(display_name: display_name)
-      display_name = "#{first_name} #{last_name} #{i += 1}"
-    end
+    display_name = "#{first_name} #{last_name} #{i += 1}" while Member.exists?(display_name: display_name)
 
     self.display_name = display_name
   end
