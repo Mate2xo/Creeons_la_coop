@@ -18,6 +18,12 @@ class Enrollment < ApplicationRecord
 
   before_save :set_defaults
 
+  def duration
+    return 0 if start_time == nil || end_time == nil
+
+    ((end_time - start_time) / 60 / 60).round 1
+  end
+
   private
 
   def set_defaults

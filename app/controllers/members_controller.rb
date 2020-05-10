@@ -6,21 +6,21 @@ class MembersController < ApplicationController
   before_action :set_authorized_member, only: %i[show edit update]
 
   def index
-    @members = Member.includes(:address, :avatar_attachment)
+    @members = Member.includes(:address, :avatar_attachment).order(last_name: :asc)
   end
 
   def show; end
 
   def edit
-    @member_address = @member.address || @member.build_address
+    @member.build_address if @member.address.blank?
   end
 
   def update
-    if @member.update_attributes(permitted_params)
-      flash[:notice] = t "activerecord.notices.messages.update_success"
+    if @member.update(permitted_params)
+      flash[:notice] = t 'activerecord.notices.messages.update_success'
       render :show
     else
-      flash[:error] = t "activerecord.errors.messages.update_fail"
+      flash[:error] = t 'activerecord.errors.messages.update_fail'
       render :edit
     end
   end
@@ -32,7 +32,9 @@ class MembersController < ApplicationController
       :email, :first_name, :last_name, :group,
       :avatar, :phone_number, :biography,
       :cash_register_proficiency,
-      address_attributes: %i[id postal_code city street_name_1 street_name_2 _destroy],
+      address_attributes: %i[
+        id postal_code city street_name_1 street_name_2 _destroy
+      ]
     )
   end
 
