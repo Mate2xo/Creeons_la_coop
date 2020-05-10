@@ -39,7 +39,7 @@ require 'rails_helper'
 
 RSpec.describe Member, type: :model do
   describe 'Model instanciation' do
-    subject { described_class.new }
+    subject(:instance) { described_class.new }
 
     describe 'Database' do
       it { is_expected.to have_db_column(:id).of_type(:integer) }
@@ -66,28 +66,32 @@ RSpec.describe Member, type: :model do
     describe 'associations' do
       it { is_expected.to accept_nested_attributes_for(:address).allow_destroy(true) }
       it { is_expected.to have_one(:address).dependent(:destroy) }
-      it { is_expected.to have_many(:created_missions).class_name('Mission').with_foreign_key('author_id').dependent(:nullify) }
+      it {
+        expect(instance).to have_many(:created_missions)
+          .class_name('Mission').with_foreign_key('author_id')
+          .dependent(:nullify)
+      }
       it { is_expected.to have_many(:missions).through(:enrollments) }
     end
 
-    describe "validations" do
+    describe 'validations' do
       it { is_expected.to validate_presence_of(:first_name) }
       it { is_expected.to validate_presence_of(:last_name) }
       it { is_expected.to validate_presence_of(:display_name) }
     end
   end
 
-  describe "#set_unique_display_name" do
+  describe '#set_unique_display_name' do
     let(:member) { create :member }
 
-    it "sets the display_name attribute on creation" do
+    it 'sets the display_name attribute on creation' do
       new_member = build :member
       new_member.save
       expect(new_member.reload.display_name).to eq "#{new_member.first_name} #{new_member.last_name}"
     end
 
-    context "when a pre-existing member without :display_name is updated" do
-      it "sets a display_name" do
+    context 'when a pre-existing member without :display_name is updated' do
+      it 'sets a display_name' do
         old_member = build :member
         old_member.save(validate: false)
 
@@ -97,14 +101,14 @@ RSpec.describe Member, type: :model do
       end
     end
 
-    context "when a member is created with already existing first_name and last_name," do
-      it "checks uniqueness of :display_name by appending it a number" do
+    context 'when a member is created with already existing first_name and last_name,' do
+      it 'checks uniqueness of :display_name by appending it a number' do
         new_member = create :member, first_name: member.first_name,
                                      last_name: member.last_name
         expect(new_member.display_name).to eq "#{new_member.first_name} #{new_member.last_name} 1"
       end
 
-      it "checks uniqueness of :display_name by appending it an incrementing number" do
+      it 'checks uniqueness of :display_name by appending it an incrementing number' do
         create :member, first_name: member.first_name,
                         last_name: member.last_name
         new_member = create :member, first_name: member.first_name,
@@ -113,8 +117,8 @@ RSpec.describe Member, type: :model do
       end
     end
 
-    context "when a member updates, without changing his/her name" do
-      it "does not change :display_name" do
+    context 'when a member updates, without changing his/her name' do
+      it 'does not change :display_name' do
         member = create :member
         display_name = member.display_name
         member.update(phone_number: 'whatever')
@@ -122,18 +126,21 @@ RSpec.describe Member, type: :model do
       end
     end
 
-    context "when a member updates, and the name is edited," do
+    context 'when a member updates, and the name is edited,' do
       let(:first_name) { 'new' }
       let(:last_name) { 'name' }
 
-      before { member.first_name, member.last_name = first_name, last_name }
+      before do
+        member.first_name = first_name
+        member.last_name = last_name
+      end
 
-      it "update :display_name accordingly" do
+      it 'update :display_name accordingly' do
         member.save
         expect(member.reload.display_name).to eq "#{first_name} #{last_name}"
       end
 
-      it "appends an number to :display_name if it already exists" do
+      it 'appends an number to :display_name if it already exists' do
         create :member, first_name: first_name, last_name: last_name
         member.save
         expect(member.reload.display_name).to eq "#{first_name} #{last_name} 1"
@@ -141,23 +148,35 @@ RSpec.describe Member, type: :model do
     end
   end
 
-  describe "#thredded_admin? (forum admin rights)" do
-    context "when member is super admin," do
+  describe '#thredded_admin? (forum admin rights)' do
+    context 'when member is super admin,' do
       subject { build_stubbed :member, :super_admin }
 
       it { is_expected.to be_thredded_admin }
     end
 
-    context "when member is an admin," do
+    context 'when member is an admin,' do
       subject { build_stubbed :member, :admin }
 
       it { is_expected.to be_thredded_admin }
     end
 
-    context "when member is not an admin" do
+    context 'when member is not an admin' do
       subject { build_stubbed :member }
 
       it { is_expected.not_to be_thredded_admin }
+    end
+  end
+
+  describe '#monthly_worked_hours' do
+    context 'when a member shares the same register_id with his/her family' do
+      let(:member) { create :member, register_id: 1234 }
+      let(:family_member) { create :member, register_id: 1234 }
+
+      it "affects every family members' worked hours count" do
+        create :enrollment, member: family_member
+        expect(member.monthly_worked_hours(Date.current)).to eq family_member.monthly_worked_hours(Date.current)
+      end
     end
   end
 end
