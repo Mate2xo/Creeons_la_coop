@@ -1,0 +1,10 @@
+fr:
+  members:
+    edit:
+      title_enrollments: Vos participations
+      title_edit: Modifier votre profil
+      change_password: Modifier votre mot de passe
+      hours_count: Nombres d'heures
+      month: Mois
+      this_month: Ce mois-ci
+

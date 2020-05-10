@@ -15,19 +15,38 @@
 						</div>
 
 						<div class="form-body">
-							<div class="text-center px-2">
-								<h2 class="heading heading-2 strong-400 mb-0">
-									<%= t("main_app.views.members.edit.title").humanize %>
-								</h2>
-							</div>
+              <h2 class='text-center px-2 heading heading-2 strong-400 mb-0'>
+                <%= t '.title_enrollments' %>
+              </h2>
+
+              <table class="table table-sm">
+                <tbody>
+                  <tr>
+                    <th scope="row"><%= l(Date.current, format: '%B').capitalize %></th>
+                    <td><%= month_total_hours(@member, Date.current.month) %> heures</td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><%= l(1.month.ago, format: '%B').capitalize %></th>
+                    <td><%= month_total_hours(@member, 1.months.ago.month) %> heures</td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><%= l(2.month.ago, format: '%B').capitalize %></th>
+                    <td><%= month_total_hours(@member, 2.months.ago.month) %> heures</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <h2 class="text-center px-2 heading heading-2 strong-400 mb-0">
+                <%= t(".title_edit").humanize %>
+              </h2>
 
 							<div class="form-default mt-4" >
 								<%= render partial: 'form', locals: { member:@member } %>
 							</div>
 
-							<%= link_to t("main_app.views.members.edit.change_password"),
-								edit_member_registration_path,
-								class: "btn-cancel btn btn-styled btn-lg btn-block btn-danger mt-4" %>
+							<%= link_to t(".change_password"),
+                          edit_member_registration_path,
+                          class: "btn-cancel btn btn-styled btn-lg btn-block btn-danger mt-4" %>
 						</div>
 					</div>
 				</div>

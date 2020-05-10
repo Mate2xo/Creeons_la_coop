@@ -15,9 +15,6 @@ fr:
         messages:
           undefined: Indéfini
       members:
-        edit:
-          title: modifier le profil
-          change_password: Modifier votre mot de passe
         index:
           all_tab: Tous
           member_unconfirmed: Invitation en attente de confirmation
