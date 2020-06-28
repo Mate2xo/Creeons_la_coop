@@ -55,6 +55,7 @@ fr:
           beginner: débutant à la caisse
           proficient: formé à la caisse
         email: E-mail
+        end_subscription: Date de fin d'abonnement
         register_id: Numéro de caisse
         first_name: Prénom
         group: Groupe

@@ -19,6 +19,20 @@ ActiveAdmin.register Member do
     actions
   end
 
+  csv do
+    column :email
+    column :first_name
+    column :last_name
+    column :phone_number
+    column :group
+    column :role
+    column('3 heures faites?') { |member| member.worked_three_hours?(Date.current) }
+    column(:group) { |member| Member.human_enum_name(:group, member.group) }
+    column :cash_register_proficiency
+    column :register_id
+    column :end_subscription
+  end
+
   form do |f|
     f.inputs :first_name, :last_name, :email, :phone_number, :role, :moderator,
              :group, :cash_register_proficiency, :register_id, :biography
