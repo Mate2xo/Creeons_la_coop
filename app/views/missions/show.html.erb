@@ -79,16 +79,16 @@
         <h4 class="d-block text-center mx-auto">
           <%= translate ".quick_enroll" %>
         </h4>
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center justify-content-around">
           <%= translate "main_app.views.missions.show.from" %>
           <%= f.text_field :start_time,
-                           class: "form-control datetimepicker-input m-2",
+                           class: "form-control datetimepicker-input m-2 w-25",
                            data: { toggle: "datetimepicker", target: "#enrollment_start_time" },
                            value: @mission.start_date.strftime('%T')
           %>
           <%= translate "main_app.views.missions.show.to" %>
           <%= f.text_field :end_time,
-                           class: "form-control datetimepicker-input m-2",
+                           class: "form-control datetimepicker-input m-2 w-25",
                            data: { toggle: "datetimepicker", target: "#enrollment_end_time" },
                            value: @mission.due_date.strftime('%T')
           %>
@@ -112,9 +112,11 @@
                                          model: Mission.model_name.human) },
                       method: :delete,
                       class: "text-danger px-4 mb-4 mt-4" %>
+        <% end %>
+        <% if policy(@mission).edit? %>
           <%= link_to translate("main_app.views.application.buttons.edit"),
-                       edit_mission_path(@mission.id),
-                       class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %>
+                      edit_mission_path(@mission.id),
+                      class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %>
         <% end %>
       </div>
     </aside>
