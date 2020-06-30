@@ -30,7 +30,6 @@ ActiveAdmin.register Member do
     column(:group) { |member| Member.human_enum_name(:group, member.group) }
     column :cash_register_proficiency
     column :register_id
-    column :end_subscription
   end
 
   form do |f|

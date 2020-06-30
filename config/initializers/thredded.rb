@@ -86,7 +86,7 @@ Thredded.layout = 'layouts/application'
 # ==> Email Configuration
 # Email "From:" field will use the following
 # (this is also used as the "To" address for both email notifcations, as all the recipients are on bcc)
-Thredded.email_from = Rails.application.credentials.dig(:noreply_mail_address)
+Thredded.email_from = Rails.application.credentials.dig(:noreply_mail_address) || 'no-reply@creeons-la-coop.fr'
 
 # Emails going out will prefix the "Subject:" with the following string
 Thredded.email_outgoing_prefix = '[Forum ClaC] '
