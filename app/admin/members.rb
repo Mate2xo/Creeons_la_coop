@@ -26,7 +26,9 @@ ActiveAdmin.register Member do
     column :phone_number
     column :group
     column :role
-    column('3 heures faites?') { |member| member.worked_three_hours?(Date.current) }
+    column("3 heures de #{l 1.month.ago, format: '%B'}?") { |member| member.worked_three_hours?(1.month.ago) }
+    column("3 heures de #{l Date.current, format: '%B'}?") { |member| member.worked_three_hours?(Date.current) }
+    column("3 heures de #{l 1.month.from_now, format: '%B'}?") { |member| member.worked_three_hours?(1.month.from_now) }
     column(:group) { |member| Member.human_enum_name(:group, member.group) }
     column :cash_register_proficiency
     column :register_id

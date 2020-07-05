@@ -82,6 +82,8 @@ class Member < ApplicationRecord
     admin? || super_admin?
   end
 
+  # @return [Float]
+  # @param date [Date]
   def monthly_worked_hours(date)
     month_number = date.month
 
@@ -90,6 +92,8 @@ class Member < ApplicationRecord
       .reduce(0.0) { |sum, enrollment| sum + enrollment.duration }
   end
 
+  # @return [Boolean]
+  # @param date [Date]
   def worked_three_hours?(date)
     monthly_worked_hours(date) >= 3
   end
