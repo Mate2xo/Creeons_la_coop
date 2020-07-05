@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   root 'static_pages#home'
   get 'en_savoir_plus', to: 'static_pages#about_us', as: 'about_us'
+  get 'faq', to: 'static_pages#faq', as: 'faq'
 
   resources :missions do
     resource :enrollments, only: %i[new create destroy]

@@ -45,8 +45,9 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
     before { sign_in create :member, :admin }
 
     it 'shows a :ok status on the admin members index' do
+      slot = 1.week.ago.clamp(Date.current.at_beginning_of_month, Date.current)
       create :enrollment, member: member,
-                          mission: create(:mission, start_date: 1.week.ago, due_date: 1.week.ago + 3.hours)
+                          mission: create(:mission, start_date: slot, due_date: slot + 3.hours)
 
       visit admin_members_path
 
