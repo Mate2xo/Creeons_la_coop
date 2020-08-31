@@ -47,6 +47,8 @@ class Member < ApplicationRecord
   has_one :address, dependent: :destroy
   accepts_nested_attributes_for :address, reject_if: :all_blank, allow_destroy: true
 
+  has_many :group_members, dependent: :destroy
+  has_many :groups, through: :group_members
   has_many :created_missions, class_name: 'Mission', inverse_of: 'author', foreign_key: 'author_id', dependent: :nullify
   has_many :enrollments, dependent: :destroy
   has_many :missions, through: :enrollments
