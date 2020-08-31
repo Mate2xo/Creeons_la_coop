@@ -132,7 +132,6 @@ ActiveRecord::Schema.define(version: 2020_05_10_143615) do
     t.string "display_name"
     t.boolean "moderator", default: false
     t.integer "cash_register_proficiency", default: 0
-    t.date "end_subscription"
     t.integer "register_id"
     t.index "lower((display_name)::text) text_pattern_ops", name: "members_display_name_lower", unique: true
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token"
