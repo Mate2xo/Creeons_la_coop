@@ -21,7 +21,6 @@
 #  confirmed_at              :datetime
 #  confirmation_sent_at      :datetime
 #  unconfirmed_email         :string
-#  group                     :integer
 #  invitation_token          :string
 #  invitation_created_at     :datetime
 #  invitation_sent_at        :datetime
@@ -64,20 +63,6 @@ class Member < ApplicationRecord
   before_validation :set_unique_display_name
 
   enum role: { member: 0, admin: 1, super_admin: 2 }
-  enum group: {
-    welcome: 1,
-    financial_management: 2,
-    members_management: 3,
-    core: 4,
-    schedule: 5,
-    diy: 6,
-    internal_culture: 7,
-    local_suppliers: 8,
-    other_suppliers: 9,
-    supply: 10,
-    orders_management: 11,
-    it: 12
-  }
   enum cash_register_proficiency: { untrained: 0, beginner: 1, proficient: 2 }
 
   def thredded_admin?

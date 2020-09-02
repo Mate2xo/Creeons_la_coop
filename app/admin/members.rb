@@ -2,6 +2,7 @@
 
 # rubocop: disable Metrics/BlockLength
 ActiveAdmin.register Member do
+  includes :groups
   permit_params :email, :password, :encrypted_password, :first_name, :last_name,
                 :biography, :phone_number, :role, :moderator, :group, :confirmed_at,
                 :password_confirmation, :cash_register_proficiency, :register_id
@@ -12,7 +13,7 @@ ActiveAdmin.register Member do
     column :last_name
     column :role
     column('3 heures faites?') { |member| member.worked_three_hours?(Date.current) }
-    column(:group) { |member| Member.human_enum_name(:group, member.group) }
+    column(:group) { |member| member.groups.map{ |group| group.name }.join(', ') }
     column :cash_register_proficiency
     column :register_id
     column :email
@@ -29,7 +30,7 @@ ActiveAdmin.register Member do
     column("3 heures de #{l 1.month.ago, format: '%B'}?") { |member| member.worked_three_hours?(1.month.ago) }
     column("3 heures de #{l Date.current, format: '%B'}?") { |member| member.worked_three_hours?(Date.current) }
     column("3 heures de #{l 1.month.from_now, format: '%B'}?") { |member| member.worked_three_hours?(1.month.from_now) }
-    column(:group) { |member| Member.human_enum_name(:group, member.group) }
+    column(:group) { |member| member.groups.map { |group| Group.human_model_name(group.name) }.join(', ') }
     column :cash_register_proficiency
     column :register_id
   end
@@ -53,6 +54,7 @@ ActiveAdmin.register Member do
   end
 
   controller do
+
     def create(options = {}, &block)
       new_unloggable_member = build_resource
       first_name = new_unloggable_member.first_name

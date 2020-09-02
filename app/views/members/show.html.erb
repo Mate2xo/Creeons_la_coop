@@ -30,7 +30,7 @@
               <% if @member.groups.any? %>
                 <h6 class="heading heading-light heading-sm strong-300">
                   Groupe:
-                  <%= change_groups_collection_in_to_string(@member.groups) %>
+                  <%= @member.groups.map{|group| group.name}.join(', ') %>
                 </h6>
                 <br/>
               <% end %>
