@@ -100,6 +100,10 @@ class Member < ApplicationRecord
     monthly_worked_hours(date) >= 3
   end
 
+  def self.by_group(group_id)
+    Member.joins(:group_members).where('group_members.group_id = ?', group_id).includes(:address, :avatar_attachment)
+  end
+
   private
 
   def set_unique_display_name
