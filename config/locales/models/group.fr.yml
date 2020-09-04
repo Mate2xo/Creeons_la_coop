@@ -1,0 +1,10 @@
+fr:
+  activerecord:
+    models:
+      group:
+        one: Groupe
+        other: Groupes
+    attributes:
+      group:
+        name: nom
+        group_manager_mail: mail du responsable de groupe

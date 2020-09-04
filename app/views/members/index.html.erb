@@ -19,7 +19,7 @@
         <% @groups.each do |group| %>
           <li class="nav-item">
             <a class="nav-link" href="#<%= group.name %>-group" data-toggle="tab" role="tab">
-              <%= Member.human_enum_name(:group, group.name).humanize %>
+              <%= group.name %>
             </a>
           </li> 
         <% end %>
