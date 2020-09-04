@@ -3,9 +3,9 @@
 # rubocop: disable Metrics/BlockLength
 ActiveAdmin.register Member do
   includes :groups
-  permit_params :email, :password, :encrypted_password, :first_name, :last_name,
-                :biography, :phone_number, :role, :moderator, :group, :confirmed_at,
-                :password_confirmation, :cash_register_proficiency, :register_id
+  permit_params :email, :password, :encrypted_password, :first_name, :last_name, :biography, :phone_number, :role,
+                :moderator, :confirmed_at, :password_confirmation, :cash_register_proficiency, :register_id,
+                group_ids: []
 
   index do
     selectable_column
@@ -37,7 +37,8 @@ ActiveAdmin.register Member do
 
   form do |f|
     f.inputs :first_name, :last_name, :email, :phone_number, :role, :moderator,
-             :group, :cash_register_proficiency, :register_id, :biography
+             :cash_register_proficiency, :register_id, :biography
+    f.input :groups, as: :check_boxes
     actions
   end
 
