@@ -17,8 +17,9 @@
         </li>
 
         <% @groups.each do |group| %>
+          <% presenter = GroupPresenter.new(group) %>
           <li class="nav-item">
-            <a class="nav-link" href="#<%= group.name %>-group" data-toggle="tab" role="tab">
+            <a class="nav-link" href="#<%= presenter.convert_name %>-group" data-toggle="tab" role="tab">
               <%= group.name %>
             </a>
           </li> 
@@ -33,10 +34,11 @@
         </section>
 
         <% @groups.each do |group| %>
-          <section class="tab-pane fade" id="<%= group.name %>-group" role="tabpanel" aria-labelledby="<%= group.name %>-group-tab">
+          <% presenter = GroupPresenter.new(group) %>
+          <section class="tab-pane fade" id="<%= presenter.convert_name %>-group" role="tabpanel" aria-labelledby="<%= presenter.convert_name %>-group-tab">
             <div class="row cols-md-space cols-sm-space cols-xs-space">
               <%= render partial: "member",
-                collection: Member.by_group(group.id)
+                collection: presenter.members
               %>
             </div>
           </section> 
