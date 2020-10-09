@@ -35,6 +35,19 @@ ActiveAdmin.register Member do
     column :register_id
   end
 
+  show do
+    attributes_table_for resource do
+      default_attribute_table_rows.each do |field|
+        row field
+      end
+      table_for member.groups do
+        column 'groups' do |group|
+          link_to Arbre::Context.new { (status_tag class: 'important', label: group.name) }, [:admin, group]
+        end
+      end
+    end
+  end
+
   form do |f|
     f.inputs :first_name, :last_name, :email, :phone_number, :role, :moderator,
              :cash_register_proficiency, :register_id, :biography
@@ -55,7 +68,6 @@ ActiveAdmin.register Member do
   end
 
   controller do
-
     def create(options = {}, &block)
       new_unloggable_member = build_resource
       first_name = new_unloggable_member.first_name
