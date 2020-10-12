@@ -7,6 +7,5 @@ en:
     attributes:
       group:
         name: name
-        group_manager_mail: group manager mail
         number_of_members: number of members
         manager: Manager

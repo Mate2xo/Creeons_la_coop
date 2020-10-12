@@ -26,7 +26,7 @@ FactoryBot.create_list :member, 30
 
 Rails.logger.info 'Members seeded'
 
-FactoryBot.create :group, :with_group_manager_mail, name: 'welcome'
+FactoryBot.create :group, name: 'welcome'
 FactoryBot.create :group, name: 'financial_management'
 FactoryBot.create :group, name: 'members_management'
 FactoryBot.create :group, name: 'core'

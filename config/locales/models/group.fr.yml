@@ -7,6 +7,5 @@ fr:
     attributes:
       group:
         name: nom
-        group_manager_mail: mail du responsable de groupe
         number_of_members: nombre de membres
         manager: Référent
