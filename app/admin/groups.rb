@@ -5,13 +5,13 @@
 #
 
 ActiveAdmin.register Group do
-  permit_params :name, :group_manager_mail
+  permit_params :name, :manager_id
 
   index do
     selectable_column
     column :name
-    column :group_manager_mail
-    column(I18n.t("activerecord.attributes.group.number_of_members")) { |group| group.members.size }
+    column :manager
+    column(I18n.t('activerecord.attributes.group.number_of_members')) { |group| group.members.size }
     actions
   end
 
