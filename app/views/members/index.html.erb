@@ -36,6 +36,7 @@
         <% @groups.each do |group| %>
           <% presenter = GroupPresenter.new(group) %>
           <section class="tab-pane fade" id="<%= presenter.convert_name %>-group" role="tabpanel" aria-labelledby="<%= presenter.convert_name %>-group-tab">
+            <div> <%= link_to presenter.manager, member_path(presenter.manager_id) %> </div>
             <div class="row cols-md-space cols-sm-space cols-xs-space">
               <%= render partial: "member",
                 collection: presenter.members

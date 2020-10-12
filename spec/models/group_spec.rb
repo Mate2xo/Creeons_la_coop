@@ -17,6 +17,7 @@ RSpec.describe Group, type: :model do
     describe 'Database' do
       it { is_expected.to have_db_column(:name).of_type(:string).with_options(null: false) }
       it { is_expected.to have_db_column(:group_manager_mail).of_type(:string) }
+      it { is_expected.to have_db_index(:manager_id) }
     end
 
     describe 'validations' do
@@ -26,6 +27,7 @@ RSpec.describe Group, type: :model do
 
     describe 'associations' do
       it { is_expected.to have_many(:members).through(:group_members) }
+      it { is_expected.to belong_to(:manager).class_name('Member').inverse_of('managed_group').optional }
     end
   end
 end

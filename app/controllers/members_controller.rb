@@ -7,7 +7,7 @@ class MembersController < ApplicationController
 
   def index
     @members = Member.includes(:address, :avatar_attachment).order(last_name: :asc)
-    @groups = Group.all
+    @groups = Group.all.includes(:manager)
   end
 
   def show; end

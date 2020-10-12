@@ -10,6 +10,7 @@
 
 # The members contribute to one or many groups. Each groups have a specific function in the association.
 class Group < ApplicationRecord
+  belongs_to :manager, class_name: :Member, inverse_of: 'managed_group', optional: true
   has_many :group_members, dependent: :destroy
   has_many :members, through: :group_members
 

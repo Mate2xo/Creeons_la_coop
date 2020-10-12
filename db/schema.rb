@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_31_152055) do
+ActiveRecord::Schema.define(version: 2020_10_12_132220) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,6 +108,8 @@ ActiveRecord::Schema.define(version: 2020_08_31_152055) do
     t.string "group_manager_mail"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "manager_id"
+    t.index ["manager_id"], name: "index_groups_on_manager_id"
   end
 
   create_table "infos", force: :cascade do |t|
@@ -430,6 +432,7 @@ ActiveRecord::Schema.define(version: 2020_08_31_152055) do
   add_foreign_key "addresses", "productors"
   add_foreign_key "group_members", "groups"
   add_foreign_key "group_members", "members"
+  add_foreign_key "groups", "members", column: "manager_id"
   add_foreign_key "infos", "members", column: "author_id"
   add_foreign_key "missions", "members", column: "author_id"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards", on_delete: :cascade
