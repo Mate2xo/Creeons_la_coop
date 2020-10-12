@@ -39,7 +39,7 @@
             <div> <%= link_to presenter.manager, member_path(presenter.manager_id) %> </div>
             <div class="row cols-md-space cols-sm-space cols-xs-space">
               <%= render partial: "member",
-                collection: presenter.members
+                collection: group.members
               %>
             </div>
           </section> 

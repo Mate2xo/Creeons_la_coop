@@ -7,10 +7,6 @@ class GroupPresenter
     @group.name.split.join('_')
   end
 
-  def members
-    Member.joins(:group_members).where('group_members.group_id = ?', @group.id).includes(:address, :avatar_attachment)
-  end
-
   def manager
     return '' if @group.manager.nil?
     return "#{I18n.t('activerecord.attributes.group.manager')}: #{@group.manager.first_name} #{@group.manager.last_name}" unless @group.manager.nil?
