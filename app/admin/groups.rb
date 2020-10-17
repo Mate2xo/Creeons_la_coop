@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop: disable Metrics/BlockLength
-#
-#
-
 ActiveAdmin.register Group do
   permit_params :name, :manager_id
 
@@ -28,4 +24,3 @@ ActiveAdmin.register Group do
     end
   end
 end
-# rubocop: enable Metrics/BlockLength

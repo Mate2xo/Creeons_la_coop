@@ -8,10 +8,4 @@ class ApplicationRecord < ActiveRecord::Base
 
     I18n.t("activerecord.attributes.#{model_name.i18n_key}.#{enum_name.to_s.pluralize}.#{enum_value}")
   end
-
-  def self.human_model_name(value)
-    return if value.nil?
-
-    I18n.t("activerecord.models.#{model_name.i18n_key}.attributes.name.#{value}")
-  end
 end
