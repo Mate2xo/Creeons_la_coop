@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Group do
-  permit_params :name, :manager_id
+  permit_params :name, manager_ids: []
 
   index do
     selectable_column
     column :name
-    column :manager
-    column(I18n.t('activerecord.attributes.group.number_of_members')) { |group| group.members.size }
+    column(Group.human_attribute_name(:managers)) do |group|
+      manager_links = group.managers.map { |manager| auto_link manager }
+      safe_join manager_links, ', '
+    end
+    column(Group.human_attribute_name(:members_count)) { |group| group.members.size }
     actions
   end
 
@@ -17,10 +20,21 @@ ActiveAdmin.register Group do
         row field
       end
       table_for group.members do
-        column 'members' do |member|
+        column Member.model_name.human do |member|
           link_to "#{member.last_name} #{member.first_name}", [:admin, member]
         end
       end
+      table_for group.managers do
+        column  resource.class.human_attribute_name(:managers) do |manager|
+          link_to "#{manager.last_name} #{manager.first_name}", [:admin, manager]
+        end
+      end
     end
+  end
+
+  form do |f|
+    f.inputs
+    f.input :managers, as: :check_boxes, collection: group.members
+    actions
   end
 end

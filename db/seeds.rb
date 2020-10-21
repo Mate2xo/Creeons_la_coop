@@ -6,6 +6,7 @@ Info.destroy_all
 Address.destroy_all
 Mission.destroy_all
 GroupMember.destroy_all
+GroupManager.destroy_all
 Group.destroy_all
 Member.destroy_all
 Productor.destroy_all
@@ -42,6 +43,12 @@ FactoryBot.create :group, name: 'it'
 Member.all.each do |member|
   rand(4).times do
     FactoryBot.create :group_member, member: member, group: Group.all.sample
+  end
+end
+
+Group.all.each do |group|
+  rand(4).times do
+    FactoryBot.create :group_manager, member: Member.all.sample, group: group
   end
 end
 

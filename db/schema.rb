@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_12_152916) do
+ActiveRecord::Schema.define(version: 2020_10_27_155849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,6 +94,15 @@ ActiveRecord::Schema.define(version: 2020_10_12_152916) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
+  create_table "group_managers", force: :cascade do |t|
+    t.bigint "managed_group_id"
+    t.bigint "manager_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["managed_group_id"], name: "index_group_managers_on_managed_group_id"
+    t.index ["manager_id"], name: "index_group_managers_on_manager_id"
+  end
+
   create_table "group_members", force: :cascade do |t|
     t.bigint "group_id"
     t.bigint "member_id"
@@ -107,8 +116,6 @@ ActiveRecord::Schema.define(version: 2020_10_12_152916) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "manager_id"
-    t.index ["manager_id"], name: "index_groups_on_manager_id"
   end
 
   create_table "infos", force: :cascade do |t|
@@ -429,9 +436,10 @@ ActiveRecord::Schema.define(version: 2020_10_12_152916) do
 
   add_foreign_key "addresses", "members"
   add_foreign_key "addresses", "productors"
+  add_foreign_key "group_managers", "groups", column: "managed_group_id"
+  add_foreign_key "group_managers", "members", column: "manager_id"
   add_foreign_key "group_members", "groups"
   add_foreign_key "group_members", "members"
-  add_foreign_key "groups", "members", column: "manager_id"
   add_foreign_key "infos", "members", column: "author_id"
   add_foreign_key "missions", "members", column: "author_id"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards", on_delete: :cascade

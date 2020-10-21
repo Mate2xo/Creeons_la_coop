@@ -68,13 +68,12 @@ RSpec.describe Member, type: :model do
           .dependent(:nullify)
       }
       it {
-        expect(instance).to have_one(:managed_group)
-          .class_name('Group').with_foreign_key('manager_id')
+        expect(instance).to have_many(:managed_groups)
+          .class_name('Group').through(:group_managers).with_foreign_key('manager_id')
           .dependent(:nullify)
       }
       it { is_expected.to have_many(:missions).through(:enrollments) }
       it { is_expected.to have_many(:groups).through(:group_members) }
-      it { is_expected.to accept_nested_attributes_for(:groups).allow_destroy(true) }
     end
 
     describe 'validations' do

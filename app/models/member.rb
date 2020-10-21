@@ -46,10 +46,10 @@ class Member < ApplicationRecord
   has_one :address, dependent: :destroy
   accepts_nested_attributes_for :address, reject_if: :all_blank, allow_destroy: true
 
-  has_one :managed_group, class_name: 'Group', inverse_of: :manager, foreign_key: 'manager_id', dependent: :nullify
+  has_many :group_managers, dependent: :destroy, foreign_key: :manager, inverse_of: :manager
+  has_many :managed_groups, class_name: 'Group', inverse_of: :managers, dependent: :nullify, through: :group_managers
   has_many :group_members, dependent: :destroy
   has_many :groups, through: :group_members
-  accepts_nested_attributes_for :groups, allow_destroy: true
 
   has_many :created_missions, class_name: 'Mission', inverse_of: 'author', foreign_key: 'author_id', dependent: :nullify
   has_many :enrollments, dependent: :destroy
