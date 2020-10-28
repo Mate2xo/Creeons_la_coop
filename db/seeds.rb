@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+Rails.logger = Logger.new(STDOUT)
+Rails.logger.level = :INFO
+
 require 'faker'
 
 Info.destroy_all
@@ -15,57 +18,66 @@ Thredded::Messageboard.destroy_all
 Thredded::MessageboardGroup.destroy_all
 
 9.times do |index|
-  FactoryBot.create :member, :admin,
+  FactoryBot.create :member,
+                    :admin,
                     address: FactoryBot.create(:address),
                     email: "admin#{index}@admin.com"
 end
 
-FactoryBot.create :member, :super_admin,
+FactoryBot.create :member,
+                  :super_admin,
                   address: FactoryBot.create(:address),
                   email: 'super@admin.com'
 FactoryBot.create_list :member, 30
 
 Rails.logger.info 'Members seeded'
 
-FactoryBot.create :group, name: 'welcome'
-FactoryBot.create :group, name: 'financial_management'
-FactoryBot.create :group, name: 'members_management'
-FactoryBot.create :group, name: 'core'
-FactoryBot.create :group, name: 'schedule'
-FactoryBot.create :group, name: 'diy'
-FactoryBot.create :group, name: 'internal_culture'
-FactoryBot.create :group, name: 'local_suppliers'
-FactoryBot.create :group, name: 'other_suppliers'
-FactoryBot.create :group, name: 'supply'
-FactoryBot.create :group, name: 'orders_management'
-FactoryBot.create :group, name: 'it'
+FactoryBot.create :group, name: 'Accueil'
+FactoryBot.create :group, name: 'Gestion financière'
+FactoryBot.create :group, name: 'Gestion adhérent'
+FactoryBot.create :group, name: 'Coeur'
+FactoryBot.create :group, name: 'Planning'
+FactoryBot.create :group, name: 'Bricolage'
+FactoryBot.create :group, name: 'Culture interne'
+FactoryBot.create :group, name: 'Fournisseurs locaux'
+FactoryBot.create :group, name: 'Autres Fournisseurs'
+FactoryBot.create :group, name: 'Appovisionnement'
+FactoryBot.create :group, name: 'Commande'
+FactoryBot.create :group, name: 'Informatique'
 
 Member.all.each do |member|
   rand(4).times do
-    FactoryBot.create :group_member, member: member, group: Group.all.sample
+    FactoryBot.create :group_member,
+                      member: member,
+                      group: Group.all.sample
   end
 end
 
 Group.all.each do |group|
   rand(4).times do
-    FactoryBot.create :group_manager, member: Member.all.sample, group: group
+    FactoryBot.create :group_manager,
+                      manager: group.members.sample,
+                      managed_group: group
   end
 end
 
-Rails.logger.info 'groups seeded'
+Rails.logger.info 'Groups seeded'
 
 10.times do
-  FactoryBot.create :productor, address: FactoryBot.create(:address, :coordinates)
-  FactoryBot.create :productor, local: true,
-    address: FactoryBot.create(:address, :coordinates)
+  FactoryBot.create :productor,
+                    address: FactoryBot.create(:address, :coordinates)
+  FactoryBot.create :productor,
+                    local: true,
+                    address: FactoryBot.create(:address, :coordinates)
 end
 
 Rails.logger.info 'Productors seeded'
 
 10.times do
-  FactoryBot.create :mission, members: Member.all.sample(rand(0..8)),
-  addresses: FactoryBot.create_list(:address, rand(1..2)),
-  author: Member.all.sample
+  FactoryBot.create :mission,
+                    members: Member.all.sample(rand(0..8)),
+                    addresses: FactoryBot.create_list(:address, rand(1..2)),
+                    author: Member.all.sample
 end
 
 Rails.logger.info 'Missions seeded'
@@ -84,11 +96,11 @@ Rails.logger.info 'Documents seeded'
 
 FactoryBot.create_list :messageboard_group, 2
 FactoryBot.create_list :messageboard, 6,
-  messageboard_group_id: Thredded::MessageboardGroup.all.sample.id
+                       messageboard_group_id: Thredded::MessageboardGroup.all.sample.id
 
 18.times do
   FactoryBot.create :topic, with_posts: rand(1..4),
-  messageboard: Thredded::Messageboard.all.sample
+                            messageboard: Thredded::Messageboard.all.sample
 end
 
 Rails.logger.info 'Forum seeded'
