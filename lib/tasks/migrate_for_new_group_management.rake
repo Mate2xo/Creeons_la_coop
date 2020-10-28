@@ -5,23 +5,23 @@ task migration_sql: :environment do
   end
 
   Group.destroy_all
-  file = File.open('insert_group_in_group_table.txt')
+  file = File.open('insert_existing_groups_in_new_groups_table.sql')
   ActiveRecord::Base.connection.execute(file.read)
   file.close
 
-  file = File.open('create_tempo_table.txt')
+  file = File.open('create_tempo_table.sql')
   ActiveRecord::Base.connection.execute(file.read)
   file.close
 
-  file = File.open('group_migrate.txt')
+  file = File.open('group_migrate.sql')
   ActiveRecord::Base.connection.execute(file.read)
   file.close
 
-  verification
+  check_data_consistency
   ActiveRecord::Base.connection.execute('DROP TABLE tempo_group_table')
 end
 
-def verification
+def check_data_consistency
   valid = true
   Member.all.each do |member|
     group_name = ActiveRecord::Base.connection.execute("SELECT name FROM tempo_group_table where number='#{member.group}'")[0]['name']
