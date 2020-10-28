@@ -1,19 +1,21 @@
+# frozen_string_literal: true
+
 class GroupPresenter
+  include ActionView::Helpers::UrlHelper
+  include Rails.application.routes.url_helpers
+
   def initialize(group)
     @group = group
   end
 
-  def convert_name
+  def underscored_name
     @group.name.split.join('_')
   end
 
-  def manager
-    return '' if @group.manager.nil?
-    return "#{I18n.t('activerecord.attributes.group.manager')}: #{@group.manager.first_name} #{@group.manager.last_name}" unless @group.manager.nil?
-  end
-
-  def manager_id
-    return 0 if @group.manager.nil?
-    return @group.manager.id unless @group.manager.nil?
+  def all_manager_links
+    manager_links = @group.managers.map do |manager|
+      link_to manager.first_name, Rails.application.routes.url_helpers.member_path(manager.id)
+    end
+    safe_join manager_links, ', '
   end
 end

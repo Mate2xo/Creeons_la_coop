@@ -6,6 +6,6 @@ fr:
         other: Groupes
     attributes:
       group:
-        name: nom
-        number_of_members: nombre de membres
-        manager: Référent
+        name: Nom
+        members_count: Nombre de membres
+        managers: Référents

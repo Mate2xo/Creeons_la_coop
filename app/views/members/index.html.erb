@@ -19,7 +19,7 @@
         <% @groups.each do |group| %>
           <% presenter = GroupPresenter.new(group) %>
           <li class="nav-item">
-            <a class="nav-link" href="#<%= presenter.convert_name %>-group" data-toggle="tab" role="tab">
+            <a class="nav-link" href="#<%= presenter.underscored_name %>-group" data-toggle="tab" role="tab">
               <%= group.name %>
             </a>
           </li> 
@@ -35,9 +35,14 @@
 
         <% @groups.each do |group| %>
           <% presenter = GroupPresenter.new(group) %>
-          <section class="tab-pane fade" id="<%= presenter.convert_name %>-group" role="tabpanel" aria-labelledby="<%= presenter.convert_name %>-group-tab">
-            <div> <%= link_to presenter.manager, member_path(presenter.manager_id) %> </div>
+          <section class="tab-pane fade" id="<%= presenter.underscored_name %>-group" role="tabpanel" aria-labelledby="<%= presenter.underscored_name %>-group-tab">
             <div class="row cols-md-space cols-sm-space cols-xs-space">
+              <% if group.managers.any? %>
+                <div>
+                  <%= "#{t("activerecord.attributes.group.managers")} : " %>
+                  <%= presenter.all_manager_links %>
+                </div>
+              <% end %>
               <%= render partial: "member",
                 collection: group.members
               %>
