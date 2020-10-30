@@ -12,6 +12,15 @@ class DocumentsController < ApplicationController
     end
   end
 
+  def update
+    @document = authorize Document.find(params[:id])
+    @document.update(exposed: params[:exposed])
+    respond_to do |format|
+      format.js
+      format.html { redirect_to infos_path(anchor: 'documents') }
+    end
+  end
+
   def destroy
     @document = authorize Document.find(params[:id])
     @document.destroy
@@ -19,7 +28,7 @@ class DocumentsController < ApplicationController
                        model: @document.model_name.singular)
 
     respond_to do |format|
-      format.js
+      format.js 
       format.html { redirect_to infos_path(anchor: 'documents') }
     end
   end
@@ -27,7 +36,7 @@ class DocumentsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:document).permit(:file)
+    params.require(:document).permit(:file, :exposed)
   end
 
   def user_feedback_on_create(record)

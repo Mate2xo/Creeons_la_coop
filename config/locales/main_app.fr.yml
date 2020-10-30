@@ -7,6 +7,8 @@ fr:
         buttons:
           add_address: Ajouter une addresse
           back: " Retour"
+          publish: Publier
+          unpublish: Dépublier
           edit: Modifier
           edit_submit: Sauvegarder les changements
           destroy: Supprimer

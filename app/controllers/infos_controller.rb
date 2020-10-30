@@ -9,7 +9,7 @@ class InfosController < ApplicationController
   before_action :authenticate_member!
 
   def index
-    @infos = Info.all
+    @infos = Info.all.order(:id)
     @document = Document.new
     @documents = Document.with_attached_file
   end

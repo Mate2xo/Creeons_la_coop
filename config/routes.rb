@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
   resources :productors
   resources :infos
-  resources :documents, only: %i[create destroy]
+  resources :documents, only: %i[create update destroy]
   resources :members, only: %i[index show edit update]
   mount Thredded::Engine => '/forum'
 end

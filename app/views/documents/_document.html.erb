@@ -1,4 +1,4 @@
-  <tr>
+<tr name="document#{document.id} row">
     <td scope="row">
       <%= link_to document.file.filename.to_s,
                   rails_blob_path(document.file, disposition: "attachment") %>
@@ -10,6 +10,30 @@
       <% else %>
         <%= link_to document.file.filename,
             rails_blob_path(document.file, disposition: "attachment") %>
+      <% end %>
+    </td>
+    <td name="publish flag of document<%= document.id %>" scope="row">
+      <% if document.exposed %>
+        oui
+      <% else %>
+        non
+      <% end %>
+    </td>
+    <td name="publish button of document<%= document.id %>" scope="row">
+      <% if document.exposed %>
+        <%= link_to t('main_app.views.application.buttons.unpublish'),
+          document_path(document, exposed: false), method: :put, id: document.id,
+          class: 'btn btn-mini btn-warning',
+          data: {
+            remote: true
+          } if policy(Document).update? %>
+      <% else %>
+        <%= link_to t('main_app.views.application.buttons.publish'),
+          document_path(document, exposed: true), method: :put, id: document.id,
+          class: 'btn btn-mini btn-warning',
+          data: {
+            remote: true
+          } if policy(Document).update? %>
       <% end %>
     </td>
     <td scope="row">

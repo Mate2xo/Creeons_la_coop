@@ -6,6 +6,8 @@ en:
       application:
         buttons:
           back: Back
+          publish: Publish
+          unpublish: Unpublish
           edit: Edit
           edit_submit: Save changes
       members:

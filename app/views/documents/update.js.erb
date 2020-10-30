@@ -1,0 +1,12 @@
+flag = document.getElementsByName("publish flag of document<%= @document.id %>")[0]
+button = document.getElementsByName("publish button of document<%= @document.id %>")[0]
+
+if (flag.innerText == "oui") {
+  flag.innerText = "non"
+  button.innerHTML = '<a id="<%= @document.id %>"" class="btn btn-mini btn-warning" data-remote="true" rel="nofollow" data-method="put" href="/documents/<%= @document.id %>"?exposed=false">Publier</a>'
+  } else {
+  flag.innerText = "oui"
+  button.innerHTML = '<a id="<%= @document.id %>"" class="btn btn-mini btn-warning" data-remote="true" rel="nofollow" data-method="put" href="/documents/<%= @document.id %>"?exposed=false">Dépublier</a>'
+}
+
+

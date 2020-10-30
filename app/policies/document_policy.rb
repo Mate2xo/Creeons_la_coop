@@ -5,6 +5,10 @@ class DocumentPolicy < ApplicationPolicy
     admin? || super_admin?
   end
 
+  def update?
+    admin? || super_admin?
+  end
+
   def destroy?
     admin? || super_admin?
   end
