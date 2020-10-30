@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 class DocumentPolicy < ApplicationPolicy
+
+  def index?
+    admin? || super_admin?
+  end
+  
   def create?
     admin? || super_admin?
   end
