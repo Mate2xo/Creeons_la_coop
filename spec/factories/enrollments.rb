@@ -13,8 +13,14 @@
 
 FactoryBot.define do
   factory :enrollment do
-    member
-    mission
+    transient do
+      on_event { false }
+    end
+
+    mission do
+      association :mission, event: on_event
+    end
+    association :member
 
     trait :one_hour do
       start_time { Time.zone.parse(mission.start_date.to_s) + 3600 }
