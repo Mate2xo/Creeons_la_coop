@@ -178,5 +178,16 @@ RSpec.describe Member, type: :model do
         expect(member.monthly_worked_hours(Date.current)).to eq family_member.monthly_worked_hours(Date.current)
       end
     end
+
+    context 'when a member is enrolled on an event' do
+      let(:member) { create :member }
+
+      it "The event's duration are not counted in worked hours" do
+        create :enrollment, member: member
+        create :enrollment, member: member, on_event: true
+
+        expect(member.monthly_worked_hours(Date.current)).to eq 2
+      end
+    end
   end
 end
