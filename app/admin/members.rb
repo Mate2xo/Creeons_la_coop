@@ -18,16 +18,18 @@ ActiveAdmin.register Member do
                 :register_id,
                 group_ids: []
 
+  decorate_with MemberDecorator
+
   index do
     selectable_column
     column :first_name
     column :last_name
     column :role
-    column('3 heures faites?') { |member| member.worked_three_hours?(Date.current) }
     column(:group) do |member|
       group_links = member.groups.map { |group| auto_link group }
       safe_join group_links, ', '
     end
+    column :worked_hours_of_three_last_months
     column :cash_register_proficiency
     column :register_id
     column :email
@@ -40,10 +42,8 @@ ActiveAdmin.register Member do
     column :last_name
     column :phone_number
     column :role
-    column("3 heures de #{l 1.month.ago, format: '%B'}?") { |member| member.worked_three_hours?(1.month.ago) }
-    column("3 heures de #{l Date.current, format: '%B'}?") { |member| member.worked_three_hours?(Date.current) }
-    column("3 heures de #{l 1.month.from_now, format: '%B'}?") { |member| member.worked_three_hours?(1.month.from_now) }
     column(:group) { |member| member.groups.map(&:name).join(', ') }
+    column :worked_hours_of_three_last_months_csv_version
     column :cash_register_proficiency
     column :register_id
   end
