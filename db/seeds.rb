@@ -81,7 +81,6 @@ Rails.logger.info 'Productors seeded'
 end
 
 Rails.logger.info 'Missions seeded'
-
 FactoryBot.create_list :info, 5, author: Member.all.sample
 Rails.logger.info 'Infos seeded'
 
