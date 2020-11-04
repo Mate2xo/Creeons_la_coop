@@ -26,7 +26,7 @@ FactoryBot.define do
     max_member_count { rand(4..8) }
     min_member_count { rand(1..3) }
     start_date do
-      Faker::Time.between_dates(from: Date.current.at_beginning_of_week,
+      Faker::Time.between_dates(from: Date.current - 3.months,
                                 to: Date.current.at_end_of_week,
                                 period: :day)
     end
