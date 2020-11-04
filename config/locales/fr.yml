@@ -134,6 +134,7 @@ fr:
       default: "%d/%m/%Y"
       long: "%e %B %Y"
       short: "%e %b"
+      only_month: "%B"
     month_names:
       -
       - janvier
