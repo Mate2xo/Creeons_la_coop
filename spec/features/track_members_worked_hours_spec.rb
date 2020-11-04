@@ -41,36 +41,6 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
     end
   end
 
-  context 'when a member has worked >= 3 hours this current month' do
-    before { sign_in create :member, :admin }
-
-    it 'shows a :ok status on the admin members index' do
-      slot = 1.week.ago.clamp(Date.current.at_beginning_of_month, Date.current)
-      create :enrollment, member: member,
-                          mission: create(:mission, start_date: slot, due_date: slot + 3.hours)
-
-      visit admin_members_path
-
-      expect(page).to have_content I18n.t 'active_admin.status_tag.yes'
-    end
-
-    context 'with <= 3 hours worked the previous month' do
-      it 'does not show that member on the admin dashboard'
-    end
-  end
-
-  context 'when a member has worked less than 3 hours this current month,' do
-    before { sign_in create :member, :admin }
-
-    it 'shows his/her month status as :incomplete on the members admin index' do
-      create :enrollment, member: member
-
-      visit admin_members_path
-
-      expect(page).to have_content I18n.t 'active_admin.status_tag.no'
-    end
-  end
-
   context 'when a new month starts,' do
     context 'when a member has not worked 3 hours last month' do
       it 'shows that member on the admin dashboard'

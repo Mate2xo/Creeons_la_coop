@@ -82,12 +82,6 @@ class Member < ApplicationRecord
       .reduce(0.0) { |sum, enrollment| sum + enrollment.duration }
   end
 
-  # @return [Boolean]
-  # @param date [Date]
-  def worked_three_hours?(date)
-    monthly_worked_hours(date) >= 3
-  end
-
   private
 
   def set_unique_display_name
