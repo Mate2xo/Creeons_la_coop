@@ -6,12 +6,14 @@ ActiveAdmin.register Member do
                 :biography, :phone_number, :role, :moderator, :group, :confirmed_at,
                 :password_confirmation, :cash_register_proficiency, :register_id
 
+  decorate_with MemberDecorator
+
   index do
     selectable_column
     column :first_name
     column :last_name
     column :role
-    column('3 heures faites?') { |member| member.worked_three_hours?(Date.current) }
+    column :worked_hours_of_three_last_months
     column(:group) { |member| Member.human_enum_name(:group, member.group) }
     column :cash_register_proficiency
     column :register_id
@@ -26,9 +28,7 @@ ActiveAdmin.register Member do
     column :phone_number
     column :group
     column :role
-    column("3 heures de #{l 1.month.ago, format: '%B'}?") { |member| member.worked_three_hours?(1.month.ago) }
-    column("3 heures de #{l Date.current, format: '%B'}?") { |member| member.worked_three_hours?(Date.current) }
-    column("3 heures de #{l 1.month.from_now, format: '%B'}?") { |member| member.worked_three_hours?(1.month.from_now) }
+    column :worked_hours_of_three_last_months_csv_version
     column(:group) { |member| Member.human_enum_name(:group, member.group) }
     column :cash_register_proficiency
     column :register_id
