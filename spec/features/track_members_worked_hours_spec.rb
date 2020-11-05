@@ -41,9 +41,46 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
     end
   end
 
+  context 'when an admin is connected on admin index members' do
+    before { sign_in create :member, :admin }
+
+    it 'shows the number of worked hours during this month' do
+      set_enrollments_for_hours_resume_test
+
+      visit admin_members_path
+
+      expect(page).to have_text "#{I18n.localize(Date.current, format: :only_month)} : 3.0"
+    end
+
+    it 'shows the number of worked hours during last month' do
+      set_enrollments_for_hours_resume_test
+
+      visit admin_members_path
+
+      expect(page).to have_text "#{I18n.localize(Date.current - 1.month, format: :only_month)} : 3.0"
+    end
+
+    it 'shows the number of worked hours during last last month' do
+      set_enrollments_for_hours_resume_test
+
+      visit admin_members_path
+
+      expect(page).to have_text "#{I18n.localize(Date.current - 2.months, format: :only_month)} : 3.0"
+    end
+  end
+
   context 'when a new month starts,' do
     context 'when a member has not worked 3 hours last month' do
       it 'shows that member on the admin dashboard'
+    end
+  end
+
+  def set_enrollments_for_hours_resume_test
+    slot = 1.week.ago.clamp(Date.current.at_beginning_of_month, Date.current)
+    3.times do
+      create :enrollment, member: member,
+                          mission: create(:mission, start_date: slot, due_date: slot + 3.hours)
+      slot -= 1.month
     end
   end
 end
