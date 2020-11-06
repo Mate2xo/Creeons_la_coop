@@ -13,7 +13,11 @@ Rails.application.routes.draw do
   get 'faq', to: 'static_pages#faq', as: 'faq'
 
   resources :missions do
-    resource :enrollments, only: %i[new create destroy]
+    resources :slots, only: %i[update]
+  end
+
+  resources :missions do
+    resource :participations, only: %i[new create destroy]
   end
 
   resources :productors

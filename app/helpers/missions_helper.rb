@@ -2,13 +2,8 @@
 
 # Helpers for views/missions
 module MissionsHelper
-  def partial_enrollment?(enrollment)
-    mission_start = enrollment.mission.start_date.strftime('%R')
-    mission_end = enrollment.mission.due_date.strftime('%R')
-    member_begins_after_mission_start = enrollment.start_time.strftime('%R') != mission_start
-    member_finishes_before_mission_end = enrollment.end_time.strftime('%R') != mission_end
-
-    member_begins_after_mission_start || member_finishes_before_mission_end
+  def partial_enrollment?(mission, member)
+    Mission::Slot.where(member_id: member.id, mission_id: mission.id).count == mission.time_slots_count
   end
 
   def partial_enrollment_css
@@ -18,4 +13,12 @@ module MissionsHelper
   def enrollment_duration(enrollment)
     "#{enrollment.start_time&.strftime('%H:%M')} - #{enrollment.end_time&.strftime('%H:%M')}"
   end
+
+  def work_duration(member_id, mission_id)
+    minutes = Mission::Slot.where(member_id: member_id, mission_id: mission_id).count * 90
+    hours = minutes / 60
+    minutes = minutes % 60
+    "#{hours}h#{minutes}"
+  end
+
 end

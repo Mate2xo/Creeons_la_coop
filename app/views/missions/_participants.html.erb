@@ -1,0 +1,15 @@
+<section class="px-inline-only-2">
+  <h2 class="heading heading-3 strong-500">
+    <%= t "main_app.views.missions.show.attendees" %> : <%= @mission.participants.length %>
+    <hr class="mt-0 mb-0">
+  </h2>
+
+  <%= render partial: 'participation', collection: @mission.participations %>
+
+  <div class="d-flex justify-content-around">
+    <p>
+    <%= t('.') %> :
+    <%= @mission.participants.count %>
+    </p>
+  </div>
+</section>

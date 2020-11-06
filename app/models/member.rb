@@ -52,8 +52,12 @@ class Member < ApplicationRecord
   has_many :groups, through: :group_members
 
   has_many :created_missions, class_name: 'Mission', inverse_of: 'author', foreign_key: 'author_id', dependent: :nullify
-  has_many :enrollments, dependent: :destroy
-  has_many :missions, through: :enrollments
+
+  has_many :participations, dependent: :destroy, foreign_key: :participant, inverse_of: :participant
+  has_many :events, class_name: 'Mission', through: :participations
+
+  has_many :slots, class_name: 'Mission::Slot', dependent: :nullify
+  has_many :missions, through: :slots
 
   has_many :created_infos, class_name: 'Info', inverse_of: 'author', foreign_key: 'author_id', dependent: :nullify
 
@@ -77,9 +81,7 @@ class Member < ApplicationRecord
   def monthly_worked_hours(date)
     month_number = date.month
 
-    family_enrollments
-      .select { |enroll| (enroll.mission.start_date.month == month_number && enroll.mission.event == false) }
-      .reduce(0.0) { |sum, enrollment| sum + enrollment.duration }
+    family_slots.select { |slot| (slot.mission.start_date.month == month_number) }.count * 90.0 / 60
   end
 
   private
@@ -95,9 +97,9 @@ class Member < ApplicationRecord
     self.display_name = display_name
   end
 
-  def family_enrollments
-    return enrollments if register_id.nil?
+  def family_slots
+    return slots if register_id.nil?
 
-    Member.where(register_id: register_id).map(&:enrollments).flatten
+    Member.where(register_id: register_id).map(&:slots).flatten
   end
 end

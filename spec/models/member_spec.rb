@@ -72,7 +72,8 @@ RSpec.describe Member, type: :model do
           .class_name('Group').through(:group_managers).with_foreign_key('manager_id')
           .dependent(:nullify)
       }
-      it { is_expected.to have_many(:missions).through(:enrollments) }
+      it { is_expected.to have_many(:missions).through(:slots) }
+      it { is_expected.to have_many(:events).through(:participations) }
       it { is_expected.to have_many(:groups).through(:group_members) }
     end
 
@@ -172,23 +173,30 @@ RSpec.describe Member, type: :model do
 
   describe '#monthly_worked_hours' do
     context 'when a member shares the same register_id with his/her family' do
-      let(:member) { create :member, register_id: 1234 }
-      let(:family_member) { create :member, register_id: 1234 }
+      let(:create_member) { create :member, register_id: 1234 }
+      let(:create_family_member) { create :member, register_id: 1234 }
+      let(:create_mission_with_slots) { create :mission, name: 'my_mission', max_member_count: 4, event: false, with_slots: true }
 
       it "affects every family members' worked hours count" do
-        create :enrollment, member: family_member
+        member = create_member
+        mission = create_mission_with_slots
+        family_member = create_family_member
+
+        mission.slots.first.update(member_id: member.id)
+
         expect(member.monthly_worked_hours(Date.current)).to eq family_member.monthly_worked_hours(Date.current)
       end
     end
 
-    context 'when a member is enrolled on an event' do
-      let(:member) { create :member }
+    context 'when a member participate on an event' do
+      let(:create_member) { create :member }
 
       it 'ignores these hours' do
-        create :enrollment, member: member
-        create :enrollment, member: member, on_event: true
+        participant = create_member
 
-        expect(member.monthly_worked_hours(Date.current)).to eq 2
+        create :participation, participant: participant
+
+        expect(participant.monthly_worked_hours(Date.current)).to eq 0
       end
     end
   end

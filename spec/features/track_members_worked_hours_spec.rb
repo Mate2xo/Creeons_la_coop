@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'support/helpers/slot_enrollment.rb'
+
+RSpec.configure do |c|
+  c.include Helpers::SlotEnrollment
+end
 
 RSpec.describe 'Members worked hours tracking', type: :feature do
   let(:member) { create :member }
@@ -9,31 +14,30 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
     before { sign_in member }
 
     it 'shows the number of worked hours this month' do
-      enrollment = create :enrollment, member: member
+      mission = create :mission
+      enroll(mission, member)
 
       visit edit_member_path member
 
-      expect(page).to have_content enrollment.duration
+      expect(page).to have_content 3.0
     end
 
     it 'shows the number of worked hours during last month' do
-      last_month_enrollment = create :enrollment,
-                                     member: member,
-                                     mission: create(:mission, start_date: 1.month.ago)
+      mission = create :mission, start_date: 1.month.ago
+      enroll(mission, member)
 
       visit edit_member_path member
 
-      expect(page).to have_content last_month_enrollment.duration
+      expect(page).to have_content 3.0
     end
 
     it 'shows the number of worked hours during last last month' do
-      last_last_month_enrollment = create :enrollment,
-                                          member: member,
-                                          mission: create(:mission, start_date: 2.months.ago)
+      mission = create :mission, start_date: 2.months.ago
+      enroll(mission, member)
 
       visit edit_member_path member
 
-      expect(page).to have_content last_last_month_enrollment.duration
+      expect(page).to have_content 3.0
     end
 
     it 'does not raise errors if he/she has no enrollment' do
@@ -76,11 +80,11 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
   end
 
   def create_enrollments_for_the_last_three_months
-    slot = 1.week.ago.clamp(Date.current.at_beginning_of_month, Date.current)
+    start_date = 1.week.ago.clamp(Date.current.at_beginning_of_month, Date.current)
     3.times do
-      create :enrollment, member: member,
-                          mission: create(:mission, start_date: slot, due_date: slot + 3.hours)
-      slot -= 1.month
+      mission = create :mission, start_date: start_date
+      enroll(mission, member)
+      start_date -= 1.month
     end
   end
 end

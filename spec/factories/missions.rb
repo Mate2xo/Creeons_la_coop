@@ -21,20 +21,24 @@
 
 FactoryBot.define do
   factory :mission do
+    transient do
+      with_slots { true }
+    end
+
     name { Faker::Company.bs }
     description { Faker::Lorem.paragraph }
-    max_member_count { rand(4..8) }
     min_member_count { rand(1..3) }
+    max_member_count { 4 }
     start_date do
-      Faker::Time.between_dates(from: Date.current.at_beginning_of_week,
-                                to: Date.current.at_end_of_week,
-                                period: :day)
+      Faker::Time.between_dates(from: DateTime.current.at_beginning_of_week,
+                                to: DateTime.current.at_end_of_week,
+                                period: :day).to_datetime
     end
-    due_date { start_date + 7200 }
+    due_date { start_date + 180.minutes }
     association :author, factory: :member
 
-    trait :event do
-      event { true }
+    after(:create) do |mission, evaluator|
+      Slot::Generator.call(mission) if evaluator.with_slots
     end
   end
 end

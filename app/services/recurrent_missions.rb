@@ -9,7 +9,8 @@ class RecurrentMissions
       mission_to_create = mission_template.attributes
       mission_to_create["start_date"] = o
       mission_to_create["due_date"] = o + mission_duration
-      Mission.create!(mission_to_create)
+      mission = Mission.create!(mission_to_create)
+      Slot::Generator.call(mission) unless mission.event
     end
   end
 

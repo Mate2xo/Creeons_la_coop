@@ -1,0 +1,8 @@
+en:
+  participations:
+    create:
+      confirm_participation: The participation has been saved
+      disenroll: The participation has been deleted
+      enroll_error: "Operation failed : %{errors}"
+    destroy:
+      remove_participation: The partipation has been removed

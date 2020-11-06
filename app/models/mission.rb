@@ -22,23 +22,46 @@
 # A Mission is an activity that has to be done for the Supermaket Team to function properly.
 # Every member can create a mission
 # Available methods: #addresses, #author, #due_date, #name, #description
+#
 class Mission < ApplicationRecord
+  include ActiveModel::Validations
+
   belongs_to :author, class_name: 'Member', inverse_of: 'created_missions'
+
+  has_many :participations, dependent: :destroy, foreign_key: :event, inverse_of: :event
+  has_many :participants, class_name: 'Member', through: :participations
+
+
   has_many :enrollments, dependent: :destroy
   has_many :members, through: :enrollments
+
+  has_many :slots, dependent: :destroy, class_name: 'Mission::Slot'
+  has_many :members, through: :slots
+
   has_and_belongs_to_many :productors
   has_and_belongs_to_many :addresses
 
   validates :name, presence: true
   validates :description, presence: true
-  validates :start_date, presence: true, on: :update
+  validates :start_date, presence: true
+  validates :due_date, presence: true
   validates :min_member_count, numericality: { only_integer: true }, presence: true
-  validates :max_member_count, numericality: { only_integer: true }, allow_nil: true
+  validates :max_member_count, numericality: { only_integer: true }, presence: true
+  validates_with DurationValidator
 
   accepts_nested_attributes_for :addresses, reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :enrollments, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :participations, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :slots, reject_if: :all_blank, allow_destroy: true
 
   # Virtual attributes
   attr_accessor :recurrence_rule
   attr_accessor :recurrence_end_date
+
+  def time_slots_count
+    (due_date - start_date) / 60 / 90
+  end
+
+  def duration
+    due_date - start_date
+  end
 end

@@ -22,14 +22,22 @@ class MissionsController < ApplicationController
     generate(@mission)
   end
 
-  def show; end
+  def show
+    @mission = @mission.decorate
+    @mission
+  end
 
-  def edit; end
+  def edit
+    @mission = @mission.decorate
+    @mission
+  end
 
   def update
-    if @mission.update(permitted_params)
+    mission_updator = Mission::Updator.new(@mission, permitted_params)
+    update_mission_response = mission_updator.call
+    if update_mission_response
       flash[:notice] = translate 'activerecord.notices.messages.update_success'
-      render :show
+      redirect_to mission_path(@mission)
     else
       flash[:error] = translate 'activerecord.errors.messages.update_fail'
       render :edit
@@ -52,7 +60,7 @@ class MissionsController < ApplicationController
   def generate(mission)
     if mission.recurrent
       validation_msg = RecurrentMissions.validate mission
-      return render :new, alert: validation_msg unless validation_msg == true
+      return render :new, alert: validation_msg unless validation_msg == true && mission.valid?
 
       RecurrentMissions.new.generate(mission)
       flash[:notice] = translate 'activerecord.notices.messages.records_created',
@@ -60,12 +68,12 @@ class MissionsController < ApplicationController
       redirect_to missions_path
 
     elsif mission.save
+      Slot::Generator.call(mission) unless mission.event
       flash[:notice] = translate 'activerecord.notices.messages.record_created',
                                  model: Mission.model_name.human
-      render :show
+      redirect_to mission_path(mission)
     else
-      flash[:error] = translate 'activerecord.errors.messages.creation_fail',
-                                model: Mission.model_name.human
+      flash[:error] = mission.errors.full_messages.join(', ')
       redirect_to new_mission_path
     end
   end
@@ -77,7 +85,7 @@ class MissionsController < ApplicationController
       :max_member_count, :min_member_count,
       :due_date, :start_date,
       addresses_attributes: %i[id postal_code city street_name_1 street_name_2 _destroy],
-      enrollments_attributes: %i[id _destroy member_id start_time end_time]
+      participations_attributes: %i[id participant_id start_time end_time]
     )
   end
 

@@ -9,52 +9,14 @@ RSpec.describe 'Member count limit on missions :', type: :feature do
   before { sign_in member }
 
   describe 'member enrolling in a mission' do
-    context 'when the enrolled member count has NOT been reached,' do
-      before do
-        visit mission_path(mission.id)
-        click_button I18n.t('main_app.views.missions.show.button_enroll')
-      end
-
-      it 'subscribes the member to this Mission' do
-        expect(mission.reload.members).to include(member)
-      end
-
-      it { expect(page).to have_content(I18n.t('enrollments.create.confirm_enroll')) }
-    end
-
-    context 'when the enrolled Member count has been reached' do
-      before do
-        mission.max_member_count = 4
-        mission.members << create_list(:member, 4)
-        mission.save
-
-        visit mission_path(mission.id)
-        I18n.locale = :fr
-        click_button I18n.t('main_app.views.missions.show.button_enroll')
-      end
-
-      it 'does not subscribe the member to this Mission' do
-        expect(mission.reload.members).not_to include(member)
-      end
-
-      it 'sets a feedback message to the user', js: true do
-        expect(page).to have_content(I18n.t('enrollments.create.max_member_count_reached'))
-      end
-    end
-  end
-
-  describe 'member disenrolling from a mission' do
-    before do
-      mission.members << member
+    it 'subscribes the member to this Mission' do
       visit mission_path(mission.id)
+      check mission.start_date.strftime('slot_start_times_%F_%H%M%S_utc')
+      check (mission.start_date + 90.minutes).strftime('slot_start_times_%F_%H%M%S_utc')
+      click_button I18n.t('missions.enrollment_form.button_enroll_to_slots')
 
-      click_link I18n.t('main_app.views.missions.show.button_disenroll')
+      expect(mission.reload.members).to include(member)
+      expect(page).to have_content(I18n.t('slots.update.confirm_update'))
     end
-
-    it 'unsubcribes the member from this mission' do
-      expect(mission.reload.members).not_to include(member)
-    end
-
-    it { expect(page).to have_content(I18n.t('enrollments.destroy.disenroll')) }
   end
 end

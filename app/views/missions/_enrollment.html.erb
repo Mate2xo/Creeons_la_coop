@@ -1,17 +1,16 @@
-<% member = enrollment.member %>
 <div class="my-4 text-lg line-height-1_8 d-flex justify-content-between"
      id="member_<%= member.id %>">
   <span>
     <%= link_to "#{member.first_name} #{member.last_name}",
-          member_path(member.id),
-          class: (partial_enrollment_css if partial_enrollment?(enrollment)) %>
+                member_path(member.id),
+                class: (partial_enrollment_css if partial_enrollment?(@mission, member)) %>
     <div>
       <%= member.phone_number %>
     </div>
   </span>
 
   <span>
-    <%= enrollment_duration(enrollment) if partial_enrollment?(enrollment) %>
+    <%= work_duration(member.id, @mission.id) %>
   </span>
 
   <span>

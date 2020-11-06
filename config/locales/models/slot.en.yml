@@ -1,0 +1,5 @@
+en:
+  activerecord:
+    errors:
+      slot:
+        unavailability: The slot %{start_time} is unavailable

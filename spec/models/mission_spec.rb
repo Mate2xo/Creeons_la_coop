@@ -42,12 +42,13 @@ RSpec.describe Mission, type: :model do
       it { is_expected.to validate_presence_of(:description) }
       it { is_expected.to validate_presence_of(:min_member_count) }
       it { is_expected.to validate_numericality_of(:min_member_count).only_integer }
-      it { is_expected.to validate_numericality_of(:max_member_count).only_integer.allow_nil }
+      it { is_expected.to validate_numericality_of(:max_member_count).only_integer }
     end
 
     describe 'associations' do
       it { is_expected.to belong_to(:author).class_name('Member').inverse_of('created_missions') }
-      it { is_expected.to have_many(:members).through(:enrollments) }
+      it { is_expected.to have_many(:members).through(:slots) }
+      it { is_expected.to have_many(:participants).through(:participations) }
       it { is_expected.to have_and_belong_to_many(:productors) }
       it { is_expected.to have_and_belong_to_many(:addresses) }
     end
