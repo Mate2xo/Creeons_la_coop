@@ -71,6 +71,14 @@ ActiveAdmin.register Member do
 
       respond_with_dual_blocks(new_unloggable_member, options, &block)
     end
+
+    def update(&block)
+      resource.skip_reconfirmation!
+      super do |success, failure|
+        block&.call(success, failure)
+        failure.html { render :edit }
+      end
+    end
   end
 end
 # rubocop: enable Metrics/BlockLength
