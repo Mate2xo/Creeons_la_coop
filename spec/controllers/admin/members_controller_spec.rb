@@ -23,7 +23,7 @@ RSpec.describe Admin::MembersController, type: :controller do
       expect(assigns(:members)).to include(member)
     end
 
-    %i(first_name last_name email role cash_register_proficiency group).each do |attribute|
+    %i(first_name last_name email role cash_register_proficiency).each do |attribute|
       it "renders the expected columns" do
         expect(page).to have_content(member.send(attribute))
       end
@@ -41,7 +41,7 @@ RSpec.describe Admin::MembersController, type: :controller do
     end
 
     %i(
-      first_name last_name email group phone_number cash_register_proficiency biography
+      first_name last_name email phone_number cash_register_proficiency biography
     ).each do |attribute|
       it "should render the #{attribute} field" do
         expect(page).to have_field(Member.human_attribute_name(attribute))
@@ -108,7 +108,7 @@ RSpec.describe Admin::MembersController, type: :controller do
       end
 
       %i(
-        first_name last_name group phone_number cash_register_proficiency biography
+        first_name last_name phone_number cash_register_proficiency biography
       ).each do |attribute|
         it "updates the #{attribute} attribute" do
           member.reload

@@ -21,7 +21,6 @@
 #  confirmed_at              :datetime
 #  confirmation_sent_at      :datetime
 #  unconfirmed_email         :string
-#  group                     :integer
 #  invitation_token          :string
 #  invitation_created_at     :datetime
 #  invitation_sent_at        :datetime
@@ -52,12 +51,9 @@ RSpec.describe Member, type: :model do
       it { is_expected.to have_db_column(:phone_number).of_type(:string) }
       it { is_expected.to have_db_column(:role).of_type(:integer) }
       it { is_expected.to define_enum_for(:role) }
-      it { is_expected.to have_db_column(:group).of_type(:integer) }
-      it { is_expected.to define_enum_for(:group) }
       it { is_expected.to have_db_column(:confirmation_token).of_type(:string) }
       it { is_expected.to have_db_column(:cash_register_proficiency).of_type(:integer) }
       it { is_expected.to define_enum_for(:cash_register_proficiency) }
-
       it { is_expected.to have_db_index(:confirmation_token) }
       it { is_expected.to have_db_index(:email).unique }
       it { is_expected.to have_db_index(:reset_password_token).unique }
@@ -71,7 +67,13 @@ RSpec.describe Member, type: :model do
           .class_name('Mission').with_foreign_key('author_id')
           .dependent(:nullify)
       }
+      it {
+        expect(instance).to have_many(:managed_groups)
+          .class_name('Group').through(:group_managers).with_foreign_key('manager_id')
+          .dependent(:nullify)
+      }
       it { is_expected.to have_many(:missions).through(:enrollments) }
+      it { is_expected.to have_many(:groups).through(:group_members) }
     end
 
     describe 'validations' do

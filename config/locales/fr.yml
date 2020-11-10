@@ -59,20 +59,6 @@ fr:
         register_id: Numéro de caisse
         first_name: Prénom
         group: Groupe
-        groups:
-          no_group: Aucun
-          welcome: Accueil
-          financial_management: Gestion financière
-          members_management: Gestion adhérents
-          core: Coeur
-          schedule: Planning
-          diy: Bricolage
-          internal_culture: Culture interne
-          local_suppliers: Fournisseurs locaux
-          other_suppliers: Autres fournisseurs
-          supply: Approvisionnement
-          orders_management: Commande
-          it: Informatique
         last_name: Nom
         moderator: Modérateur (forum)
         phone_number: Numéro de téléphone

@@ -21,7 +21,6 @@
 #  confirmed_at              :datetime
 #  confirmation_sent_at      :datetime
 #  unconfirmed_email         :string
-#  group                     :integer
 #  invitation_token          :string
 #  invitation_created_at     :datetime
 #  invitation_sent_at        :datetime
@@ -47,6 +46,11 @@ class Member < ApplicationRecord
   has_one :address, dependent: :destroy
   accepts_nested_attributes_for :address, reject_if: :all_blank, allow_destroy: true
 
+  has_many :group_managers, dependent: :destroy, foreign_key: :manager, inverse_of: :manager
+  has_many :managed_groups, class_name: 'Group', inverse_of: :managers, dependent: :nullify, through: :group_managers
+  has_many :group_members, dependent: :destroy
+  has_many :groups, through: :group_members
+
   has_many :created_missions, class_name: 'Mission', inverse_of: 'author', foreign_key: 'author_id', dependent: :nullify
   has_many :enrollments, dependent: :destroy
   has_many :missions, through: :enrollments
@@ -62,20 +66,6 @@ class Member < ApplicationRecord
   before_validation :set_unique_display_name
 
   enum role: { member: 0, admin: 1, super_admin: 2 }
-  enum group: {
-    welcome: 1,
-    financial_management: 2,
-    members_management: 3,
-    core: 4,
-    schedule: 5,
-    diy: 6,
-    internal_culture: 7,
-    local_suppliers: 8,
-    other_suppliers: 9,
-    supply: 10,
-    orders_management: 11,
-    it: 12
-  }
   enum cash_register_proficiency: { untrained: 0, beginner: 1, proficient: 2 }
 
   def thredded_admin?
