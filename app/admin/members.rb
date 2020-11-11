@@ -72,10 +72,9 @@ ActiveAdmin.register Member do
       respond_with_dual_blocks(new_unloggable_member, options, &block)
     end
 
-    def update(&block)
+    def update
       resource.skip_reconfirmation!
-      super do |success, failure|
-        block&.call(success, failure)
+      super do |failure|
         failure.html { render :edit }
       end
     end
