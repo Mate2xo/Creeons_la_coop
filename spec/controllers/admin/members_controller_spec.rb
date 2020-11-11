@@ -10,7 +10,7 @@ RSpec.describe Admin::MembersController, type: :controller do
 
   let(:page) { Capybara::Node::Simple.new(response.body) }
   let!(:member) { create(:member) }
-  let(:valid_attributes) { attributes_for(:member, cash_register_proficiency: "beginner") }
+  let(:valid_attributes) { attributes_for(:member, cash_register_proficiency: "beginner", email: "update@update.com") }
   let(:invalid_attributes) { { first_name: '' } }
 
   describe "GET index" do
@@ -107,11 +107,12 @@ RSpec.describe Admin::MembersController, type: :controller do
         expect(response).to redirect_to(admin_member_path(member))
       end
 
-      %i(
-        first_name last_name group phone_number cash_register_proficiency biography
-      ).each do |attribute|
+      %i[
+        first_name last_name group phone_number cash_register_proficiency biography email
+      ].each do |attribute|
         it "updates the #{attribute} attribute" do
           member.reload
+
           expect(member.reload.send(attribute)).to eq(valid_attributes[attribute])
         end
       end
