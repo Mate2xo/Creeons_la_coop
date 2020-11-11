@@ -58,8 +58,20 @@ RSpec.describe MembersController, type: :controller do
       end
     end
 
-    it "sets a confirmation message" do
-      expect(flash[:notice]).to eq(I18n.translate("activerecord.notices.messages.update_success"))
+    context 'when updating the email' do
+      before { put :update, params: { id: member.id, member: { email: 'update@update.com' } } }
+
+      it "doesn't update the email directly" do
+        expect(member.reload.email).not_to eq 'update@update.com'
+      end
+
+      it 'send a confirmation email' do
+        expect(ActionMailer::Base.deliveries.last.body).to include('update@update.com')
+      end
+    end
+
+    it 'sets a confirmation message' do
+      expect(flash[:notice]).to eq(I18n.translate('activerecord.notices.messages.update_success'))
     end
   end
 end
