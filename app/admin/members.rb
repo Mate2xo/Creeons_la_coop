@@ -74,9 +74,7 @@ ActiveAdmin.register Member do
 
     def update
       resource.skip_reconfirmation!
-      super do |failure|
-        failure.html { render :edit }
-      end
+      super
     end
   end
 end
