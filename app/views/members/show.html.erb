@@ -27,9 +27,10 @@
               </h6>
               <br/>
 
-              <% if @member.group %>
+              <% if @member.groups.any? %>
                 <h6 class="heading heading-light heading-sm strong-300">
-                  Groupe <%= Member.human_enum_name(:group, @member.group) %>
+                  Groupes:
+                  <%= @member.groups.map(&:name).join(', ') %>
                 </h6>
                 <br/>
               <% end %>

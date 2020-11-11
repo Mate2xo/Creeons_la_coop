@@ -2,9 +2,21 @@
 
 # rubocop: disable Metrics/BlockLength
 ActiveAdmin.register Member do
-  permit_params :email, :password, :encrypted_password, :first_name, :last_name,
-                :biography, :phone_number, :role, :moderator, :group, :confirmed_at,
-                :password_confirmation, :cash_register_proficiency, :register_id
+  includes :groups
+  permit_params :email,
+                :password,
+                :encrypted_password,
+                :first_name,
+                :last_name,
+                :biography,
+                :phone_number,
+                :role,
+                :moderator,
+                :confirmed_at,
+                :password_confirmation,
+                :cash_register_proficiency,
+                :register_id,
+                group_ids: []
 
   index do
     selectable_column
@@ -12,7 +24,10 @@ ActiveAdmin.register Member do
     column :last_name
     column :role
     column('3 heures faites?') { |member| member.worked_three_hours?(Date.current) }
-    column(:group) { |member| Member.human_enum_name(:group, member.group) }
+    column(:group) do |member|
+      group_links = member.groups.map { |group| auto_link group }
+      safe_join group_links, ', '
+    end
     column :cash_register_proficiency
     column :register_id
     column :email
@@ -24,19 +39,39 @@ ActiveAdmin.register Member do
     column :first_name
     column :last_name
     column :phone_number
-    column :group
     column :role
     column("3 heures de #{l 1.month.ago, format: '%B'}?") { |member| member.worked_three_hours?(1.month.ago) }
     column("3 heures de #{l Date.current, format: '%B'}?") { |member| member.worked_three_hours?(Date.current) }
     column("3 heures de #{l 1.month.from_now, format: '%B'}?") { |member| member.worked_three_hours?(1.month.from_now) }
-    column(:group) { |member| Member.human_enum_name(:group, member.group) }
+    column(:group) { |member| member.groups.map(&:name).join(', ') }
     column :cash_register_proficiency
     column :register_id
   end
 
+  show do
+    attributes_table_for resource do
+      default_attribute_table_rows.each do |field|
+        row field
+      end
+      table_for member.groups do
+        column 'groups' do |group|
+          link_to Arbre::Context.new { (status_tag class: 'important', label: group.name) }, [:admin, group]
+        end
+      end
+    end
+  end
+
   form do |f|
-    f.inputs :first_name, :last_name, :email, :phone_number, :role, :moderator,
-             :group, :cash_register_proficiency, :register_id, :biography
+    f.inputs :first_name,
+             :last_name,
+             :email,
+             :phone_number,
+             :role,
+             :moderator,
+             :cash_register_proficiency,
+             :register_id,
+             :biography
+    f.input :groups, as: :check_boxes
     actions
   end
 

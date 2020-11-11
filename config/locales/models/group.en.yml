@@ -1,0 +1,11 @@
+en:
+  activerecord:
+    models:
+      group:
+        one: Group
+        other: Groups
+    attributes:
+      group:
+        name: name
+        members_count:
+        managers: Managers

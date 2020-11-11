@@ -21,7 +21,6 @@
 #  confirmed_at              :datetime
 #  confirmation_sent_at      :datetime
 #  unconfirmed_email         :string
-#  group                     :integer
 #  invitation_token          :string
 #  invitation_created_at     :datetime
 #  invitation_sent_at        :datetime
@@ -46,7 +45,6 @@ FactoryBot.define do
     password_confirmation { "password" }
     confirmed_at { Time.zone.today }
 
-    trait :group do group { Member.groups.keys.sample } end
     trait :admin do role { 'admin' } end
     trait :super_admin do role { 'super_admin' } end
   end

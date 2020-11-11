@@ -16,10 +16,11 @@
           </a>
         </li>
 
-        <% Member.groups.each do |group_name, _| %>
+        <% @groups.each do |group| %>
+          <% presenter = GroupPresenter.new(group) %>
           <li class="nav-item">
-            <a class="nav-link" href="#<%= group_name %>-group" data-toggle="tab" role="tab">
-              <%= Member.human_enum_name(:group, group_name).humanize %>
+            <a class="nav-link" href="#<%= presenter.underscored_name %>-group" data-toggle="tab" role="tab">
+              <%= group.name %>
             </a>
           </li> 
         <% end %>
@@ -32,11 +33,19 @@
           </div> 
         </section>
 
-        <% Member.groups.each do |group_name, _| %>
-          <section class="tab-pane fade" id="<%= group_name %>-group" role="tabpanel" aria-labelledby="<%= group_name %>-group-tab">
+        <% @groups.each do |group| %>
+          <% presenter = GroupPresenter.new(group) %>
+          <section class="tab-pane fade" id="<%= presenter.underscored_name %>-group" role="tabpanel" aria-labelledby="<%= presenter.underscored_name %>-group-tab">
             <div class="row cols-md-space cols-sm-space cols-xs-space">
+              <% if group.managers.any? %>
+                <div>
+                  <%= "#{t("activerecord.attributes.group.managers")} : " %>
+                  <%= presenter.all_manager_links %>
+                </div>
+              <% end %>
               <%= render partial: "member",
-                          collection: @members.select {|member| member.group == group_name} %>
+                collection: group.members
+              %>
             </div>
           </section> 
         <% end %>
