@@ -61,7 +61,7 @@ RSpec.describe MembersController, type: :controller do
     context 'when updating the email' do
       before { put :update, params: { id: member.id, member: { email: 'update@update.com' } } }
 
-      it "don't update the email directly" do
+      it "doesn't update the email directly" do
         expect(member.reload.email).not_to eq 'update@update.com'
       end
 
