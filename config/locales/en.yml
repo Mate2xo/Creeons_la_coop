@@ -30,3 +30,6 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  date:
+    formats:
+      only_month: "%B"

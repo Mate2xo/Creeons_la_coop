@@ -45,7 +45,7 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
     before { sign_in create :member, :admin }
 
     it 'shows the number of worked hours during this month' do
-      set_enrollments_for_hours_resume_test
+      create_enrollments_for_the_last_three_months
 
       visit admin_members_path
 
@@ -53,7 +53,7 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
     end
 
     it 'shows the number of worked hours during last month' do
-      set_enrollments_for_hours_resume_test
+      create_enrollments_for_the_last_three_months
 
       visit admin_members_path
 
@@ -61,7 +61,7 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
     end
 
     it 'shows the number of worked hours during last last month' do
-      set_enrollments_for_hours_resume_test
+      create_enrollments_for_the_last_three_months
 
       visit admin_members_path
 
@@ -75,7 +75,7 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
     end
   end
 
-  def set_enrollments_for_hours_resume_test
+  def create_enrollments_for_the_last_three_months
     slot = 1.week.ago.clamp(Date.current.at_beginning_of_month, Date.current)
     3.times do
       create :enrollment, member: member,

@@ -184,7 +184,7 @@ RSpec.describe Member, type: :model do
     context 'when a member is enrolled on an event' do
       let(:member) { create :member }
 
-      it "The event's duration are not counted in worked hours" do
+      it 'ignores these hours' do
         create :enrollment, member: member
         create :enrollment, member: member, on_event: true
 
