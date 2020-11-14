@@ -29,7 +29,7 @@ ActiveAdmin.register Member do
       group_links = member.groups.map { |group| auto_link group }
       safe_join group_links, ', '
     end
-    column(t('.worked_hours')) { |member| MemberDecorator.new(member).hours_worked_in_the_three_last_months }
+    column(t('.worked_hours')) { |member| member.hours_worked_in_the_three_last_months }
     column :cash_register_proficiency
     column :register_id
     column :email
@@ -43,7 +43,7 @@ ActiveAdmin.register Member do
     column :phone_number
     column :role
     column(:group) { |member| member.groups.map(&:name).join(', ') }
-    column(t('active_admin.resource.index.worked_hours')) { |member| MemberDecorator.new(member).hours_worked_in_the_three_last_months(csv: true) }
+    column(t('active_admin.resource.index.worked_hours')) { |member| member.hours_worked_in_the_three_last_months(csv: true) }
     column :cash_register_proficiency
     column :register_id
   end

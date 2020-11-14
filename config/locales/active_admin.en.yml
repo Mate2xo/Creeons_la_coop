@@ -56,7 +56,7 @@ en:
         to: "To"
     resource: 
       index:
-        worked_hours: "Worked hours in last three months"
+        worked_hours: "Hours worked in last three months"
     scopes:
       all: "All"
     search_status:
