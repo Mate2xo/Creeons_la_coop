@@ -41,39 +41,46 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
     end
   end
 
-  context 'when a member has worked >= 3 hours this current month' do
+  context 'when an admin is connected on admin index members' do
     before { sign_in create :member, :admin }
 
-    it 'shows a :ok status on the admin members index' do
-      slot = 1.week.ago.clamp(Date.current.at_beginning_of_month, Date.current)
-      create :enrollment, member: member,
-                          mission: create(:mission, start_date: slot, due_date: slot + 3.hours)
+    it 'shows the number of worked hours during this month' do
+      create_enrollments_for_the_last_three_months
 
       visit admin_members_path
 
-      expect(page).to have_content I18n.t 'active_admin.status_tag.yes'
+      expect(page).to have_text "#{I18n.localize(Date.current, format: :only_month)} : 3.0"
     end
 
-    context 'with <= 3 hours worked the previous month' do
-      it 'does not show that member on the admin dashboard'
-    end
-  end
-
-  context 'when a member has worked less than 3 hours this current month,' do
-    before { sign_in create :member, :admin }
-
-    it 'shows his/her month status as :incomplete on the members admin index' do
-      create :enrollment, member: member
+    it 'shows the number of worked hours during last month' do
+      create_enrollments_for_the_last_three_months
 
       visit admin_members_path
 
-      expect(page).to have_content I18n.t 'active_admin.status_tag.no'
+      expect(page).to have_text "#{I18n.localize(Date.current - 1.month, format: :only_month)} : 3.0"
+    end
+
+    it 'shows the number of worked hours during last last month' do
+      create_enrollments_for_the_last_three_months
+
+      visit admin_members_path
+
+      expect(page).to have_text "#{I18n.localize(Date.current - 2.months, format: :only_month)} : 3.0"
     end
   end
 
   context 'when a new month starts,' do
     context 'when a member has not worked 3 hours last month' do
       it 'shows that member on the admin dashboard'
+    end
+  end
+
+  def create_enrollments_for_the_last_three_months
+    slot = 1.week.ago.clamp(Date.current.at_beginning_of_month, Date.current)
+    3.times do
+      create :enrollment, member: member,
+                          mission: create(:mission, start_date: slot, due_date: slot + 3.hours)
+      slot -= 1.month
     end
   end
 end

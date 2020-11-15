@@ -54,6 +54,9 @@ en:
         lteq_datetime: "Lesser or equal to"
         from: "From"
         to: "To"
+    resource: 
+      index:
+        worked_hours: "Hours worked in last three months"
     scopes:
       all: "All"
     search_status:

@@ -78,14 +78,8 @@ class Member < ApplicationRecord
     month_number = date.month
 
     family_enrollments
-      .select { |enroll| enroll.mission.start_date.month == month_number }
+      .select { |enroll| (enroll.mission.start_date.month == month_number && enroll.mission.event == false) }
       .reduce(0.0) { |sum, enrollment| sum + enrollment.duration }
-  end
-
-  # @return [Boolean]
-  # @param date [Date]
-  def worked_three_hours?(date)
-    monthly_worked_hours(date) >= 3
   end
 
   private

@@ -32,5 +32,9 @@ FactoryBot.define do
     end
     due_date { start_date + 7200 }
     association :author, factory: :member
+
+    trait :event do
+      event { true }
+    end
   end
 end

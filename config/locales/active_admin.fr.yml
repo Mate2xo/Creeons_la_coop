@@ -37,6 +37,9 @@ fr:
         lteq_datetime: "Antérieur ou égal à"
         from: "De"
         to: "À"
+    resource: 
+      index:
+        worked_hours: 'Heures travaillées ces trois derniers mois'
     search_status:
       headline: "Statut de la recherche :"
       current_scope: "Etendu du filtre :"
