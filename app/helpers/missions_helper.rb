@@ -14,7 +14,7 @@ module MissionsHelper
     minutes = Mission::Slot.where(member_id: member_id, mission_id: mission_id).count * 90
     hours = minutes / 60
     minutes = minutes % 60
+    minutes = '00' if minutes.zero?
     "#{hours}h#{minutes}"
   end
-
 end
