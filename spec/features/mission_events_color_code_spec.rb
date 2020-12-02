@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'support/helpers/slot_enrollment.rb'
+
+RSpec.configure do |c|
+  c.include Helpers::SlotEnrollment
+end
 
 RSpec.describe 'Mission events color codes:', type: :feature do
   let(:current_member) { create :member, first_name: 'jack' }
