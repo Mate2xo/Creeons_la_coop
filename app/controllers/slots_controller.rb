@@ -6,14 +6,14 @@ class SlotsController < ApplicationController
   decorates_assigned :mission
 
   def update
-    slot_manager = Slot::Manager.new(params[:mission_id], permitted_params[:member_id], permitted_params[:start_times])
-    if slot_manager.manage
+    slot_manager = Slot::Assigner.new(params[:mission_id], permitted_params[:member_id], permitted_params[:start_times])
+    if slot_manager.assign
       flash[:notice] = translate '.confirm_update'
     else
       flash[:alert] = (translate '.enroll_error') + slot_manager.errors.join(', ')
     end
     @mission = Mission.find(params[:mission_id])
-    render "missions/show"
+    render 'missions/show'
   end
 
   private

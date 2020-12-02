@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# It Generate slot after a mission creation
-class Slot::Manager < ApplicationService
+# It assigns or remove assignement of slots to members
+class Slot::Assigner < ApplicationService
   attr_reader :errors
 
   def initialize(mission_id, member_id, start_times)
@@ -11,7 +11,7 @@ class Slot::Manager < ApplicationService
     @errors = []
   end
 
-  def manage
+  def assign
     update_slots_in_order_to_remove_these_from_member
     update_slots_in_order_to_give_these_to_member
     return false if @errors.any?
