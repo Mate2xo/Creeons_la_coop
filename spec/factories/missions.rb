@@ -35,6 +35,7 @@ FactoryBot.define do
                                 period: :day).to_datetime
     end
     due_date { start_date + 180.minutes }
+    event { false }
     association :author, factory: :member
 
     after(:create) do |mission, evaluator|

@@ -8,28 +8,14 @@ RSpec.configure do |c|
 end
 
 RSpec.describe 'A mission request', type: :request do
-  let(:super_admin) { create :member, :super_admin }
+  let(:member) { create :member }
 
-  let(:generate_event_attributes) do
-    attributes_for :mission, name: 'my event',
-                             max_member_count: 4, event: true
-  end
-
-  let(:generate_mission_attributes) do
-    attributes_for :mission, name: 'my_mission',
-                             max_member_count: 4, event: false
-  end
-
-  let(:create_event) { create :mission, generate_event_attributes }
-  let(:create_mission) { create :mission, generate_mission_attributes }
-  let(:create_mission_with_slots) { create :mission, generate_mission_attributes.merge({ with_slots: true }) }
-
-  before { sign_in super_admin }
+  before { sign_in member }
 
   describe 'list of all missions' do
     it 'successfully renders the list' do
-      create_event
-      create_mission
+      create :mission
+      create :mission, event: true
 
       get missions_path
 
@@ -39,7 +25,7 @@ RSpec.describe 'A mission request', type: :request do
 
   describe 'to show an event' do
     it 'renders successfully the template' do
-      event = create_event
+      event = create :mission, event: true
 
       get mission_path(event.id)
 
@@ -47,21 +33,21 @@ RSpec.describe 'A mission request', type: :request do
     end
 
     it 'displays the name of event' do
-      event = create_event
+      event = create :mission, event: true
 
       get mission_path(event.id)
 
       expect(response.body).to include(event.name.capitalize)
     end
 
-    context 'when a member particpate in an event' do
+    context 'when a member participate in an event' do
       it "displays the full name's member" do
-        event = create_event
-        create :participation, event_id: event.id, participant_id: super_admin.id
+        event = create :mission, event: true
+        create :participation, event_id: event.id, participant_id: member.id
 
         get mission_path(event.id)
 
-        expect(response.body).to include("#{super_admin.first_name} #{super_admin.last_name}")
+        expect(response.body).to include("#{member.first_name} #{member.last_name}")
       end
     end
   end
@@ -76,7 +62,7 @@ RSpec.describe 'A mission request', type: :request do
 
   describe 'to create an event' do
     it 'redirect to the show page of this event' do
-      event_attributes = generate_event_attributes
+      event_attributes = attributes_for :mission, event: true
 
       post missions_path, params: { mission: event_attributes }
       follow_redirect!
@@ -85,7 +71,9 @@ RSpec.describe 'A mission request', type: :request do
     end
 
     it "doesn't create any slots" do
-      post missions_path, params: { mission: generate_event_attributes }
+      event_attributes = attributes_for :mission, event: true
+
+      post missions_path, params: { mission: event_attributes }
 
       expect(Mission.last.slots.size).to eq 0
     end
@@ -93,9 +81,9 @@ RSpec.describe 'A mission request', type: :request do
 
   describe 'to edit an event' do
     it 'successfully renders the template' do
-      event = create_event
+      event = create :mission, event: true
 
-      get edit_mission_path(event.id), params: { mission: { id: event.id } }
+      get edit_mission_path(event.id), params: { mission: { id: event.attributes[:id] } }
 
       expect(response).to be_successful
     end
@@ -103,7 +91,7 @@ RSpec.describe 'A mission request', type: :request do
 
   describe 'to update an event' do
     it 'successfully updates the record' do
-      event = create_event
+      event = create :mission, event: true
 
       put mission_path(event.id), params: { mission: { name: 'updated_event' } }
       follow_redirect!
@@ -113,7 +101,7 @@ RSpec.describe 'A mission request', type: :request do
 
     context 'when the user request for an event become a mission' do
       it 'creates the slot of the mission' do
-        event = create_event
+        event = create :mission, event: true
 
         put mission_path(event.id), params: { mission: { name: 'updated_event', event: false } }
         follow_redirect!
@@ -122,7 +110,7 @@ RSpec.describe 'A mission request', type: :request do
       end
 
       it 'redirects to show mission template' do
-        event = create_event
+        event = create :mission, event: true
 
         put mission_path(event.id), params: { mission: { name: 'updated_event', event: false } }
         follow_redirect!
@@ -133,8 +121,12 @@ RSpec.describe 'A mission request', type: :request do
   end
 
   describe 'to delete an event' do
-    it 'delete the event' do
-      event = create_event
+    before do
+      sign_in create :member, :super_admin
+    end
+
+    it 'deletes the event' do
+      event = create :mission, event: true
 
       delete mission_path(event.id), params: { mission: { id: event.id } }
 
@@ -142,7 +134,7 @@ RSpec.describe 'A mission request', type: :request do
     end
 
     it 'destroy the related participations' do
-      event = create_event
+      event = create :mission, event: true
       participants = create_list :member, 4
       participants.each { |participant| create :participation, event_id: event.id, participant_id: participant.id }
 
@@ -154,7 +146,7 @@ RSpec.describe 'A mission request', type: :request do
 
   describe 'to show a mission' do
     it 'show the mission successfully' do
-      mission = create_mission_with_slots
+      mission = create :mission
 
       get mission_path(mission.id)
 
@@ -162,7 +154,7 @@ RSpec.describe 'A mission request', type: :request do
     end
 
     it 'displays the checkboxes with time slots' do
-      mission = create_mission_with_slots
+      mission = create :mission
 
       get mission_path(mission.id)
 
@@ -176,19 +168,19 @@ RSpec.describe 'A mission request', type: :request do
 
     context 'when a member take a time slot of an mission' do
       it 'displays the full name of this member' do
-        mission = create_mission_with_slots
-        mission.slots.first.update(member_id: super_admin.id)
+        mission = create :mission
+        mission.slots.first.update(member_id: member.id)
 
         get mission_path(mission.id)
 
-        expect(response.body).to include("#{super_admin.first_name} #{super_admin.last_name}")
+        expect(response.body).to include("#{member.first_name} #{member.last_name}")
       end
     end
 
     context 'when the member have already take a time slot' do
       it 'display the related checkbox already checked' do
-        mission = create_mission_with_slots
-        mission.slots.first.update(member_id: super_admin.id)
+        mission = create :mission
+        mission.slots.first.update(member_id: member.id)
 
         get mission_path(mission.id)
 
@@ -197,11 +189,8 @@ RSpec.describe 'A mission request', type: :request do
 
       context 'when all slots of a time slot are taked by others members' do
         it "don't display the related checkbox" do
-          mission = create_mission_with_slots
-          members = create_list :member, 4
-          members.each do |member|
-            mission.slots.find_by(start_time: mission.start_date, member_id: nil).update(member_id: member.id)
-          end
+          mission = create :mission
+          generate_enrollments_on_n_time_slots_on_a_mission(mission, 4)
 
           get mission_path(mission.id)
 
@@ -215,7 +204,7 @@ RSpec.describe 'A mission request', type: :request do
 
   describe 'to create a mission' do
     it 'creates the related beginning slots with the same start time' do
-      mission_attributes = generate_mission_attributes
+      mission_attributes = attributes_for :mission
 
       post missions_path, params: { mission: mission_attributes }
 
@@ -223,7 +212,7 @@ RSpec.describe 'A mission request', type: :request do
     end
 
     it 'creates the correct number of slots' do
-      mission_attributes = generate_mission_attributes
+      mission_attributes = attributes_for :mission
 
       post missions_path, params: { mission: mission_attributes }
 
@@ -252,7 +241,7 @@ RSpec.describe 'A mission request', type: :request do
 
   describe 'to edit mission' do
     it 'successfully renders the template' do
-      mission = create_mission
+      mission = create :mission
 
       get edit_mission_path(mission.id), params: { mission: { id: mission.id } }
 
@@ -262,7 +251,7 @@ RSpec.describe 'A mission request', type: :request do
 
   describe 'to update a mission' do
     it 'successfully updates the mission' do
-      mission = create_mission_with_slots
+      mission = create :mission
 
       put mission_path(mission.id), params: { mission: { name: :updated_mission } }
       follow_redirect!
@@ -272,7 +261,7 @@ RSpec.describe 'A mission request', type: :request do
 
     context 'when a mission must become an event' do
       it 'deletes the slots' do
-        mission = create_mission
+        mission = create :mission
 
         put mission_path(mission.id), params: { mission: { name: 'updated_event', event: true } }
         follow_redirect!
@@ -281,7 +270,7 @@ RSpec.describe 'A mission request', type: :request do
       end
 
       it 'redirects to show mission template' do
-        mission = create_mission
+        mission = create :mission
 
         put mission_path(mission.id), params: { mission: { name: 'updated_event', event: true } }
         follow_redirect!
@@ -292,7 +281,7 @@ RSpec.describe 'A mission request', type: :request do
 
     context 'when the duration is extended' do
       it 'adds slots in order to cover the new time slot' do
-        mission = create_mission
+        mission = create :mission
 
         put_mission = lambda do
           put mission_path(mission.id), params: { mission: { name: 'updated_event',
@@ -305,7 +294,7 @@ RSpec.describe 'A mission request', type: :request do
 
     context 'when the duration is shortened' do
       it 'removes useless slots' do
-        mission = create_mission
+        mission = create :mission
 
         put_mission = lambda do
           put mission_path(mission.id), params: { mission: { name: 'updated_event',
@@ -318,7 +307,7 @@ RSpec.describe 'A mission request', type: :request do
 
     context 'when the max_member_count is increased' do
       it 'adds slots in order to cover the new count' do
-        mission = create_mission
+        mission = create :mission
 
         put_mission = lambda do
           put mission_path(mission.id), params: { mission: { name: 'updated_event',
@@ -331,7 +320,7 @@ RSpec.describe 'A mission request', type: :request do
 
     context 'when the max_member_count is reduced' do
       it 'removes useless slots' do
-        mission = create_mission
+        mission = create :mission
 
         put_mission = lambda do
           put mission_path(mission.id), params: { mission: { name: 'updated_event',
@@ -342,7 +331,7 @@ RSpec.describe 'A mission request', type: :request do
       end
 
       it "doesn't remove when slots are occupied" do
-        mission = create_mission
+        mission = create :mission
         generate_enrollments_on_n_time_slots_on_a_mission(mission, 4)
 
         put_mission = lambda do
@@ -356,7 +345,7 @@ RSpec.describe 'A mission request', type: :request do
 
     context 'when we update the start_date field' do
       it 'updates the start_time of the related slots' do
-        mission = create_mission
+        mission = create :mission
         old_start_times = mission.slots.map(&:start_time)
         new_start_date = mission.start_date + 7.minutes
 
@@ -370,17 +359,21 @@ RSpec.describe 'A mission request', type: :request do
     end
   end
 
-  describe 'to deletes a mission' do
+  describe 'to delete a mission' do
+    before do
+      sign_in create :member, :super_admin
+    end
+
     it 'successfully deletes the mission' do
-      mission_id = create_mission.id
+      mission = create :mission
 
-      delete mission_path(mission_id)
+      delete mission_path(mission.id)
 
-      expect(Mission.find_by(id: mission_id)).to eq nil
+      expect(Mission.find_by(id: mission.id)).to eq nil
     end
 
     it 'deletes the related slots' do
-      mission = create_mission_with_slots
+      mission = create :mission
 
       delete mission_path(mission.id)
 
