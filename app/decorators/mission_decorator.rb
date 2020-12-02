@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# MissionDecorator
-class MissionDecorator < Draper::Decorator
+class MissionDecorator < Draper::Decorator # rubocop:disable Style/Documentation
   delegate_all
 
   def search_slots_selectable_by_current_member
