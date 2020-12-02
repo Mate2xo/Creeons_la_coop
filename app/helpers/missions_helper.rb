@@ -10,10 +10,6 @@ module MissionsHelper
     'bg-info rounded text-white p-1'
   end
 
-  def enrollment_duration(enrollment)
-    "#{enrollment.start_time&.strftime('%H:%M')} - #{enrollment.end_time&.strftime('%H:%M')}"
-  end
-
   def work_duration(member_id, mission_id)
     minutes = Mission::Slot.where(member_id: member_id, mission_id: mission_id).count * 90
     hours = minutes / 60
