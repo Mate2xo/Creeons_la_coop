@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ActiveAdmin.register Mission::Slot, as: 'slots' do
+ActiveAdmin.register Mission::Slot, as: 'slot' do
   permit_params :member_id
   belongs_to :mission
 
