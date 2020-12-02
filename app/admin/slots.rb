@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Mission::Slot, as: 'slots' do
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   permit_params :member_id
   belongs_to :mission
 
