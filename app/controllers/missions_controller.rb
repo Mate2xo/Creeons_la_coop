@@ -4,6 +4,8 @@
 # Every member can create a mission
 # Available methods other than attributes: #addresses, #members
 class MissionsController < ApplicationController
+  decorates_assigned :mission
+
   before_action :authenticate_member!
   before_action :set_authorized_mission, only: %i[show edit update destroy]
 
@@ -22,15 +24,9 @@ class MissionsController < ApplicationController
     generate(@mission)
   end
 
-  def show
-    @mission = @mission.decorate
-    @mission
-  end
+  def show; end
 
-  def edit
-    @mission = @mission.decorate
-    @mission
-  end
+  def edit; end
 
   def update
     mission_updator = Mission::Updator.new(@mission, permitted_params)
