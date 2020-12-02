@@ -10,8 +10,8 @@
 #  member_id         :bigint()
 #
 
-# A slot is a place of a mission who can be take by a member. The slots go on 90 minutes.
-# A mission have a limited number of slots( n = duration_of_mission / 90 minutes * members_count).
+# A Slot is a one fraction of a Mission, that can be taken by a Member. One Slot lasts for 90 minutes.
+# A Mission has a limited number of slots (n = duration_of_mission / 90minutes * members_count)
 class Mission::Slot < ApplicationRecord
   belongs_to :mission
   belongs_to :member, optional: true
