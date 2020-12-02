@@ -3,7 +3,7 @@
 # Manages Members participations on Events
 class ParticipationsController < ApplicationController
   before_action :authenticate_member!
-  before_action :set_event, only: %i[create destroy]
+  before_action :set_event, only: %i[destroy]
 
   def create
     @participation = Participation.create(participation_params)
