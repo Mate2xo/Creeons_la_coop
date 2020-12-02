@@ -21,5 +21,4 @@ ActiveAdmin.register Mission::Slot, as: 'slot' do
       redirect_to admin_mission_path(params[:mission_id])
     end
   end
-  
 end
