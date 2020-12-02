@@ -31,7 +31,6 @@ class Mission < ApplicationRecord
   has_many :participations, dependent: :destroy, foreign_key: :event, inverse_of: :event
   has_many :participants, class_name: 'Member', through: :participations
 
-
   has_many :enrollments, dependent: :destroy
   has_many :members, through: :enrollments
 

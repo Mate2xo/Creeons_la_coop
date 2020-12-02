@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'support/helpers/slot_enrollment.rb'
+
+RSpec.configure do |c|
+  c.include Helpers::SlotEnrollment
+end
 
 RSpec.describe 'A mission request', type: :request do
   let(:super_admin) { create :member, :super_admin }
@@ -105,6 +110,26 @@ RSpec.describe 'A mission request', type: :request do
 
       expect(response.body).to include('updated_event'.capitalize)
     end
+
+    context 'when the user request for an event become a mission' do
+      it 'creates the slot of the mission' do
+        event = create_event
+
+        put mission_path(event.id), params: { mission: { name: 'updated_event', event: false } }
+        follow_redirect!
+
+        expect(event.slots).not_to be_empty
+      end
+
+      it 'redirects to show mission template' do
+        event = create_event
+
+        put mission_path(event.id), params: { mission: { name: 'updated_event', event: false } }
+        follow_redirect!
+
+        expect(response).to render_template(partial: 'missions/_enrollment_form')
+      end
+    end
   end
 
   describe 'to delete an event' do
@@ -189,7 +214,7 @@ RSpec.describe 'A mission request', type: :request do
   end
 
   describe 'to create a mission' do
-    it 'create the related beginning slots with the same start time' do
+    it 'creates the related beginning slots with the same start time' do
       mission_attributes = generate_mission_attributes
 
       post missions_path, params: { mission: mission_attributes }
@@ -197,7 +222,7 @@ RSpec.describe 'A mission request', type: :request do
       expect(Mission.last.slots.where(start_time: mission_attributes[:start_date]).count).to eq 4
     end
 
-    it 'create the correct number of slots' do
+    it 'creates the correct number of slots' do
       mission_attributes = generate_mission_attributes
 
       post missions_path, params: { mission: mission_attributes }
@@ -215,7 +240,7 @@ RSpec.describe 'A mission request', type: :request do
                                  recurrence_end_date: DateTime.now + 3.days
       end
 
-      it 'create the slots for all missions' do
+      it 'creates the slots for all missions' do
         recurrent_mission_attributes = generate_recurrent_mission_attributes
 
         post_mission = -> { post missions_path, params: { mission: recurrent_mission_attributes } }
@@ -245,28 +270,102 @@ RSpec.describe 'A mission request', type: :request do
       expect(response.body).to include('updated_mission'.capitalize)
     end
 
+    context 'when a mission must become an event' do
+      it 'deletes the slots' do
+        mission = create_mission
+
+        put mission_path(mission.id), params: { mission: { name: 'updated_event', event: true } }
+        follow_redirect!
+
+        expect(mission.slots).to be_empty
+      end
+
+      it 'redirects to show mission template' do
+        mission = create_mission
+
+        put mission_path(mission.id), params: { mission: { name: 'updated_event', event: true } }
+        follow_redirect!
+
+        expect(response).to render_template(partial: '_participation_form')
+      end
+    end
+
+    context 'when the duration is extended' do
+      it 'adds slots in order to cover the new time slot' do
+        mission = create_mission
+
+        put_mission = lambda do
+          put mission_path(mission.id), params: { mission: { name: 'updated_event',
+                                                             due_date: (mission.due_date + 90.minutes) } }
+        end
+
+        expect { put_mission.call }.to change { mission.reload.slots.count }.by(4)
+      end
+    end
+
+    context 'when the duration is shortened' do
+      it 'removes useless slots' do
+        mission = create_mission
+
+        put_mission = lambda do
+          put mission_path(mission.id), params: { mission: { name: 'updated_event',
+                                                             due_date: (mission.due_date - 90.minutes) } }
+        end
+
+        expect { put_mission.call }.to change { mission.reload.slots.count }.by(-4)
+      end
+    end
+
+    context 'when the max_member_count is increased' do
+      it 'adds slots in order to cover the new count' do
+        mission = create_mission
+
+        put_mission = lambda do
+          put mission_path(mission.id), params: { mission: { name: 'updated_event',
+                                                             max_member_count: 5 } }
+        end
+
+        expect { put_mission.call }.to change { mission.reload.slots.count }.by(2)
+      end
+    end
+
+    context 'when the max_member_count is reduced' do
+      it 'removes useless slots' do
+        mission = create_mission
+
+        put_mission = lambda do
+          put mission_path(mission.id), params: { mission: { name: 'updated_event',
+                                                             max_member_count: 3 } }
+        end
+
+        expect { put_mission.call }.to change { mission.reload.slots.count }.by(-2)
+      end
+
+      it "doesn't remove when slots are occupied" do
+        mission = create_mission
+        generate_enrollments_on_n_time_slots_on_a_mission(mission, 4)
+
+        put_mission = lambda do
+          put mission_path(mission.id), params: { mission: { name: 'updated_event',
+                                                             max_member_count: 3 } }
+        end
+
+        expect { put_mission.call }.not_to(change { mission.reload.slots.count })
+      end
+    end
+
     context 'when we update the start_date field' do
       it 'updates the start_time of the related slots' do
-        mission = create_mission_with_slots
+        mission = create_mission
         old_start_times = mission.slots.map(&:start_time)
         new_start_date = mission.start_date + 7.minutes
 
-        put mission_path(mission.id), params: { mission: { start_date: new_start_date, due_date: new_start_date + 90.minutes } }
+        put mission_path(mission.id), params: { mission: { start_date: new_start_date, due_date: mission.due_date + 7.minutes } }
         mission.reload
 
         old_start_times.each_with_index do |_old_start_time, index|
           expect(mission.slots[index].start_time).to eq old_start_times[index] + 7.minutes
         end
-      end
-    end
-
-    context 'when we try to update the event boolean' do
-      it "doesn't update the field" do
-        mission = create_mission
-
-        put_mission = -> { put mission_path(mission.id), params: { mission: { event?: true } } }
-
-        expect { put_mission.call }.not_to(change { mission.event })
       end
     end
   end
@@ -286,6 +385,13 @@ RSpec.describe 'A mission request', type: :request do
       delete mission_path(mission.id)
 
       expect(mission.slots.reload).to be_empty
+    end
+  end
+
+  def generate_enrollments_on_n_time_slots_on_a_mission(mission, members_count)
+    members = create_list :member, members_count
+    members.each do |member|
+      enroll(mission, member)
     end
   end
 end

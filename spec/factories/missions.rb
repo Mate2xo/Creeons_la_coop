@@ -38,7 +38,7 @@ FactoryBot.define do
     association :author, factory: :member
 
     after(:create) do |mission, evaluator|
-      Slot::Generator.call(mission) if evaluator.with_slots
+      Slot::Generator.call(mission) if evaluator.with_slots && !mission.event
     end
   end
 end
