@@ -7,52 +7,106 @@ RSpec.configure do |c|
   c.include Helpers::SlotEnrollment
 end
 
-RSpec.describe 'A mission request', type: :request do
+RSpec.describe 'A Mission request', type: :request do
   let(:member) { create :member }
 
   before { sign_in member }
 
-  describe 'list of all missions' do
+  describe 'GET index' do
+    subject(:get_index) { get missions_path }
+
     it 'successfully renders the list' do
       create :mission
       create :mission, event: true
 
-      get missions_path
+      get_index
 
       expect(response).to be_successful
     end
   end
 
-  describe 'to show an event' do
-    it 'renders successfully the template' do
-      event = create :mission, event: true
+  describe 'GET show' do
+    subject(:get_show) { get mission_path(mission) }
 
-      get mission_path(event.id)
+    context 'when the mission is an :event' do
+      let(:mission) { create :mission, event: true }
 
-      expect(response).to be_successful
-    end
+      it 'renders successfully the template' do
+        get_show
 
-    it 'displays the name of event' do
-      event = create :mission, event: true
+        expect(response).to be_successful
+      end
 
-      get mission_path(event.id)
+      it 'displays the name of event' do
+        get_show
 
-      expect(response.body).to include(event.name.capitalize)
-    end
+        expect(response.body).to include(mission.name.capitalize)
+      end
 
-    context 'when a member participate in an event' do
-      it "displays the full name's member" do
-        event = create :mission, event: true
-        create :participation, event_id: event.id, participant_id: member.id
+      it "displays the full name's member when in an event" do
+        create :participation, event_id: mission.id, participant_id: member.id
 
-        get mission_path(event.id)
+        get_show
 
         expect(response.body).to include("#{member.first_name} #{member.last_name}")
       end
     end
+
+    context 'when the mission is not an :event' do
+      let(:mission) { create :mission }
+      let(:i18n_call) do
+        I18n.t 'missions.enrollment_form.detailled_slot',
+               start_time: mission.start_date.strftime('%Hh%M'),
+               end_time: (mission.start_date + 90.minutes).strftime('%Hh%M')
+      end
+
+      let(:i18n_call2) do
+        I18n.t 'missions.enrollment_form.detailled_slot',
+               start_time: (mission.start_date + 90.minutes).strftime('%Hh%M'),
+               end_time: (mission.start_date + 180.minutes).strftime('%Hh%M')
+      end
+
+      it 'show the mission successfully' do
+        get_show
+
+        expect(response).to be_successful
+      end
+
+      it 'displays the checkboxes with time slots' do
+        get_show
+
+        expect(response.body).to include(i18n_call).and include(i18n_call2)
+      end
+
+      it 'displays the full name of members who are enrolled in mission' do
+        mission.slots.first.update(member_id: member.id)
+
+        get_show
+
+        expect(response.body).to include("#{member.first_name} #{member.last_name}")
+      end
+
+      context 'when the time slots are already taked' do # rubocop:disable Layout/NestedGroups
+        it 'display the related checkbox already taked by current member' do
+          mission.slots.first.update(member_id: member.id)
+
+          get_show
+
+          expect(response.body).to include "value=\"#{mission.slots.first.start_time}\" checked=\"checked\""
+        end
+
+        it 'displays an unavailability message when all slots had been taked by others members' do
+          generate_enrollments_on_n_time_slots_on_a_mission(mission, 4)
+
+          get_show
+
+          expect(response.body).not_to include I18n.t('missions.enrollment_form.unavailability')
+        end
+      end
+    end
   end
 
-  describe 'for new form of mission model' do
+  describe 'GET new' do
     it 'renders successfully the template' do
       get new_mission_path
 
@@ -60,357 +114,285 @@ RSpec.describe 'A mission request', type: :request do
     end
   end
 
-  describe 'to create an event' do
-    it 'redirect to the show page of this event' do
-      event_attributes = attributes_for :mission, event: true
+  describe 'Post' do
+    subject(:post_mission) { post missions_path, params: params }
 
-      post missions_path, params: { mission: event_attributes }
-      follow_redirect!
+    context 'when the mission is an :event' do
+      let(:params) { { mission: attributes_for(:mission, event: true) } }
 
-      expect(response.body).to include(event_attributes[:name].capitalize)
-    end
-
-    it "doesn't create any slots" do
-      event_attributes = attributes_for :mission, event: true
-
-      post missions_path, params: { mission: event_attributes }
-
-      expect(Mission.last.slots.size).to eq 0
-    end
-  end
-
-  describe 'to edit an event' do
-    it 'successfully renders the template' do
-      event = create :mission, event: true
-
-      get edit_mission_path(event.id), params: { mission: { id: event.attributes[:id] } }
-
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'to update an event' do
-    it 'successfully updates the record' do
-      event = create :mission, event: true
-
-      put mission_path(event.id), params: { mission: { name: 'updated_event' } }
-      follow_redirect!
-
-      expect(response.body).to include('updated_event'.capitalize)
-    end
-
-    context 'when the user request for an event become a mission' do
-      it 'creates the slot of the mission' do
-        event = create :mission, event: true
-
-        put mission_path(event.id), params: { mission: { name: 'updated_event', event: false } }
+      it 'redirect to the show page of this event' do
+        post_mission
         follow_redirect!
 
-        expect(event.slots).not_to be_empty
+        expect(response.body).to include(params[:mission][:name].capitalize)
       end
 
-      it 'redirects to show mission template' do
-        event = create :mission, event: true
+      it "doesn't create any slots" do
+        post_mission
 
-        put mission_path(event.id), params: { mission: { name: 'updated_event', event: false } }
+        expect(Mission.last.slots.size).to eq 0
+      end
+    end
+
+    context 'when the mission is not an :event' do
+      let(:params) { { mission: attributes_for(:mission) } }
+
+      it 'creates the related beginning slots with the same start time' do
+        post_mission
+
+        expect(Mission.last.slots.where(start_time: params[:mission][:start_date]).count).to eq 4
+      end
+
+      it 'creates the correct number of slots' do
+        post_mission
+
+        expect(Mission.last.slots.size).to eq 8
+      end
+
+      context 'when the mission is recurrent' do # rubocop:disable Layout/NestedGroups
+        let(:params) do
+          { mission: attributes_for(:mission, start_date: DateTime.new(DateTime.now.year,
+                                                                       DateTime.now.month,
+                                                                       DateTime.now.day, 9),
+                                              due_date: DateTime.new(DateTime.now.year,
+                                                                     DateTime.now.month,
+                                                                     DateTime.now.day, 9 + 4.5),
+                                              max_member_count: 4, event: false,
+                                              recurrent: true,
+                                              recurrence_rule: IceCube::Rule.daily.to_json,
+                                              recurrence_end_date: DateTime.now + 3.days) }
+        end
+
+        it 'creates the slots for all missions' do
+          lambda_post_mission = -> { post_mission }
+
+          expect { lambda_post_mission.call }.to change { Mission::Slot.count }.by(48)
+        end
+      end
+
+      context 'when the params are invalids' do # rubocop:disable Layout/NestedGroups
+        it 'warns on duration multiple when duration is not a multiple of 90 minutes' do
+          mission_attributes = attributes_for :mission, start_date: DateTime.current,
+                                                        due_date: DateTime.current + 100.minutes
+
+          post missions_path, params: { mission: mission_attributes }
+          follow_redirect!
+
+          expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.multiple'))
+        end
+
+        it "warns on minimum's duration when the duration is too short" do
+          mission_attributes = attributes_for :mission, start_date: DateTime.current,
+                                                        due_date: DateTime.current
+
+          post missions_path, params: { mission: mission_attributes }
+          follow_redirect!
+
+          expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.minimum'))
+        end
+
+        it "warns on extends's duration when the duration is too large" do
+          mission_attributes = attributes_for :mission, start_date: DateTime.current,
+                                                        due_date: DateTime.current + 900.minutes
+
+          post missions_path, params: { mission: mission_attributes }
+          follow_redirect!
+
+          expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.extend'))
+        end
+      end
+    end
+  end
+
+  describe 'GET edit' do
+    subject(:get_edit) { get edit_mission_path(mission.id), params: { mission: mission.attributes } }
+
+    context 'when the mission is an :event' do
+      let(:mission) { create :mission, event: true }
+
+      it 'has a successful response' do
+        get_edit
+
+        expect(response).to be_successful
+      end
+    end
+
+    context 'when the mission is not an :event' do
+      let(:mission) { create :mission }
+
+      it 'has a successful response' do
+        get_edit
+
+        expect(response).to be_successful
+      end
+    end
+  end
+
+  describe 'update' do
+    subject(:update_mission) { put mission_path(mission.id), params: params }
+
+    context 'when the mission is an :event' do
+      let(:mission) { create :mission, event: true }
+      let(:params) { { mission: { name: 'updated_event' } } }
+
+      it 'successfully updates the record' do
+        update_mission
         follow_redirect!
 
-        expect(response).to render_template(partial: 'missions/_enrollment_form')
+        expect(response.body).to include('updated_event'.capitalize)
       end
-    end
-  end
 
-  describe 'to delete an event' do
-    before do
-      sign_in create :member, :super_admin
-    end
+      context 'when the user request for an event become a mission' do # rubocop:disable Layout/NestedGroups
+        let(:params) { { mission: { name: 'updated_event', event: false } } }
 
-    it 'deletes the event' do
-      event = create :mission, event: true
+        it 'creates the slot of the mission' do
+          update_mission
+          follow_redirect!
 
-      delete mission_path(event.id), params: { mission: { id: event.id } }
+          expect(mission.slots).not_to be_empty
+        end
 
-      expect(Mission.find_by(id: event.id)).to be_nil
-    end
+        it 'redirects to show mission template' do
+          update_mission
+          follow_redirect!
 
-    it 'destroy the related participations' do
-      event = create :mission, event: true
-      participants = create_list :member, 4
-      participants.each { |participant| create :participation, event_id: event.id, participant_id: participant.id }
-
-      delete mission_path(event.id), params: { mission: event.attributes }
-
-      expect(Participation.where(event_id: event.id)).to be_empty
-    end
-  end
-
-  describe 'to show a mission' do
-    it 'show the mission successfully' do
-      mission = create :mission
-
-      get mission_path(mission.id)
-
-      expect(response).to be_successful
-    end
-
-    it 'displays the checkboxes with time slots' do
-      mission = create :mission
-
-      get mission_path(mission.id)
-
-      expect(response.body).to include((I18n.t 'missions.enrollment_form.detailled_slot',
-                                               start_time: mission.start_date.strftime('%Hh%M'),
-                                               end_time: (mission.start_date + 90.minutes).strftime('%Hh%M')))
-                           .and include((I18n.t 'missions.enrollment_form.detailled_slot',
-                                                start_time: (mission.start_date + 90.minutes).strftime('%Hh%M'),
-                                                end_time: (mission.start_date + 180.minutes).strftime('%Hh%M')))
-    end
-
-    context 'when a member take a time slot of an mission' do
-      it 'displays the full name of this member' do
-        mission = create :mission
-        mission.slots.first.update(member_id: member.id)
-
-        get mission_path(mission.id)
-
-        expect(response.body).to include("#{member.first_name} #{member.last_name}")
+          expect(response).to render_template(partial: 'missions/_enrollment_form')
+        end
       end
     end
 
-    context 'when the member have already take a time slot' do
-      it 'display the related checkbox already checked' do
-        mission = create :mission
-        mission.slots.first.update(member_id: member.id)
+    context 'when the mission is not an :event' do
+      let(:mission) { create :mission }
+      let(:params) { { mission: { name: 'updated_mission' } } }
 
-        get mission_path(mission.id)
+      it 'successfully updates the mission' do
+        update_mission
+        follow_redirect!
 
-        expect(response.body).to include "value=\"#{mission.slots.first.start_time}\" checked=\"checked\""
+        expect(response.body).to include('updated_mission'.capitalize)
       end
 
-      context 'when all slots of a time slot are taked by others members' do
-        it "don't display the related checkbox" do
-          mission = create :mission
+      context 'when a mission must become an event' do # rubocop:disable Layout/NestedGroups
+        let(:params) { { mission: { name: 'update_mission', event: true } } }
+
+        it 'deletes the slots' do
+          update_mission
+          follow_redirect!
+
+          expect(mission.slots).to be_empty
+        end
+
+        it 'redirects to show mission template' do
+          update_mission
+          follow_redirect!
+
+          expect(response).to render_template(partial: '_participation_form')
+        end
+      end
+
+      context 'when the duration is extended' do # rubocop:disable Layout/NestedGroups
+        let(:params) { { mission: { name: 'updated_event', due_date: (mission.due_date + 90.minutes) } } }
+
+        it 'adds slots in order to cover the new time slot' do
+          put_mission = -> { update_mission }
+
+          expect { put_mission.call }.to change { mission.reload.slots.count }.by(4)
+        end
+      end
+
+      context 'when the duration is shortened' do # rubocop:disable Layout/NestedGroups
+        let(:params) { { mission: { name: 'updated_event', due_date: (mission.due_date - 90.minutes) } } }
+
+        it 'removes useless slots' do
+          put_mission = -> { update_mission }
+
+          expect { put_mission.call }.to change { mission.reload.slots.count }.by(-4)
+        end
+      end
+
+      context 'when the max_member_count is increased' do # rubocop:disable Layout/NestedGroups
+        let(:params) { { mission: { name: 'updated_event', max_member_count: 5 } } }
+
+        it 'adds slots in order to cover the new count' do
+          put_mission = -> { update_mission }
+
+          expect { put_mission.call }.to change { mission.reload.slots.count }.by(2)
+        end
+      end
+
+      context 'when the max_member_count is reduced' do # rubocop:disable Layout/NestedGroups
+        let(:params) { { mission: { name: 'updated_event', max_member_count: 3 } } }
+
+        it 'removes useless slots' do
+          put_mission = -> { update_mission }
+
+          expect { put_mission.call }.to change { mission.reload.slots.count }.by(-2)
+        end
+
+        it "doesn't remove when slots are occupied" do
           generate_enrollments_on_n_time_slots_on_a_mission(mission, 4)
 
-          get mission_path(mission.id)
+          put_mission = -> { update_mission }
 
-          expect(response.body).not_to include((I18n.t 'missions.show.detailled_slot',
-                                                       start_time: mission.start_date.strftime('%Hh%M'),
-                                                       end_time: (mission.start_date + 90.minutes).strftime('%Hh%M')))
+          expect { put_mission.call }.not_to(change { mission.reload.slots.count })
+        end
+      end
+
+      context 'when we update the start_date field' do # rubocop:disable Layout/NestedGroups
+        let(:new_start_date) { mission.start_date + 7.minutes }
+        let(:params) { { mission: { start_date: new_start_date, due_date: mission.due_date + 7.minutes } } }
+
+        it 'updates the start_time of the related slots' do
+          update_mission
+          mission.reload
+
+          expect(mission.slots.group(:start_time).count.keys).to include(new_start_date, new_start_date + 90.minutes)
+            .and have_attributes(count: 2)
         end
       end
     end
   end
 
-  describe 'to create a mission' do
-    it 'creates the related beginning slots with the same start time' do
-      mission_attributes = attributes_for :mission
+  describe 'delete' do
+    subject(:delete_mission) { delete mission_path(mission.id), params: { mission: { id: mission.id } } }
 
-      post missions_path, params: { mission: mission_attributes }
-
-      expect(Mission.last.slots.where(start_time: mission_attributes[:start_date]).count).to eq 4
-    end
-
-    it 'creates the correct number of slots' do
-      mission_attributes = attributes_for :mission
-
-      post missions_path, params: { mission: mission_attributes }
-
-      expect(Mission.last.slots.size).to eq 8
-    end
-
-    context 'when the mission is recurrent' do
-      let(:generate_recurrent_mission_attributes) do
-        attributes_for :mission, start_date: DateTime.new(DateTime.now.year, DateTime.now.month, DateTime.now.day, 9),
-                                 due_date: DateTime.new(DateTime.now.year, DateTime.now.month, DateTime.now.day, 9 + 4.5),
-                                 max_member_count: 4, event: false,
-                                 recurrent: true,
-                                 recurrence_rule: IceCube::Rule.daily.to_json,
-                                 recurrence_end_date: DateTime.now + 3.days
-      end
-
-      it 'creates the slots for all missions' do
-        recurrent_mission_attributes = generate_recurrent_mission_attributes
-
-        post_mission = -> { post missions_path, params: { mission: recurrent_mission_attributes } }
-
-        expect { post_mission.call }.to change { Mission::Slot.count }.by(48)
-      end
-    end
-
-  end
-
-  describe 'to create a mission with invalid params' do
-    it 'warns on duration multiple when duration is not a multiple of 90 minutes' do
-      mission_attributes = attributes_for :mission, start_date: DateTime.current,
-                                                    due_date: DateTime.current + 100.minutes
-
-      post missions_path, params: { mission: mission_attributes }
-      follow_redirect!
-
-      expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.multiple'))
-    end
-
-    it "warns on minimum's duration when the duration is too short" do
-      mission_attributes = attributes_for :mission, start_date: DateTime.current,
-                                                    due_date: DateTime.current
-
-      post missions_path, params: { mission: mission_attributes }
-      follow_redirect!
-
-      expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.minimum'))
-    end
-
-    it "warns on extends's duration when the duration is too large" do
-      mission_attributes = attributes_for :mission, start_date: DateTime.current,
-                                                    due_date: DateTime.current + 900.minutes
-
-      post missions_path, params: { mission: mission_attributes }
-      follow_redirect!
-
-      expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.extend'))
-    end
-  end
-
-  describe 'to edit mission' do
-    it 'successfully renders the template' do
-      mission = create :mission
-
-      get edit_mission_path(mission.id), params: { mission: { id: mission.id } }
-
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'to update a mission' do
-    it 'successfully updates the mission' do
-      mission = create :mission
-
-      put mission_path(mission.id), params: { mission: { name: :updated_mission } }
-      follow_redirect!
-
-      expect(response.body).to include('updated_mission'.capitalize)
-    end
-
-    context 'when a mission must become an event' do
-      it 'deletes the slots' do
-        mission = create :mission
-
-        put mission_path(mission.id), params: { mission: { name: 'updated_event', event: true } }
-        follow_redirect!
-
-        expect(mission.slots).to be_empty
-      end
-
-      it 'redirects to show mission template' do
-        mission = create :mission
-
-        put mission_path(mission.id), params: { mission: { name: 'updated_event', event: true } }
-        follow_redirect!
-
-        expect(response).to render_template(partial: '_participation_form')
-      end
-    end
-
-    context 'when the duration is extended' do
-      it 'adds slots in order to cover the new time slot' do
-        mission = create :mission
-
-        put_mission = lambda do
-          put mission_path(mission.id), params: { mission: { name: 'updated_event',
-                                                             due_date: (mission.due_date + 90.minutes) } }
-        end
-
-        expect { put_mission.call }.to change { mission.reload.slots.count }.by(4)
-      end
-    end
-
-    context 'when the duration is shortened' do
-      it 'removes useless slots' do
-        mission = create :mission
-
-        put_mission = lambda do
-          put mission_path(mission.id), params: { mission: { name: 'updated_event',
-                                                             due_date: (mission.due_date - 90.minutes) } }
-        end
-
-        expect { put_mission.call }.to change { mission.reload.slots.count }.by(-4)
-      end
-    end
-
-    context 'when the max_member_count is increased' do
-      it 'adds slots in order to cover the new count' do
-        mission = create :mission
-
-        put_mission = lambda do
-          put mission_path(mission.id), params: { mission: { name: 'updated_event',
-                                                             max_member_count: 5 } }
-        end
-
-        expect { put_mission.call }.to change { mission.reload.slots.count }.by(2)
-      end
-    end
-
-    context 'when the max_member_count is reduced' do
-      it 'removes useless slots' do
-        mission = create :mission
-
-        put_mission = lambda do
-          put mission_path(mission.id), params: { mission: { name: 'updated_event',
-                                                             max_member_count: 3 } }
-        end
-
-        expect { put_mission.call }.to change { mission.reload.slots.count }.by(-2)
-      end
-
-      it "doesn't remove when slots are occupied" do
-        mission = create :mission
-        generate_enrollments_on_n_time_slots_on_a_mission(mission, 4)
-
-        put_mission = lambda do
-          put mission_path(mission.id), params: { mission: { name: 'updated_event',
-                                                             max_member_count: 3 } }
-        end
-
-        expect { put_mission.call }.not_to(change { mission.reload.slots.count })
-      end
-    end
-
-    context 'when we update the start_date field' do
-      it 'updates the start_time of the related slots' do
-        mission = create :mission
-        old_start_times = mission.slots.map(&:start_time)
-        new_start_date = mission.start_date + 7.minutes
-
-        put mission_path(mission.id), params: { mission: { start_date: new_start_date, due_date: mission.due_date + 7.minutes } }
-        mission.reload
-
-        old_start_times.each_with_index do |_old_start_time, index|
-          expect(mission.slots[index].start_time).to eq old_start_times[index] + 7.minutes
-        end
-      end
-    end
-  end
-
-  describe 'to delete a mission' do
     before do
       sign_in create :member, :super_admin
     end
 
-    it 'successfully deletes the mission' do
-      mission = create :mission
+    context 'when the mission is an :event' do
+      let(:mission) { create :mission, event: true }
 
-      delete mission_path(mission.id)
+      it 'deletes the event' do
+        delete_mission
 
-      expect(Mission.find_by(id: mission.id)).to eq nil
+        expect(Mission.find_by(id: mission.id)).to be_nil
+      end
+
+      it 'destroy the related participations' do
+        participants = create_list :member, 4
+        participants.each { |participant| create :participation, event_id: mission.id, participant_id: participant.id }
+
+        delete_mission
+
+        expect(Participation.where(event_id: mission.id)).to be_empty
+      end
     end
 
-    it 'deletes the related slots' do
-      mission = create :mission
+    context 'when the is not an :event' do
+      let(:mission) { create :mission }
 
-      delete mission_path(mission.id)
+      it 'successfully deletes the mission' do
+        delete_mission
 
-      expect(mission.slots.reload).to be_empty
+        expect(Mission.find_by(id: mission.id)).to eq nil
+      end
+
+      it 'deletes the related slots' do
+        delete_mission
+
+        expect(mission.slots.reload).to be_empty
+      end
     end
   end
 
