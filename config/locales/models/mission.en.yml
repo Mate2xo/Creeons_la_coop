@@ -19,7 +19,9 @@ en:
         recurrent:
     errors:
       models:
-        validation:
-          duration:
-            multiple: must be a mutiple of 1h30
-            extend: The duration is too large
+        mission:
+          attributes:
+            duration:
+              multiple: must be a mutiple of 1h30
+              extend: The duration is too large
+              minimum: The duration must be higher than 0 minute

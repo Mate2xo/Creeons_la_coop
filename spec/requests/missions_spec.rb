@@ -237,6 +237,39 @@ RSpec.describe 'A mission request', type: :request do
         expect { post_mission.call }.to change { Mission::Slot.count }.by(48)
       end
     end
+
+  end
+
+  describe 'to create a mission with invalid params' do
+    it 'warns on duration multiple when duration is not a multiple of 90 minutes' do
+      mission_attributes = attributes_for :mission, start_date: DateTime.current,
+                                                    due_date: DateTime.current + 100.minutes
+
+      post missions_path, params: { mission: mission_attributes }
+      follow_redirect!
+
+      expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.multiple'))
+    end
+
+    it "warns on minimum's duration when the duration is too short" do
+      mission_attributes = attributes_for :mission, start_date: DateTime.current,
+                                                    due_date: DateTime.current
+
+      post missions_path, params: { mission: mission_attributes }
+      follow_redirect!
+
+      expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.minimum'))
+    end
+
+    it "warns on extends's duration when the duration is too large" do
+      mission_attributes = attributes_for :mission, start_date: DateTime.current,
+                                                    due_date: DateTime.current + 900.minutes
+
+      post missions_path, params: { mission: mission_attributes }
+      follow_redirect!
+
+      expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.extend'))
+    end
   end
 
   describe 'to edit mission' do

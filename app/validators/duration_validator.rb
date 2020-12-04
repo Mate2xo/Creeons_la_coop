@@ -19,7 +19,7 @@ class DurationValidator < ActiveModel::Validator
     duration_in_minutes = (mission.due_date - mission.start_date) / 60
     return true if (duration_in_minutes % 90).zero?
 
-    mission.errors.add :duration, I18n.t('activerecord.errors.models.validation.duration.multiple')
+    mission.errors.add :duration, I18n.t('activerecord.errors.models.mission.attributes.duration.multiple')
     false
   end
 
@@ -27,13 +27,14 @@ class DurationValidator < ActiveModel::Validator
     duration_in_minutes = (mission.due_date - mission.start_date) / 60
     return true if duration_in_minutes < 360
 
-    mission.errors.add :duration, I18n.t('activerecord.errors.models.validation.duration.extend')
+    mission.errors.add :duration, I18n.t('activerecord.errors.models.mission.attributes.duration.extend')
     false
   end
 
   def duration_minimum(mission)
     return true if mission.due_date > mission.start_date
 
+    mission.errors.add :duration, I18n.t('activerecord.errors.models.mission.attributes.duration.minimum')
     false
   end
 end

@@ -19,7 +19,9 @@ fr:
         recurrent: Créneau récurrent
     errors:
       models:
-        validation:
-          duration:
-            multiple: doit être un multiple de 1h30
-            extend: La durée de la mission est trop grande
+        mission:
+          attributes:
+            duration:
+              multiple: doit être un multiple de 1h30
+              extend: La durée de la mission est trop grande
+              minimum: La mission doit durer au moins une minute
