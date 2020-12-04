@@ -1,5 +1,7 @@
 fr:
   activerecord:
     errors:
-      slot:
-        unavailability: Le créneau %{start_time} n'est plus disponible
+      models:
+        slot:
+          messages:
+            unavailability: Le créneau %{start_time} n est plus disponible
