@@ -20,8 +20,10 @@ fr:
     errors:
       models:
         mission:
+          messages:
+            insufficient_proficiency: Votre maîtrise de la caisse est insuffisante pour prendre la dernière place du créneau de %{start_time} à %{end_time}
           attributes:
             duration:
-              multiple: doit être un multiple de 1h30
+              multiple: La durée doit être un multiple de 1h30
               extend: La durée de la mission est trop grande
               minimum: La mission doit durer au moins une minute

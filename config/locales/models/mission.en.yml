@@ -20,6 +20,8 @@ en:
     errors:
       models:
         mission:
+          messages:
+            insufficient_proficiency: Your cash register proficiency is insufficient to take the last slot of time from %{start_time.strftime('%Hh%M')} to %{(start_time + 90.minutes).strftime('%Hh%M')}
           attributes:
             duration:
               multiple: must be a mutiple of 1h30
