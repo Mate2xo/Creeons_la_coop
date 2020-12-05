@@ -52,6 +52,8 @@ class Mission < ApplicationRecord
   accepts_nested_attributes_for :participations, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :slots, reject_if: :all_blank, allow_destroy: true
 
+  enum cash_register_proficiency_requirement: { untrained: 0, beginner: 1, proficient: 2 }
+
   # Virtual attributes
   attr_accessor :recurrence_rule
   attr_accessor :recurrence_end_date
