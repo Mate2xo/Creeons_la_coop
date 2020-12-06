@@ -2,11 +2,8 @@
 
 # JSON formatted for use in the FullCalendar plugin (JS)
 json.array! @missions do |mission|
-  if mission.event
-    members = mission.participants
-  else
-    members = mission.members.uniq
-  end
+  members = mission.event ? mission.participants : mission.members.uniq
+
   json.id mission.id
   json.title mission.name
   json.start mission.start_date

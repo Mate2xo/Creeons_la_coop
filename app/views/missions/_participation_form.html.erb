@@ -3,7 +3,7 @@
     <%= translate ".quick_participation" %>
   </h4>
   <%= f.hidden_field :member_id, value: current_member.id %>
-  <% if @mission.participants.select { |m| m.id == current_member.id }.present? %>
+  <% if @mission.participants.include? current_member %>
     <%= link_to translate(".stop_participate_button"),
       mission_participations_path(@mission.id),
       method: "DELETE",
