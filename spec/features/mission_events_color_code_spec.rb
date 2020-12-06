@@ -8,8 +8,6 @@ RSpec.configure do |c|
 end
 
 RSpec.describe 'Mission events color codes:', type: :feature do
-  let(:current_member) { create :member, first_name: 'jack' }
-
   let(:create_mission_with_slots) do
     create :mission, name: 'my_mission',
                      max_member_count: 4,
@@ -17,7 +15,7 @@ RSpec.describe 'Mission events color codes:', type: :feature do
                      with_slots: true
   end
 
-  before { sign_in current_member }
+  before { sign_in create :member }
 
   context "when a delivery is expected at the shop" do
     it "shows a truck icon on the mission event", js: true do
@@ -64,15 +62,15 @@ RSpec.describe 'Mission events color codes:', type: :feature do
     end
   end
 
-  context "when a member enrolls for a smaller duration than the full mission duration" do
+  context 'when a member enrolls for a smaller duration than the full mission duration' do
     it "shows the member's name in light blue", js: true do
       mission = create_mission_with_slots
-      jack = create :member, first_name: 'jack'
-      enroll(mission, jack)
+      other_member = create :member
+      enroll(mission, other_member)
 
       visit mission_path(mission.id)
 
-      expect(find("#member_#{jack.id}")).to have_css('.bg-info')
+      expect(find("#member_#{other_member.id}")).to have_css('.bg-info')
     end
   end
 end
