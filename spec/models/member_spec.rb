@@ -173,14 +173,10 @@ RSpec.describe Member, type: :model do
 
   describe '#monthly_worked_hours' do
     context 'when a member shares the same register_id with his/her family' do
-      let(:create_member) { create :member, register_id: 1234 }
-      let(:create_family_member) { create :member, register_id: 1234 }
-      let(:create_mission_with_slots) { create :mission, name: 'my_mission', max_member_count: 4, event: false, with_slots: true }
-
       it "affects every family members' worked hours count" do
-        member = create_member
-        mission = create_mission_with_slots
-        family_member = create_family_member
+        member = create :member, register_id: 1234
+        family_member = create :member, register_id: 1234
+        mission = create :mission, name: 'my_mission', max_member_count: 4, event: false, with_slots: true
 
         mission.slots.first.update(member_id: member.id)
 
@@ -189,10 +185,8 @@ RSpec.describe Member, type: :model do
     end
 
     context 'when a member participate on an event' do
-      let(:create_member) { create :member }
-
       it 'ignores these hours' do
-        participant = create_member
+        participant = create :member
 
         create :participation, participant: participant
 
