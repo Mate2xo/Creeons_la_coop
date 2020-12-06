@@ -35,13 +35,13 @@ RSpec.describe 'Slots request', type: :request do
       end
     end
 
-    context 'when the one time slots are unavailable' do
+    context 'when one of the time slots is unavailable' do
       let(:slot_params) do
         { slot: { member_id: member.id,
                   start_times: [mission.start_date, mission.start_date + 90.minutes] } }
       end
 
-      it "don't update any slots" do
+      it 'does not update any slot' do
         generate_enrollments_on_n_time_slots_of_a_mission(mission, 4)
         mission.slots.find_by(start_time: mission.start_date).update(member_id: nil)
 

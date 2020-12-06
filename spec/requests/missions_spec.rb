@@ -86,7 +86,7 @@ RSpec.describe 'A Mission request', type: :request do
         expect(response.body).to include("#{member.first_name} #{member.last_name}")
       end
 
-      context 'when the time slots are already taked' do # rubocop:disable Layout/NestedGroups
+      context 'when the time slots are already taken' do # rubocop:disable Layout/NestedGroups
         it 'display the related checkbox already taked by current member' do
           mission.slots.first.update(member_id: member.id)
 
@@ -114,7 +114,7 @@ RSpec.describe 'A Mission request', type: :request do
     end
   end
 
-  describe 'Post' do
+  describe 'Post create' do
     subject(:post_mission) { post missions_path, params: params }
 
     context 'when the mission is an :event' do
@@ -164,9 +164,7 @@ RSpec.describe 'A Mission request', type: :request do
         end
 
         it 'creates the slots for all missions' do
-          lambda_post_mission = -> { post_mission }
-
-          expect { lambda_post_mission.call }.to change { Mission::Slot.count }.by(48)
+          expect { post_mission }.to change { Mission::Slot.count }.by(48)
         end
       end
 
@@ -303,9 +301,7 @@ RSpec.describe 'A Mission request', type: :request do
         let(:params) { { mission: { name: 'updated_event', due_date: (mission.due_date + 90.minutes) } } }
 
         it 'adds slots in order to cover the new time slot' do
-          put_mission = -> { update_mission }
-
-          expect { put_mission.call }.to change { mission.reload.slots.count }.by(4)
+          expect { put_mission }.to change { mission.reload.slots.count }.by(4)
         end
       end
 
@@ -313,9 +309,7 @@ RSpec.describe 'A Mission request', type: :request do
         let(:params) { { mission: { name: 'updated_event', due_date: (mission.due_date - 90.minutes) } } }
 
         it 'removes useless slots' do
-          put_mission = -> { update_mission }
-
-          expect { put_mission.call }.to change { mission.reload.slots.count }.by(-4)
+          expect { put_mission }.to change { mission.reload.slots.count }.by(-4)
         end
       end
 
@@ -323,9 +317,7 @@ RSpec.describe 'A Mission request', type: :request do
         let(:params) { { mission: { name: 'updated_event', max_member_count: 5 } } }
 
         it 'adds slots in order to cover the new count' do
-          put_mission = -> { update_mission }
-
-          expect { put_mission.call }.to change { mission.reload.slots.count }.by(2)
+          expect { put_mission }.to change { mission.reload.slots.count }.by(2)
         end
       end
 
@@ -333,17 +325,13 @@ RSpec.describe 'A Mission request', type: :request do
         let(:params) { { mission: { name: 'updated_event', max_member_count: 3 } } }
 
         it 'removes useless slots' do
-          put_mission = -> { update_mission }
-
-          expect { put_mission.call }.to change { mission.reload.slots.count }.by(-2)
+          expect { put_mission }.to change { mission.reload.slots.count }.by(-2)
         end
 
         it "doesn't remove when slots are occupied" do
           generate_enrollments_on_n_time_slots_on_a_mission(mission, 4)
 
-          put_mission = -> { update_mission }
-
-          expect { put_mission.call }.not_to(change { mission.reload.slots.count })
+          expect { put_mission }.not_to(change { mission.reload.slots.count })
         end
       end
 
@@ -388,7 +376,7 @@ RSpec.describe 'A Mission request', type: :request do
       end
     end
 
-    context 'when the is not an :event' do
+    context 'when the mission is not an :event' do
       let(:mission) { create :mission }
 
       it 'successfully deletes the mission' do
