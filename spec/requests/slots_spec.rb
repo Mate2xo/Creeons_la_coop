@@ -43,7 +43,7 @@ RSpec.describe 'Slots request', type: :request do
 
       it "don't update any slots" do
         generate_enrollments_on_n_time_slots_of_a_mission(mission, 4)
-        mission.slots.find_by(start_time: mission.start_date)
+        mission.slots.find_by(start_time: mission.start_date).update(member_id: nil)
 
         put mission_slot_path(mission.id, mission.slots.first.id), params: slot_params
 

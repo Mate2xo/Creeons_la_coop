@@ -15,7 +15,7 @@ RSpec.describe 'A Mission request', type: :request do
   describe 'GET index' do
     subject(:get_index) { get missions_path }
 
-    it 'successfully renders the list' do
+    it 'has a successful response' do
       create :mission
       create :mission, event: true
 
@@ -31,7 +31,7 @@ RSpec.describe 'A Mission request', type: :request do
     context 'when the mission is an :event' do
       let(:mission) { create :mission, event: true }
 
-      it 'renders successfully the template' do
+      it 'has a successful response' do
         get_show
 
         expect(response).to be_successful
@@ -66,7 +66,7 @@ RSpec.describe 'A Mission request', type: :request do
                end_time: (mission.start_date + 180.minutes).strftime('%Hh%M')
       end
 
-      it 'show the mission successfully' do
+      it 'has a successful' do
         get_show
 
         expect(response).to be_successful
@@ -107,7 +107,7 @@ RSpec.describe 'A Mission request', type: :request do
   end
 
   describe 'GET new' do
-    it 'renders successfully the template' do
+    it 'has a successful response' do
       get new_mission_path
 
       expect(response).to be_successful
@@ -277,7 +277,6 @@ RSpec.describe 'A Mission request', type: :request do
 
         it 'deletes the slots' do
           update_mission
-          follow_redirect!
 
           expect(mission.slots).to be_empty
         end
@@ -287,6 +286,16 @@ RSpec.describe 'A Mission request', type: :request do
           follow_redirect!
 
           expect(response).to render_template(partial: '_participation_form')
+        end
+
+        context 'when the params are invalids' do # rubocop:disable Layout/NestedGroups
+          let(:params) { { mission: { name: '', event: true } } }
+
+          it "don't delete the slots" do
+            update_mission
+
+            expect(mission.slots).not_to be_empty
+          end
         end
       end
 

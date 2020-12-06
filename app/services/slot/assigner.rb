@@ -16,9 +16,10 @@ class Slot::Assigner < ApplicationService
     Mission::Slot.transaction do
       update_slots_in_order_to_remove_these_from_member
       update_slots_in_order_to_give_these_to_member
-      raise ActiveRecord::Rollback if @errors.any?
-    rescue ActiveRecord::Rollback
-      all_is_ok = false
+      if @errors.any?
+        all_is_ok = false
+        raise ActiveRecord::Rollback
+      end
     end
 
     all_is_ok

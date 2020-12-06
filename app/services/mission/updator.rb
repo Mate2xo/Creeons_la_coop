@@ -26,30 +26,27 @@ class Mission::Updator < ApplicationService
   end
 
   def transform_to_event
-    all_is_ok = true
     Mission::Slot.transaction do
       @mission.slots.destroy_all
       @mission.update!(@params)
-    rescue ActiveRecord::RecordInvalid
-      all_is_ok = false
     end
-    all_is_ok
+    true
+  rescue ActiveRecord::RecordInvalid
+    false
   end
 
   def transform_to_mission
-    all_is_ok = true
     Mission::Slot.transaction do
       @mission.participations.destroy_all
       @mission.update!(@params)
       ::Slot::Generator.call(@mission.reload)
-    rescue ActiveRecord::RecordInvalid
-      all_is_ok = false
     end
-    all_is_ok
+    true
+  rescue ActiveRecord::RecordInvalid
+    false
   end
 
   def update_mission
-    all_is_ok = true
     Mission::Slot.transaction do
       update_start_times if @new_start_date != @mission.start_date
       add_new_slots_in_order_to_cover_new_max_member_count if @new_max_member_count > @mission.max_member_count
@@ -57,10 +54,10 @@ class Mission::Updator < ApplicationService
       add_new_slots_in_order_to_cover_new_duration if @new_duration > @mission.duration
       remove_useless_slots if @new_duration < @mission.duration
       @mission.update!(@params)
-    rescue ActiveRecord::RecordInvalid
-      all_is_ok = false
     end
-    all_is_ok
+    true
+  rescue ActiveRecord::RecordInvalid
+    false
   end
 
   def update_start_times
@@ -82,13 +79,12 @@ class Mission::Updator < ApplicationService
 
   def check_availibility_for_remove
     difference_between_max_members_count = @mission.max_member_count - @new_max_member_count
-    duration_in_time_slot = (@mission.duration / 60 / 90).to_int
     available_slots_by_time_slot = Mission::Slot.where(mission_id: @mission.id, member_id: nil)
                                                 .order(:start_time)
                                                 .group(:start_time)
                                                 .count
 
-    check = available_slots_by_time_slot.all? { |_key, count| count >= duration_in_time_slot }
+    check = available_slots_by_time_slot.all? { |_key, count| count >= difference_between_max_members_count }
     @errors.push(t('missions.errors.max_members_count.impossibility_of_reducing')) unless check
     check
   end
