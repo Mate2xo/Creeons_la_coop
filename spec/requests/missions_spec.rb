@@ -301,7 +301,7 @@ RSpec.describe 'A Mission request', type: :request do
         let(:params) { { mission: { name: 'updated_event', due_date: (mission.due_date + 90.minutes) } } }
 
         it 'adds slots in order to cover the new time slot' do
-          expect { put_mission }.to change { mission.reload.slots.count }.by(4)
+          expect { update_mission }.to change { mission.reload.slots.count }.by(4)
         end
       end
 
@@ -309,7 +309,7 @@ RSpec.describe 'A Mission request', type: :request do
         let(:params) { { mission: { name: 'updated_event', due_date: (mission.due_date - 90.minutes) } } }
 
         it 'removes useless slots' do
-          expect { put_mission }.to change { mission.reload.slots.count }.by(-4)
+          expect { update_mission }.to change { mission.reload.slots.count }.by(-4)
         end
       end
 
@@ -317,7 +317,7 @@ RSpec.describe 'A Mission request', type: :request do
         let(:params) { { mission: { name: 'updated_event', max_member_count: 5 } } }
 
         it 'adds slots in order to cover the new count' do
-          expect { put_mission }.to change { mission.reload.slots.count }.by(2)
+          expect { update_mission }.to change { mission.reload.slots.count }.by(2)
         end
       end
 
@@ -325,13 +325,13 @@ RSpec.describe 'A Mission request', type: :request do
         let(:params) { { mission: { name: 'updated_event', max_member_count: 3 } } }
 
         it 'removes useless slots' do
-          expect { put_mission }.to change { mission.reload.slots.count }.by(-2)
+          expect { update_mission }.to change { mission.reload.slots.count }.by(-2)
         end
 
         it "doesn't remove when slots are occupied" do
           generate_enrollments_on_n_time_slots_on_a_mission(mission, 4)
 
-          expect { put_mission }.not_to(change { mission.reload.slots.count })
+          expect { update_mission }.not_to(change { mission.reload.slots.count })
         end
       end
 
