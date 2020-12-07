@@ -1,9 +1,21 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'support/helpers/slot_enrollment.rb'
 
-RSpec.describe "Mission events color codes:", type: :feature do
-  before { sign_in create(:member) }
+RSpec.configure do |c|
+  c.include Helpers::SlotEnrollment
+end
+
+RSpec.describe 'Mission events color codes:', type: :feature do
+  let(:create_mission_with_slots) do
+    create :mission, name: 'my_mission',
+                     max_member_count: 4,
+                     event: false,
+                     with_slots: true
+  end
+
+  before { sign_in create :member }
 
   context "when a delivery is expected at the shop" do
     it "shows a truck icon on the mission event", js: true do
@@ -50,15 +62,15 @@ RSpec.describe "Mission events color codes:", type: :feature do
     end
   end
 
-  context "when a member enrolls for a smaller duration than the full mission duration" do
+  context 'when a member enrolls for a smaller duration than the full mission duration' do
     it "shows the member's name in light blue", js: true do
-      mission = create :mission
-      jack = create :member, first_name: 'Jack'
-      create :enrollment, :one_hour, mission: mission, member: jack
+      mission = create_mission_with_slots
+      other_member = create :member
+      enroll(mission, other_member)
 
       visit mission_path(mission.id)
 
-      expect(find("#member_#{jack.id}")).to have_css('.bg-info')
+      expect(find("#member_#{other_member.id}")).to have_css('.bg-info')
     end
   end
 end

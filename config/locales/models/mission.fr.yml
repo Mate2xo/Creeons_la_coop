@@ -1,0 +1,27 @@
+fr:
+  activerecord:
+    models:
+      mission:
+        one: Mission
+        other: Missions
+    attributes:
+      mission:
+        author: Auteur
+        description: Description
+        duration: Durée
+        due_date: Date et heure limite
+        delivery_expected: Livraison attendue
+        event: Évènement
+        max_member_count: Nombre maximum de participants
+        min_member_count: Nombre minimum de personnes souhaitées
+        name: Nom
+        start_date: Date et heure de début
+        recurrent: Créneau récurrent
+    errors:
+      models:
+        mission:
+          attributes:
+            duration:
+              multiple: doit être un multiple de 1h30
+              extend: La durée de la mission est trop grande
+              minimum: La mission doit durer au moins une minute

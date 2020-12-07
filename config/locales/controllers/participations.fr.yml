@@ -1,0 +1,8 @@
+fr:
+  participations:
+    create:
+      confirm_participation: La participation est sauvegardée
+      participation_error: "L'opération a échoué : %{errors}"
+    destroy:
+      remove_participation: La participation a été effacée
+

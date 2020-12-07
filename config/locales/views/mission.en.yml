@@ -1,9 +1,18 @@
 en:
   missions:
+    participants: participants
     form:
-      enroll_another_member: Enroll another member
+      add_another_member: Enroll another member
       enrolled_members: Enrolled members
-    enrollment_fields:
+    participation_fields:
       delete_button: Disenroll this member
     show:
-      quick_enroll: Quick enroll
+      participants:
+    participation_form:
+      quick_participation: Participate
+      participate_button: Participate in this event
+      stop_participate_button: Stop participate in this event
+    enrollment_form:
+      detailled_slot: De %{start_time} à %{end_time}
+      button_enroll_to_slots: update enrollment
+      unavailability_time_slot: There is no more time slot available

@@ -45,8 +45,6 @@ fr:
         show:
           addresses: Lieux
           attendees: Participants
-          button_enroll: S'inscrire sur ce créneau
-          button_disenroll: Se désinscrire de ce créneau
           enroll: Inscription
           from: de
           to: à

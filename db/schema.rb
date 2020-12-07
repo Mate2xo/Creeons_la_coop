@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_27_155849) do
+ActiveRecord::Schema.define(version: 2020_11_23_171218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,10 +76,12 @@ ActiveRecord::Schema.define(version: 2020_10_27_155849) do
 
   create_table "enrollments", force: :cascade do |t|
     t.bigint "member_id", null: false
-    t.bigint "mission_id", null: false
+    t.bigint "mission_id"
     t.time "start_time"
     t.time "end_time"
+    t.bigint "mission_slot_id"
     t.index ["mission_id"], name: "index_enrollments_on_mission_id"
+    t.index ["mission_slot_id"], name: "index_enrollments_on_mission_slot_id"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -172,6 +174,16 @@ ActiveRecord::Schema.define(version: 2020_10_27_155849) do
     t.bigint "productor_id", null: false
   end
 
+  create_table "mission_slots", force: :cascade do |t|
+    t.datetime "start_time"
+    t.bigint "mission_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "member_id"
+    t.index ["member_id"], name: "index_mission_slots_on_member_id"
+    t.index ["mission_id"], name: "index_mission_slots_on_mission_id"
+  end
+
   create_table "missions", force: :cascade do |t|
     t.string "name", null: false
     t.text "description", null: false
@@ -191,6 +203,15 @@ ActiveRecord::Schema.define(version: 2020_10_27_155849) do
   create_table "missions_productors", id: false, force: :cascade do |t|
     t.bigint "mission_id", null: false
     t.bigint "productor_id", null: false
+  end
+
+  create_table "participations", force: :cascade do |t|
+    t.bigint "event_id"
+    t.bigint "participant_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_participations_on_event_id"
+    t.index ["participant_id"], name: "index_participations_on_participant_id"
   end
 
   create_table "productors", force: :cascade do |t|
@@ -436,12 +457,17 @@ ActiveRecord::Schema.define(version: 2020_10_27_155849) do
 
   add_foreign_key "addresses", "members"
   add_foreign_key "addresses", "productors"
+  add_foreign_key "enrollments", "mission_slots"
   add_foreign_key "group_managers", "groups", column: "managed_group_id"
   add_foreign_key "group_managers", "members", column: "manager_id"
   add_foreign_key "group_members", "groups"
   add_foreign_key "group_members", "members"
   add_foreign_key "infos", "members", column: "author_id"
+  add_foreign_key "mission_slots", "members"
+  add_foreign_key "mission_slots", "missions"
   add_foreign_key "missions", "members", column: "author_id"
+  add_foreign_key "participations", "members", column: "participant_id"
+  add_foreign_key "participations", "missions", column: "event_id"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards", on_delete: :cascade
   add_foreign_key "thredded_messageboard_users", "thredded_user_details", on_delete: :cascade
   add_foreign_key "thredded_user_post_notifications", "members", column: "user_id", on_delete: :cascade

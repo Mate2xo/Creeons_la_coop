@@ -46,23 +46,38 @@ ActiveAdmin.register Mission do
       row :event
     end
 
-    panel 'Participants' do
-      table_for resource.enrollments do
-        column :member
-        column(:start_time) do |enrollment| enrollment.start_time.strftime('%H:%M') end
-        column(:end_time) do |enrollment| enrollment.end_time.strftime('%H:%M') end
-        column 'actions' do |enrollment|
-          link_to(t('active_admin.edit'), edit_admin_mission_enrollment_path(mission, enrollment)) +
-            ' ' +
-            link_to(t('active_admin.delete'), admin_mission_enrollment_path(mission, enrollment), method: :delete)
+    if resource.event
+      panel 'Participants' do
+        table_for resource.participations do
+          column :participant
+          column(:start_time) do mission.start_date.strftime('%H:%M') end
+          column(:end_time) do mission.due_date.strftime('%H:%M') end
+          column 'actions' do |participation|
+            link_to(t('active_admin.delete'), admin_mission_participation_path(mission, participation), method: :delete)
+          end
+        end
+      end
+    else
+      panel 'Slots' do
+        table_for resource.slots.order(:start_time, :member_id) do
+          column(:member)
+          column(:start_time) { |slot| slot.start_time.strftime('%H:%M') }
+          column(:end_time) { |slot| (slot.start_time + 90.minutes).strftime('%H:%M') }
+          column 'actions' do |slot|
+            link_to(t('active_admin.edit'), edit_admin_mission_slot_path(mission, slot)) +
+              ' ' +
+              link_to(t('active_admin.delete'), admin_mission_slot_path(mission, slot), method: :delete)
+          end
         end
       end
     end
   end
 
   action_item :create_enrollment, only: :show do
-    link_to t('active_admin.new_model', model: Enrollment.model_name.human),
-            new_admin_mission_enrollment_path(resource)
+    if resource.event
+      link_to t('active_admin.new_model', model: Participation.model_name.human),
+        new_admin_mission_participation_path(resource)
+    end
   end
 end
 # rubocop: enable Metrics/BlockLength
