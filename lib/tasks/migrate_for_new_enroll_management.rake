@@ -41,18 +41,21 @@ def check_event_data_consistency
 end
 
 def check_mission_data_consistency # rubocop:disable Metrics/AbcSize
-  valid = true
+  invalid_records = []
   Mission.where(event: false).each do |mission|
     members_ids_by_enrollments = Enrollment.where(mission_id: mission.id).select(:member_id)
                                            .group(:member_id).count.keys.sort
     members_ids_by_slots = Mission::Slot.where(mission_id: mission.id).select(:member_id)
                                         .group(:member_id).count.keys.reject(&:nil?).sort
-    valid = false if members_ids_by_enrollments != members_ids_by_slots
-    puts "members_ids by enrollments #{members_ids_by_enrollments} and members ids by slots #{members_ids_by_slots} and
-    mission_id #{mission.id}
-    valid: #{members_ids_by_enrollments == members_ids_by_slots}"
+    next if members_ids_by_enrollments == members_ids_by_slots
+
+    invalid_records << "members_ids by enrollments #{members_ids_by_enrollments} and members ids by slots
+    #{members_ids_by_slots} and mission_id #{mission.id} valid: false"
   end
-  fail_message unless valid
+  if invalid_records.any?
+    fail_message
+    puts invalid_records
+  end
   success_message
 end
 
