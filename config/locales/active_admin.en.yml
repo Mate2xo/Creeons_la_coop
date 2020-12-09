@@ -57,6 +57,7 @@ en:
     resource: 
       index:
         worked_hours: "Hours worked in last three months"
+        schedule: 'Generate a schedule'
     scopes:
       all: "All"
     search_status:

@@ -91,5 +91,19 @@ ActiveAdmin.register Mission do
               new_admin_mission_participation_path(resource)
     end
   end
+
+  action_item :generate_schedule, only: :index do
+    link_to t('.schedule'), generate_schedule_admin_missions_path, method: :post
+  end
+
+  collection_action :generate_schedule, method: :post do
+    schedule_generator = ScheduleGenerator.new
+    if schedule_generator.generate_schedule
+      flash[:notice] = 'success'
+    else
+      flash[:error] = schedule_generator.errors.join(', ')
+    end
+    redirect_to collection_path
+  end
 end
 # rubocop: enable Metrics/BlockLength
