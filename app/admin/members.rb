@@ -16,7 +16,8 @@ ActiveAdmin.register Member do
                 :password_confirmation,
                 :cash_register_proficiency,
                 :register_id,
-                group_ids: []
+                group_ids: [],
+                static_slot_ids: []
 
   decorate_with MemberDecorator
 
@@ -62,6 +63,13 @@ ActiveAdmin.register Member do
   end
 
   form do |f|
+    static_slots_for_collection = StaticSlot.all.map do |static_slot|
+      ["#{StaticSlot.human_enum_name('week_day', static_slot.week_day)}
+       #{static_slot.hour}h#{static_slot.minute}
+       #{t('activerecord.attributes.static_slot.week_type')} #{static_slot.week_type}",
+       static_slot.id]
+    end
+
     f.inputs :first_name,
              :last_name,
              :email,
@@ -72,6 +80,7 @@ ActiveAdmin.register Member do
              :register_id,
              :biography
     f.input :groups, as: :check_boxes
+    f.input :static_slots, as: :check_boxes, collection: static_slots_for_collection
     actions
   end
 

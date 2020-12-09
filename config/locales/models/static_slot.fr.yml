@@ -1,0 +1,21 @@
+fr:
+  activerecord:
+    models:
+      static_slot:
+        one: Créneau fixe
+        other: Créneaux fixes
+    attributes:
+      static_slot:
+        hour: heure
+        hours: horaires
+        minute: minute
+        week_day: jour de la semaine
+        week_days:
+          monday: lundi
+          tuesday: mardi
+          wednesday: mercredi
+          thursday: jeudi
+          friday: vendredi
+          saturday: samedi
+          sunday: dimanche
+        week_type: type de semaine

@@ -1,0 +1,21 @@
+en:
+  activerecord:
+    models:
+      static_slot:
+        one: Static slot
+        other: Static slots
+    attributes:
+      static_slot:
+        hour: heure
+        hours: hours
+        minute: minute
+        week_day: week day
+        week_days:
+          monday: monday
+          tuesday: tuesday
+          wednesday: wednesday
+          thursday: thursday
+          friday: friday
+          saturday: saturday
+          sunday: sunday
+        week_type: week type
