@@ -41,6 +41,10 @@ fr:
       index:
         worked_hours: 'Heures travaillées ces trois derniers mois'
         schedule: 'Générer un planning'
+      show:
+        week: 'semaine'
+      edit:
+        week: 'semaine'
     search_status:
       headline: "Statut de la recherche :"
       current_scope: "Etendu du filtre :"

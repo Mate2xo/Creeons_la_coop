@@ -59,17 +59,15 @@ ActiveAdmin.register Member do
           link_to Arbre::Context.new { (status_tag class: 'important', label: group.name) }, [:admin, group]
         end
       end
+      table_for member.static_slots do
+        column 'static_slots' do |static_slot|
+          static_slot.full_display
+        end
+      end
     end
   end
 
-  form do |f|
-    static_slots_for_collection = StaticSlot.all.map do |static_slot|
-      ["#{StaticSlot.human_enum_name('week_day', static_slot.week_day)}
-       #{static_slot.hour}h#{static_slot.minute}
-       #{t('activerecord.attributes.static_slot.week_type')} #{static_slot.week_type}",
-       static_slot.id]
-    end
-
+  form decorate: true do |f|
     f.inputs :first_name,
              :last_name,
              :email,
@@ -80,7 +78,7 @@ ActiveAdmin.register Member do
              :register_id,
              :biography
     f.input :groups, as: :check_boxes
-    f.input :static_slots, as: :check_boxes, collection: static_slots_for_collection
+    f.input :static_slots, as: :check_boxes, collection: StaticSlot.all.map { |static_slot| [static_slot.decorate.full_display, static_slot.id] }
     actions
   end
 

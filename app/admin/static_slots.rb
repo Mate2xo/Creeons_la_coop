@@ -2,16 +2,25 @@
 
 ActiveAdmin.register StaticSlot do
   permit_params :week_day, :hour, :minute, :week_type, static_slot_ids: []
+
+  decorate_with StaticSlotDecorator
+
   index do
     selectable_column
     column(:week_day) { |resource| StaticSlot.human_enum_name('week_day', resource.week_day) }
-    column(:hours) { |resource| "#{resource.hour}h#{resource.minute}" }
+    column(:hours) { |resource| resource.hour_display }
     column :week_type
     actions
   end
 
   show do
-    default_main_content
+    attributes_table_for resource do
+      row(:week_day)
+      row(:hours) { resource.hour_display }
+      row(:week_type)
+      row(:created_at)
+      row(:updated_at)
+    end
     table_for resource.members do
       column Member.model_name.human do |member|
         link_to "#{member.last_name} #{member.first_name}", [:admin, member]

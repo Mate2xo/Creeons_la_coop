@@ -58,6 +58,10 @@ en:
       index:
         worked_hours: "Hours worked in last three months"
         schedule: 'Generate a schedule'
+      show:
+        week: 'week'
+      edit:
+        week: 'week'
     scopes:
       all: "All"
     search_status:
