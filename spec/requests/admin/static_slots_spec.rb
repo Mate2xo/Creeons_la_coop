@@ -14,7 +14,7 @@ RSpec.describe 'A StaticSlot request', type: :request do
   end
 
   describe 'GET show' do
-    subject(:get_show) { get admin_static_slots_path(static_slot.id) }
+    subject(:get_show) { get admin_static_slot_path(static_slot.id) }
 
     let(:static_slot) { create :static_slot }
 
@@ -30,7 +30,6 @@ RSpec.describe 'A StaticSlot request', type: :request do
       members = attribute_static_slot_to_n_members(static_slot, 4)
 
       get_show
-      follow_redirect!
 
       expect(response.body).to include(members[0].first_name).and include(members[1].first_name)
         .and include(members[2].first_name)
@@ -40,7 +39,6 @@ RSpec.describe 'A StaticSlot request', type: :request do
   describe 'GET new' do
     it 'has a successful response' do
       get new_admin_static_slot_path
-      follow_redirect!
 
       expect(response).to be_successful
     end
@@ -48,22 +46,14 @@ RSpec.describe 'A StaticSlot request', type: :request do
 
   describe 'POST StaticSlot' do
     subject(:post_static_slot) do
-      post admin_static_slot_path,
+      post admin_static_slots_path,
            params: { static_slot: static_slot_params }
     end
 
     let(:static_slot_params) { attributes_for :static_slot }
 
     it 'creates a static_slot with success' do
-      post_static_slot
-
-      expect { post_static_slot }.to change(StaticSlot.count).by(1)
-    end
-
-    it 'redirects to calendar location index' do
-      post_static_slot
-
-      expect { response }.to redirect_to(admin_static_slots_path)
+      expect { post_static_slot }.to change(StaticSlot, :count).by(1)
     end
   end
 
@@ -74,7 +64,6 @@ RSpec.describe 'A StaticSlot request', type: :request do
 
     it 'has a successful response' do
       get_edit
-      follow_redirect!
 
       expect(response).to be_successful
     end
@@ -98,7 +87,7 @@ RSpec.describe 'A StaticSlot request', type: :request do
 
   describe 'DELETE StaticSlot' do
     subject(:delete_static_slot) do
-      delete admin_static_slot_path(static_slot.id)
+      delete admin_static_slot_path(static_slot.id), params: { static_slot: { id: static_slot.id } }
     end
 
     let(:static_slot) { create :static_slot }
@@ -106,15 +95,22 @@ RSpec.describe 'A StaticSlot request', type: :request do
     it 'deletes' do
       delete_static_slot
 
-      expect(delete_static_slot.reload).to eq nil
+      expect(StaticSlot.find_by(id: static_slot.id)).to be_nil
     end
 
-    it 'nullifies :static_slot_id of the related members' do
+    it 'removes association with related members' do
       members = attribute_static_slot_to_n_members(static_slot, 4)
 
       delete_static_slot
 
-      expect(members.map(&:static_slot_id)).to all(eq nil)
+      expect(members.map(&:static_slots)).to all(be_empty)
+    end
+  end
+
+  def attribute_static_slot_to_n_members(static_slot, members_count = 4)
+    members = create_list :member, members_count
+    members.each do |member|
+      create :static_slot_member, member: member, static_slot: static_slot
     end
   end
 end

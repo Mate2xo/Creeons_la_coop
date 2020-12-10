@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :static_slot do
-    week_day { "" }
-    hour { "" }
-    minute { "" }
-    week_type { 1 }
+    week_day { 'monday' }
+    hour { 9 }
+    minute { 0 }
+    week_type { 'A' }
   end
 end
