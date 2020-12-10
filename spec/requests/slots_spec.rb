@@ -63,7 +63,7 @@ RSpec.describe 'Slots request', type: :request do
     end
 
     context 'when the mission have a cash_register_proficiency_requirement higher than cash_register_proficiency of the
-    member and only one place is still' do
+    member and only one place is still available' do
       let(:mission) { create :mission, cash_register_proficiency_requirement: 1 }
       let(:slot_params) do
         { slot: { member_id: member.id,
@@ -80,7 +80,7 @@ RSpec.describe 'Slots request', type: :request do
                end_time: (mission.start_date + 180.minutes).strftime('%Hh%M'))
       end
 
-      it "don't update the slots" do
+      it "doesn't update the slots" do
         generate_enrollments_on_n_time_slots_of_a_mission(mission, 3)
         free_slots = mission.slots.select { |slot| slot.member_id.nil? }
 
