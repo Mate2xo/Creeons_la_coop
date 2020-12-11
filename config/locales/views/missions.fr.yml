@@ -1,4 +1,8 @@
 fr:
+  admin:
+    missions:
+      generate_schedule:
+        schedule_generation_in_progress: 'Génération du planning en cours. Veuillez attendre quelques minutes.'
   missions:
     participants: participants
     form:

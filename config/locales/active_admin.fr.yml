@@ -41,6 +41,7 @@ fr:
       index:
         worked_hours: 'Heures travaillées ces trois derniers mois'
         schedule: 'Générer un planning'
+        confirm_generation_schedule: 'Êtes-vous sûr de vouloir générer un planning?'
       show:
         week: 'semaine'
       edit:

@@ -4,8 +4,14 @@ class StaticSlotDecorator < ApplicationDecorator # rubocop:disable Style/Documen
   delegate_all
 
   def full_display
+    minute = if object.hours.min == 0
+               '00'
+             else
+               object.hours.min
+             end
+
     "#{StaticSlot.human_enum_name('week_day', object.week_day)}
-     #{object.hour}h#{minute}
+     #{object.hours.hour}h#{minute}
      #{h.t('.week')} #{object.week_type}"
   end
 end

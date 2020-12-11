@@ -93,17 +93,13 @@ ActiveAdmin.register Mission do
   end
 
   action_item :generate_schedule, only: :index do
-    link_to t('.schedule'), generate_schedule_admin_missions_path, method: :post
+    link_to t('.schedule'), generate_schedule_admin_missions_path, data: { confirm: t('.confirm_generation_schedule') },
+                                                                   method: :post
   end
 
   collection_action :generate_schedule, method: :post do
-    schedule_generator = ScheduleGenerator.new(current_member)
-    if schedule_generator.generate_schedule
-      flash[:notice] = 'success'
-    else
-      flash[:error] = schedule_generator.errors.join(', ')
-    end
-    redirect_to collection_path
+    GenerateScheduleJob.perform_later current_member
+    redirect_to admin_missions_path, notice: t('.schedule_generation_in_progress')
   end
 end
 # rubocop: enable Metrics/BlockLength
