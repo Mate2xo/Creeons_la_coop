@@ -43,6 +43,7 @@ fr:
         schedule: 'Générer un planning'
         confirm_generation_schedule: 'Êtes-vous sûr de vouloir générer un planning?'
       show:
+        remove_static_slots_of_this_member: 'Retirer les créneaux fixes de ce membre'
         week: 'semaine'
       edit:
         week: 'semaine'

@@ -94,6 +94,10 @@ ActiveAdmin.register Member do
     link_to t('active_admin.invite_member'), new_member_invitation_path
   end
 
+  action_item :remove_static_slots_of_a_member, only: :show do
+    link_to t('.remove_static_slots_of_this_member'), remove_static_slots_of_a_member_admin_members_path(member_id: resource.id), method: :put
+  end
+
   controller do
     def create(options = {}, &block)
       new_unloggable_member = build_resource
@@ -118,6 +122,12 @@ ActiveAdmin.register Member do
       resource.skip_reconfirmation!
       super
     end
+  end
+
+  collection_action :remove_static_slots_of_a_member, method: :put do
+    member = Member.find(params[:member_id])
+    member.static_slot_members.destroy_all
+    redirect_to admin_member_path(member), notice: 'success'
   end
 end
 # rubocop: enable Metrics/BlockLength
