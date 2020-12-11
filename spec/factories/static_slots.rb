@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :static_slot do
-    week_day { 'monday' }
+    week_day { 'Monday' }
     hour { 9 }
     minute { 0 }
     week_type { 'A' }

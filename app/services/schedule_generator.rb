@@ -52,10 +52,10 @@ class ScheduleGenerator < ApplicationService
   end
 
   def enroll_members_with_static_slot(mission, current_hour) # rubocop:disable Metrics/AbcSize
-    static_slot = StaticSlot.find_by(week_day: current_hour.strftime('%u').to_i,
-                                     hour: current_hour.hour, minute: current_hour.minute,
+    static_slot = StaticSlot.find_by(week_day: current_hour.strftime('%A'),
+                                     hour: current_hour.hour, minute: current_hour.min,
                                      week_type: determine_week_type(current_hour))
-    return no_mission_messages(static_slot) if static_slot.nil?
+    return if static_slot.nil?
 
     members = static_slot.members
     format_mission_slots(members.count, mission)
@@ -74,11 +74,11 @@ class ScheduleGenerator < ApplicationService
   end
 
   def determine_week_type(current_hour)
-    week_types = %w[D A B C]
-    week_types[current_hour.cweek % 4]
-  end
+    reference = DateTime.new(2020, 9, 7)
+    week_in_seconds = 60 * 60 * 24 * 7
+    week_count_between_reference_and_current_hour = (current_hour.at_beginning_of_week.to_i - reference.to_i) / week_in_seconds
 
-  def no_mission_messages(static_slot)
-    @errors << static_slot
+    week_types = %w[D A B C]
+    week_types[week_count_between_reference_and_current_hour % 4]
   end
 end
