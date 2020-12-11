@@ -4,7 +4,7 @@ class StaticSlotDecorator < ApplicationDecorator # rubocop:disable Style/Documen
   delegate_all
 
   def full_display
-    minute = if object.hours.min == 0
+    minute = if object.hours.min.zero?
                '00'
              else
                object.hours.min
