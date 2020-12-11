@@ -2,7 +2,8 @@
 
 # It generates a planning for the next month and enroll the members with have a static slot
 class ScheduleGenerator < ApplicationService
-  def initialize
+  def initialize(current_member)
+    @current_member = current_member
     @errors = []
   end
 
@@ -31,8 +32,16 @@ class ScheduleGenerator < ApplicationService
     return if current_day.strftime('%a') == 'Sun'
 
     generate_current_hours(current_day).each do |current_hour|
-      mission = FactoryBot.create :mission, name: 'permanence clac', description: 'permanence clac',
-                                            start_date: current_hour, min_member_count: 2
+      mission = Mission.create(name: 'permanence_clac',
+                               description: 'permanence_clac',
+                               start_date: current_hour,
+                               due_date: current_hour + 180.minutes,
+                               min_member_count: 2,
+                               max_member_count: 4,
+                               event: false,
+                               author: @current_member)
+      Slot::Generator.call(mission)
+
       enroll_members_with_static_slot(mission, current_hour)
       enroll_members_with_static_slot(mission, current_hour + 90.minutes)
     end
@@ -53,19 +62,19 @@ class ScheduleGenerator < ApplicationService
 
   def enroll_members_with_static_slot(mission, current_hour) # rubocop:disable Metrics/AbcSize
     static_slot = StaticSlot.find_by(week_day: current_hour.strftime('%A'),
-                                     hour: current_hour.hour, minute: current_hour.min,
+                                     hours: DateTime.new(2020, 1, 1, current_hour.hour, current_hour.min),
                                      week_type: determine_week_type(current_hour))
     return if static_slot.nil?
 
     members = static_slot.members
-    format_mission_slots(members.count, mission)
+    format_mission_slots_count_in_order_to_align_to_static_slot_members_count(members.count, mission)
     members.each do |member|
       slot = mission.slots.find_by(start_time: current_hour)
       slot.update(member_id: member.id)
     end
   end
 
-  def format_mission_slots(members_count, mission)
+  def format_mission_slots_count_in_order_to_align_to_static_slot_members_count(members_count, mission)
     return if mission.max_member_count >= members_count
 
     params[:max_member_count] = members_count

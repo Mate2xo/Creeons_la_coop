@@ -11,11 +11,11 @@ fr:
         minute: minute
         week_day: jour de la semaine
         week_days:
-          monday: lundi
-          tuesday: mardi
-          wednesday: mercredi
-          thursday: jeudi
-          friday: vendredi
-          saturday: samedi
-          sunday: dimanche
+          Monday: Lundi
+          Tuesday: Mardi
+          Wednesday: Mercredi
+          Thursday: Jeudi
+          Friday: Vendredi
+          Saturday: Samedi
+          Sunday: Dimanche
         week_type: type de semaine

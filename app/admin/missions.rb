@@ -97,7 +97,7 @@ ActiveAdmin.register Mission do
   end
 
   collection_action :generate_schedule, method: :post do
-    schedule_generator = ScheduleGenerator.new
+    schedule_generator = ScheduleGenerator.new(current_member)
     if schedule_generator.generate_schedule
       flash[:notice] = 'success'
     else

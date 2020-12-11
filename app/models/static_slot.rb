@@ -6,7 +6,7 @@
 #
 #  id                        :bigint(8)        not null, primary key
 #  week_day                  :integer          not null
-#  hour                      :integer          not null
+#  hours                     :datetime         not null
 #  minute                    :integer          not null
 #  week_type                 :integer          not null
 #  created_at                :datetime         not null
@@ -21,9 +21,10 @@ class StaticSlot < ApplicationRecord
   enum week_type: { A: 0, B: 1, C: 2, D: 3 }
 
   validates :week_day, presence: true
-  validates :hour, presence: true, inclusion: 0..23
-  validates :minute, presence: true, inclusion: 0..59
   validates :week_type, presence: true
+  validates :hours, presence: true
 
-  accepts_nested_attributes_for :members
+  # Virtual attributes
+  attr_accessor :hour
+  attr_accessor :minute
 end

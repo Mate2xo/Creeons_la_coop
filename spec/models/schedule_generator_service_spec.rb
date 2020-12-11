@@ -2,14 +2,9 @@ require 'rails_helper'
 
 RSpec.describe ScheduleGenerator, type: :model do
   describe '#generate_schedule' do
-    subject(:generate_schedule) { ScheduleGenerator.new.generate_schedule }
+    subject(:generate_schedule) { ScheduleGenerator.new(current_member).generate_schedule }
 
-    let(:attribute_a_static_slot_to_a_member) do
-      static_slot = create :static_slot, week_day: 'Monday', hour: 9, minute: 0, week_type: 'A'
-      member = create :member
-      static_slot_member = create :static_slot_member, member: member, static_slot: static_slot
-      static_slot_member
-    end
+    let(:current_member) { create :member }
 
     before { allow(DateTime).to receive(:current).and_return DateTime.new(2020, 12, 10) }
 
@@ -18,7 +13,7 @@ RSpec.describe ScheduleGenerator, type: :model do
     end
 
     it 'enrolls members with static slot' do
-      static_slot_member = attribute_a_static_slot_to_a_member
+      static_slot_member = create :static_slot_member
 
       generate_schedule
 
@@ -28,14 +23,14 @@ RSpec.describe ScheduleGenerator, type: :model do
 
     describe '#enroll_members_with_static_slot' do
       subject(:enroll_members_with_static_slot) do
-        ScheduleGenerator.new.enroll_members_with_static_slot(mission, current_hour)
+        ScheduleGenerator.new(current_member).enroll_members_with_static_slot(mission, current_hour)
       end
 
       let(:mission) { create :mission, start_date: DateTime.new(2021, 1, 4, 9) }
       let(:current_hour) { mission.start_date }
 
       it 'enroll_members_with_static_slot_to_a_mission' do
-        static_slot_member = attribute_a_static_slot_to_a_member
+        static_slot_member = create :static_slot_member
 
         enroll_members_with_static_slot
 

@@ -3,8 +3,7 @@
 FactoryBot.define do
   factory :static_slot do
     week_day { 'Monday' }
-    hour { 9 }
-    minute { 0 }
+    hours { DateTime.new(2020, 1, 1, 9, 0) }
     week_type { 'A' }
   end
 end

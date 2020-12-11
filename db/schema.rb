@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_09_090462) do
+ActiveRecord::Schema.define(version: 2020_12_11_111406) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -236,11 +236,10 @@ ActiveRecord::Schema.define(version: 2020_12_09_090462) do
 
   create_table "static_slots", force: :cascade do |t|
     t.integer "week_day", null: false
-    t.integer "hour", null: false
-    t.integer "minute", null: false
     t.integer "week_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "hours"
   end
 
   create_table "thredded_categories", force: :cascade do |t|

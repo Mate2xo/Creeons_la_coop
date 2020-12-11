@@ -7,6 +7,8 @@ RSpec.describe 'A StaticSlot request', type: :request do
 
   describe 'GET index' do
     it 'has a successful response' do
+      create_list :static_slot, 4
+
       get admin_static_slots_path
 
       expect(response).to be_successful
