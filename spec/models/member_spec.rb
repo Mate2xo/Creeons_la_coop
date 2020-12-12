@@ -75,7 +75,7 @@ RSpec.describe Member, type: :model do
       it { is_expected.to have_many(:missions).through(:slots) }
       it { is_expected.to have_many(:events).through(:participations) }
       it { is_expected.to have_many(:groups).through(:group_members) }
-      it { is_expected.to have_many(:static_slot).through(:static_slot_member) }
+      it { is_expected.to have_many(:static_slots).through(:static_slot_members) }
     end
 
     describe 'validations' do

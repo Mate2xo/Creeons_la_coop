@@ -9,7 +9,7 @@ RSpec.describe StaticSlot, type: :model do
     end
 
     describe 'associations' do
-      it { is_expected.to have_many(:members).through(:static_slot_member) }
+      it { is_expected.to have_many(:members).through(:static_slot_members) }
     end
   end
 end
