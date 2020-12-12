@@ -87,7 +87,7 @@ class ScheduleGenerator < ApplicationService
     week_in_seconds = 60 * 60 * 24 * 7
     week_count_between_reference_and_current_hour = (current_hour.at_beginning_of_week.to_i - reference.to_i) / week_in_seconds
 
-    week_types = %w[D A B C]
+    week_types = %w[D A B C] # we must have the index 0 for D and index 1 for A because (multiple of 4 modulo 4 == 0)
     week_types[week_count_between_reference_and_current_hour % 4]
   end
 end
