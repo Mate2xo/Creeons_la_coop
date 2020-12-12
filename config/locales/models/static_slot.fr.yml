@@ -7,8 +7,8 @@ fr:
     attributes:
       static_slot:
         hour: heure
-        hours: horaires
         minute: minute
+        start_time: horaire
         week_day: jour de la semaine
         week_days:
           Monday: Lundi

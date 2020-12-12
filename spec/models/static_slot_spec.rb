@@ -4,7 +4,7 @@ RSpec.describe StaticSlot, type: :model do
   describe 'Model instanciation' do
     describe 'validations' do
       it { is_expected.to validate_presence_of(:week_day) }
-      it { is_expected.to validate_presence_of(:hours) }
+      it { is_expected.to validate_presence_of(:start_time) }
       it { is_expected.to validate_presence_of(:week_type) }
     end
 

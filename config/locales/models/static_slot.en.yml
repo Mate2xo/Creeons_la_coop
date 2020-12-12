@@ -7,8 +7,8 @@ en:
     attributes:
       static_slot:
         hour: hour
-        hours: hours
         minute: minute
+        start_time: start_time
         week_day: week day
         week_days:
           Monday: Monday

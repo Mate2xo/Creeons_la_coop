@@ -62,7 +62,7 @@ class ScheduleGenerator < ApplicationService
 
   def enroll_members_with_static_slot(mission, current_hour) # rubocop:disable Metrics/AbcSize
     static_slot = StaticSlot.find_by(week_day: current_hour.strftime('%A'),
-                                     hours: DateTime.new(2020, 1, 1, current_hour.hour, current_hour.min),
+                                     start_time: DateTime.new(2020, 1, 1, current_hour.hour, current_hour.min),
                                      week_type: determine_week_type(current_hour))
     return if static_slot.nil?
 

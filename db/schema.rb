@@ -239,7 +239,7 @@ ActiveRecord::Schema.define(version: 2020_12_11_111406) do
     t.integer "week_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "hours"
+    t.datetime "start_time"
   end
 
   create_table "thredded_categories", force: :cascade do |t|
