@@ -58,6 +58,13 @@
           class:'form-control' %>
       </div>
 
+      <% if @member.static_slots.empty? %>
+        <div class="links">
+          <%= link_to_add_association form,
+            :static_slots,
+            partial: 'layouts/static_slot_fields' %>
+        </div>
+      <% end %>
     </div>
   </div>
   <br />

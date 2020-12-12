@@ -35,7 +35,7 @@
 
               <% if @member.groups.any? %>
                 <h6 class="heading heading-light heading-sm strong-300">
-                  <%= t.('activerecord.models.group.other') %>
+                  <%= t('activerecord.models.group.other') %>
                   <%= @member.groups.map(&:name).join(', ') %>
                 </h6>
                 <br/>
@@ -43,8 +43,8 @@
 
               <% if @member.static_slots.any? %>
                 <h6 class="heading heading-light heading-sm strong-300">
-                  <%= t.('activerecord.models.static_slot.other') %>
-                  <%= @member.static_slots.map(&:full_display).join(', ') %>
+                  <%= t('activerecord.models.static_slot.other') %>
+                  <%= @member.static_slots.decorate.map(&:full_display).join(', ') %>
                 </h6>
                 <br/>
               <% end %>

@@ -1,0 +1,14 @@
+<div class="card m-2 p-2 nested-fields">
+  <div class="col-lg-12">
+    <div class="field">
+      <%= f.label :test, 'static_slot' %><br />
+      <%= f.collection_select 'id',
+        StaticSlot.all.decorate,
+        :id,
+        :full_display,
+        {}
+      %><br />
+    </div>
+  </div>
+  <%= link_to_remove_association f, class: 'text-danger ml-auto' %>
+</div>

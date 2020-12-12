@@ -18,9 +18,13 @@ class MembersController < ApplicationController
   end
 
   def update
+    if params['member']['static_slots_attributes'].present?
+      Member::StaticSlotAssigner.call(current_member, permitted_params['static_slots_attributes'])
+    end
+
     if @member.update(permitted_params)
       flash[:notice] = t 'activerecord.notices.messages.update_success'
-      render :show
+      redirect_to member_path(@member.id)
     else
       flash[:error] = t 'activerecord.errors.messages.update_fail'
       render :edit
@@ -36,7 +40,8 @@ class MembersController < ApplicationController
       :cash_register_proficiency,
       address_attributes: %i[
         id postal_code city street_name_1 street_name_2 _destroy
-      ]
+      ],
+      static_slots_attributes: [%i[id _destroy)]]
     )
   end
 
