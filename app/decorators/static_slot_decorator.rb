@@ -10,8 +10,6 @@ class StaticSlotDecorator < ApplicationDecorator # rubocop:disable Style/Documen
                object.hours.min
              end
 
-    "#{StaticSlot.human_enum_name('week_day', object.week_day)}
-     #{object.hours.hour}h#{minute}
-     #{h.t('.week')} #{object.week_type}"
+    "#{StaticSlot.human_enum_name('week_day', object.week_day)} #{object.hours.hour}h#{minute} #{h.t('active_admin.resource.show.week')} #{object.week_type}"
   end
 end
