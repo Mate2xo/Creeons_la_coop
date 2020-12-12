@@ -18,6 +18,7 @@ en:
       participate_button: Participate in this event
       stop_participate_button: Stop participate in this event
     enrollment_form:
-      detailled_slot: De %{start_time} à %{end_time}
       button_enroll_to_slots: update enrollment
-      unavailability_time_slot: There is no more time slot available.
+      detailled_slot: De %{start_time} à %{end_time}
+      fixed_member: You have a static slot. Please see an admin if you want change your time slot.
+      unavailability_time_slot: There is no more time slot available

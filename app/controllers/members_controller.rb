@@ -2,6 +2,7 @@
 
 # The websites users. Their 'role' attributes determines if fhey're an unvalidated user, a member, admin or super-admmin
 class MembersController < ApplicationController
+  decorates_assigned :member
   before_action :authenticate_member!
   before_action :set_authorized_member, only: %i[show edit update]
 
