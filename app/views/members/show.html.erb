@@ -27,20 +27,28 @@
               </h6>
               <br/>
 
-              <% if @member.groups.any? %>
-                <h6 class="heading heading-light heading-sm strong-300">
-                  Groupes:
-                  <%= @member.groups.map(&:name).join(', ') %>
-                </h6>
-                <br/>
-              <% end %>
-
               <% if @member.address.present? %>
                 <h6 class="heading heading-light heading-sm strong-300">
                   <%= @member.address.city %>
                 </h6>
               <% end %>
 
+              <% if @member.groups.any? %>
+                <h6 class="heading heading-light heading-sm strong-300">
+                  <%= t.('activerecord.models.group.other') %>
+                  <%= @member.groups.map(&:name).join(', ') %>
+                </h6>
+                <br/>
+              <% end %>
+
+              <% if @member.static_slots.any? %>
+                <h6 class="heading heading-light heading-sm strong-300">
+                  <%= t.('activerecord.models.static_slot.other') %>
+                  <%= @member.static_slots.map(&:full_display).join(', ') %>
+                </h6>
+                <br/>
+              <% end %>
+              
               <% if super_admin? || current_member.id == params[:id].to_i  %>
                 <%= link_to t("main_app.views.application.buttons.edit"),
                   edit_member_path(@member.id),
