@@ -60,7 +60,7 @@ ActiveAdmin.register Member do
         end
       end
       table_for member.static_slots do
-        column 'static_slots' do |static_slot|
+        column StaticSlot.model_name.human do |static_slot|
           static_slot.full_display
         end
       end
