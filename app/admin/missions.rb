@@ -93,8 +93,9 @@ ActiveAdmin.register Mission do
   end
 
   action_item :generate_schedule, only: :index do
-    link_to t('.schedule'), generate_schedule_admin_missions_path, data: { confirm: t('.confirm_generation_schedule') },
-                                                                   method: :post
+    link_to t('.generate_schedule'),
+            generate_schedule_admin_missions_path,
+            data: { confirm: t('.confirm_generation_schedule') }, method: :post
   end
 
   collection_action :generate_schedule, method: :post do

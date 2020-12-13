@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# StaticSlot is an attributes of member and enable the auto enrollment
 ActiveAdmin.register StaticSlot do
   permit_params :week_day, :start_time, :hour, :minute, :week_type, static_slot_ids: []
 

@@ -94,8 +94,27 @@ ActiveAdmin.register Member do
     link_to t('active_admin.invite_member'), new_member_invitation_path
   end
 
+  action_item :enroll_static_members, only: :index do
+    link_to t('.enroll_static_members'),
+            enroll_static_members_admin_members_path,
+            data: { confirm: t('.confirm_enroll_static_members') }, method: :post
+  end
+
   action_item :remove_static_slots_of_a_member, only: :show do
-    link_to t('.remove_static_slots_of_this_member'), remove_static_slots_of_a_member_admin_members_path(member_id: resource.id), method: :put
+    link_to t('.remove_static_slots_of_this_member'),
+            remove_static_slots_of_a_member_admin_members_path(member_id: resource.id),
+            method: :put
+  end
+
+  collection_action :enroll_static_members, method: :post do
+    EnrollStaticMembersJob.perform_later
+    redirect_to admin_members_path, notice: t('.enroll_in_progress')
+  end
+
+  collection_action :remove_static_slots_of_a_member, method: :put do
+    member = Member.find(params[:member_id])
+    member.static_slot_members.destroy_all
+    redirect_to admin_member_path(member), notice: 'success'
   end
 
   controller do
@@ -122,12 +141,6 @@ ActiveAdmin.register Member do
       resource.skip_reconfirmation!
       super
     end
-  end
-
-  collection_action :remove_static_slots_of_a_member, method: :put do
-    member = Member.find(params[:member_id])
-    member.static_slot_members.destroy_all
-    redirect_to admin_member_path(member), notice: 'success'
   end
 end
 # rubocop: enable Metrics/BlockLength

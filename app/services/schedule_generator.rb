@@ -41,9 +41,6 @@ class ScheduleGenerator < ApplicationService
                                event: false,
                                author: @current_member)
       Slot::Generator.call(mission)
-
-      enroll_members_with_static_slot(mission, current_hour)
-      enroll_members_with_static_slot(mission, current_hour + 90.minutes)
     end
   end
 
@@ -57,20 +54,6 @@ class ScheduleGenerator < ApplicationService
       current_hours << current_day + 9.hours
       current_hours << current_day + 14.hours
       current_hours << current_day + 17.hours
-    end
-  end
-
-  def enroll_members_with_static_slot(mission, current_hour) # rubocop:disable Metrics/AbcSize
-    static_slot = StaticSlot.find_by(week_day: current_hour.strftime('%A'),
-                                     start_time: DateTime.new(2020, 1, 1, current_hour.hour, current_hour.min),
-                                     week_type: determine_week_type(current_hour))
-    return if static_slot.nil?
-
-    members = static_slot.members
-    format_mission_slots_count_in_order_to_align_to_static_slot_members_count(members.count, mission)
-    members.each do |member|
-      slot = mission.slots.find_by(start_time: current_hour)
-      slot.update(member_id: member.id)
     end
   end
 
