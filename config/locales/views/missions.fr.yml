@@ -2,7 +2,8 @@ fr:
   admin:
     missions:
       generate_schedule:
-        schedule_generation_in_progress: 'Génération du planning en cours. Veuillez attendre quelques minutes.'
+        schedule_already_generated: Le planning du mois prochain a déjà été généré.
+        schedule_generation_in_progress: Génération du planning en cours. Veuillez attendre quelques minutes.
   missions:
     participants: participants
     form:
@@ -19,4 +20,4 @@ fr:
     enrollment_form:
       detailled_slot: De %{start_time} à %{end_time}
       button_enroll_to_slots: Mettre à jour l'inscription
-      unavailability_time_slot: Il n y a plus de créneau disponible pour cette mission
+      unavailability_time_slot: Il n y a plus de créneau disponible pour cette mission.

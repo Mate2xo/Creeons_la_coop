@@ -99,8 +99,12 @@ ActiveAdmin.register Mission do
   end
 
   collection_action :generate_schedule, method: :post do
-    GenerateScheduleJob.perform_later current_member
-    redirect_to admin_missions_path, notice: t('.schedule_generation_in_progress')
+    if HistoryOfGeneratedSchedule.find_by(month_of_generated_schedule: (DateTime.current + 1.month).at_beginning_of_month).nil?
+      GenerateScheduleJob.perform_later current_member
+      redirect_to admin_missions_path, notice: t('.schedule_generation_in_progress')
+    else
+      redirect_to admin_missions_path, notice: t('.schedule_already_generated')
+    end
   end
 end
 # rubocop: enable Metrics/BlockLength

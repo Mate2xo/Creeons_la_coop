@@ -2,7 +2,8 @@ en:
   admin:
     missions:
       generate_schedule:
-        schedule_generation_in_progress: 'Schedule generation in progress. Please wait for a few minutes.'
+        schedule_already_generated: The schedule of the next has already been generated.
+        schedule_generation_in_progress: Schedule generation in progress. Please wait for a few minutes.
   missions:
     participants: participants
     form:
@@ -19,4 +20,4 @@ en:
     enrollment_form:
       detailled_slot: De %{start_time} à %{end_time}
       button_enroll_to_slots: update enrollment
-      unavailability_time_slot: There is no more time slot available
+      unavailability_time_slot: There is no more time slot available.

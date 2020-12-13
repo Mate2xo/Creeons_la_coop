@@ -2,6 +2,8 @@
 
 # It generates a planning for the next month and enroll the members with have a static slot
 class ScheduleGenerator < ApplicationService
+  attr_reader :errors
+
   def initialize(current_member)
     @current_member = current_member
     @errors = []
