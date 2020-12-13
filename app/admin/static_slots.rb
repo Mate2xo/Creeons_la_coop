@@ -42,12 +42,12 @@ ActiveAdmin.register StaticSlot do
     def create
       permitted_params = params.require(:static_slot).permit(:week_day, :week_type, :hour, :minute)
       permitted_params.merge!({ start_time: DateTime.new(2020, 1, 1, permitted_params[:hour].to_i,
-                                                    permitted_params[:minute].to_i) })
+                                                         permitted_params[:minute].to_i) })
       @static_slot = StaticSlot.new(permitted_params)
       if @static_slot.save
         redirect_to admin_static_slot_path(@static_slot), notice: 'success'
       else
-        flash[:error] = static_slot.erros.full_messages.join(', ')
+        flash[:error] = @static_slot.errors.full_messages.join(', ')
         render :new
       end
     end
@@ -56,11 +56,11 @@ ActiveAdmin.register StaticSlot do
       @static_slot = StaticSlot.find(permitted_params[:id])
       permitted_params = params.require(:static_slot).permit(:week_day, :week_type, :hour, :minute)
       permitted_params.merge!({ start_time: DateTime.new(2020, 1, 1, permitted_params[:hour].to_i,
-                                                    permitted_params[:minute].to_i) })
+                                                         permitted_params[:minute].to_i) })
       if @static_slot.update(permitted_params)
         redirect_to admin_static_slot_path(@static_slot), notice: 'success'
       else
-        flash[:error] = static_slot.erros.full_messages.join(', ')
+        flash[:error] = @static_slot.errors.full_messages.join(', ')
         render :edit
       end
     end
