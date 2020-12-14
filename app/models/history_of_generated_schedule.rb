@@ -2,5 +2,5 @@
 
 # This model retains the months for which a schedule had benn generated
 class HistoryOfGeneratedSchedule < ApplicationRecord
-  validates :month_of_generated_schedule, presence: true
+  validates :month_number, presence: true
 end

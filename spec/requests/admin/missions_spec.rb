@@ -13,9 +13,9 @@ RSpec.describe 'A Missions admin request', type: :request do
         allow(DateTime).to receive(:current).and_return DateTime.new(2020, 12, 10)
       end
 
-      it 'notices that the scheduele has already been generated' do
+      it 'notices that the schedule has already been generated' do
         create :history_of_generated_schedule,
-               month_of_generated_schedule: (DateTime.current + 1.month).at_beginning_of_month
+               month_number: (DateTime.current + 1.month).at_beginning_of_month
 
         post_generate_schedule
         follow_redirect!

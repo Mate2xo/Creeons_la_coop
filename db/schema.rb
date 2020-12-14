@@ -121,7 +121,7 @@ ActiveRecord::Schema.define(version: 2020_12_13_213101) do
   end
 
   create_table "history_of_generated_schedules", force: :cascade do |t|
-    t.datetime "month_of_generated_schedule"
+    t.datetime "month_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
