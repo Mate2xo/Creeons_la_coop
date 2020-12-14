@@ -12,10 +12,11 @@ class SlotsController < ApplicationController
     slot_manager = Slot::Assigner.new(@mission, permitted_params[:member_id], permitted_params[:start_times])
     if slot_manager.assign
       flash[:notice] = translate '.confirm_update'
+      redirect_to mission_path(@mission)
     else
       flash[:alert] = (translate '.enroll_error') + slot_manager.errors.join(', ')
+      render 'missions/show'
     end
-    render 'missions/show'
   end
 
   private
