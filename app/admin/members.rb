@@ -100,7 +100,7 @@ ActiveAdmin.register Member do
             data: { confirm: t('.confirm_enroll_static_members') }, method: :post
   end
 
-  action_item :remove_static_slots_of_a_member, only: :show do
+  action_item :remove_static_slots_of_a_member, only: [:show, :edit] do
     link_to t('.remove_static_slots_of_this_member'),
             remove_static_slots_of_a_member_admin_members_path(member_id: resource.id),
             method: :put

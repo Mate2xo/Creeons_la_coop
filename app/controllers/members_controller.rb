@@ -18,15 +18,12 @@ class MembersController < ApplicationController
   end
 
   def update
-    if params['member']['static_slots_attributes'].present?
-      Member::StaticSlotAssigner.call(current_member, permitted_params['static_slots_attributes'])
-    end
-
-    if @member.update(permitted_params)
+    transaction = Members::UpdateTransaction.new.call(current_member: current_member, permitted_params: permitted_params)
+    if transaction.success?
       flash[:notice] = t 'activerecord.notices.messages.update_success'
       redirect_to member_path(@member.id)
     else
-      flash[:error] = t 'activerecord.errors.messages.update_fail'
+      flash[:error] = transaction[:errors]
       render :edit
     end
   end

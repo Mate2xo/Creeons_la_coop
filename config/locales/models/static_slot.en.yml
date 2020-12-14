@@ -1,9 +1,5 @@
 en:
   activerecord:
-    models:
-      static_slot:
-        one: Static slot
-        other: Static slots
     attributes:
       static_slot:
         hour: hour
@@ -19,3 +15,13 @@ en:
           Saturday: Saturday
           Sunday: Sunday
         week_type: week type
+    errors:
+      models:
+        mission:
+          messages:
+            static_slot_attribution_failure: static_slot_attribution_failed
+            static_slot_extraction_failure: static_slot_extraction_failed
+    models:
+      static_slot:
+        one: Static slot
+        other: Static slots
