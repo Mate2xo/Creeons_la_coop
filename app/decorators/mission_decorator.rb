@@ -4,7 +4,12 @@ class MissionDecorator < Draper::Decorator # rubocop:disable Style/Documentation
   delegate_all
 
   def time_slots_selection_for_current_member
-    object.slots.where('member_id IS ? OR member_id = ?', nil, h.current_member.id).group(:start_time).count.keys.reverse
+    object.slots
+          .where('member_id IS ? OR member_id = ?', nil, h.current_member.id)
+          .order(:start_time)
+          .group(:start_time)
+          .count
+          .keys
   end
 
   def time_slot_is_already_selected?(slot_time)
