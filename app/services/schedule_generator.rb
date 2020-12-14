@@ -21,6 +21,8 @@ class ScheduleGenerator < ApplicationService
     valid
   end
 
+  private
+
   def generate_missions_for_next_month
     current_day = (DateTime.current + 1.month).at_beginning_of_month
     next_month = current_day.month
@@ -57,22 +59,5 @@ class ScheduleGenerator < ApplicationService
       current_hours << current_day + 14.hours
       current_hours << current_day + 17.hours
     end
-  end
-
-  def format_mission_slots_count_in_order_to_align_to_static_slot_members_count(members_count, mission)
-    return if mission.max_member_count >= members_count
-
-    params[:max_member_count] = members_count
-    mission_updator = Mission::Updator.new(mission, params)
-    @errors << 'format mission failed' unless mission_updator.call
-  end
-
-  def determine_week_type(current_hour)
-    reference = DateTime.new(2020, 9, 7)
-    week_in_seconds = 60 * 60 * 24 * 7
-    week_count_between_reference_and_current_hour = (current_hour.at_beginning_of_week.to_i - reference.to_i) / week_in_seconds
-
-    week_types = %w[D A B C] # we must have the index 0 for D and index 1 for A because (multiple of 4 modulo 4 == 0)
-    week_types[week_count_between_reference_and_current_hour % 4]
   end
 end
