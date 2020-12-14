@@ -1,6 +1,6 @@
 <section class="px-inline-only-2">
   <h2 class="heading heading-3 strong-500">
-    <%= t "main_app.views.missions.show.attendees" %> : <%= @mission.members.length %>
+    <%= t "main_app.views.missions.show.attendees" %> : <%= @mission.members.uniq.length %>
     <hr class="mt-0 mb-0">
   </h2>
 
