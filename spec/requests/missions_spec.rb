@@ -55,13 +55,13 @@ RSpec.describe 'A Mission request', type: :request do
     context 'when the mission is not an :event' do
       let(:mission) { create :mission }
       let(:i18n_call) do
-        I18n.t 'missions.enrollment_form.detailled_slot',
+        I18n.t 'missions.enrollment_form.slot_details',
                start_time: mission.start_date.strftime('%Hh%M'),
                end_time: (mission.start_date + 90.minutes).strftime('%Hh%M')
       end
 
       let(:i18n_call2) do
-        I18n.t 'missions.enrollment_form.detailled_slot',
+        I18n.t 'missions.enrollment_form.slot_details',
                start_time: (mission.start_date + 90.minutes).strftime('%Hh%M'),
                end_time: (mission.start_date + 180.minutes).strftime('%Hh%M')
       end
