@@ -2,9 +2,16 @@
 
 # rubocop: disable Metrics/BlockLength
 ActiveAdmin.register Mission do
-  permit_params :author_id, :name, :description, :event, :delivery_expected,
-                :max_member_count, :min_member_count,
-                :start_date, :due_date
+  permit_params :author_id,
+                :name,
+                :description,
+                :event,
+                :delivery_expected,
+                :max_member_count,
+                :min_member_count,
+                :start_date,
+                :due_date,
+                :cash_register_proficiency_requirement
 
   index do
     selectable_column
@@ -14,6 +21,7 @@ ActiveAdmin.register Mission do
     column :event
     column :due_date
     column :author
+    column :cash_register_proficiency_requirement
     actions
   end
 
@@ -29,6 +37,9 @@ ActiveAdmin.register Mission do
       f.input :min_member_count
       f.input :start_date
       f.input :due_date
+      f.input :cash_register_proficiency_requirement,
+              :as => :select,
+              collection => Mission.cash_register_proficiency_requirements
     end
 
     actions
@@ -44,14 +55,15 @@ ActiveAdmin.register Mission do
       row :max_member_count
       row :delivery_expected
       row :event
+      row :cash_register_proficiency_requirement
     end
 
     if resource.event
       panel 'Participants' do
         table_for resource.participations do
           column :participant
-          column(:start_time) do mission.start_date.strftime('%H:%M') end
-          column(:end_time) do mission.due_date.strftime('%H:%M') end
+          column(:start_time) { mission.start_date.strftime('%H:%M') }
+          column(:end_time) { mission.due_date.strftime('%H:%M') }
           column 'actions' do |participation|
             link_to(t('active_admin.delete'), admin_mission_participation_path(mission, participation), method: :delete)
           end
@@ -76,7 +88,22 @@ ActiveAdmin.register Mission do
   action_item :create_enrollment, only: :show do
     if resource.event
       link_to t('active_admin.new_model', model: Participation.model_name.human),
-        new_admin_mission_participation_path(resource)
+              new_admin_mission_participation_path(resource)
+    end
+  end
+
+  action_item :generate_schedule, only: :index do
+    link_to t('.generate_schedule'),
+            generate_schedule_admin_missions_path,
+            data: { confirm: t('.confirm_generation_schedule') }, method: :post
+  end
+
+  collection_action :generate_schedule, method: :post do
+    if HistoryOfGeneratedSchedule.find_by(month_number: (DateTime.current + 1.month).at_beginning_of_month).nil?
+      GenerateScheduleJob.perform_later current_member
+      redirect_to admin_missions_path, notice: t('.schedule_generation_in_progress')
+    else
+      redirect_to admin_missions_path, notice: t('.schedule_already_generated')
     end
   end
 end

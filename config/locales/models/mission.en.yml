@@ -20,6 +20,8 @@ en:
     errors:
       models:
         mission:
+          messages:
+            insufficient_proficiency: Your proficiency on the cash register is insufficient to enroll on this last slot available from %{start_time.strftime('%Hh%M')} to %{(start_time + 90.minutes).strftime('%Hh%M')} , as we need at least one person that satisfies the required cash register proficiency level.
           attributes:
             duration:
               multiple: must be a mutiple of 1h30

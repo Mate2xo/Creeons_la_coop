@@ -79,7 +79,7 @@ class MissionsController < ApplicationController
       :name, :description, :event, :delivery_expected,
       :recurrent, :recurrence_rule, :recurrence_end_date,
       :max_member_count, :min_member_count,
-      :due_date, :start_date,
+      :due_date, :start_date, :cash_register_proficiency_requirement,
       addresses_attributes: %i[id postal_code city street_name_1 street_name_2 _destroy],
       participations_attributes: %i[id participant_id start_time end_time]
     )

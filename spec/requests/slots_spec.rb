@@ -13,7 +13,9 @@ RSpec.describe 'Slots request', type: :request do
 
   before { sign_in member }
 
-  describe 'to take a time slot' do
+  describe 'update' do
+    subject(:put_slot) { put mission_slot_path(mission.id, mission.slots.first.id), params: slot_params }
+
     let(:create_other_member) { create :member }
 
     it "update a slot with the member's id" do
@@ -57,6 +59,42 @@ RSpec.describe 'Slots request', type: :request do
 
         expect(response.body).to include(I18n.t('activerecord.errors.models.slot.messages.unavailability',
                                                 start_time: mission.start_date.strftime('%FT%T%:z')))
+      end
+    end
+
+    context 'when the mission have a cash_register_proficiency_requirement higher than cash_register_proficiency of the
+    member and only one place is still available' do
+      let(:mission) { create :mission, cash_register_proficiency_requirement: 1 }
+      let(:slot_params) do
+        { slot: { member_id: member.id,
+                  start_times: [mission.start_date, mission.start_date + 90.minutes] } }
+      end
+      let(:i18n_call) do
+        I18n.t('activerecord.errors.models.mission.messages.insufficient_proficiency',
+               start_time: mission.start_date.strftime('%Hh%M'),
+               end_time: (mission.start_date + 90.minutes).strftime('%Hh%M'))
+      end
+      let(:i18n_call2) do
+        I18n.t('activerecord.errors.models.mission.messages.insufficient_proficiency',
+               start_time: (mission.start_date + 90.minutes).strftime('%Hh%M'),
+               end_time: (mission.start_date + 180.minutes).strftime('%Hh%M'))
+      end
+
+      it "doesn't update the slots" do
+        generate_enrollments_on_n_time_slots_of_a_mission(mission, 3)
+        free_slots = mission.slots.select { |slot| slot.member_id.nil? }
+
+        put_slot
+
+        expect(free_slots.map { |slot| slot.reload.member_id }).to all(be_nil)
+      end
+
+      it 'displays an alert' do
+        generate_enrollments_on_n_time_slots_of_a_mission(mission, 3)
+
+        put_slot
+
+        expect(response.body).to include(i18n_call).and include(i18n_call2)
       end
     end
 

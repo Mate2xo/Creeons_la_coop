@@ -55,13 +55,13 @@ RSpec.describe 'A Mission request', type: :request do
     context 'when the mission is not an :event' do
       let(:mission) { create :mission }
       let(:i18n_call) do
-        I18n.t 'missions.enrollment_form.detailled_slot',
+        I18n.t 'missions.enrollment_form.slot_details',
                start_time: mission.start_date.strftime('%Hh%M'),
                end_time: (mission.start_date + 90.minutes).strftime('%Hh%M')
       end
 
       let(:i18n_call2) do
-        I18n.t 'missions.enrollment_form.detailled_slot',
+        I18n.t 'missions.enrollment_form.slot_details',
                start_time: (mission.start_date + 90.minutes).strftime('%Hh%M'),
                end_time: (mission.start_date + 180.minutes).strftime('%Hh%M')
       end
@@ -261,13 +261,26 @@ RSpec.describe 'A Mission request', type: :request do
 
     context 'when the mission is not an :event' do
       let(:mission) { create :mission }
-      let(:params) { { mission: { name: 'updated_mission' } } }
+      let(:params) do
+        { mission: attributes_for(:mission,
+                                  name: 'updated_mission',
+                                  cash_register_proficiency_requirement: 'proficient') }
+      end
 
       it 'successfully updates the mission' do
         update_mission
         follow_redirect!
 
-        expect(response.body).to include('updated_mission'.capitalize)
+        params[:mission].each do |key, value|
+          expect(mission.reload.attributes[key.to_s]).to eq value
+        end
+      end
+
+      it 'successfully redirects to show view' do
+        update_mission
+        follow_redirect!
+
+        expect(response).to be_successful
       end
 
       context 'when a mission must become an event' do # rubocop:disable Layout/NestedGroups

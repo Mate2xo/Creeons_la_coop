@@ -54,7 +54,21 @@ BEGIN
 END;
 $$;
 
-  
+CREATE OR REPLACE PROCEDURE update_max_member_count_nil_of_missions()
+LANGUAGE plpgsql AS $$
+DECLARE
+  m record;
+  members_count int;
+BEGIN
+
+  FOR m IN
+    SELECT * FROM missions WHERE max_member_count IS NULL
+    LOOP
+      SELECT COUNT (*) INTO members_count from enrollments where mission_id = m.id;
+      UPDATE missions SET max_member_count = members_count WHERE id = m.id;
+  END LOOP;
+END;
+$$;
 
 -- MAIN
 
@@ -69,8 +83,8 @@ START TRANSACTION;
       ON enrollments.mission_id = missions.id
     WHERE(missions.event);
 
-
-
   call create_slots_for_all_missions();
+
+  call update_max_member_count_nil_of_missions();
 
 COMMIT;

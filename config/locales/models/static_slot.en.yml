@@ -1,0 +1,26 @@
+en:
+  activerecord:
+    attributes:
+      static_slot:
+        hour: hour
+        minute: minute
+        start_time: start_time
+        week_day: week day
+        week_days:
+          Monday: Monday
+          Tuesday: Tuesday
+          Wednesday: Wednesday
+          Thursday: Thursday
+          Friday: Friday
+          Saturday: Saturday
+          Sunday: Sunday
+        week_type: week type
+    errors:
+      models:
+        mission:
+          messages:
+            static_slot_attribution_failure: static slot attribution failed
+    models:
+      static_slot:
+        one: Static slot
+        other: Static slots
