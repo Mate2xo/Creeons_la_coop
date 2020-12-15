@@ -59,6 +59,10 @@ class Member < ApplicationRecord
   has_many :slots, class_name: 'Mission::Slot', dependent: :nullify
   has_many :missions, through: :slots
 
+  has_many :static_slot_members, dependent: :destroy
+  has_many :static_slots, through: :static_slot_members
+  accepts_nested_attributes_for :static_slots
+
   has_many :created_infos, class_name: 'Info', inverse_of: 'author', foreign_key: 'author_id', dependent: :nullify
 
   has_and_belongs_to_many :managed_productors, class_name: 'Productor'

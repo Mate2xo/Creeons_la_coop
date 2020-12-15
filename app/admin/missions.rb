@@ -91,5 +91,20 @@ ActiveAdmin.register Mission do
               new_admin_mission_participation_path(resource)
     end
   end
+
+  action_item :generate_schedule, only: :index do
+    link_to t('.generate_schedule'),
+            generate_schedule_admin_missions_path,
+            data: { confirm: t('.confirm_generation_schedule') }, method: :post
+  end
+
+  collection_action :generate_schedule, method: :post do
+    if HistoryOfGeneratedSchedule.find_by(month_number: (DateTime.current + 1.month).at_beginning_of_month).nil?
+      GenerateScheduleJob.perform_later current_member
+      redirect_to admin_missions_path, notice: t('.schedule_generation_in_progress')
+    else
+      redirect_to admin_missions_path, notice: t('.schedule_already_generated')
+    end
+  end
 end
 # rubocop: enable Metrics/BlockLength

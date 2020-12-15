@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_04_235806) do
+ActiveRecord::Schema.define(version: 2020_12_13_213101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -120,6 +120,12 @@ ActiveRecord::Schema.define(version: 2020_12_04_235806) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "history_of_generated_schedules", force: :cascade do |t|
+    t.datetime "month_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "infos", force: :cascade do |t|
     t.text "content"
     t.string "title"
@@ -223,6 +229,23 @@ ActiveRecord::Schema.define(version: 2020_12_04_235806) do
     t.datetime "updated_at", null: false
     t.string "website_url"
     t.boolean "local", default: false
+  end
+
+  create_table "static_slot_members", force: :cascade do |t|
+    t.bigint "static_slot_id"
+    t.bigint "member_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_static_slot_members_on_member_id"
+    t.index ["static_slot_id"], name: "index_static_slot_members_on_static_slot_id"
+  end
+
+  create_table "static_slots", force: :cascade do |t|
+    t.integer "week_day", null: false
+    t.integer "week_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "start_time"
   end
 
   create_table "thredded_categories", force: :cascade do |t|
@@ -469,6 +492,8 @@ ActiveRecord::Schema.define(version: 2020_12_04_235806) do
   add_foreign_key "missions", "members", column: "author_id"
   add_foreign_key "participations", "members", column: "participant_id"
   add_foreign_key "participations", "missions", column: "event_id"
+  add_foreign_key "static_slot_members", "members"
+  add_foreign_key "static_slot_members", "static_slots"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards", on_delete: :cascade
   add_foreign_key "thredded_messageboard_users", "thredded_user_details", on_delete: :cascade
   add_foreign_key "thredded_user_post_notifications", "members", column: "user_id", on_delete: :cascade
