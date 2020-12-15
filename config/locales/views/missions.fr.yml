@@ -18,6 +18,7 @@ fr:
       participate_button: Participer à cet événement
       stop_participate_button: Ne plus participer à cet évévenement
     enrollment_form:
-      detailled_slot: De %{start_time} à %{end_time}
       button_enroll_to_slots: Mettre à jour l'inscription
-      unavailability_time_slot: Il n y a plus de créneau disponible pour cette mission.
+      fixed_member: Un créneau fixe vous été attribué. Veuillez voir un admin si vous souhaitez changer de créneau.
+      no_time_slot_available: Il n y a plus de créneau disponible pour cette mission
+      slot_details: De %{start_time} à %{end_time}
