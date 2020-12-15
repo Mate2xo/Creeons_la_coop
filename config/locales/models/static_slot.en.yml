@@ -19,7 +19,7 @@ en:
       models:
         mission:
           messages:
-            static_slot_attribution_failure: static_slot_attribution_failed
+            static_slot_attribution_failure: static slot attribution failed
     models:
       static_slot:
         one: Static slot

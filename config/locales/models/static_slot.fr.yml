@@ -19,7 +19,7 @@ fr:
       models:
         mission:
           messages:
-            static_slot_attribution_failure: Echec de l attribution des créneaux fixes
+            static_slot_attribution_failure: Echec de l'attribution des créneaux fixes
     models:
       static_slot:
         one: Créneau fixe
