@@ -21,4 +21,4 @@ en:
       button_enroll_to_slots: update enrollment
       fixed_member: You have a static slot. Please see an admin if you want change your time slot.
       no_time_slot_available: There is no more time slot available
-      slot_details: De %{start_time} à %{end_time}
+      slot_details: From %{start_time} to %{end_time}
