@@ -16,7 +16,8 @@ class Members::UpdateTransaction
     input[:permitted_params][:static_slots_attributes].values.each do |value|
       static_slot_ids << value['id']
     end
-    Success(input.merge({ static_slot_ids: static_slot_ids }))
+    input.merge!({ static_slot_ids: static_slot_ids })
+    Success(input)
   end
 
   def assign_static_slot(input)
