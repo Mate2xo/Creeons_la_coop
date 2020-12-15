@@ -20,7 +20,6 @@ en:
         mission:
           messages:
             static_slot_attribution_failure: static_slot_attribution_failed
-            static_slot_extraction_failure: static_slot_extraction_failed
     models:
       static_slot:
         one: Static slot

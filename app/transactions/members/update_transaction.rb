@@ -25,7 +25,7 @@ class Members::UpdateTransaction
 
     input[:static_slot_ids].each do |static_slot_id|
       unless ::StaticSlotMember.create(member_id: input[:current_member].id, static_slot_id: static_slot_id)
-        Failure(error: t('activerecord.errors.models.mission.messages.static_slot_extraction_failure'))
+        Failure(error: t('activerecord.errors.models.mission.messages.static_slot_attribution_failure'))
       end
     end
     Success(input)
