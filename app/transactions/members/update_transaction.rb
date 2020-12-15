@@ -3,7 +3,7 @@
 class Members::UpdateTransaction
   include Dry::Transaction
 
-  step :extract_ids
+  tee :extract_ids
   step :assign_static_slot
   step :update_member
 
@@ -36,6 +36,6 @@ class Members::UpdateTransaction
       Failure(t('activerecord.errors.messages.update_fail'))
     end
 
-    Success(input[:current_member])
+    Success(input)
   end
 end
