@@ -1,4 +1,9 @@
 en:
+  admin:
+    missions:
+      generate_schedule:
+        schedule_already_generated: The schedule of the next has already been generated.
+        schedule_generation_in_progress: Schedule generation in progress. Please wait for a few minutes.
   missions:
     participants: participants
     form:
@@ -13,6 +18,7 @@ en:
       participate_button: Participate in this event
       stop_participate_button: Stop participate in this event
     enrollment_form:
-      detailled_slot: De %{start_time} à %{end_time}
       button_enroll_to_slots: update enrollment
-      unavailability_time_slot: There is no more time slot available
+      fixed_member: You have a static slot. Please see an admin if you want change your time slot.
+      no_time_slot_available: There is no more time slot available
+      slot_details: From %{start_time} to %{end_time}

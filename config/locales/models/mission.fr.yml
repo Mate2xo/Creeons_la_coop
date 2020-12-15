@@ -17,11 +17,18 @@ fr:
         name: Nom
         start_date: Date et heure de début
         recurrent: Créneau récurrent
+        cash_register_proficiency_requirement: Maîtrise de la caisse requise
+        cash_register_proficiency_requirements:
+          untrained: non formé à la caisse
+          beginner: débutant à la caisse
+          proficient: formé à la caisse
     errors:
       models:
         mission:
+          messages:
+            insufficient_proficiency: Votre maîtrise de la caisse est insuffisante pour prendre la dernière place du créneau de %{start_time} à %{end_time}
           attributes:
             duration:
-              multiple: doit être un multiple de 1h30
+              multiple: La durée doit être un multiple de 1h30
               extend: La durée de la mission est trop grande
               minimum: La mission doit durer au moins une minute

@@ -1,0 +1,26 @@
+fr:
+  activerecord:
+    attributes:
+      static_slot:
+        hour: heure
+        minute: minute
+        start_time: horaire
+        week_day: jour de la semaine
+        week_days:
+          Monday: Lundi
+          Tuesday: Mardi
+          Wednesday: Mercredi
+          Thursday: Jeudi
+          Friday: Vendredi
+          Saturday: Samedi
+          Sunday: Dimanche
+        week_type: type de semaine
+    errors:
+      models:
+        mission:
+          messages:
+            static_slot_attribution_failure: Echec de l'attribution des créneaux fixes
+    models:
+      static_slot:
+        one: Créneau fixe
+        other: Créneaux fixes

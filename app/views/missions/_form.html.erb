@@ -23,6 +23,20 @@
       </div><br />
 
       <div class="field">
+        <%= f.label :cash_register_proficiency_requirement,
+          Mission.human_attribute_name(:cash_register_proficiency_requirement) %><br />
+        <%= f.select :cash_register_proficiency_requirement,
+          Mission.cash_register_proficiency_requirements.keys.map { |level|
+            [
+              t(level, scope: "activerecord.attributes.mission.cash_register_proficiency_requirements"),
+              level
+            ]
+          },
+          {},
+          class:'form-control' %>
+      </div><br />
+
+      <div class="field">
         <%= f.label :delivery_expected, t('main_app.views.missions._form.delivery_expected')%>
         <%= f.check_box :delivery_expected %>
       </div><br />
