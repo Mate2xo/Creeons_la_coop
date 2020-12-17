@@ -1,7 +1,5 @@
 
-<% if current_member.static_slots.any? %>
-  <p> <%= t('.member_fixed') %> </p>
-<% elsif mission.time_slots_selection_for_current_member.empty? %>
+<% if mission.time_slots_selection_for_current_member.empty? %>
   <p> <%= t('.no_time_slot_available') %> </p>
 <% else %>
   <%= form_with scope: :slot, method: :put, url: mission_slot_path(@mission.id, @mission.slots.first) do |f| %>
