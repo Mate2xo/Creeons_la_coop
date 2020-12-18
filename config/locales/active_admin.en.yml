@@ -63,6 +63,8 @@ en:
         worked_hours: "Hours worked in last three months"
       show:
         remove_static_slots_of_this_member: 'Remove the static slots from this member'
+        selected_at: selected_at
+        selections_history: Selections history
         week: 'week'
       edit:
         remove_static_slots_of_this_member: 'Remove the static slots from this member'

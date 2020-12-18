@@ -46,6 +46,8 @@ fr:
         worked_hours: 'Heures travaillées ces trois derniers mois'
       show:
         remove_static_slots_of_this_member: 'Retirer les créneaux fixes de ce membre'
+        selected_at: Sélectionné le
+        selections_history: Historique de sélections
         week: 'semaine'
       edit:
         remove_static_slots_of_this_member: 'Retirer les créneaux fixes de ce membre'
