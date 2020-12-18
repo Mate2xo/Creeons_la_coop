@@ -1,0 +1,4 @@
+fr:
+  static_slot_members:
+    destroy:
+      reset_success: Vos créneaux fixes ont été réinitialisés.

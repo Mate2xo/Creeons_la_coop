@@ -1,5 +1,15 @@
-fr:
+en:
   admin:
     members:
       enroll_static_members:
         enroll_in_progress: Enrollment of static members in progress.
+  members:
+    edit:
+      change_password: change your password
+      confirm_static_slots_reset: Are you sure want to reset yours static slots
+      hours_count: Hours count
+      month: Month
+      reset_static_slots: Reset static slots
+      this_month: This month
+      title_enrollments: Yours participations
+      title_edit: Change your profile

@@ -1,7 +1,7 @@
 <div class="card m-2 p-2 nested-fields">
   <div class="col-lg-12">
     <div class="field">
-      <%= f.label :test, 'static_slot' %><br />
+      <%= f.label :static_slot, t('activerecord.models.static_slot.one') %><br />
       <%= f.collection_select 'id',
         StaticSlot.all.decorate,
         :id,

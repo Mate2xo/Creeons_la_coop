@@ -24,5 +24,6 @@ Rails.application.routes.draw do
   resources :infos
   resources :documents, only: %i[create destroy]
   resources :members, only: %i[index show edit update]
+  resources :static_slot_members, only: %i[destroy]
   mount Thredded::Engine => '/forum'
 end
