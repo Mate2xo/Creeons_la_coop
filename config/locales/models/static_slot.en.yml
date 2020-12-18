@@ -17,9 +17,10 @@ en:
         week_type: week type
     errors:
       models:
-        mission:
+        static_slot:
           messages:
-            static_slot_attribution_failure: static slot attribution failed
+            selection_save_failure: save in selectiom history failed.
+            static_slot_attribution_failure: static slot attribution failed.
     models:
       static_slot:
         one: Static slot

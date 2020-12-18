@@ -6,6 +6,7 @@ class Members::UpdateTransaction
   tee :params
   tee :extract_ids
   step :assign_static_slot
+  step :save_in_history
   step :update_member
 
   private
@@ -33,7 +34,18 @@ class Members::UpdateTransaction
 
     @static_slot_ids.each do |static_slot_id|
       unless ::StaticSlotMember.create(member_id: @current_member.id, static_slot_id: static_slot_id)
-        Failure(error: t('activerecord.errors.models.mission.messages.static_slot_attribution_failure'))
+        Failure(error: t('activerecord.errors.models.static_slot.messages.static_slot_attribution_failure'))
+      end
+    end
+    Success(input)
+  end
+
+  def save_in_history(input)
+    return Success(input) if @static_slots_attributes.nil?
+
+    @static_slot_ids.each do |static_slot_id|
+      unless ::HistoryOfStaticSlotSelection.create(member_id: @current_member.id, static_slot_id: static_slot_id)
+        Failure(error: t('activerecord.errors.models.static_slot.messages.selection_save_failure'))
       end
     end
     Success(input)

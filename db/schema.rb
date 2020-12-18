@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_13_213101) do
+ActiveRecord::Schema.define(version: 2020_12_18_125924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,6 +124,15 @@ ActiveRecord::Schema.define(version: 2020_12_13_213101) do
     t.datetime "month_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "history_of_static_slot_selections", force: :cascade do |t|
+    t.bigint "member_id"
+    t.bigint "static_slot_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_history_of_static_slot_selections_on_member_id"
+    t.index ["static_slot_id"], name: "index_history_of_static_slot_selections_on_static_slot_id"
   end
 
   create_table "infos", force: :cascade do |t|

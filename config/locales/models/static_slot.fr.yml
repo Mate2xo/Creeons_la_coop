@@ -17,9 +17,10 @@ fr:
         week_type: type de semaine
     errors:
       models:
-        mission:
+        static_slot:
           messages:
-            static_slot_attribution_failure: Echec de l'attribution des créneaux fixes
+            selection_save_failure: Echec de la sauvegarde dans l'historique de sélection.
+            static_slot_attribution_failure: Echec de l'attribution des créneaux fixes.
     models:
       static_slot:
         one: Créneau fixe
