@@ -3,28 +3,36 @@
 class Members::UpdateTransaction
   include Dry::Transaction
 
+  tee :params
   tee :extract_ids
   step :assign_static_slot
   step :update_member
 
   private
 
-  def extract_ids(input)
-    return Success(input) if input[:permitted_params][:static_slots_attributes].nil?
+  def params(input)
+    @current_member = input[:current_member]
+    @static_slots_attributes = input[:permitted_params][:static_slots_attributes]
+    input[:permitted_params].delete('static_slots_attributes')
+    @member_params = input[:permitted_params]
+  end
 
-    static_slot_ids = []
-    input[:permitted_params][:static_slots_attributes].values.each do |value|
-      static_slot_ids << value['id']
+  def extract_ids
+    return Success if @static_slots_attributes.nil?
+
+    @static_slot_ids = []
+    @static_slots_attributes.each_pair do |_key, value|
+      @static_slot_ids << value['id']
     end
-    input.merge!({ static_slot_ids: static_slot_ids })
-    Success(input)
+    @static_slot_ids.uniq
+    Success
   end
 
   def assign_static_slot(input)
-    return Success(input) if input[:permitted_params][:static_slots_attributes].nil?
+    return Success(input) if @static_slots_attributes.nil?
 
-    input[:static_slot_ids].each do |static_slot_id|
-      unless ::StaticSlotMember.create(member_id: input[:current_member].id, static_slot_id: static_slot_id)
+    @static_slot_ids.each do |static_slot_id|
+      unless ::StaticSlotMember.create(member_id: @current_member.id, static_slot_id: static_slot_id)
         Failure(error: t('activerecord.errors.models.mission.messages.static_slot_attribution_failure'))
       end
     end
@@ -32,10 +40,7 @@ class Members::UpdateTransaction
   end
 
   def update_member(input)
-    input[:permitted_params].delete('static_slots_attributes')
-    unless input[:current_member].update(input[:permitted_params])
-      Failure(t('activerecord.errors.messages.update_fail'))
-    end
+    Failure(t('activerecord.errors.messages.update_fail')) unless @current_member.update(@member_params)
 
     Success(input)
   end
