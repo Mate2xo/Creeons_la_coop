@@ -1,18 +1,19 @@
 # frozen_string_literal: true
 
-# It generates a planning for the next month and enroll the members with have a static slot
+# It generates a planning for the a month
 class ScheduleGenerator < ApplicationService
   attr_reader :errors
 
-  def initialize(current_member)
+  def initialize(current_member, start_date)
     @current_member = current_member
+    @start_date = start_date
     @errors = []
   end
 
   def generate_schedule
     valid = true
     Mission.transaction do
-      generate_missions_for_next_month
+      generate_missions_for_a_month
       if @errors.any?
         valid = false
         raise ActiveRecord::Rollback
@@ -23,10 +24,9 @@ class ScheduleGenerator < ApplicationService
 
   private
 
-  def generate_missions_for_next_month
-    current_day = (DateTime.current + 1.month).at_beginning_of_month
-    next_month = current_day.month
-    while current_day.month == next_month
+  def generate_missions_for_a_month
+    current_day = @start_date
+    while current_day.month == @start_date.month
       generate_missions_for_a_day(current_day)
       current_day += 1.day
     end
@@ -45,6 +45,7 @@ class ScheduleGenerator < ApplicationService
                                event: false,
                                author: @current_member)
       Slot::Generator.call(mission)
+      @errors << I18n.t('activerecord.errors.messages.creation_fail', Mission.model_name.human) if mission.errors.any?
     end
   end
 
