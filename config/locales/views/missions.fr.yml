@@ -3,6 +3,7 @@ fr:
     form:
       enroll_another_member: Ajouter un participant
       enrolled_members: Participants
+      genre: Genre
     enrollment_fields:
       delete_button: Désinscrire ce participant
     show:

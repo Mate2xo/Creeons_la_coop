@@ -11,8 +11,13 @@
       </div><br />
 
       <div class="field">
-        <%= f.label :event, t('main_app.views.missions._form.event')%>
-        <%= f.check_box :event %>
+        <%= f.label :genre, t('.genre')%>
+        <%= f.select :genre,
+          Mission.genres.keys.map{|genre|
+          [ Mission.human_enum_name(:genre, genre), genre ]
+        },
+        {},
+        class: 'form-control' %>
       </div><br />
 
       <div class="field">
