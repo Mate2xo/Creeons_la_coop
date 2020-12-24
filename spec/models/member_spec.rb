@@ -188,7 +188,7 @@ RSpec.describe Member, type: :model do
         create :enrollment, member: member
         create :enrollment, member: member, on_event: true
 
-        expect(member.monthly_worked_hours(Date.current)).to eq 2
+        expect(member.monthly_worked_hours(Date.current)).to eq 3
       end
     end
   end
