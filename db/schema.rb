@@ -185,6 +185,7 @@ ActiveRecord::Schema.define(version: 2020_12_29_072659) do
     t.integer "min_member_count"
     t.boolean "delivery_expected", default: false
     t.boolean "event", default: false
+    t.integer "genre", default: 0
     t.index ["author_id"], name: "index_missions_on_author_id"
   end
 

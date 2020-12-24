@@ -17,6 +17,7 @@
 #  min_member_count  :integer
 #  delivery_expected :boolean          default(FALSE)
 #  event             :boolean          default(FALSE)
+#  genre             :integer          default: 0
 #
 
 # A Mission is an activity that has to be done for the Supermaket Team to function properly.
@@ -37,6 +38,8 @@ class Mission < ApplicationRecord
 
   accepts_nested_attributes_for :addresses, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :enrollments, reject_if: :all_blank, allow_destroy: true
+
+  enum genre: { standard: 0, regulated: 1, event: 2 }
 
   # Virtual attributes
   attr_accessor :recurrence_rule

@@ -78,7 +78,7 @@ class Member < ApplicationRecord
     month_number = date.month
 
     family_enrollments
-      .select { |enroll| (enroll.mission.start_date.month == month_number && enroll.mission.event == false) }
+      .select { |enroll| (enroll.mission.start_date.month == month_number && enroll.mission.genre != 'event') }
       .reduce(0.0) { |sum, enrollment| sum + enrollment.duration }
   end
 
