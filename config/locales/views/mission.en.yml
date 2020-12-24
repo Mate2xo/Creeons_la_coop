@@ -3,6 +3,7 @@ en:
     form:
       enroll_another_member: Enroll another member
       enrolled_members: Enrolled members
+      genre: Genre
     enrollment_fields:
       delete_button: Disenroll this member
     show:

@@ -1,0 +1,8 @@
+en:
+  activerecord:
+    attributes:
+      mission:
+        genres:
+          event: Event
+          regulated: Regulated
+          standard: Standard
