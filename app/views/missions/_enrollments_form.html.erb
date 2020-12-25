@@ -1,0 +1,11 @@
+<div id="enrollments">
+  <%= f.fields_for :enrollments, mission.enrollments do |enrollment| %>
+    <%= render 'enrollment_fields', f: enrollment %>
+
+  <% end %>
+  <div class="links">
+    <%= link_to_add_association t(".enroll_another_member"),
+      f,
+      :enrollments %>
+  </div>
+</div>
