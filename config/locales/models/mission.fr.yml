@@ -2,8 +2,16 @@ fr:
   activerecord:
     attributes:
       mission:
+        duration: La durée
         genres:
           event: Événement
           regulated: Régulée
           standard: Standard
-
+    errors:
+      models:
+        mission:
+          attributes:
+            duration:
+              maximum: doit être inférieure ou égale à 10 heures
+              minimum: doit être supérieure à 0 minute
+              multiple: doit être un multiple de 90 minutes
