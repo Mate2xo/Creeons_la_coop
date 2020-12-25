@@ -66,6 +66,7 @@ class MissionsController < ApplicationController
     else
       flash[:error] = translate 'activerecord.errors.messages.creation_fail',
                                 model: Mission.model_name.human
+      flash[:error] << " #{mission.errors.full_messages.join(', ')}"
       redirect_to new_mission_path
     end
   end
