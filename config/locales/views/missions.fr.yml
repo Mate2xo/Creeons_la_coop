@@ -1,10 +1,11 @@
 fr:
   missions:
-    form:
+    enrollments_form:
       enroll_another_member: Ajouter un participant
-      enrolled_members: Participants
-      genre: Genre
     enrollment_fields:
       delete_button: Désinscrire ce participant
+    form:
+      enrolled_members: Participants
+      genre: genre
     show:
       quick_enroll: Inscription rapide
