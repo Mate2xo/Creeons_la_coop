@@ -32,9 +32,11 @@ class Mission < ApplicationRecord
 
   validates :name, presence: true
   validates :description, presence: true
-  validates :start_date, presence: true, on: :update
+  validates :start_date, presence: true
+  validates :due_date, presence: true
   validates :min_member_count, numericality: { only_integer: true }, presence: true
   validates :max_member_count, numericality: { only_integer: true }, allow_nil: true
+  validates_with DurationValidator
 
   accepts_nested_attributes_for :addresses, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :enrollments, reject_if: :all_blank, allow_destroy: true
@@ -44,4 +46,8 @@ class Mission < ApplicationRecord
   # Virtual attributes
   attr_accessor :recurrence_rule
   attr_accessor :recurrence_end_date
+
+  def duration
+    (due_date - start_date).round
+  end
 end
