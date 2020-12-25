@@ -33,3 +33,6 @@ en:
   date:
     formats:
       only_month: "%B"
+  time:
+    formats:
+      only_month: "%B"

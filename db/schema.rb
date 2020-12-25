@@ -77,8 +77,10 @@ ActiveRecord::Schema.define(version: 2020_12_29_072659) do
   create_table "enrollments", force: :cascade do |t|
     t.bigint "member_id", null: false
     t.bigint "mission_id", null: false
-    t.time "start_time"
-    t.time "end_time"
+    t.time "old_start_time"
+    t.time "old_end_time"
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.index ["mission_id"], name: "index_enrollments_on_mission_id"
   end
 
