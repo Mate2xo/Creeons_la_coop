@@ -2,8 +2,13 @@ fr:
   missions:
     enrollments_form:
       enroll_another_member: Ajouter un participant
+    enrollments_with_time_slots_form:
+      enroll_another_member: Ajouter un participant
     enrollment_fields:
       delete_button: Désinscrire ce participant
+    enrollment_with_time_slots_fields:
+      delete_button: Désinscrire ce participant
+      slot_details: De %{start_time} à %{end_time}
     form:
       enrolled_members: Participants
       genre: genre

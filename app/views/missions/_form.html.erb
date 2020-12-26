@@ -101,7 +101,7 @@
       </div>
       <% unless mission.new_record? %>
         <% if mission.genre == "regulated"%>
-          <%= render 'enrollments_form_with_time_slots'%>
+          <%= render 'enrollments_with_time_slots_form', f: f, mission: mission%>
         <% else %>
           <%= render 'enrollments_form', f: f, mission: mission %>
         <% end %>

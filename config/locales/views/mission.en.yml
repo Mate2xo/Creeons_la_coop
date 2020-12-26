@@ -1,10 +1,16 @@
 en:
   missions:
-    form:
+    enrollments_form:
       enroll_another_member: Enroll another member
-      enrolled_members: Enrolled members
-      genre: Genre
+    enrollments_with_time_slots_form:
+      enroll_another_member: Enroll another member
     enrollment_fields:
       delete_button: Disenroll this member
+    enrollment_with_time_slots_fields:
+      delete_button: Disenroll this member
+      slot_details: From %{start_time} to %{end_time}
+    form:
+      enrolled_members: Enrolled members
+      genre: Genre
     show:
       quick_enroll: Quick enroll

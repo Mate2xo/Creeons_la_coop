@@ -51,4 +51,26 @@ class Mission < ApplicationRecord
   def duration
     (due_date - start_date).round
   end
+
+  def available_time_slots(member = nil)
+    return nil unless genre == 'regulated'
+
+    time_slots = []
+    current_time_slot = start_date
+    while current_time_slot < due_date
+      time_slots << current_time_slot if time_slot_available?(current_time_slot, member)
+      current_time_slot += 90.minutes
+    end
+    time_slots
+  end
+
+  private
+
+  def time_slot_available?(current_time_slot, member)
+    if member.nil?
+      enrollments.where(start_time: current_time_slot, member: nil).count < max_member_count
+    else
+      enrollments.find_by(start_time: current_time_slot, member: member.id).present?
+    end
+  end
 end
