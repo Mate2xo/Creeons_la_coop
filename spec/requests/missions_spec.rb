@@ -91,4 +91,61 @@ RSpec.describe 'A Mission request', type: :request do
       end
     end
   end
+
+  describe 'PUT' do
+    subject(:put_mission) { put mission_path(mission.id), params: { mission: mission_params } }
+
+    let(:mission) { create :mission }
+    let(:mission_params) {  { name: 'updated_mission' } }
+
+    before { sign_in create :member, :super_admin }
+
+    it 'updates the mission' do
+      put_mission
+
+      expect(mission.reload.name).to eq 'updated_mission'
+    end
+
+    context 'when the mission is not regulated' do
+      let(:other_member) { create :member }
+      let(:enrollment_params) do
+        { member_id: other_member.id, start_time: mission.start_date, end_time: mission.due_date }
+      end
+      let(:mission_params) do
+        { name: 'updated_mission', enrollments_attributes: { '1234': enrollment_params } }
+      end
+
+      it 'adds member enrollment' do
+        put mission_path(mission.id), params: { mission: mission_params }
+
+        enrollment_params.each do |key, value|
+          expect(mission.enrollments.first[key]).to eq value
+        end
+      end
+    end
+
+    context 'when the mission is regulated' do
+      let(:other_member) { create :member }
+
+      let(:enrollment_expected_params) do
+        { member_id: other_member.id, start_time: mission.start_date, end_time: mission.start_date + 3.hours }
+      end
+
+      let(:enrollment_params) do
+        { member_id: other_member.id, start_time: [mission.start_date, mission.start_date + 90.minutes] }
+      end
+
+      let(:mission_params) do
+        { name: 'updated_mission', enrollments_attributes: { '1234': enrollment_params } }
+      end
+
+      it 'adds member enrollment' do
+        put mission_path(mission.id), params: { mission: mission_params }
+
+        enrollment_expected_params.each do |key, value|
+          expect(mission.enrollments.first[key]).to eq value
+        end
+      end
+    end
+  end
 end
