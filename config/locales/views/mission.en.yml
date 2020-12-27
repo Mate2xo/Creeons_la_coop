@@ -12,7 +12,9 @@ en:
     form:
       enrolled_members: Enrolled members
       genre: Genre
-    show:
+    regulated_quick_enrollment_form:
+      quick_enroll: Quick enroll
+    standard_quick_enrollment_form:
       quick_enroll: Quick enroll
     update:
       time_slot_requirement: At least one time slot must be indicated

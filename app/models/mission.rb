@@ -68,8 +68,12 @@ class Mission < ApplicationRecord
 
   def time_slot_available?(current_time_slot, member)
     member_enrollment = enrollments.find_by(mission: self, member: member)
-    return true if member.present? && member_enrollment.decorate.already_taken?(current_time_slot)
+    if member.nil? || member_enrollment.nil?
+      return enrollments.where('start_time <= :current_time_slot AND :current_time_slot < end_time',
+                               current_time_slot: current_time_slot)
+                        .count < max_member_count
+    end
 
-    enrollments.where('start_time <= ? AND ? < end_time', current_time_slot, current_time_slot).count < max_member_count
+    return true if member.present? && member_enrollment.decorate.already_taken?(current_time_slot)
   end
 end
