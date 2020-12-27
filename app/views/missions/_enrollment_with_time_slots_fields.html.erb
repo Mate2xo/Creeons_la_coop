@@ -9,7 +9,7 @@
     </div>
     <div class="field m-1 pt-5">
       <% @mission.available_time_slots.each do |time_slot| %>
-        <%= f.check_box("start_time", {:multiple => true }, time_slot, nil) %>
+        <%= f.check_box("start_time", {:multiple => true, checked: f.object.decorate.already_taken?(time_slot) }, time_slot, nil) %>
         <%= f.label t('.slot_details', start_time: time_slot.strftime('%Hh%M'), end_time: (time_slot + 90.minutes).strftime('%Hh%M')), { class: 'mr-1' } %>
       <% end %>
     </div>
