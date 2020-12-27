@@ -12,7 +12,12 @@ fr:
     form:
       enrolled_members: Participants
       genre: genre
-    show:
+    regulated_quick_enrollment_form:
+      button_enroll_to_slots: Mettre à jour l'inscription
+      no_time_slot_available: Il n y a plus de créneau disponible pour cette mission
+      quick_enroll: Inscription rapide
+      slot_details: De %{start_time} à %{end_time}
+    standard_quick_enrollment_form:
       quick_enroll: Inscription rapide
     update:
       time_slot_requirement: Au moins une tranche horaire doit être indiquée
