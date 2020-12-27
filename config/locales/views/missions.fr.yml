@@ -14,3 +14,5 @@ fr:
       genre: genre
     show:
       quick_enroll: Inscription rapide
+    update:
+      time_slot_requirement: Au moins une tranche horaire doit être indiquée

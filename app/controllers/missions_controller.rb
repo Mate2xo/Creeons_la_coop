@@ -27,11 +27,15 @@ class MissionsController < ApplicationController
   def edit; end
 
   def update
-    if @mission.update(permitted_params)
+    update_transaction = Missions::UpdateTransaction.new.with_step_args(
+      update: [mission: @mission]
+    ).call(permitted_params)
+
+    if update_transaction.success?
       flash[:notice] = translate 'activerecord.notices.messages.update_success'
       render :show
     else
-      flash[:error] = translate 'activerecord.errors.messages.update_fail'
+      flash[:error] = update_transaction.failure
       render :edit
     end
   end
@@ -72,6 +76,25 @@ class MissionsController < ApplicationController
   end
 
   def permitted_params
+    if params[:mission][:genre] == 'regulated'
+      permit_params_of_regulated_mission
+    else
+      permit_params_of_standard_mission
+    end
+  end
+
+  def permit_params_of_regulated_mission
+    params.require(:mission).permit(
+      :name, :description, :event, :delivery_expected,
+      :recurrent, :recurrence_rule, :recurrence_end_date,
+      :max_member_count, :min_member_count,
+      :due_date, :start_date, :genre,
+      addresses_attributes: %i[id postal_code city street_name_1 street_name_2 _destroy],
+      enrollments_attributes: [:id, :_destroy, :member_id, start_time: []]
+    )
+  end
+
+  def permit_params_of_standard_mission
     params.require(:mission).permit(
       :name, :description, :event, :delivery_expected,
       :recurrent, :recurrence_rule, :recurrence_end_date,
