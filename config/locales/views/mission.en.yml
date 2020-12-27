@@ -14,3 +14,5 @@ en:
       genre: Genre
     show:
       quick_enroll: Quick enroll
+    update:
+      time_slot_requirement: At least one time slot must be indicated
