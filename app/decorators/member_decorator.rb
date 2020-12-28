@@ -2,7 +2,6 @@
 
 # MemberDecorator
 class MemberDecorator < Draper::Decorator
-  decorates_association :static_slots
   delegate_all
 
   def hours_worked_in_the_last_three_months(csv: false)

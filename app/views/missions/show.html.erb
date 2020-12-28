@@ -3,8 +3,6 @@
   <%= javascript_include_tag 'missionForm', 'data-turbolinks-track': 'reload' %>
 <% end %>
 
-
-
 <div class="container py-3">
   <div class="row">
     <main class="col-lg-8 ml-lg-auto order-lg-2">
@@ -18,11 +16,26 @@
         <hr class="w-25">
       </section>
 
-      <% if @mission.event %>
-        <%= render partial: 'participants' %>
-      <% else %>
-        <%= render partial: 'missions/enrolled_members' %>
-      <% end %>
+      <section class="px-inline-only-2">
+        <h2 class="heading heading-3 strong-500">
+          <%= t "main_app.views.missions.show.attendees" %> : <%= @mission.members.length %>
+          <hr class="mt-0 mb-0">
+        </h2>
+
+          <%= render partial: 'enrollment', collection: @mission.enrollments %>
+
+        <div class="d-flex justify-content-around">
+          <p>
+            <%= Mission.human_attribute_name(:min_member_count) %> :
+            <%= @mission.min_member_count %>
+          </p>
+          <p>
+            <%= Mission.human_attribute_name(:max_member_count) %> :
+            <%= @mission.max_member_count.nil? ?
+                  t("main_app.views.application.messages.undefined") : @mission.max_member_count %>
+          </p>
+        </div>
+      </section>
     </main>
 
     <aside class="col-lg-4 order-lg-1 border">
@@ -31,7 +44,7 @@
           <h3 class="progress-label text-capitalize text-md strong-600">
             <%= translate "activerecord.attributes.mission.start_date" %> :
           </h3>
-          <h4> <%= time_tag(@mission.start_date) %> </h4>
+          <h4> <%=  time_tag(@mission.start_date) %> </h4>
         </div>
       <% end %>
 
@@ -45,14 +58,6 @@
           </h4>
         </div>
       <% end %>
-        <div class="progress-wrapper mt-4">
-          <h3 class="progress-label text-capitalize text-md strong-600">
-            <%= translate "activerecord.attributes.mission.cash_register_proficiency_requirement" %> :
-          </h3>
-          <h4>
-            <%= Mission.human_enum_name('cash_register_proficiency_requirement', @mission.cash_register_proficiency_requirement) %>
-          </h4>
-        </div>
 
       <div class="progress-wrapper mt-4">
         <h3 class="progress-label text-capitalize text-md strong-600">
@@ -70,10 +75,33 @@
 
       <hr class="mt-0">
 
-      <% if @mission.event %>
-        <%= render partial: 'participation_form' %>
-      <% else %>
-        <%= render partial: 'missions/enrollment_form' %>
+      <%= form_with scope: 'enrollment', url: mission_enrollments_path(@mission.id) do |f| %>
+        <h4 class="d-block text-center mx-auto">
+          <%= translate ".quick_enroll" %>
+        </h4>
+        <div class="d-flex align-items-center justify-content-around">
+          <%= translate "main_app.views.missions.show.from" %>
+          <%= f.text_field :start_time,
+                           class: "form-control datetimepicker-input m-2 w-25",
+                           data: { toggle: "datetimepicker", target: "#enrollment_start_time" },
+                           value: @mission.start_date.strftime('%T')
+          %>
+          <%= translate "main_app.views.missions.show.to" %>
+          <%= f.text_field :end_time,
+                           class: "form-control datetimepicker-input m-2 w-25",
+                           data: { toggle: "datetimepicker", target: "#enrollment_end_time" },
+                           value: @mission.due_date.strftime('%T')
+          %>
+        </div>
+        <% if @mission.members.select { |m| m.id == current_member.id }.present? %>
+          <%= link_to translate("main_app.views.missions.show.button_disenroll"),
+            mission_enrollments_path(@mission.id),
+            method: "DELETE",
+            class: "d-block text-center btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %>
+        <% else %>
+          <%= f.submit translate("main_app.views.missions.show.button_enroll"),
+            class: "d-block text-center btn btn-base-1 btn-shadow btn-circle px-4 mx-auto mt-2" %>
+        <% end %>
       <% end %>
 
       <div class="progress-wrapper mt-4 d-flex justify-content-between">

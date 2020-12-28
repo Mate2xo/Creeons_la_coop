@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ParticipationPolicy < ApplicationPolicy
+class EnrollmentPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.all

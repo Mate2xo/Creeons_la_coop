@@ -8,6 +8,20 @@
                    class: "form-control" %>
       <br />
     </div>
+    <div class="field m-1">
+      <%= f.label :start_time, Enrollment.human_attribute_name(:start_time).humanize %><br />
+      <%= f.time_field :start_time,
+                       min: @mission.start_date.strftime("%R"),
+                       max: @mission.due_date.strftime("%R"),
+                       class: "form-control" %><br />
+    </div>
+    <div class="field m-1">
+      <%= f.label :end_time, Enrollment.human_attribute_name(:end_time).humanize %><br />
+      <%= f.time_field :end_time,
+                       min: @mission.start_date.strftime("%R"),
+                       max: @mission.due_date.strftime("%R"),
+                       class: "form-control" %><br />
+    </div>
   </div>
 
   <%= link_to_remove_association t(".delete_button").humanize, f,

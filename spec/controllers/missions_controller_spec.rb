@@ -10,6 +10,73 @@ RSpec.describe MissionsController, type: :controller do
 
   before { sign_in super_admin }
 
+  describe 'GET index' do
+    before { get :index }
+
+    it 'assigns @mission' do expect(assigns(:missions)).to include(mission) end
+    it { expect(response).to have_http_status(:success) }
+  end
+
+  describe 'GET show' do
+    before { get :show, params: { id: mission.id } }
+
+    it { expect(response).to have_http_status :success }
+    it 'assigns @mission' do expect(assigns(:mission)).to eq(mission) end
+  end
+
+  describe 'GET edit' do
+    before { get :edit, params: { id: mission.id } }
+
+    it { expect(response).to have_http_status :success }
+    it 'assigns @mission' do expect(assigns(:mission)).to eq(mission) end
+  end
+
+  describe 'PUT update' do
+    context 'with valid params' do
+      before do
+        put :update, params: { id: mission.id, mission: valid_attributes }
+        mission.reload
+      end
+
+      it 'assigns @mission' do expect(assigns(:mission)).to eq(mission) end
+      it { expect(response).to render_template(:show) }
+
+      %i[
+        name description max_member_count min_member_count start_date due_date
+      ].each do |attribute|
+        it "updates the :#{attribute} attribute" do
+          expect(mission.send(attribute)).to eq(valid_attributes[attribute])
+        end
+      end
+    end
+
+    context 'with invalid params' do
+      def invalid_request(invalid_attribute)
+        put :update, params: { id: mission.id, mission: { "#{invalid_attribute}": '' } }
+      end
+
+      %w[name description min_member_count start_date].each do |attribute|
+        it 'redirects to the edit form' do
+          invalid_request(attribute)
+          expect(response).to render_template(:edit)
+        end
+
+        it "does not change the mission :#{attribute} attribute" do
+          expect { invalid_request(attribute) }.not_to(change { mission.reload.send(attribute) })
+        end
+      end
+    end
+  end
+
+  describe 'DELETE' do
+    it 'successfully deletes a mission record' do
+      mission
+      expect do
+        delete :destroy, params: { id: mission.id }
+      end.to change(Mission, :count).by(-1)
+    end
+  end
+
   describe 'Recurrent missions creation' do
     let(:mission_params) do
       build(:mission, start_date: DateTime.now,

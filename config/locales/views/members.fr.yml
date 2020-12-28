@@ -1,8 +1,4 @@
 fr:
-  admin:
-    members:
-      enroll_static_members:
-        enroll_in_progress: Inscription des membres fixes en cours.
   members:
     edit:
       title_enrollments: Vos participations

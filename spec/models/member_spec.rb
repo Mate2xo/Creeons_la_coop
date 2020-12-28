@@ -72,10 +72,8 @@ RSpec.describe Member, type: :model do
           .class_name('Group').through(:group_managers).with_foreign_key('manager_id')
           .dependent(:nullify)
       }
-      it { is_expected.to have_many(:missions).through(:slots) }
-      it { is_expected.to have_many(:events).through(:participations) }
+      it { is_expected.to have_many(:missions).through(:enrollments) }
       it { is_expected.to have_many(:groups).through(:group_members) }
-      it { is_expected.to have_many(:static_slots).through(:static_slot_members) }
     end
 
     describe 'validations' do
@@ -174,24 +172,23 @@ RSpec.describe Member, type: :model do
 
   describe '#monthly_worked_hours' do
     context 'when a member shares the same register_id with his/her family' do
+      let(:member) { create :member, register_id: 1234 }
+      let(:family_member) { create :member, register_id: 1234 }
+
       it "affects every family members' worked hours count" do
-        member = create :member, register_id: 1234
-        family_member = create :member, register_id: 1234
-        mission = create :mission, name: 'my_mission', max_member_count: 4, event: false, with_slots: true
-
-        mission.slots.first.update(member_id: member.id)
-
+        create :enrollment, member: family_member
         expect(member.monthly_worked_hours(Date.current)).to eq family_member.monthly_worked_hours(Date.current)
       end
     end
 
-    context 'when a member participate on an event' do
+    context 'when a member is enrolled on an event' do
+      let(:member) { create :member }
+
       it 'ignores these hours' do
-        participant = create :member
+        create :enrollment, member: member
+        create :enrollment, member: member, on_event: true
 
-        create :participation, participant: participant
-
-        expect(participant.monthly_worked_hours(Date.current)).to eq 0
+        expect(member.monthly_worked_hours(Date.current)).to eq 2
       end
     end
   end
