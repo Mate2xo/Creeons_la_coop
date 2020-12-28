@@ -17,9 +17,12 @@ RSpec.describe 'Enrollments', type: :request do
 
     let(:current_member) { create :member }
     let(:enrollment) do
-      attributes_for :enrollment,
-                     start_time: Time.zone.parse(mission.start_date.to_s),
-                     end_time: Time.zone.parse(mission.due_date.to_s)
+      enrollment = attributes_for :enrollment,
+                                  start_time: Time.zone.parse(mission.start_date.to_s),
+                                  end_time: Time.zone.parse(mission.due_date.to_s)
+      enrollment[:member_id] = current_member.id
+      enrollment[:mission_id] = mission.id
+      enrollment
     end
     let(:params) { { enrollment: enrollment } }
 
