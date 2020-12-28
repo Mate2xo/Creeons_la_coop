@@ -23,20 +23,6 @@
       </div><br />
 
       <div class="field">
-        <%= f.label :cash_register_proficiency_requirement,
-          Mission.human_attribute_name(:cash_register_proficiency_requirement) %><br />
-        <%= f.select :cash_register_proficiency_requirement,
-          Mission.cash_register_proficiency_requirements.keys.map { |level|
-            [
-              t(level, scope: "activerecord.attributes.mission.cash_register_proficiency_requirements"),
-              level
-            ]
-          },
-          {},
-          class:'form-control' %>
-      </div><br />
-
-      <div class="field">
         <%= f.label :delivery_expected, t('main_app.views.missions._form.delivery_expected')%>
         <%= f.check_box :delivery_expected %>
       </div><br />
@@ -104,24 +90,22 @@
                       Mission.human_attribute_name(:max_member_count) %>
           <br />
           <%= f.number_field :max_member_count,
-                             class: "form-control form-control-lg",
-                             required: true %>
+                             class: "form-control form-control-lg" %>
         </div><br />
 
       </div>
       <% unless mission.new_record? %>
-        <% if mission.event %>
-          <div id="participations">
-            <%= f.fields_for :participations, mission.participations do |participation| %>
-              <%= render 'participation_fields', f: participation %>
-            <% end %>
-            <div class="links">
-              <%= link_to_add_association t(".add_another_member"),
-                f,
-                :participations %>
-            </div>
+        <div id="enrollments">
+          <%= f.fields_for :enrollments, mission.enrollments do |enrollment| %>
+            <%= render 'enrollment_fields', f: enrollment %>
+
+          <% end %>
+          <div class="links">
+            <%= link_to_add_association t(".enroll_another_member"),
+                                        f,
+                                        :enrollments %>
           </div>
-        <% end %>
+        </div>
       <% end %>
     </section>
 

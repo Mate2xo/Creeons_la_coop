@@ -21,6 +21,8 @@ en:
         show:
           addresses: Addresses
           attendees: Attendees
+          button_enroll: Enroll on this slot
+          button_disenroll: Disenroll
           enroll: Enroll
           from: from
           to: to

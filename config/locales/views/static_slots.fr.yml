@@ -1,5 +1,0 @@
-fr:
-  cocoon:
-    static_slots:
-      add: Ajouter un créneau fixe
-      remove: Supprimer ce créneau fixe

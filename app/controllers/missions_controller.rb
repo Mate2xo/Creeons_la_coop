@@ -4,8 +4,6 @@
 # Every member can create a mission
 # Available methods other than attributes: #addresses, #members
 class MissionsController < ApplicationController
-  decorates_assigned :mission
-
   before_action :authenticate_member!
   before_action :set_authorized_mission, only: %i[show edit update destroy]
 
@@ -29,11 +27,9 @@ class MissionsController < ApplicationController
   def edit; end
 
   def update
-    mission_updator = Mission::Updator.new(@mission, permitted_params)
-    update_mission_response = mission_updator.call
-    if update_mission_response
+    if @mission.update(permitted_params)
       flash[:notice] = translate 'activerecord.notices.messages.update_success'
-      redirect_to mission_path(@mission)
+      render :show
     else
       flash[:error] = translate 'activerecord.errors.messages.update_fail'
       render :edit
@@ -56,7 +52,7 @@ class MissionsController < ApplicationController
   def generate(mission)
     if mission.recurrent
       validation_msg = RecurrentMissions.validate mission
-      return render :new, alert: validation_msg unless validation_msg == true && mission.valid?
+      return render :new, alert: validation_msg unless validation_msg == true
 
       RecurrentMissions.new.generate(mission)
       flash[:notice] = translate 'activerecord.notices.messages.records_created',
@@ -64,12 +60,12 @@ class MissionsController < ApplicationController
       redirect_to missions_path
 
     elsif mission.save
-      Slot::Generator.call(mission) unless mission.event
       flash[:notice] = translate 'activerecord.notices.messages.record_created',
                                  model: Mission.model_name.human
-      redirect_to mission_path(mission)
+      render :show
     else
-      flash[:error] = mission.errors.full_messages.join(', ')
+      flash[:error] = translate 'activerecord.errors.messages.creation_fail',
+                                model: Mission.model_name.human
       redirect_to new_mission_path
     end
   end
@@ -79,9 +75,9 @@ class MissionsController < ApplicationController
       :name, :description, :event, :delivery_expected,
       :recurrent, :recurrence_rule, :recurrence_end_date,
       :max_member_count, :min_member_count,
-      :due_date, :start_date, :cash_register_proficiency_requirement,
+      :due_date, :start_date,
       addresses_attributes: %i[id postal_code city street_name_1 street_name_2 _destroy],
-      participations_attributes: %i[id participant_id start_time end_time]
+      enrollments_attributes: %i[id _destroy member_id start_time end_time]
     )
   end
 

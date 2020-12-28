@@ -1,6 +1,0 @@
-fr:
-  slots:
-    update:
-      confirm_update: L'inscription aux créneaux à été mise à jour
-      enroll_error: "L'opération a échoué : %{errors}"
-

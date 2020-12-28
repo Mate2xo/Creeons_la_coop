@@ -2,7 +2,6 @@
 
 # The websites users. Their 'role' attributes determines if fhey're an unvalidated user, a member, admin or super-admmin
 class MembersController < ApplicationController
-  decorates_assigned :member
   before_action :authenticate_member!
   before_action :set_authorized_member, only: %i[show edit update]
 
@@ -18,12 +17,11 @@ class MembersController < ApplicationController
   end
 
   def update
-    transaction = Members::UpdateTransaction.new.call(current_member: current_member, permitted_params: permitted_params)
-    if transaction.success?
+    if @member.update(permitted_params)
       flash[:notice] = t 'activerecord.notices.messages.update_success'
-      redirect_to member_path(@member.id)
+      render :show
     else
-      flash[:error] = transaction[:errors]
+      flash[:error] = t 'activerecord.errors.messages.update_fail'
       render :edit
     end
   end
@@ -37,8 +35,7 @@ class MembersController < ApplicationController
       :cash_register_proficiency,
       address_attributes: %i[
         id postal_code city street_name_1 street_name_2 _destroy
-      ],
-      static_slots_attributes: [%i[id _destroy)]]
+      ]
     )
   end
 

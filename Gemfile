@@ -47,8 +47,6 @@ gem 'mailjet' # Production mailer API
 gem 'pundit' # Authorization management
 gem 'recurring_select' # Events recurrence rules set helper
 gem 'thredded', '~> 0.16.16' # Forum engine
-gem 'dry-transaction'
-
 
 group :development, :test do
   gem 'factory_bot_rails', '~> 4.0'

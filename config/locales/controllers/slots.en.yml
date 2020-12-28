@@ -1,6 +1,0 @@
-en:
-  slots:
-    update:
-      confirm_update: The enrollments to the slots has been updated
-      enroll_error: "operaion failed : %{errors}"
-
