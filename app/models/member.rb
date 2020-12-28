@@ -76,7 +76,6 @@ class Member < ApplicationRecord
   # @param date [Date]
   def monthly_worked_hours(date)
     month_number = date.month
-
     family_enrollments
       .select { |enroll| (enroll.mission.start_date.month == month_number && enroll.mission.genre != 'event') }
       .reduce(0.0) { |sum, enrollment| sum + enrollment.duration }
