@@ -33,13 +33,5 @@ FactoryBot.define do
     end
     due_date { start_date + 3.hours }
     association :author, factory: :member
-
-    trait :regulated do
-      genre { 'regulated' }
-    end
-
-    trait :event do
-      genre { 'event' }
-    end
   end
 end
