@@ -10,9 +10,17 @@
         <%= f.check_box("start_time", {:multiple => true, checked: current_member.decorate.time_slot_already_taken?(time_slot, @mission) }, time_slot, nil) %>
         <%= f.label t('.slot_details', start_time: time_slot.strftime('%Hh%M'), end_time: (time_slot + 90.minutes).strftime('%Hh%M')), { class: 'mr-1' } %>
         <%= f.hidden_field :member_id, value: current_member.id %>
+        <%= f.hidden_field :mission_id, value: @mission.id %>
       </div>
     <% end%>
-    <%= f.submit translate(".button_enroll_to_slots"),
-      class: "d-block text-center btn btn-base-1 btn-shadow btn-circle px-4 mx-auto mt-2" %>
+    <% if @mission.members.select { |m| m.id == current_member.id }.present? %>
+      <%= link_to translate("main_app.views.missions.show.button_disenroll"),
+        mission_enrollments_path(@mission.id),
+        method: "DELETE",
+        class: "d-block text-center btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %>
+    <% else %>
+      <%= f.submit translate("main_app.views.missions.show.button_enroll"),
+        class: "d-block text-center btn btn-base-1 btn-shadow btn-circle px-4 mx-auto mt-2" %>
+    <% end %>
   <% end %>
 <% end %>
