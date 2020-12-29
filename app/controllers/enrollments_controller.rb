@@ -6,15 +6,14 @@ class EnrollmentsController < ApplicationController
   before_action :set_mission, only: %i[create destroy]
 
   def create
-    create_transaction = Enrollments::CreateTransaction.new.with_step_args(
-      validate: [mission: @mission],
-      prepare: [mission: @mission]
-    ).call(permitted_params)
+    create_transaction = Enrollments::CreateTransaction.new.with_step_args(create_step_args).call(permitted_params)
 
-    return flash[:alert] = create_transaction.failure unless create_transaction.success?
-
-    flash[:notice] = translate '.confirm_enroll'
-    redirect_to mission_path(params[:mission_id])
+    if create_transaction.success?
+      flash[:notice] = translate '.confirm_enroll'
+      redirect_to mission_path(params[:mission_id])
+    else
+      flash[:alert] = create_transaction.failure
+    end
   end
 
   def destroy
@@ -31,6 +30,12 @@ class EnrollmentsController < ApplicationController
     else
       params.require(:enrollment).permit(:member_id, :mission_id, start_time: [])
     end
+  end
+
+  def create_step_args
+    { validate: [mission: @mission],
+      check_cash_register_proficiency: [mission: @mission, member: current_member],
+      prepare: [mission: @mission] }
   end
 
   def set_mission

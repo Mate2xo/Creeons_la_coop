@@ -79,6 +79,12 @@ class Mission < ApplicationRecord
     member_enrollment.contain_this_time_slot?(current_time_slot)
   end
 
+  def available_slots_count_for_a_time_slot(time_slot)
+    occupied_slots_count = enrollments.where('start_time <= :time_slot AND :time_slot < end_time',
+                                             time_slot: time_slot).count
+    max_member_count - occupied_slots_count
+  end
+
   private
 
   def time_slot_selectable?(current_time_slot, member)
