@@ -57,6 +57,10 @@ en:
     resource: 
       index:
         worked_hours: "Hours worked in last three months"
+      show:
+        week: 'week'
+      edit:
+        week: 'week'
     scopes:
       all: "All"
     search_status:
