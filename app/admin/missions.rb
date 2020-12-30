@@ -2,9 +2,16 @@
 
 # rubocop: disable Metrics/BlockLength
 ActiveAdmin.register Mission do
-  permit_params :author_id, :name, :description, :event, :delivery_expected,
-                :max_member_count, :min_member_count,
-                :start_date, :due_date
+  permit_params :author_id,
+                :name,
+                :description,
+                :event,
+                :delivery_expected,
+                :max_member_count,
+                :min_member_count,
+                :start_date,
+                :due_date,
+                :cash_register_proficiency_requirement
 
   index do
     selectable_column
@@ -14,6 +21,7 @@ ActiveAdmin.register Mission do
     column :event
     column :due_date
     column :author
+    column :cash_register_proficiency_requirement
     actions
   end
 
@@ -29,6 +37,9 @@ ActiveAdmin.register Mission do
       f.input :min_member_count
       f.input :start_date
       f.input :due_date
+      f.input :cash_register_proficiency_requirement,
+              :as => :select,
+              collection => Mission.cash_register_proficiency_requirements
     end
 
     actions
@@ -44,6 +55,9 @@ ActiveAdmin.register Mission do
       row :max_member_count
       row :delivery_expected
       row :event
+      row(:cash_register_proficiency_requirement) do |resource|
+        Mission.human_enum_name('cash_register_proficiency_requirement', resource.cash_register_proficiency_requirement)
+      end
     end
 
     panel 'Participants' do
