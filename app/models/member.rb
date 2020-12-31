@@ -62,6 +62,7 @@ class Member < ApplicationRecord
 
   has_and_belongs_to_many :managed_productors, class_name: 'Productor'
 
+  has_many :history_of_static_slot_selections, dependent: :destroy
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :display_name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 50 }

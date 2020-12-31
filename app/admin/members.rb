@@ -64,6 +64,12 @@ ActiveAdmin.register Member do
           static_slot.full_display
         end
       end
+      table_for member.history_of_static_slot_selections, t('.selections_history') do
+        column StaticSlot.model_name.human do |record|
+          record.static_slot.decorate.full_display
+        end
+        column(t('.selected_at')) { |record| record.created_at }
+      end
     end
   end
 

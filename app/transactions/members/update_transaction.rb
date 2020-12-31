@@ -8,6 +8,7 @@ module Members
     tee :params
     tee :extract_ids
     step :assign_static_slot
+    step :save_in_history
     step :update_member
 
     private
@@ -40,6 +41,17 @@ module Members
       end
       Success(input)
     end
+
+  def save_in_history(input)
+    return Success(input) if @static_slots_attributes.nil?
+
+    @static_slot_ids.each do |static_slot_id|
+      unless ::HistoryOfStaticSlotSelection.create(member_id: @current_member.id, static_slot_id: static_slot_id)
+        Failure(error: t('activerecord.errors.models.static_slot.messages.selection_save_failure'))
+      end
+    end
+    Success(input)
+  end
 
     def update_member(input)
       Failure(t('activerecord.errors.messages.update_fail')) unless @current_member.update(@member_params)

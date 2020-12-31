@@ -19,7 +19,7 @@ en:
       models:
         static_slot:
           messages:
-            selection_save_failure: save in selectiom history failed.
+            selection_save_failure: save in selection history failed.
             static_slot_attribution_failure: static slot attribution failed.
     models:
       static_slot:
