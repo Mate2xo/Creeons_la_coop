@@ -23,6 +23,11 @@
 # A Mission is an activity that has to be done for the Supermaket Team to function properly.
 # Every member can create a mission
 # Available methods: #addresses, #author, #due_date, #name, #description
+# A regulated mission have several time_slots
+# A time slot is a subdivision of mission duration
+# A time slot last 90 minutes
+# A time slot have several slots
+# Slots count for a time slot is equal to :max_member_count
 class Mission < ApplicationRecord
   belongs_to :author, class_name: 'Member', inverse_of: 'created_missions'
   has_many :enrollments, dependent: :destroy
@@ -52,28 +57,36 @@ class Mission < ApplicationRecord
     (due_date - start_date).round
   end
 
-  def available_time_slots(member = nil)
+  def selectable_time_slots(member = nil)
     return nil unless genre == 'regulated'
 
     time_slots = []
     current_time_slot = start_date
     while current_time_slot < due_date
-      time_slots << current_time_slot if time_slot_available?(current_time_slot, member)
+      time_slots << current_time_slot if time_slot_selectable?(current_time_slot, member)
       current_time_slot += 90.minutes
     end
     time_slots
   end
 
+  def time_slot_already_taken_by_member?(current_time_slot, member)
+    member_enrollment = enrollments.find_by(mission: self, member: member)
+    return false if member_enrollment.nil?
+
+    member_enrollment.contain_this_time_slot?(current_time_slot)
+  end
+
   private
 
-  def time_slot_available?(current_time_slot, member)
-    member_enrollment = enrollments.find_by(mission: self, member: member)
-    if member.nil? || member_enrollment.nil?
-      return enrollments.where('start_time <= :current_time_slot AND :current_time_slot < end_time',
-                               current_time_slot: current_time_slot)
-                        .count < max_member_count
-    end
+  def time_slot_selectable?(current_time_slot, member)
+    return true if member.present? && time_slot_already_taken_by_member?(current_time_slot, member)
 
-    return true if member.present? && member_enrollment.decorate.already_taken?(current_time_slot)
+    time_slot_available?(current_time_slot)
+  end
+
+  def time_slot_available?(current_time_slot)
+    enrollments.where('start_time <= :current_time_slot AND :current_time_slot < end_time',
+                      current_time_slot: current_time_slot)
+               .count < max_member_count
   end
 end

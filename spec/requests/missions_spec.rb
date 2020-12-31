@@ -5,6 +5,32 @@ require 'rails_helper'
 RSpec.describe 'A Mission request', type: :request do
   let(:member) { create :member }
 
+  before { sign_in create :member }
+
+  describe 'Get show' do
+    subject(:get_mission) { get mission_path(mission) }
+
+    context 'when the genre is set to standard' do
+      let(:mission) { create :mission }
+
+      it 'rends the standard partial' do
+        get_mission
+
+        expect(response).to render_template('missions/_standard_quick_enrollment_form')
+      end
+    end
+
+    context 'when the genre is set to regulated' do
+      let(:mission) { create :mission, genre: 'regulated' }
+
+      it 'rends the regulated partial' do
+        get_mission
+
+        expect(response).to render_template('missions/_regulated_quick_enrollment_form')
+      end
+    end
+  end
+
   describe 'Post' do
     subject(:post_mission) { post missions_path, params: { mission: mission_params } }
 
@@ -82,7 +108,7 @@ RSpec.describe 'A Mission request', type: :request do
     end
 
     context 'when the mission is regulated' do
-      it 'rends the standards partials' do
+      it 'rends the regulated partials' do
         mission = create :mission, genre: 'regulated'
 
         get edit_mission_path(mission.id)
