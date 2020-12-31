@@ -78,5 +78,33 @@ ActiveAdmin.register Mission do
     link_to t('active_admin.new_model', model: Enrollment.model_name.human),
             new_admin_mission_enrollment_path(resource)
   end
+
+  action_item :generate_schedule, only: :index do
+    dropdown_menu t('.generate_schedule') do
+      (1..6).each do |n|
+        item n,
+             generate_schedule_admin_missions_path(months_count: n),
+             method: :post,
+             data: { confirm: t('.confirm_generation_schedule') }
+      end
+    end
+  end
+
+  collection_action :generate_schedule, method: :post do
+    generated = false
+    (1..params[:months_count].to_i).each do |n|
+      current_month = (DateTime.current + n.month).at_beginning_of_month
+      if HistoryOfGeneratedSchedule.find_by(month_number: current_month).nil?
+        GenerateScheduleJob.perform_later(current_member: current_member, current_month: current_month.to_s)
+        generated = true
+      end
+    end
+
+    if generated
+      redirect_to admin_missions_path, notice: t('.schedule_generation_in_progress')
+    else
+      redirect_to admin_missions_path, notice: t('.schedule_already_generated')
+    end
+  end
 end
 # rubocop: enable Metrics/BlockLength

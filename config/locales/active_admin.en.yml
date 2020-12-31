@@ -56,6 +56,8 @@ en:
         to: "To"
     resource: 
       index:
+        confirm_generation_schedule: 'Are you sure you want to generate a schedule?'
+        generate_schedule: 'Generate a schedule'
         worked_hours: "Hours worked in last three months"
       show:
         remove_static_slots_of_this_member: 'Remove the static slots from this member'
