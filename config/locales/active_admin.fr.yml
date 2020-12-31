@@ -41,8 +41,10 @@ fr:
       index:
         worked_hours: 'Heures travaillées ces trois derniers mois'
       show:
+        remove_static_slots_of_this_member: 'Retirer les créneaux fixes de ce membre'
         week: 'semaine'
       edit:
+        remove_static_slots_of_this_member: 'Retirer les créneaux fixes de ce membre'
         week: 'semaine'
     search_status:
       headline: "Statut de la recherche :"
