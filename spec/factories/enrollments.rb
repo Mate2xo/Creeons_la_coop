@@ -15,7 +15,7 @@ FactoryBot.define do
   factory :enrollment do
     transient do
       on_event { false }
-      mission_start_date { DateTime.current - 1.day }
+      mission_start_date { DateTime.current.beginning_of_day + 8.hours }
     end
 
     mission do
