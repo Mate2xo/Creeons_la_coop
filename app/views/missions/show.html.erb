@@ -59,6 +59,17 @@
         </div>
       <% end %>
 
+      <% if @mission.genre == 'regulated' %>
+        <div class="progress-wrapper mt-4">
+          <h3 class="progress-label text-capitalize text-md strong-600">
+            <%= translate "activerecord.attributes.mission.cash_register_proficiency_requirement" %> :
+          </h3>
+          <h4>
+            <%= Mission.human_enum_name('cash_register_proficiency_requirement', @mission.cash_register_proficiency_requirement) %>
+          </h4>
+        </div>
+      <% end %>
+
       <div class="progress-wrapper mt-4">
         <h3 class="progress-label text-capitalize text-md strong-600">
           <%= t "main_app.views.missions.show.addresses" unless @mission.addresses.empty? %>
