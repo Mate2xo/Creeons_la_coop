@@ -13,7 +13,7 @@ RSpec.describe 'A Mission request', type: :request do
     context 'when the genre is set to standard' do
       let(:mission) { create :mission }
 
-      it 'rends the standard partial' do
+      it 'renders the standard partial' do
         get_mission
 
         expect(response).to render_template('missions/_standard_quick_enrollment_form')
@@ -23,7 +23,7 @@ RSpec.describe 'A Mission request', type: :request do
     context 'when the genre is set to regulated' do
       let(:mission) { create :mission, genre: 'regulated' }
 
-      it 'rends the regulated partial' do
+      it 'renders the regulated partial' do
         get_mission
 
         expect(response).to render_template('missions/_regulated_quick_enrollment_form')
@@ -49,7 +49,7 @@ RSpec.describe 'A Mission request', type: :request do
     context 'when the genre is set to event' do
       let(:mission_params) { attributes_for(:mission, genre: 'event') }
 
-      it 'creates the mission with the related params' do
+      it 'creates the mission with the specified params' do
         post_mission
 
         mission_params.each do |key, value|
@@ -132,7 +132,7 @@ RSpec.describe 'A Mission request', type: :request do
       expect(mission.reload.name).to eq 'updated_mission'
     end
 
-    context 'when the mission is not regulated' do
+    context 'when enrollment params are given' do
       let(:other_member) { create :member }
       let(:enrollment_params) do
         { member_id: other_member.id, start_time: mission.start_date, end_time: mission.due_date }
@@ -148,28 +148,28 @@ RSpec.describe 'A Mission request', type: :request do
           expect(mission.enrollments.first[key]).to eq value
         end
       end
-    end
 
-    context 'when the mission is regulated' do
-      let(:other_member) { create :member }
+      context 'with a :regulated mission' do # rubocop:disable RSpec/NestedGroups
+        let(:other_member) { create :member }
 
-      let(:enrollment_expected_params) do
-        { member_id: other_member.id, start_time: mission.start_date, end_time: mission.start_date + 3.hours }
-      end
+        let(:enrollment_expected_params) do
+          { member_id: other_member.id, start_time: mission.start_date, end_time: mission.start_date + 3.hours }
+        end
 
-      let(:enrollment_params) do
-        { member_id: other_member.id, start_time: [mission.start_date, mission.start_date + 90.minutes] }
-      end
+        let(:enrollment_params) do
+          { member_id: other_member.id, start_time: [mission.start_date, mission.start_date + 90.minutes] }
+        end
 
-      let(:mission_params) do
-        { name: 'updated_mission', enrollments_attributes: { '1234': enrollment_params } }
-      end
+        let(:mission_params) do
+          { name: 'updated_mission', enrollments_attributes: { '1234': enrollment_params } }
+        end
 
-      it 'adds member enrollment' do
-        put mission_path(mission.id), params: { mission: mission_params }
+        it 'adds member enrollment' do
+          put mission_path(mission.id), params: { mission: mission_params }
 
-        enrollment_expected_params.each do |key, value|
-          expect(mission.enrollments.first[key]).to eq value
+          enrollment_expected_params.each do |key, value|
+            expect(mission.enrollments.first[key]).to eq value
+          end
         end
       end
     end
