@@ -66,9 +66,9 @@ RSpec.describe Mission, type: :model do
     it 'returns the time slots with at least one slot available' do
       mission = create :mission, genre: 'regulated'
 
-      response = mission.selectable_time_slots
+      time_slots = mission.selectable_time_slots
 
-      expect(response).to eq([mission.start_date, mission.start_date + 90.minutes])
+      expect(time_slots).to eq([mission.start_date, mission.start_date + 90.minutes])
     end
 
     context 'when all slots are already taken by other members' do
