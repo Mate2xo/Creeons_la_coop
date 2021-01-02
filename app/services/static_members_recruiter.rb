@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# It enroll members with static slots to the related missions
+# Fetches all existing StaticSlots, and enrolls the associated Member to the associated Mission
+# on a given StaticSlot start_time
 class StaticMembersRecruiter
   attr_reader :errors
   def initialize
@@ -14,17 +15,29 @@ class StaticMembersRecruiter
     enrollments_for_all_members
   end
 
-  def enrollments_for_all_members
-    @members_with_static_slots.each do |member|
-      enrollment_for_one_member(member)
-    end
-  end
-
   def enrollment_for_one_member(member)
     member.static_slots.each do |static_slot|
       enrollments_for_one_static_slot(member, static_slot)
     end
     merge_multi_enrolls_on_one_mission(member)
+  end
+
+  def week_type_of_this_datetime(current_hour)
+    reference = DateTime.new(2020, 9, 7)
+    week_in_seconds = 60 * 60 * 24 * 7
+    week_count_between_reference_and_current_hour = (current_hour.at_beginning_of_week.to_i - reference.to_i) /
+                                                    week_in_seconds
+
+    week_types = %w[D A B C] # we must have the index 0 for D and index 1 for A because (multiple of 4 modulo 4 == 0)
+    week_types[week_count_between_reference_and_current_hour % 4]
+  end
+
+  private
+
+  def enrollments_for_all_members
+    @members_with_static_slots.each do |member|
+      enrollment_for_one_member(member)
+    end
   end
 
   def merge_multi_enrolls_on_one_mission(member)
@@ -37,11 +50,11 @@ class StaticMembersRecruiter
     return if enrollments.count < 2
 
     enrollments = enrollments.order(:start_time)
-    Enrollment.create(start_time: enrolments.first.start_time,
+    Enrollment.create(start_time: enrollments.first.start_time,
                       end_time: enrollments.last.end_time,
                       mission_id: enrollments.first.mission_id,
                       member_id: enrollments.first.member_id)
-    enrolments.destroy_all
+    enrollments.destroy_all
   end
 
   def enrollments_for_one_static_slot(member, static_slot)
@@ -51,7 +64,7 @@ class StaticMembersRecruiter
   end
 
   def enroll_on_time_slot(time_slot, member)
-    return if member.enrollments.any? { |enrollment| enrollment.contain.this_time_slot?(time_slot) }
+    return if member.enrollments.any? { |enrollment| enrollment.contain_this_time_slot?(time_slot) }
 
     mission = search_mission_with_this_time_slot(time_slot)
     return if mission.nil?
@@ -61,7 +74,7 @@ class StaticMembersRecruiter
 
   def search_mission_with_this_time_slot(time_slot)
     missions = Mission.where(genre: 'regulated')
-    missions.select { |mission| mission.slots_available.include(time_slot) }.first
+    missions.select { |mission| mission.selectable_time_slots.include?(time_slot) }.first
   end
 
   def first_time_slot_corresponding_to_static_slot_after_current_date(static_slot)
@@ -93,15 +106,5 @@ class StaticMembersRecruiter
     rank_of_static_slot_day = StaticSlot.week_days[static_slot.week_day] + 1
     rank_of_current_day = @current_time.strftime('%u').to_i
     (rank_of_static_slot_day - rank_of_current_day) % 7
-  end
-
-  def week_type_of_this_datetime(current_hour)
-    reference = DateTime.new(2020, 9, 7)
-    week_in_seconds = 60 * 60 * 24 * 7
-    week_count_between_reference_and_current_hour = (current_hour.at_beginning_of_week.to_i - reference.to_i) /
-                                                    week_in_seconds
-
-    week_types = %w[D A B C] # we must have the index 0 for D and index 1 for A because (multiple of 4 modulo 4 == 0)
-    week_types[week_count_between_reference_and_current_hour % 4]
   end
 end
