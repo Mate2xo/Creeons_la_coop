@@ -2,7 +2,7 @@ en:
   admin:
     missions:
       generate_schedule:
-        schedule_already_generated: All schedules asked have already generated.
+        schedule_already_generated: These schedules have already been generated
         schedule_generation_in_progress: Schedule generation in progress. Please wait for a few minutes.
   missions:
     enrollments_form:
