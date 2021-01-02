@@ -33,7 +33,7 @@ document.addEventListener('turbolinks:load', () => {
 
       datesRender(info) {
         const weekType = (currentStart) => {
-          const reference = new Date(2020, 9, 7);
+          const reference = new Date(2020, 8, 7);
           const weekInMiliSeconds = (60 * 60 * 24 * 7 * 1000);
           let weekCountBetweenReferenceAndCurrentHour = (currentStart.getTime() - reference.getTime()) / weekInMiliSeconds;
           weekCountBetweenReferenceAndCurrentHour = Math.trunc(weekCountBetweenReferenceAndCurrentHour)
