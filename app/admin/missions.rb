@@ -100,7 +100,7 @@ ActiveAdmin.register Mission do
       end
     end
 
-    feedback_message = generated ? t('.schedule_generation_in_progress') : t('schedule_already_generated')
+    feedback_message = generated ? t('.schedule_generation_in_progress') : t('.schedule_already_generated')
 
     redirect_to admin_missions_path, notice: feedback_message
   end
