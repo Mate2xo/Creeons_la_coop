@@ -113,7 +113,7 @@ RSpec.describe 'A Mission request', type: :request do
 
         get edit_mission_path(mission.id)
 
-        expect(response).to render_template(partial: 'missions/_enrollments_with_time_slots_form')
+        expect(response).to render_template(partial: 'missions/_enrollment_with_time_slots_fields')
       end
     end
   end
