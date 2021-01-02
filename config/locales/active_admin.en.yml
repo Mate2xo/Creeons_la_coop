@@ -56,7 +56,9 @@ en:
         to: "To"
     resource: 
       index:
+        confirm_enroll_static_members: 'Are you sure you want to enroll static members?'
         confirm_generation_schedule: 'Are you sure you want to generate a schedule?'
+        enroll_static_members: 'enroll static members'
         generate_schedule: 'Generate a schedule'
         worked_hours: "Hours worked in last three months"
       show:

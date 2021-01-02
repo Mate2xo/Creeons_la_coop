@@ -1,4 +1,9 @@
 fr:
+  admin:
+    missions:
+      generate_schedule:
+        schedule_already_generated: Tous les plannings demandés ont déjà été générés.
+        schedule_generation_in_progress: Génération du planning en cours. Veuillez attendre quelques minutes.
   missions:
     enrollments_form:
       enroll_another_member: Ajouter un participant
