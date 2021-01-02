@@ -7,8 +7,7 @@ class EnrollmentsController < ApplicationController
 
   def create
     create_transaction = Enrollments::CreateTransaction.new.with_step_args(
-      validate: [mission: @mission],
-      prepare: [mission: @mission]
+      validate: [mission: @mission]
     ).call(permitted_params)
 
     return flash[:alert] = create_transaction.failure unless create_transaction.success?
@@ -29,8 +28,16 @@ class EnrollmentsController < ApplicationController
     if @mission.genre != 'regulated'
       params.require(:enrollment).permit(:member_id, :mission_id, :start_time, :end_time)
     else
-      params.require(:enrollment).permit(:member_id, :mission_id, start_time: [])
+      prepared_params
     end
+  end
+
+  def prepared_params
+    returned_params = params.require(:enrollment).permit(:member_id, :mission_id, start_time: [])
+    start_times = returned_params['start_time'].sort
+    returned_params['end_time'] = start_times.last.to_datetime + 90.minutes
+    returned_params['start_time'] = start_times.first.to_datetime
+    returned_params
   end
 
   def set_mission

@@ -6,7 +6,6 @@ module Enrollments
     include Dry::Transaction
 
     step :validate
-    tee :prepare
     step :create
 
     def validate(input, mission:)
@@ -15,15 +14,6 @@ module Enrollments
 
       failure_message = I18n.t('enrollments.create.max_member_count_reached')
       Failure(failure_message)
-    end
-
-    def prepare(input, mission:)
-      return Success(input) unless mission.genre == 'regulated'
-
-      input['end_time'] = input['start_time'].last.to_datetime + 90.minutes
-      input['start_time'] = input['start_time'].first.to_datetime
-
-      Success(input)
     end
 
     def create(input)
