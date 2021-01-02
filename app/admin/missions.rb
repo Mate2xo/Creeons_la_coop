@@ -100,11 +100,9 @@ ActiveAdmin.register Mission do
       end
     end
 
-    if generated
-      redirect_to admin_missions_path, notice: t('.schedule_generation_in_progress')
-    else
-      redirect_to admin_missions_path, notice: t('.schedule_already_generated')
-    end
+    feedback_message = generated ? t('.schedule_generation_in_progress') : t('schedule_already_generated')
+
+    redirect_to admin_missions_path, notice: feedback_message
   end
 end
 # rubocop: enable Metrics/BlockLength
