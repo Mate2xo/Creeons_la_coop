@@ -112,7 +112,7 @@ RSpec.describe 'A StaticSlot request', type: :request do
   def attribute_static_slot_to_n_members(static_slot, members_count = 4)
     members = create_list :member, members_count
     members.each do |member|
-      create :static_slot_member, member: member, static_slot: static_slot
+      create :member_static_slot, member: member, static_slot: static_slot
     end
   end
 end
