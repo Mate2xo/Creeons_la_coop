@@ -17,4 +17,4 @@ en:
     standard_quick_enrollment_form:
       quick_enroll: Quick enroll
     update:
-      time_slot_requirement: At least one time slot must be indicated
+      time_slot_requirement: At least one time slot must be given
