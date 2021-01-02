@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 module Members
-  # extract member selection and update in order to attribute static slots
+  # extracts a member's static slot selection, assigns the selected static slots, and updates the member
   class UpdateTransaction
     include Dry::Transaction
 
     tee :params
-    tee :extract_ids
+    tee :extract_static_slots_ids
     step :assign_static_slot
     step :save_in_history
     step :enroll_member_according_to_new_static_slots
@@ -21,7 +21,7 @@ module Members
       @member_params = input[:permitted_params]
     end
 
-    def extract_ids(input)
+    def extract_static_slots_ids(input)
       return Success(input) if @static_slots_attributes.nil?
 
       @static_slot_ids = []

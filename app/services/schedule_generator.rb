@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-# It generates a planning for the a month
+# Generates a set of common missions for a given month. This allows admins not having to create the same kind
+# of missions over and over again. This service is similar to the RecurrentMission generator, but it is intended
+# to be used in a Job rather than from the UI
 class ScheduleGenerator
   attr_reader :errors
 
