@@ -3,8 +3,8 @@
 class GenerateScheduleJob < ApplicationJob # rubocop:disable  Style/Documentation
   queue_as :default
 
-  def perform(*args)
-    schedule_generator = ScheduleGenerator.new(args[0][:current_member], args[0][:current_month].to_datetime)
+  def perform(params)
+    schedule_generator = ScheduleGenerator.new(params[:current_member], params[:current_month].to_datetime)
     schedule_generator.generate_schedule
     return unless schedule_generator.errors.empty?
 
