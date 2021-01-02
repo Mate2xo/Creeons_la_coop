@@ -2,6 +2,6 @@ class EnrollStaticMembersJob < ApplicationJob
   queue_as :default
 
   def perform(*args)
-    StaticMembersRecruiter.call
+    StaticMembersRecruiter.new.call
   end
 end
