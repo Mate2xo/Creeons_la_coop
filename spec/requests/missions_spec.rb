@@ -150,6 +150,7 @@ RSpec.describe 'A Mission request', type: :request do
       end
 
       context 'with a :regulated mission' do # rubocop:disable RSpec/NestedGroups
+        let(:mission) { create :mission, genre: 'regulated' }
         let(:other_member) { create :member }
 
         let(:enrollment_expected_params) do

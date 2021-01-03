@@ -27,10 +27,6 @@ class MissionsController < ApplicationController
   def edit; end
 
   def update
-    update_transaction = Missions::UpdateTransaction.new.with_step_args(
-      update: [mission: @mission]
-    ).call(permitted_params)
-
     if update_transaction.success?
       flash[:notice] = translate 'activerecord.notices.messages.update_success'
       render :show
@@ -75,8 +71,15 @@ class MissionsController < ApplicationController
     end
   end
 
+  def update_transaction
+    Missions::UpdateTransaction.new.with_step_args(
+      transform_time_slots_in_time_params_for_enrollment: [regulated: @mission.regulated?],
+      update: [mission: @mission]
+    ).call(permitted_params)
+  end
+
   def permitted_params
-    if params[:mission][:genre] == 'regulated'
+    if params['genre'] == 'regulated'
       regulated_mission_params
     else
       standard_mission_params
@@ -93,25 +96,14 @@ class MissionsController < ApplicationController
   end
 
   def regulated_mission_params
-    enrollment_params = params.require(:mission)
-                              .permit(enrollments_attributes: [:id, :_destroy, :member_id, start_time: []])
-    merged_params = base_params.merge(enrollment_params)
-    return merged_params if merged_params['enrollments_attributes'].nil?
-
-    prepare_params(merged_params)
+    enrollment_params = params.require(:mission).permit(enrollments_attributes: [:id, :_destroy, :member_id, time_slots: []])
+    base_params.merge(enrollment_params)
   end
 
   def standard_mission_params
     enrollment_params = params.require(:mission)
                               .permit(enrollments_attributes: %i[id _destroy member_id start_time end_time])
     base_params.merge(enrollment_params)
-  end
-
-  def prepare_params(merged_params)
-    merged_params['enrollments_attributes'].each do |_key, enrollment|
-      enrollment['end_time'] = enrollment['start_time'].last.to_datetime + 90.minutes
-      enrollment['start_time'] = enrollment['start_time'].first
-    end
   end
 
   def set_authorized_mission
