@@ -25,9 +25,7 @@ class Enrollment < ApplicationRecord
   end
 
   def contain_this_time_slot?(time_slot)
-    return false if enrollment.id.nil?
-
-    enrollment.start_time <= time_slot && time_slot < enrollment.end_time
+    start_time <= time_slot && time_slot < end_time
   end
 
   private

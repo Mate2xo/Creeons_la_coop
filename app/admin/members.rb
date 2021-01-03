@@ -16,7 +16,8 @@ ActiveAdmin.register Member do
                 :password_confirmation,
                 :cash_register_proficiency,
                 :register_id,
-                group_ids: []
+                group_ids: [],
+                static_slot_ids: []
 
   decorate_with MemberDecorator
 
@@ -58,10 +59,21 @@ ActiveAdmin.register Member do
           link_to Arbre::Context.new { (status_tag class: 'important', label: group.name) }, [:admin, group]
         end
       end
+      table_for member.static_slots do
+        column StaticSlot.model_name.human do |static_slot|
+          static_slot.full_display
+        end
+      end
+      table_for member.history_of_static_slot_selections, t('.selections_history') do
+        column StaticSlot.model_name.human do |record|
+          record.static_slot.decorate.full_display
+        end
+        column(t('.selected_at')) { |record| record.created_at }
+      end
     end
   end
 
-  form do |f|
+  form decorate: true do |f|
     f.inputs :first_name,
              :last_name,
              :email,
@@ -72,6 +84,7 @@ ActiveAdmin.register Member do
              :register_id,
              :biography
     f.input :groups, as: :check_boxes
+    f.input :static_slots, as: :check_boxes, collection: StaticSlot.all.decorate.map { |static_slot| [static_slot.full_display, static_slot.id] }
     actions
   end
 
@@ -85,6 +98,29 @@ ActiveAdmin.register Member do
 
   action_item :invite_member, only: :index do
     link_to t('active_admin.invite_member'), new_member_invitation_path
+  end
+
+  action_item :enroll_static_members, only: :index do
+    link_to t('.enroll_static_members'),
+            enroll_static_members_admin_members_path,
+            data: { confirm: t('.confirm_enroll_static_members') }, method: :post
+  end
+
+  action_item :remove_static_slots_of_a_member, only: [:show, :edit] do
+    link_to t('.remove_static_slots_of_this_member'),
+            remove_static_slots_of_a_member_admin_members_path(member_id: resource.id),
+            method: :put
+  end
+
+  collection_action :enroll_static_members, method: :post do
+    EnrollStaticMembersJob.perform_later
+    redirect_to admin_members_path, notice: t('.enroll_in_progress')
+  end
+
+  collection_action :remove_static_slots_of_a_member, method: :put do
+    member = Member.find(params[:member_id])
+    member.member_static_slots.destroy_all
+    redirect_to admin_member_path(member), notice: t('member_static_slots.destroy.reset_success')
   end
 
   controller do
