@@ -5,3 +5,4 @@ en:
       disenroll: The enrollment has been deleted
       enroll_error: "Operation failed : %{errors}"
       max_member_count_reached: Max member count reached
+      time_slots_requirement: Time slots are needed

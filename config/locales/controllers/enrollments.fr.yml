@@ -4,6 +4,7 @@ fr:
       confirm_enroll: L'inscription à ce créneau à été enregistré
       enroll_error: "L'opération a échoué : %{errors}"
       max_member_count_reached: Le nombre maximum de participants est déjà atteint
+      time_slots_requirement: Ils faut indiquer des créneaux fixes
     destroy:
       disenroll: La désiscription à ce créneau à été prise en compte
 
