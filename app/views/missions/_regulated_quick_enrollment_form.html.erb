@@ -7,7 +7,7 @@
     </h4>
     <% @mission.selectable_time_slots(current_member).each do |time_slot| %>
       <div class="container">
-        <%= check_box(:enrollment, "time_slots", {:multiple => true, checked: @mission.time_slot_already_taken_by_member?(time_slot, current_member) }, time_slot, nil) %>
+        <%= f.check_box("time_slots", {:multiple => true, checked: @mission.time_slot_already_taken_by_member?(time_slot, current_member) }, time_slot, nil) %>
         <%= f.label t('.slot_details', start_time: time_slot.strftime('%Hh%M'), end_time: (time_slot + 90.minutes).strftime('%Hh%M')), { class: 'mr-1' } %>
         <%= f.hidden_field :member_id, value: current_member.id %>
         <%= f.hidden_field :mission_id, value: @mission.id %>
