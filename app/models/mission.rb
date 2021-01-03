@@ -60,6 +60,10 @@ class Mission < ApplicationRecord
     (due_date - start_date).round
   end
 
+  def regulated?
+    (genre == 'regulated')
+  end
+
   def selectable_time_slots(member = nil)
     return nil unless genre == 'regulated'
 

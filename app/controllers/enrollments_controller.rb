@@ -28,14 +28,15 @@ class EnrollmentsController < ApplicationController
     if @mission.genre != 'regulated'
       params.require(:enrollment).permit(:member_id, :mission_id, :start_time, :end_time)
     else
-      params.require(:enrollment).permit(:member_id, :mission_id, start_time: [])
+      params.require(:enrollment).permit(:member_id, :mission_id, time_slots: [])
     end
   end
 
   def create_step_args
     { validate: [mission: @mission],
       check_cash_register_proficiency: [mission: @mission, member: current_member],
-      prepare: [mission: @mission] }
+      transform_time_slots_in_time_params_for_enrollment: [regulated: @mission.regulated?,
+                                                           time_slots: permitted_params['time_slots']] }
   end
 
   def set_mission

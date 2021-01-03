@@ -115,10 +115,16 @@
 
       </div>
       <% unless mission.new_record? %>
-        <% if mission.genre == "regulated"%>
-          <%= render 'enrollments_with_time_slots_form', f: f, mission: mission%>
+        <% if mission.genre == 'regulated' %>
+          <%= render 'enrollments_form',
+            f: f,
+            mission: mission,
+            cocoon_fields_name: 'enrollment_with_time_slots_fields' %>
         <% else %>
-          <%= render 'enrollments_form', f: f, mission: mission %>
+          <%= render 'enrollments_form',
+            f: f,
+            mission: mission,
+            cocoon_fields_name: 'enrollment_fields' %>
         <% end %>
       <% end %>
     </section>

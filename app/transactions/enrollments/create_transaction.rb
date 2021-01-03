@@ -7,12 +7,12 @@ module Enrollments
 
     step :validate
     step :check_cash_register_proficiency
-    tee :prepare
+    step :transform_time_slots_in_time_params_for_enrollment
     step :create
 
-    def validate(input, mission:)
-      return Success(input) if mission.max_member_count.nil?
-      return Success(input) if mission.members.count < mission.max_member_count
+    def validate(permitted_params, mission:)
+      return Success(permitted_params) if mission.max_member_count.nil?
+      return Success(permitted_params) if mission.members.count < mission.max_member_count
 
       failure_message = I18n.t('enrollments.create.max_member_count_reached')
       Failure(failure_message)
@@ -21,7 +21,7 @@ module Enrollments
     def check_cash_register_proficiency(input, mission:, member:)
       return Success(input) if mission.genre != 'regulated' || sufficient_proficiency?(mission, member)
 
-      input['start_time'].each do |time_slot|
+      input['time_slots'].each do |time_slot|
         slots_count = mission.available_slots_count_for_a_time_slot(time_slot)
         return Failure(check_cash_register_proficiency_failure_message(time_slot)) if slots_count < 2
       end
@@ -29,19 +29,22 @@ module Enrollments
       Success(input)
     end
 
-    def prepare(input, mission:)
-      return Success(input) unless mission.genre == 'regulated'
+    def transform_time_slots_in_time_params_for_enrollment(permitted_params, regulated:, time_slots:)
+      return Success(permitted_params) unless regulated
+      return Failure(I18n.t('enrollments.create.time_slots_requirement')) if time_slots.blank?
 
-      input['end_time'] = input['start_time'].last.to_datetime + 90.minutes
-      input['start_time'] = input['start_time'].first.to_datetime
+      time_slots = time_slots.sort
+      permitted_params['start_time'] = time_slots.first
+      permitted_params['end_time'] = time_slots.last.to_datetime + 90.minutes
+      permitted_params.delete(:time_slots)
 
-      Success(input)
+      Success(permitted_params)
     end
 
-    def create(input)
-      enrollment = Enrollment.new(input)
+    def create(permitted_params)
+      enrollment = Enrollment.new(permitted_params)
       if enrollment.save
-        Success(input)
+        Success(permitted_params)
       else
         failure_message = "#{I18n.t('.enroll_error')} #{enrollment.errors.full_messages.join(', ')}"
         Failure(failure_message)

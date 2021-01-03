@@ -5,41 +5,42 @@ module Missions
   class UpdateTransaction
     include Dry::Transaction
 
-    step :validate
-    tee :prepare_params
+    step :transform_time_slots_in_time_params_for_enrollment
     step :update
 
-    def validate(input)
-      return Success(input) if input[:genre] != 'regulated'
+    def transform_time_slots_in_time_params_for_enrollment(params, regulated:)
+      return Success(params) unless regulated
 
-      failure_message = "#{I18n.t('activerecord.errors.messages.update_fail')}
-      #{I18n.t('missions.update.time_slot_requirement')}"
-      input['enrollments_attributes'].each do |_key, enrollment|
-        return Failure(failure_message) if enrollment['start_time'].nil?
+      params['enrollments_attributes'].each do |_key, enrollment|
+        next if enrollment['time_slots'].nil?
+
+        enrollment['end_time'] = enrollment['time_slots'].max.to_datetime + 90.minutes
+        enrollment['start_time'] = enrollment['time_slots'].min
       end
 
-      Success(input)
+      Success(final_params(params))
     end
 
-    def prepare_params(input)
-      return Success(input) if input[:genre] != 'regulated'
-
-      input['enrollments_attributes'].each do |_key, enrollment|
-        enrollment['end_time'] = enrollment['start_time'].last.to_datetime + 90.minutes
-        enrollment['start_time'] = enrollment['start_time'].first
-      end
-
-      Success(input)
-    end
-
-    def update(input, mission:)
-      if mission.update(input)
-        Success(input)
+    def update(params, mission:)
+      if mission.update(params)
+        Success(params)
       else
-        failure_message = "#{I18n.t('activerecord.errors.messages.update_fail')}
-        #{mission.errors.full_messages.join(', ')}"
+        failure_message = <<-MESSAGE
+          "#{I18n.t('activerecord.errors.messages.update_fail')}
+          #{mission.errors.full_messages.join(', ')}"
+        MESSAGE
         Failure(failure_message)
       end
+    end
+
+    def final_params(params)
+      params.permit(
+        :name, :description, :event, :delivery_expected,
+        :recurrent, :recurrence_rule, :recurrence_end_date,
+        :max_member_count, :min_member_count,
+        :due_date, :start_date, :genre,
+        enrollments_attributes: %i[id _destroy member_id start_time end_time]
+      )
     end
   end
 end
