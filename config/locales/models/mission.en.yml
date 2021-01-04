@@ -2,6 +2,11 @@ en:
   activerecord:
     attributes:
       mission:
+        cash_register_proficiency_requirement: Cash register mastery is required
+        cash_register_proficiency_requirements:
+          untrained: untrained
+          beginner: beginner
+          proficient: proficient
         duration: duration
         genres:
           event: Event

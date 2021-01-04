@@ -39,7 +39,19 @@ fr:
         to: "À"
     resource: 
       index:
+        confirm_enroll_static_members: 'Êtes_vous sûr de vouloir inscrire les membres fixes ?'
+        confirm_generation_schedule: 'Êtes-vous sûr de vouloir générer un planning?'
+        enroll_static_members: 'Inscrire les membres fixes'
+        generate_schedule: 'Générer un planning'
         worked_hours: 'Heures travaillées ces trois derniers mois'
+      show:
+        remove_static_slots_of_this_member: 'Retirer les créneaux fixes de ce membre'
+        selected_at: Sélectionné le
+        selections_history: Historique de sélections
+        week: 'semaine'
+      edit:
+        remove_static_slots_of_this_member: 'Retirer les créneaux fixes de ce membre'
+        week: 'semaine'
     search_status:
       headline: "Statut de la recherche :"
       current_scope: "Etendu du filtre :"

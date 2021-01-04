@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_29_072659) do
+ActiveRecord::Schema.define(version: 2020_12_31_163056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -120,6 +120,21 @@ ActiveRecord::Schema.define(version: 2020_12_29_072659) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "history_of_generated_schedules", force: :cascade do |t|
+    t.datetime "month_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "history_of_static_slot_selections", force: :cascade do |t|
+    t.bigint "member_id"
+    t.bigint "static_slot_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_history_of_static_slot_selections_on_member_id"
+    t.index ["static_slot_id"], name: "index_history_of_static_slot_selections_on_static_slot_id"
+  end
+
   create_table "infos", force: :cascade do |t|
     t.text "content"
     t.string "title"
@@ -127,6 +142,15 @@ ActiveRecord::Schema.define(version: 2020_12_29_072659) do
     t.datetime "updated_at", null: false
     t.bigint "author_id"
     t.index ["author_id"], name: "index_infos_on_author_id"
+  end
+
+  create_table "member_static_slots", force: :cascade do |t|
+    t.bigint "static_slot_id"
+    t.bigint "member_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_member_static_slots_on_member_id"
+    t.index ["static_slot_id"], name: "index_member_static_slots_on_static_slot_id"
   end
 
   create_table "members", force: :cascade do |t|
@@ -188,6 +212,7 @@ ActiveRecord::Schema.define(version: 2020_12_29_072659) do
     t.boolean "delivery_expected", default: false
     t.boolean "event", default: false
     t.integer "genre", default: 0
+    t.integer "cash_register_proficiency_requirement", default: 0
     t.index ["author_id"], name: "index_missions_on_author_id"
   end
 
@@ -204,6 +229,14 @@ ActiveRecord::Schema.define(version: 2020_12_29_072659) do
     t.datetime "updated_at", null: false
     t.string "website_url"
     t.boolean "local", default: false
+  end
+
+  create_table "static_slots", force: :cascade do |t|
+    t.integer "week_day", null: false
+    t.datetime "start_time", null: false
+    t.integer "week_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "thredded_categories", force: :cascade do |t|
@@ -444,6 +477,8 @@ ActiveRecord::Schema.define(version: 2020_12_29_072659) do
   add_foreign_key "group_members", "groups"
   add_foreign_key "group_members", "members"
   add_foreign_key "infos", "members", column: "author_id"
+  add_foreign_key "member_static_slots", "members"
+  add_foreign_key "member_static_slots", "static_slots"
   add_foreign_key "missions", "members", column: "author_id"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards", on_delete: :cascade
   add_foreign_key "thredded_messageboard_users", "thredded_user_details", on_delete: :cascade

@@ -55,10 +55,14 @@ class Member < ApplicationRecord
   has_many :enrollments, dependent: :destroy
   has_many :missions, through: :enrollments
 
+  has_many :member_static_slots, dependent: :destroy
+  has_many :static_slots, through: :member_static_slots
+  accepts_nested_attributes_for :static_slots
   has_many :created_infos, class_name: 'Info', inverse_of: 'author', foreign_key: 'author_id', dependent: :nullify
 
   has_and_belongs_to_many :managed_productors, class_name: 'Productor'
 
+  has_many :history_of_static_slot_selections, dependent: :destroy
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :display_name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 50 }

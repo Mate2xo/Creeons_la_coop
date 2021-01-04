@@ -41,6 +41,14 @@
                 </h6>
               <% end %>
 
+              <% if @member.static_slots.any? %>
+                <h6 class="heading heading-light heading-sm strong-300">
+                  <%= t('activerecord.models.static_slot.other') %>
+                  <%= @member.static_slots.decorate.map(&:full_display).join(', ') %>
+                </h6>
+                <br/>
+              <% end %>
+              
               <% if super_admin? || current_member.id == params[:id].to_i  %>
                 <%= link_to t("main_app.views.application.buttons.edit"),
                   edit_member_path(@member.id),

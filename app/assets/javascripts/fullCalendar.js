@@ -31,6 +31,22 @@ document.addEventListener('turbolinks:load', () => {
         $.get(info.event.show_url);
       },
 
+      datesRender(info) {
+        const weekType = (currentStart) => {
+          const reference = new Date(2020, 8, 7);
+          const weekInMiliSeconds = (60 * 60 * 24 * 7 * 1000);
+          let weekCountBetweenReferenceAndCurrentHour = (currentStart.getTime() - reference.getTime()) / weekInMiliSeconds;
+          weekCountBetweenReferenceAndCurrentHour = Math.trunc(weekCountBetweenReferenceAndCurrentHour)
+          const weekTypes = ['D', 'A', 'B', 'C'];
+          return weekTypes[weekCountBetweenReferenceAndCurrentHour % 4];
+        };
+
+        if (info.view.type === 'timeGridWeek') {
+          const currentStart = new Date(info.view.currentStart);
+          document.getElementsByClassName('fc-center')[0].firstChild.textContent += ` ${weekType(currentStart)}`;
+        }
+      },
+
       eventRender(info) {
         const eventEl = info.el.querySelector('.fc-content');
 

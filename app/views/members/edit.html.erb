@@ -47,7 +47,14 @@
 							<%= link_to t(".change_password"),
                           edit_member_registration_path,
                           class: "btn-cancel btn btn-styled btn-lg btn-block btn-danger mt-4" %>
-						</div>
+              <% if member_signed_in? && current_member.static_slots.any? %>
+                <%= button_to t('.reset_static_slots'),
+                  member_static_slot_path(1),
+                  method: :delete,
+                  class: "btn-cancel btn btn-styled btn-lg btn-block btn-danger mt-4",
+                  data: { confirm: t('.confirm_static_slots_reset') } %>
+              <% end %>
+            </div>
 					</div>
 				</div>
 			</div>

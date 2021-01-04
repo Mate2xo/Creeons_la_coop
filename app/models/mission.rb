@@ -18,6 +18,7 @@
 #  delivery_expected :boolean          default(FALSE)
 #  event             :boolean          default(FALSE)
 #  genre             :integer          default: 0
+#  cash_register_proficiency_requirement   :integer          default(0)
 #
 
 # A Mission is an activity that has to be done for the Supermaket Team to function properly.
@@ -49,6 +50,8 @@ class Mission < ApplicationRecord
 
   enum genre: { standard: 0, regulated: 1, event: 2 }
 
+  enum cash_register_proficiency_requirement: { untrained: 0, beginner: 1, proficient: 2 }
+
   # Virtual attributes
   attr_accessor :recurrence_rule
   attr_accessor :recurrence_end_date
@@ -78,6 +81,12 @@ class Mission < ApplicationRecord
     return false if member_enrollment.nil?
 
     member_enrollment.contain_this_time_slot?(current_time_slot)
+  end
+
+  def available_slots_count_for_a_time_slot(time_slot)
+    occupied_slots_count = enrollments.where('start_time <= :time_slot AND :time_slot < end_time',
+                                             time_slot: time_slot).count
+    max_member_count - occupied_slots_count
   end
 
   private

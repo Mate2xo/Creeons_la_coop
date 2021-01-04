@@ -1,0 +1,4 @@
+en:
+  member_static_slots:
+    destroy:
+      reset_success: The static slots has been reset
