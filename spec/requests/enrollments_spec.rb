@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Enrollments', type: :request do
   let(:mission) { create :mission }
 
-  it 'redirets unlogged users' do
+  it 'redirects unlogged users' do
     post mission_enrollments_path(mission)
     expect(response).to redirect_to new_member_session_path
   end
@@ -17,15 +17,38 @@ RSpec.describe 'Enrollments', type: :request do
 
     let(:current_member) { create :member }
     let(:enrollment) do
-      attributes_for :enrollment,
-                     start_time: Time.zone.parse(mission.start_date.to_s),
-                     end_time: Time.zone.parse(mission.due_date.to_s)
+      enrollment = attributes_for :enrollment,
+                                  start_time: Time.zone.parse(mission.start_date.to_s),
+                                  end_time: Time.zone.parse(mission.due_date.to_s)
+      enrollment[:member_id] = current_member.id
+      enrollment[:mission_id] = mission.id
+      enrollment
     end
     let(:params) { { enrollment: enrollment } }
 
     it 'creates an enrollment on the given mission' do
       enroll
       expect(mission.reload.enrollments.size).to eq 1
+    end
+
+    context 'when the mission is regulated' do
+      let(:mission) { create :mission, genre: 'regulated' }
+      let(:current_member) { create :member }
+      let(:time_slots) { [mission.start_date, mission.start_date + 90.minutes] }
+      let(:enrollment) do
+        enrollment = attributes_for :enrollment,
+                                    time_slots: time_slots,
+                                    genre: 'regulated'
+        enrollment[:member_id] = current_member.id
+        enrollment[:mission_id] = mission.id
+        enrollment
+      end
+      let(:params) { { enrollment: enrollment } }
+
+      it 'creates an enrollment on the given mission' do
+        enroll
+        expect(mission.reload.enrollments.size).to eq 1
+      end
     end
 
     context 'without a member field' do

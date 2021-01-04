@@ -59,6 +59,17 @@
         </div>
       <% end %>
 
+      <% if @mission.genre == 'regulated' %>
+        <div class="progress-wrapper mt-4">
+          <h3 class="progress-label text-capitalize text-md strong-600">
+            <%= translate "activerecord.attributes.mission.cash_register_proficiency_requirement" %> :
+          </h3>
+          <h4>
+            <%= Mission.human_enum_name('cash_register_proficiency_requirement', @mission.cash_register_proficiency_requirement) %>
+          </h4>
+        </div>
+      <% end %>
+
       <div class="progress-wrapper mt-4">
         <h3 class="progress-label text-capitalize text-md strong-600">
           <%= t "main_app.views.missions.show.addresses" unless @mission.addresses.empty? %>
@@ -75,33 +86,10 @@
 
       <hr class="mt-0">
 
-      <%= form_with scope: 'enrollment', url: mission_enrollments_path(@mission.id) do |f| %>
-        <h4 class="d-block text-center mx-auto">
-          <%= translate ".quick_enroll" %>
-        </h4>
-        <div class="d-flex align-items-center justify-content-around">
-          <%= translate "main_app.views.missions.show.from" %>
-          <%= f.text_field :start_time,
-                           class: "form-control datetimepicker-input m-2 w-25",
-                           data: { toggle: "datetimepicker", target: "#enrollment_start_time" },
-                           value: @mission.start_date.strftime('%T')
-          %>
-          <%= translate "main_app.views.missions.show.to" %>
-          <%= f.text_field :end_time,
-                           class: "form-control datetimepicker-input m-2 w-25",
-                           data: { toggle: "datetimepicker", target: "#enrollment_end_time" },
-                           value: @mission.due_date.strftime('%T')
-          %>
-        </div>
-        <% if @mission.members.select { |m| m.id == current_member.id }.present? %>
-          <%= link_to translate("main_app.views.missions.show.button_disenroll"),
-            mission_enrollments_path(@mission.id),
-            method: "DELETE",
-            class: "d-block text-center btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %>
-        <% else %>
-          <%= f.submit translate("main_app.views.missions.show.button_enroll"),
-            class: "d-block text-center btn btn-base-1 btn-shadow btn-circle px-4 mx-auto mt-2" %>
-        <% end %>
+      <% if @mission.genre == 'regulated' %>
+        <%= render partial: 'regulated_quick_enrollment_form' %>
+      <% else %>
+        <%= render partial: 'standard_quick_enrollment_form' %>
       <% end %>
 
       <div class="progress-wrapper mt-4 d-flex justify-content-between">

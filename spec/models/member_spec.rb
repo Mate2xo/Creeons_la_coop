@@ -73,7 +73,9 @@ RSpec.describe Member, type: :model do
           .dependent(:nullify)
       }
       it { is_expected.to have_many(:missions).through(:enrollments) }
+      it { is_expected.to have_many(:history_of_static_slot_selections) }
       it { is_expected.to have_many(:groups).through(:group_members) }
+      it { is_expected.to have_many(:static_slots).through(:member_static_slots) }
     end
 
     describe 'validations' do
@@ -183,12 +185,13 @@ RSpec.describe Member, type: :model do
 
     context 'when a member is enrolled on an event' do
       let(:member) { create :member }
+      let(:current_date) { Date.current }
 
       it 'ignores these hours' do
         create :enrollment, member: member
         create :enrollment, member: member, on_event: true
 
-        expect(member.monthly_worked_hours(Date.current)).to eq 2
+        expect(member.monthly_worked_hours(current_date)).to eq 3
       end
     end
   end

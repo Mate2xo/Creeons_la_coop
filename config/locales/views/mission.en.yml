@@ -1,9 +1,25 @@
 en:
+  admin:
+    missions:
+      generate_schedule:
+        schedule_already_generated: These schedules have already been generated
+        schedule_generation_in_progress: Schedule generation in progress. Please wait for a few minutes.
   missions:
-    form:
+    enrollments_form:
       enroll_another_member: Enroll another member
-      enrolled_members: Enrolled members
+    enrollments_with_time_slots_form:
+      enroll_another_member: Enroll another member
     enrollment_fields:
       delete_button: Disenroll this member
-    show:
+    enrollment_with_time_slots_fields:
+      delete_button: Disenroll this member
+      slot_details: From %{start_time} to %{end_time}
+    form:
+      enrolled_members: Enrolled members
+      genre: Genre
+    regulated_quick_enrollment_form:
       quick_enroll: Quick enroll
+    standard_quick_enrollment_form:
+      quick_enroll: Quick enroll
+    update:
+      time_slot_requirement: At least one time slot must be given

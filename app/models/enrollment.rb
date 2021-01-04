@@ -24,10 +24,14 @@ class Enrollment < ApplicationRecord
     ((end_time - start_time) / 60 / 60).round 1
   end
 
+  def contain_this_time_slot?(time_slot)
+    start_time <= time_slot && time_slot < end_time
+  end
+
   private
 
   def set_defaults
-    self.start_time ||= mission.start_date.to_time
-    self.end_time ||= mission.due_date.to_time
+    self.start_time ||= mission.start_date
+    self.end_time ||= mission.due_date
   end
 end

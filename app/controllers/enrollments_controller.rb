@@ -6,12 +6,19 @@ class EnrollmentsController < ApplicationController
   before_action :set_mission, only: %i[create destroy]
 
   def create
-    return flash[:alert] = translate('.max_member_count_reached') if member_slots_full?
+    create_transaction = Enrollments::CreateTransaction.new.with_step_args(
+      validate: [mission: @mission],
+      check_cash_register_proficiency: [mission: @mission, member: current_member],
+      transform_time_slots_in_time_params_for_enrollment: [regulated: @mission.regulated?,
+                                                           time_slots: permitted_params['time_slots']]
+    ).call(permitted_params)
 
-    @enrollment = Enrollment.create(enrollment_params)
-    user_feedback_on_creation
-
-    redirect_to mission_path(params[:mission_id])
+    if create_transaction.success?
+      flash[:notice] = translate '.confirm_enroll'
+      redirect_to mission_path(params[:mission_id])
+    else
+      flash[:alert] = create_transaction.failure
+    end
   end
 
   def destroy
@@ -23,31 +30,14 @@ class EnrollmentsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:enrollment).permit(:start_time, :end_time, :member_id)
-  end
-
-  def enrollment_params
-    enrollment_params = permitted_params
-    enrollment_params.merge!(member_id: current_member.id) if permitted_params[:member_id].blank?
-    enrollment_params.merge(mission_id: params[:mission_id])
-  end
-
-  def user_feedback_on_creation
-    if @enrollment.persisted?
-      flash[:notice] = translate '.confirm_enroll'
+    if @mission.genre != 'regulated'
+      params.require(:enrollment).permit(:member_id, :mission_id, :start_time, :end_time)
     else
-      flash[:alert] = translate '.enroll_error',
-                                errors: @enrollment.errors.full_messages.join(', ')
+      params.require(:enrollment).permit(:member_id, :mission_id, time_slots: [])
     end
   end
 
   def set_mission
     @mission = Mission.find(params[:mission_id])
-  end
-
-  def member_slots_full?
-    return false if @mission.max_member_count.nil?
-
-    @mission.members.count >= @mission.max_member_count || @mission.members.where(id: current_member.id).present?
   end
 end

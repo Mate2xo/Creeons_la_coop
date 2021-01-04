@@ -292,5 +292,6 @@ fr:
     formats:
       default: "%d %B %Y %Hh %Mmin %Ss"
       long: "%A %d %B %Y %Hh%M"
+      only_month: "%B"
       short: "%d %b %Hh%M"
     pm: pm

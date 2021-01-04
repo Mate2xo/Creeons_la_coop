@@ -17,24 +17,21 @@
 #  min_member_count  :integer
 #  delivery_expected :boolean          default(FALSE)
 #  event             :boolean          default(FALSE)
+#  genre             :integer          default: 0
 #
 
 FactoryBot.define do
   factory :mission do
     name { Faker::Company.bs }
     description { Faker::Lorem.paragraph }
-    max_member_count { rand(4..8) }
-    min_member_count { rand(1..3) }
+    max_member_count { 4 }
+    min_member_count { 1 }
     start_date do
       Faker::Time.between_dates(from: Date.current.at_beginning_of_week,
                                 to: Date.current.at_end_of_week,
-                                period: :day)
+                                period: :day).to_datetime
     end
-    due_date { start_date + 7200 }
+    due_date { start_date + 3.hours }
     association :author, factory: :member
-
-    trait :event do
-      event { true }
-    end
   end
 end

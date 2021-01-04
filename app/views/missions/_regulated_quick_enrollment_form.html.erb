@@ -1,0 +1,26 @@
+<% if @mission.selectable_time_slots.empty? %>
+  <p> <%= t('.no_time_slot_available') %> </p>
+<% else %>
+  <%= form_with scope: :enrollment, url: mission_enrollments_path(@mission.id) do |f| %>
+    <h4 class="d-block text-center mx-auto">
+      <%= translate ".quick_enroll" %>
+    </h4>
+    <% @mission.selectable_time_slots(current_member).each do |time_slot| %>
+      <div class="container">
+        <%= f.check_box("time_slots", {:multiple => true, checked: @mission.time_slot_already_taken_by_member?(time_slot, current_member) }, time_slot, nil) %>
+        <%= f.label t('.slot_details', start_time: time_slot.strftime('%Hh%M'), end_time: (time_slot + 90.minutes).strftime('%Hh%M')), { class: 'mr-1' } %>
+        <%= f.hidden_field :member_id, value: current_member.id %>
+        <%= f.hidden_field :mission_id, value: @mission.id %>
+      </div>
+    <% end%>
+    <% if @mission.members.select { |m| m.id == current_member.id }.present? %>
+      <%= link_to translate("main_app.views.missions.show.button_disenroll"),
+        mission_enrollments_path(@mission.id),
+        method: "DELETE",
+        class: "d-block text-center btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %>
+    <% else %>
+      <%= f.submit translate("main_app.views.missions.show.button_enroll"),
+        class: "d-block text-center btn btn-base-1 btn-shadow btn-circle px-4 mx-auto mt-2" %>
+    <% end %>
+  <% end %>
+<% end %>

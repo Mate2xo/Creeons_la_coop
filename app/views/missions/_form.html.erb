@@ -11,8 +11,13 @@
       </div><br />
 
       <div class="field">
-        <%= f.label :event, t('main_app.views.missions._form.event')%>
-        <%= f.check_box :event %>
+        <%= f.label :genre, t('.genre')%>
+        <%= f.select :genre,
+          Mission.genres.keys.map{|genre|
+          [ Mission.human_enum_name(:genre, genre), genre ]
+        },
+        {},
+        class: 'form-control' %>
       </div><br />
 
       <div class="field">
@@ -20,6 +25,20 @@
         <small>(champs obligatoire)</small>
         <%= f.hidden_field :description, required: true %>
         <trix-editor input="mission_description"></trix-editor>
+      </div><br />
+
+      <div class="field">
+        <%= f.label :cash_register_proficiency_requirement,
+          Mission.human_attribute_name(:cash_register_proficiency_requirement) %><br />
+        <%= f.select :cash_register_proficiency_requirement,
+          Mission.cash_register_proficiency_requirements.keys.map { |level|
+            [
+              t(level, scope: "activerecord.attributes.mission.cash_register_proficiency_requirements"),
+              level
+            ]
+          },
+          {},
+          class:'form-control' %>
       </div><br />
 
       <div class="field">
@@ -90,22 +109,23 @@
                       Mission.human_attribute_name(:max_member_count) %>
           <br />
           <%= f.number_field :max_member_count,
-                             class: "form-control form-control-lg" %>
+                             class: "form-control form-control-lg",
+                             required: true %>
         </div><br />
 
       </div>
       <% unless mission.new_record? %>
-        <div id="enrollments">
-          <%= f.fields_for :enrollments, mission.enrollments do |enrollment| %>
-            <%= render 'enrollment_fields', f: enrollment %>
-
-          <% end %>
-          <div class="links">
-            <%= link_to_add_association t(".enroll_another_member"),
-                                        f,
-                                        :enrollments %>
-          </div>
-        </div>
+        <% if mission.genre == 'regulated' %>
+          <%= render 'enrollments_form',
+            f: f,
+            mission: mission,
+            cocoon_fields_name: 'enrollment_with_time_slots_fields' %>
+        <% else %>
+          <%= render 'enrollments_form',
+            f: f,
+            mission: mission,
+            cocoon_fields_name: 'enrollment_fields' %>
+        <% end %>
       <% end %>
     </section>
 

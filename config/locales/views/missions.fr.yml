@@ -1,9 +1,28 @@
 fr:
+  admin:
+    missions:
+      generate_schedule:
+        schedule_already_generated: Tous les plannings demandés ont déjà été générés.
+        schedule_generation_in_progress: Génération du planning en cours. Veuillez attendre quelques minutes.
   missions:
-    form:
+    enrollments_form:
       enroll_another_member: Ajouter un participant
-      enrolled_members: Participants
+    enrollments_with_time_slots_form:
+      enroll_another_member: Ajouter un participant
     enrollment_fields:
       delete_button: Désinscrire ce participant
-    show:
+    enrollment_with_time_slots_fields:
+      delete_button: Désinscrire ce participant
+      slot_details: De %{start_time} à %{end_time}
+    form:
+      enrolled_members: Participants
+      genre: genre
+    regulated_quick_enrollment_form:
+      button_enroll_to_slots: Mettre à jour l'inscription
+      no_time_slot_available: Il n y a plus de créneau disponible pour cette mission
       quick_enroll: Inscription rapide
+      slot_details: De %{start_time} à %{end_time}
+    standard_quick_enrollment_form:
+      quick_enroll: Inscription rapide
+    update:
+      time_slot_requirement: Au moins une tranche horaire doit être indiquée

@@ -26,14 +26,16 @@ RSpec.describe Enrollment, type: :model do
   end
 
   describe '#duration' do
+    let(:current_time) { DateTime.current }
+
     it 'gives the duration of an enrollment in hours' do
-      enrollment = build :enrollment, start_time: Time.current, end_time: Time.current + 2.hours
+      enrollment = create :enrollment, start_time: current_time, end_time: current_time + 2.hours
 
       expect(enrollment.duration).to eq 2
     end
 
     it 'gives a rounded duration in hours' do
-      enrollment = build :enrollment, start_time: Time.current, end_time: Time.current + 1.5.hours
+      enrollment = build :enrollment, start_time: current_time, end_time: current_time + 1.5.hours
 
       expect(enrollment.duration).to eq 1.5
     end

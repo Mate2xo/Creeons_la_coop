@@ -1,0 +1,22 @@
+en:
+  activerecord:
+    attributes:
+      mission:
+        cash_register_proficiency_requirement: Cash register mastery is required
+        cash_register_proficiency_requirements:
+          untrained: untrained
+          beginner: beginner
+          proficient: proficient
+        duration: duration
+        genres:
+          event: Event
+          regulated: Regulated
+          standard: Standard
+    errors:
+      models:
+        mission:
+          attributes:
+            duration:
+              maximum: must be less than or equal to 10 hours
+              minimum: must be greater than 0 minute
+              multiple: must be a multiple of 90 minutes 
