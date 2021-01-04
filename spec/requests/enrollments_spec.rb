@@ -32,11 +32,12 @@ RSpec.describe 'Enrollments', type: :request do
     end
 
     context 'when the mission is regulated' do
+      let(:mission) { create :mission, genre: 'regulated' }
       let(:current_member) { create :member }
-      let(:start_time) { [mission.start_date, mission.start_date + 90.minutes] }
+      let(:time_slots) { [mission.start_date, mission.start_date + 90.minutes] }
       let(:enrollment) do
         enrollment = attributes_for :enrollment,
-                                    start_time: start_time,
+                                    time_slots: time_slots,
                                     genre: 'regulated'
         enrollment[:member_id] = current_member.id
         enrollment[:mission_id] = mission.id

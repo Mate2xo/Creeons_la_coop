@@ -11,7 +11,7 @@ RSpec.describe 'Cash register proficiency checking :', type: :feature do
     subject(:enroll) do
       visit mission_path(mission.id)
       I18n.locale = :fr
-      check "enrollment_start_time_#{mission.start_date.strftime('%F_%H%M%S_utc')}"
+      check "enrollment_time_slots_#{mission.start_date.strftime('%F_%H%M%S_utc')}"
       click_button I18n.t('main_app.views.missions.show.button_enroll')
     end
 
