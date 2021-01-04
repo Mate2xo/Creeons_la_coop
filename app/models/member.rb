@@ -52,21 +52,17 @@ class Member < ApplicationRecord
   has_many :groups, through: :group_members
 
   has_many :created_missions, class_name: 'Mission', inverse_of: 'author', foreign_key: 'author_id', dependent: :nullify
+  has_many :enrollments, dependent: :destroy
+  has_many :missions, through: :enrollments
 
-  has_many :participations, dependent: :destroy, foreign_key: :participant, inverse_of: :participant
-  has_many :events, class_name: 'Mission', through: :participations
-
-  has_many :slots, class_name: 'Mission::Slot', dependent: :nullify
-  has_many :missions, through: :slots
-
-  has_many :static_slot_members, dependent: :destroy
-  has_many :static_slots, through: :static_slot_members
+  has_many :member_static_slots, dependent: :destroy
+  has_many :static_slots, through: :member_static_slots
   accepts_nested_attributes_for :static_slots
-
   has_many :created_infos, class_name: 'Info', inverse_of: 'author', foreign_key: 'author_id', dependent: :nullify
 
   has_and_belongs_to_many :managed_productors, class_name: 'Productor'
 
+  has_many :history_of_static_slot_selections, dependent: :destroy
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :display_name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 50 }
@@ -84,8 +80,9 @@ class Member < ApplicationRecord
   # @param date [Date]
   def monthly_worked_hours(date)
     month_number = date.month
-
-    family_slots.select { |slot| (slot.mission.start_date.month == month_number) }.count * 90.0 / 60
+    family_enrollments
+      .select { |enroll| (enroll.mission.start_date.month == month_number && enroll.mission.genre != 'event') }
+      .reduce(0.0) { |sum, enrollment| sum + enrollment.duration }
   end
 
   private
@@ -101,9 +98,9 @@ class Member < ApplicationRecord
     self.display_name = display_name
   end
 
-  def family_slots
-    return slots if register_id.nil?
+  def family_enrollments
+    return enrollments if register_id.nil?
 
-    Member.where(register_id: register_id).map(&:slots).flatten
+    Member.where(register_id: register_id).map(&:enrollments).flatten
   end
 end

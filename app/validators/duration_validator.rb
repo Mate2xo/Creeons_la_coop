@@ -4,30 +4,17 @@
 class DurationValidator < ActiveModel::Validator
   def validate(mission)
     return false if mission.start_date.nil? || mission.due_date.nil?
-    return true if mission.event
+    return true if mission.genre == 'event'
 
-    return false unless duration_minimum(mission)
-    return false unless duration_multiple(mission)
-    return false unless duration_extend(mission)
-
-    true
+    duration_valid?(mission)
   end
 
   private
 
-  def duration_multiple(mission)
-    duration_in_minutes = (mission.due_date - mission.start_date) / 60
-    return true if (duration_in_minutes % 90).zero?
+  def duration_maximum(mission)
+    return true if mission.duration / 60 / 60 <= 10
 
-    mission.errors.add :duration, I18n.t('activerecord.errors.models.mission.attributes.duration.multiple')
-    false
-  end
-
-  def duration_extend(mission)
-    duration_in_minutes = (mission.due_date - mission.start_date) / 60
-    return true if duration_in_minutes < 360
-
-    mission.errors.add :duration, I18n.t('activerecord.errors.models.mission.attributes.duration.extend')
+    mission.errors.add :duration, I18n.t('activerecord.errors.models.mission.attributes.duration.maximum')
     false
   end
 
@@ -36,5 +23,21 @@ class DurationValidator < ActiveModel::Validator
 
     mission.errors.add :duration, I18n.t('activerecord.errors.models.mission.attributes.duration.minimum')
     false
+  end
+
+  def duration_multiple(mission)
+    return true if mission.genre != 'regulated'
+    return true if ((mission.duration / 60).round % 90).zero?
+
+    mission.errors.add :duration, I18n.t('activerecord.errors.models.mission.attributes.duration.multiple')
+    false
+  end
+
+  def duration_valid?(mission)
+    return false unless duration_minimum(mission)
+    return false unless duration_maximum(mission)
+    return false unless duration_multiple(mission)
+
+    true
   end
 end

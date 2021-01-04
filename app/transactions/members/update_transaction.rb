@@ -1,42 +1,76 @@
 # frozen_string_literal: true
 
-class Members::UpdateTransaction
-  include Dry::Transaction
+module Members
+  # extracts a member's static slot selection, assigns the selected static slots, and updates the member
+  class UpdateTransaction
+    include Dry::Transaction
 
-  tee :extract_ids
-  step :assign_static_slot
-  step :update_member
+    tee :params
+    tee :extract_static_slots_ids
+    step :assign_static_slot
+    step :save_in_history
+    step :enroll_member_according_to_new_static_slots
+    step :update_member
 
-  private
+    private
 
-  def extract_ids(input)
-    return Success(input) if input[:permitted_params][:static_slots_attributes].nil?
-
-    static_slot_ids = []
-    input[:permitted_params][:static_slots_attributes].values.each do |value|
-      static_slot_ids << value['id']
+    def params(input)
+      @current_member = input[:current_member]
+      @static_slots_attributes = input[:permitted_params][:static_slots_attributes]
+      input[:permitted_params].delete('static_slots_attributes')
+      @member_params = input[:permitted_params]
     end
-    input.merge!({ static_slot_ids: static_slot_ids })
-    Success(input)
-  end
 
-  def assign_static_slot(input)
-    return Success(input) if input[:permitted_params][:static_slots_attributes].nil?
+    def extract_static_slots_ids(input)
+      return Success(input) if @static_slots_attributes.nil?
 
-    input[:static_slot_ids].each do |static_slot_id|
-      unless ::StaticSlotMember.create(member_id: input[:current_member].id, static_slot_id: static_slot_id)
-        Failure(error: t('activerecord.errors.models.mission.messages.static_slot_attribution_failure'))
+      @static_slot_ids = []
+      @static_slots_attributes.each_pair do |_key, value|
+        @static_slot_ids << value['id']
+      end
+      @static_slot_ids.uniq
+      Success(input)
+    end
+
+    def assign_static_slot(input)
+      return Success(input) if @static_slots_attributes.nil?
+
+      @static_slot_ids.each do |static_slot_id|
+        unless ::MemberStaticSlot.create(member_id: @current_member.id, static_slot_id: static_slot_id)
+          Failure(error: t('activerecord.errors.models.static_slot.messages.static_slot_attribution_failure'))
+        end
+      end
+      Success(input)
+    end
+
+    def save_in_history(input)
+      return Success(input) if @static_slots_attributes.nil?
+
+      @static_slot_ids.each do |static_slot_id|
+        unless ::HistoryOfStaticSlotSelection.create(member_id: @current_member.id, static_slot_id: static_slot_id)
+          Failure(error: t('activerecord.errors.models.static_slot.messages.selection_save_failure'))
+        end
+      end
+      Success(input)
+    end
+
+    def enroll_member_according_to_new_static_slots(input)
+      return Success(input) if @static_slots_attributes.nil?
+
+      static_members_recruiter = StaticMembersRecruiter.new
+      static_members_recruiter.enrollment_for_one_member(@current_member)
+
+      if static_members_recruiter.errors.empty?
+        Success(input)
+      else
+        failure_message
       end
     end
-    Success(input)
-  end
 
-  def update_member(input)
-    input[:permitted_params].delete('static_slots_attributes')
-    unless input[:current_member].update(input[:permitted_params])
-      Failure(t('activerecord.errors.messages.update_fail'))
+    def update_member(input)
+      Failure(t('activerecord.errors.messages.update_fail')) unless @current_member.update(@member_params)
+
+      Success(input)
     end
-
-    Success(input)
   end
 end

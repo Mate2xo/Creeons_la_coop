@@ -40,6 +40,7 @@ gem 'cocoon', '~> 1.2', '>= 1.2.12' # Dynamic nested forms
 gem 'devise', '~> 4.7' # Users login/registration management
 gem 'devise_invitable', '~> 2.0.0'
 gem 'draper'
+gem 'dry-transaction'
 gem 'httparty' # Http requests
 gem 'ice_cube' # Calendar events recurrence (for Missions)
 gem 'leaflet-rails' # GeoMap generator
@@ -47,8 +48,6 @@ gem 'mailjet' # Production mailer API
 gem 'pundit' # Authorization management
 gem 'recurring_select' # Events recurrence rules set helper
 gem 'thredded', '~> 0.16.16' # Forum engine
-gem 'dry-transaction'
-
 
 group :development, :test do
   gem 'factory_bot_rails', '~> 4.0'

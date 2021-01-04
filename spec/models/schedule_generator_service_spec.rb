@@ -4,7 +4,9 @@ require 'rails_helper'
 
 RSpec.describe ScheduleGenerator, type: :model do
   describe '#generate_schedule' do
-    subject(:generate_schedule) { ScheduleGenerator.new(author).generate_schedule }
+    subject(:generate_schedule) do
+      ScheduleGenerator.new(author, DateTime.current.at_beginning_of_month + 1.month).generate_schedule
+    end
 
     let(:author) { create :member }
 

@@ -64,6 +64,12 @@ ActiveAdmin.register Member do
           static_slot.full_display
         end
       end
+      table_for member.history_of_static_slot_selections, t('.selections_history') do
+        column StaticSlot.model_name.human do |record|
+          record.static_slot.decorate.full_display
+        end
+        column(t('.selected_at')) { |record| record.created_at }
+      end
     end
   end
 
@@ -78,7 +84,7 @@ ActiveAdmin.register Member do
              :register_id,
              :biography
     f.input :groups, as: :check_boxes
-    f.input :static_slots, as: :check_boxes, collection: StaticSlot.all.map { |static_slot| [static_slot.decorate.full_display, static_slot.id] }
+    f.input :static_slots, as: :check_boxes, collection: StaticSlot.all.decorate.map { |static_slot| [static_slot.full_display, static_slot.id] }
     actions
   end
 
@@ -113,8 +119,8 @@ ActiveAdmin.register Member do
 
   collection_action :remove_static_slots_of_a_member, method: :put do
     member = Member.find(params[:member_id])
-    member.static_slot_members.destroy_all
-    redirect_to admin_member_path(member), notice: 'success'
+    member.member_static_slots.destroy_all
+    redirect_to admin_member_path(member), notice: t('member_static_slots.destroy.reset_success')
   end
 
   controller do

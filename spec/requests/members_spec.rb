@@ -2,7 +2,6 @@
 
 require 'rails_helper'
 
-
 RSpec.describe 'A Member request', type: :request do
   let(:member) { create :member }
 

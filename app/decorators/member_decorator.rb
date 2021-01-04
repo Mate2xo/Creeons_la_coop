@@ -16,4 +16,11 @@ class MemberDecorator < Draper::Decorator
       h.safe_join(hours_per_month.map { |month_total| h.content_tag(:p, month_total) }.reverse)
     end
   end
+
+  def time_slot_already_taken?(time_slot, mission)
+    enrollment = member.enrollments.find_by(mission_id: mission.id)
+    return false if enrollment.nil?
+
+    enrollment.start_time <= time_slot && time_slot < enrollment.end_time
+  end
 end

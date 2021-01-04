@@ -17,29 +17,21 @@
 #  min_member_count  :integer
 #  delivery_expected :boolean          default(FALSE)
 #  event             :boolean          default(FALSE)
+#  genre             :integer          default: 0
 #
 
 FactoryBot.define do
   factory :mission do
-    transient do
-      with_slots { true }
-    end
-
     name { Faker::Company.bs }
     description { Faker::Lorem.paragraph }
-    min_member_count { rand(1..3) }
     max_member_count { 4 }
+    min_member_count { 1 }
     start_date do
-      Faker::Time.between_dates(from: DateTime.current.at_beginning_of_week,
-                                to: DateTime.current.at_end_of_week,
+      Faker::Time.between_dates(from: Date.current.at_beginning_of_week,
+                                to: Date.current.at_end_of_week,
                                 period: :day).to_datetime
     end
-    due_date { start_date + 180.minutes }
-    event { false }
+    due_date { start_date + 3.hours }
     association :author, factory: :member
-
-    after(:create) do |mission, evaluator|
-      Slot::Generator.call(mission) if evaluator.with_slots && !mission.event
-    end
   end
 end

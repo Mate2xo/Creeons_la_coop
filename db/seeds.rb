@@ -5,8 +5,6 @@ Rails.logger.level = :INFO
 
 require 'faker'
 
-Rails.logger.info 'Start cleaning Database'
-
 Info.destroy_all
 Address.destroy_all
 Mission.destroy_all
@@ -77,22 +75,12 @@ Rails.logger.info 'Productors seeded'
 
 10.times do
   FactoryBot.create :mission,
+                    members: Member.all.sample(rand(0..8)),
                     addresses: FactoryBot.create_list(:address, rand(1..2)),
-                    author: Member.all.sample,
-                    event: true
-end
-
-Rails.logger.info 'Events seeded'
-
-10.times do
-  FactoryBot.create :mission,
-                    addresses: FactoryBot.create_list(:address, rand(1..2)),
-                    author: Member.all.sample,
-                    event: false
+                    author: Member.all.sample
 end
 
 Rails.logger.info 'Missions seeded'
-
 FactoryBot.create_list :info, 5, author: Member.all.sample
 Rails.logger.info 'Infos seeded'
 

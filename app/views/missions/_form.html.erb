@@ -11,8 +11,13 @@
       </div><br />
 
       <div class="field">
-        <%= f.label :event, t('main_app.views.missions._form.event')%>
-        <%= f.check_box :event %>
+        <%= f.label :genre, t('.genre')%>
+        <%= f.select :genre,
+          Mission.genres.keys.map{|genre|
+          [ Mission.human_enum_name(:genre, genre), genre ]
+        },
+        {},
+        class: 'form-control' %>
       </div><br />
 
       <div class="field">
@@ -110,17 +115,16 @@
 
       </div>
       <% unless mission.new_record? %>
-        <% if mission.event %>
-          <div id="participations">
-            <%= f.fields_for :participations, mission.participations do |participation| %>
-              <%= render 'participation_fields', f: participation %>
-            <% end %>
-            <div class="links">
-              <%= link_to_add_association t(".add_another_member"),
-                f,
-                :participations %>
-            </div>
-          </div>
+        <% if mission.genre == 'regulated' %>
+          <%= render 'enrollments_form',
+            f: f,
+            mission: mission,
+            cocoon_fields_name: 'enrollment_with_time_slots_fields' %>
+        <% else %>
+          <%= render 'enrollments_form',
+            f: f,
+            mission: mission,
+            cocoon_fields_name: 'enrollment_fields' %>
         <% end %>
       <% end %>
     </section>

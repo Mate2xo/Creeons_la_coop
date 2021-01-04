@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe StaticSlot, type: :model do
@@ -9,7 +11,7 @@ RSpec.describe StaticSlot, type: :model do
     end
 
     describe 'associations' do
-      it { is_expected.to have_many(:members).through(:static_slot_members) }
+      it { is_expected.to have_many(:members).through(:member_static_slots) }
     end
   end
 end

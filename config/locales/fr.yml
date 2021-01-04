@@ -30,6 +30,9 @@ fr:
       member:
         one: Membre
         other: Membres
+      mission:
+        one: Mission
+        other: Missions
       productor:
         one: Producteur
         other: Producteurs
@@ -63,6 +66,17 @@ fr:
           member: Membre
           admin: Administrateur
           super_admin: Administrateur général
+      mission:
+        author: Auteur
+        description: Description
+        due_date: Date et heure limite
+        delivery_expected: Livraison attendue
+        event: Évènement
+        max_member_count: Nombre maximum de participants
+        min_member_count: Nombre minimum de personnes souhaitées
+        name: Nom
+        start_date: Date et heure de début
+        recurrent: Créneau récurrent
       productor:
         avatar: Photo de profil
         catalogs: Catalogues
@@ -278,5 +292,6 @@ fr:
     formats:
       default: "%d %B %Y %Hh %Mmin %Ss"
       long: "%A %d %B %Y %Hh%M"
+      only_month: "%B"
       short: "%d %b %Hh%M"
     pm: pm

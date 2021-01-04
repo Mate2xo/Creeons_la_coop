@@ -1,29 +1,22 @@
 en:
   activerecord:
-    models:
-      mission:
-        one: Mission
-        other: Missions
     attributes:
       mission:
-        author:
-        description:
-        duration:
-        due_date:
-        delivery_expected:
-        event:
-        max_member_count:
-        min_member_count:
-        name:
-        start_date: 
-        recurrent:
+        cash_register_proficiency_requirement: Cash register mastery is required
+        cash_register_proficiency_requirements:
+          untrained: untrained
+          beginner: beginner
+          proficient: proficient
+        duration: duration
+        genres:
+          event: Event
+          regulated: Regulated
+          standard: Standard
     errors:
       models:
         mission:
-          messages:
-            insufficient_proficiency: Your proficiency on the cash register is insufficient to enroll on this last slot available from %{start_time.strftime('%Hh%M')} to %{(start_time + 90.minutes).strftime('%Hh%M')} , as we need at least one person that satisfies the required cash register proficiency level.
           attributes:
             duration:
-              multiple: must be a mutiple of 1h30
-              extend: The duration is too large
-              minimum: The duration must be higher than 0 minute
+              maximum: must be less than or equal to 10 hours
+              minimum: must be greater than 0 minute
+              multiple: must be a multiple of 90 minutes 

@@ -1,3 +1,4 @@
+<% enrollment = EnrollmentPresenter.new(f.object)%>
 <div class="card m-2 p-2 nested-fields">
   <div class="d-flex flex-wrap justify-content-around">
     <div class="field m-1">
@@ -7,6 +8,22 @@
         {},
                    class: "form-control" %>
       <br />
+    </div>
+    <div class="field m-1">
+      <%= f.label :start_time, Enrollment.human_attribute_name(:start_time).humanize %><br />
+      <%= f.time_field :start_time,
+                       value: enrollment.default_start_time,
+                       min: @mission.start_date.to_time.strftime("%H:%M"),
+                       max: @mission.due_date.to_time.strftime("%H:%M"),
+                       class: "form-control" %><br />
+    </div>
+    <div class="field m-1">
+      <%= f.label :end_time, Enrollment.human_attribute_name(:end_time).humanize %><br />
+      <%= f.time_field :end_time,
+                       value: enrollment.default_end_time,
+                       min: @mission.start_date.strftime("%H:%M"),
+                       max: @mission.due_date.strftime("%H:%M"),
+                       class: "form-control" %><br />
     </div>
   </div>
 

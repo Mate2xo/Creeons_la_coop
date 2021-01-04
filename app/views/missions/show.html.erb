@@ -3,8 +3,6 @@
   <%= javascript_include_tag 'missionForm', 'data-turbolinks-track': 'reload' %>
 <% end %>
 
-
-
 <div class="container py-3">
   <div class="row">
     <main class="col-lg-8 ml-lg-auto order-lg-2">
@@ -18,11 +16,26 @@
         <hr class="w-25">
       </section>
 
-      <% if @mission.event %>
-        <%= render partial: 'participants' %>
-      <% else %>
-        <%= render partial: 'missions/enrolled_members' %>
-      <% end %>
+      <section class="px-inline-only-2">
+        <h2 class="heading heading-3 strong-500">
+          <%= t "main_app.views.missions.show.attendees" %> : <%= @mission.members.length %>
+          <hr class="mt-0 mb-0">
+        </h2>
+
+          <%= render partial: 'enrollment', collection: @mission.enrollments %>
+
+        <div class="d-flex justify-content-around">
+          <p>
+            <%= Mission.human_attribute_name(:min_member_count) %> :
+            <%= @mission.min_member_count %>
+          </p>
+          <p>
+            <%= Mission.human_attribute_name(:max_member_count) %> :
+            <%= @mission.max_member_count.nil? ?
+                  t("main_app.views.application.messages.undefined") : @mission.max_member_count %>
+          </p>
+        </div>
+      </section>
     </main>
 
     <aside class="col-lg-4 order-lg-1 border">
@@ -31,7 +44,7 @@
           <h3 class="progress-label text-capitalize text-md strong-600">
             <%= translate "activerecord.attributes.mission.start_date" %> :
           </h3>
-          <h4> <%= time_tag(@mission.start_date) %> </h4>
+          <h4> <%=  time_tag(@mission.start_date) %> </h4>
         </div>
       <% end %>
 
@@ -45,6 +58,8 @@
           </h4>
         </div>
       <% end %>
+
+      <% if @mission.genre == 'regulated' %>
         <div class="progress-wrapper mt-4">
           <h3 class="progress-label text-capitalize text-md strong-600">
             <%= translate "activerecord.attributes.mission.cash_register_proficiency_requirement" %> :
@@ -53,6 +68,7 @@
             <%= Mission.human_enum_name('cash_register_proficiency_requirement', @mission.cash_register_proficiency_requirement) %>
           </h4>
         </div>
+      <% end %>
 
       <div class="progress-wrapper mt-4">
         <h3 class="progress-label text-capitalize text-md strong-600">
@@ -70,10 +86,10 @@
 
       <hr class="mt-0">
 
-      <% if @mission.event %>
-        <%= render partial: 'participation_form' %>
+      <% if @mission.genre == 'regulated' %>
+        <%= render partial: 'regulated_quick_enrollment_form' %>
       <% else %>
-        <%= render partial: 'missions/enrollment_form' %>
+        <%= render partial: 'standard_quick_enrollment_form' %>
       <% end %>
 
       <div class="progress-wrapper mt-4 d-flex justify-content-between">

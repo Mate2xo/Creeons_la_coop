@@ -13,16 +13,13 @@ Rails.application.routes.draw do
   get 'faq', to: 'static_pages#faq', as: 'faq'
 
   resources :missions do
-    resources :slots, only: %i[update]
-  end
-
-  resources :missions do
-    resource :participations, only: %i[new create destroy]
+    resource :enrollments, only: %i[new create destroy]
   end
 
   resources :productors
   resources :infos
   resources :documents, only: %i[create destroy]
   resources :members, only: %i[index show edit update]
+  resources :member_static_slots, only: %i[destroy]
   mount Thredded::Engine => '/forum'
 end

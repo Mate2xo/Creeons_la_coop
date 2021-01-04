@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# StaticSlot is an attributes of member and enable the auto enrollment
+# A StaticSlot belongs to a Member, and allows a member to enroll automatically each month to the Mission that
+# this StaticSlot refers to
 ActiveAdmin.register StaticSlot do
   permit_params :week_day, :start_time, :hour, :minute, :week_type, static_slot_ids: []
 

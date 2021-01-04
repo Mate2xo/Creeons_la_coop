@@ -1,18 +1,21 @@
 # frozen_string_literal: true
 
-# It generates a planning for the next month and enroll the members with have a static slot
-class ScheduleGenerator < ApplicationService
+# Generates a set of common missions for a given month. This allows admins not having to create the same kind
+# of missions over and over again. This service is similar to the RecurrentMission generator, but it is intended
+# to be used in a Job rather than from the UI
+class ScheduleGenerator
   attr_reader :errors
 
-  def initialize(current_member)
+  def initialize(current_member, start_date)
     @current_member = current_member
+    @start_date = start_date
     @errors = []
   end
 
   def generate_schedule
     valid = true
     Mission.transaction do
-      generate_missions_for_next_month
+      generate_missions_for_a_month
       if @errors.any?
         valid = false
         raise ActiveRecord::Rollback
@@ -23,10 +26,9 @@ class ScheduleGenerator < ApplicationService
 
   private
 
-  def generate_missions_for_next_month
-    current_day = (DateTime.current + 1.month).at_beginning_of_month
-    next_month = current_day.month
-    while current_day.month == next_month
+  def generate_missions_for_a_month
+    current_day = @start_date
+    while current_day.month == @start_date.month
       generate_missions_for_a_day(current_day)
       current_day += 1.day
     end
@@ -42,9 +44,9 @@ class ScheduleGenerator < ApplicationService
                                due_date: current_hour + 180.minutes,
                                min_member_count: 2,
                                max_member_count: 4,
-                               event: false,
+                               genre: 'regulated',
                                author: @current_member)
-      Slot::Generator.call(mission)
+      @errors << I18n.t('activerecord.errors.messages.creation_fail', Mission.model_name.human) if mission.errors.any?
     end
   end
 

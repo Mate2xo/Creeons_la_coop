@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_13_213101) do
+ActiveRecord::Schema.define(version: 2020_12_31_163056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,12 +76,12 @@ ActiveRecord::Schema.define(version: 2020_12_13_213101) do
 
   create_table "enrollments", force: :cascade do |t|
     t.bigint "member_id", null: false
-    t.bigint "mission_id"
-    t.time "start_time"
-    t.time "end_time"
-    t.bigint "mission_slot_id"
+    t.bigint "mission_id", null: false
+    t.time "old_start_time"
+    t.time "old_end_time"
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.index ["mission_id"], name: "index_enrollments_on_mission_id"
-    t.index ["mission_slot_id"], name: "index_enrollments_on_mission_slot_id"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -126,6 +126,15 @@ ActiveRecord::Schema.define(version: 2020_12_13_213101) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "history_of_static_slot_selections", force: :cascade do |t|
+    t.bigint "member_id"
+    t.bigint "static_slot_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_history_of_static_slot_selections_on_member_id"
+    t.index ["static_slot_id"], name: "index_history_of_static_slot_selections_on_static_slot_id"
+  end
+
   create_table "infos", force: :cascade do |t|
     t.text "content"
     t.string "title"
@@ -133,6 +142,15 @@ ActiveRecord::Schema.define(version: 2020_12_13_213101) do
     t.datetime "updated_at", null: false
     t.bigint "author_id"
     t.index ["author_id"], name: "index_infos_on_author_id"
+  end
+
+  create_table "member_static_slots", force: :cascade do |t|
+    t.bigint "static_slot_id"
+    t.bigint "member_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_member_static_slots_on_member_id"
+    t.index ["static_slot_id"], name: "index_member_static_slots_on_static_slot_id"
   end
 
   create_table "members", force: :cascade do |t|
@@ -180,16 +198,6 @@ ActiveRecord::Schema.define(version: 2020_12_13_213101) do
     t.bigint "productor_id", null: false
   end
 
-  create_table "mission_slots", force: :cascade do |t|
-    t.datetime "start_time"
-    t.bigint "mission_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "member_id"
-    t.index ["member_id"], name: "index_mission_slots_on_member_id"
-    t.index ["mission_id"], name: "index_mission_slots_on_mission_id"
-  end
-
   create_table "missions", force: :cascade do |t|
     t.string "name", null: false
     t.text "description", null: false
@@ -203,6 +211,7 @@ ActiveRecord::Schema.define(version: 2020_12_13_213101) do
     t.integer "min_member_count"
     t.boolean "delivery_expected", default: false
     t.boolean "event", default: false
+    t.integer "genre", default: 0
     t.integer "cash_register_proficiency_requirement", default: 0
     t.index ["author_id"], name: "index_missions_on_author_id"
   end
@@ -210,15 +219,6 @@ ActiveRecord::Schema.define(version: 2020_12_13_213101) do
   create_table "missions_productors", id: false, force: :cascade do |t|
     t.bigint "mission_id", null: false
     t.bigint "productor_id", null: false
-  end
-
-  create_table "participations", force: :cascade do |t|
-    t.bigint "event_id"
-    t.bigint "participant_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["event_id"], name: "index_participations_on_event_id"
-    t.index ["participant_id"], name: "index_participations_on_participant_id"
   end
 
   create_table "productors", force: :cascade do |t|
@@ -231,21 +231,12 @@ ActiveRecord::Schema.define(version: 2020_12_13_213101) do
     t.boolean "local", default: false
   end
 
-  create_table "static_slot_members", force: :cascade do |t|
-    t.bigint "static_slot_id"
-    t.bigint "member_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["member_id"], name: "index_static_slot_members_on_member_id"
-    t.index ["static_slot_id"], name: "index_static_slot_members_on_static_slot_id"
-  end
-
   create_table "static_slots", force: :cascade do |t|
     t.integer "week_day", null: false
+    t.datetime "start_time", null: false
     t.integer "week_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "start_time"
   end
 
   create_table "thredded_categories", force: :cascade do |t|
@@ -481,19 +472,14 @@ ActiveRecord::Schema.define(version: 2020_12_13_213101) do
 
   add_foreign_key "addresses", "members"
   add_foreign_key "addresses", "productors"
-  add_foreign_key "enrollments", "mission_slots"
   add_foreign_key "group_managers", "groups", column: "managed_group_id"
   add_foreign_key "group_managers", "members", column: "manager_id"
   add_foreign_key "group_members", "groups"
   add_foreign_key "group_members", "members"
   add_foreign_key "infos", "members", column: "author_id"
-  add_foreign_key "mission_slots", "members"
-  add_foreign_key "mission_slots", "missions"
+  add_foreign_key "member_static_slots", "members"
+  add_foreign_key "member_static_slots", "static_slots"
   add_foreign_key "missions", "members", column: "author_id"
-  add_foreign_key "participations", "members", column: "participant_id"
-  add_foreign_key "participations", "missions", column: "event_id"
-  add_foreign_key "static_slot_members", "members"
-  add_foreign_key "static_slot_members", "static_slots"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards", on_delete: :cascade
   add_foreign_key "thredded_messageboard_users", "thredded_user_details", on_delete: :cascade
   add_foreign_key "thredded_user_post_notifications", "members", column: "user_id", on_delete: :cascade

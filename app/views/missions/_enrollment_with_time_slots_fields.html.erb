@@ -1,0 +1,20 @@
+<div class="card m-2 p-2 nested-fields">
+  <div class="d-flex flex-wrap justify-content-around">
+    <div class="field m-1">
+      <%= f.label :member_id, Member.human_attribute_name(:member).humanize %><br />
+      <%= f.select :member_id,
+        Member.all.map { |m| ["#{m.first_name} #{m.last_name}", m.id] }.sort,
+        {},
+        class: "form-control" %>
+    </div>
+    <div class="field m-1 pt-5">
+      <% @mission.selectable_time_slots(f.object.member).each do |time_slot| %>
+        <%= f.check_box("time_slots", {:multiple => true, checked: @mission.time_slot_already_taken_by_member?(time_slot, current_member) }, time_slot, nil) %>
+        <%= f.label t('.slot_details', start_time: time_slot.strftime('%Hh%M'), end_time: (time_slot + 90.minutes).strftime('%Hh%M')), { class: 'mr-1' } %>
+      <% end %>
+    </div>
+  </div>
+
+  <%= link_to_remove_association t(".delete_button").humanize, f,
+    class: 'text-danger ml-auto' %>
+</div>

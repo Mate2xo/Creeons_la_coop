@@ -1,34 +1,22 @@
 fr:
   activerecord:
-    models:
-      mission:
-        one: Mission
-        other: Missions
     attributes:
       mission:
-        author: Auteur
-        description: Description
-        duration: Durée
-        due_date: Date et heure limite
-        delivery_expected: Livraison attendue
-        event: Évènement
-        max_member_count: Nombre maximum de participants
-        min_member_count: Nombre minimum de personnes souhaitées
-        name: Nom
-        start_date: Date et heure de début
-        recurrent: Créneau récurrent
         cash_register_proficiency_requirement: Maîtrise de la caisse requise
         cash_register_proficiency_requirements:
           untrained: non formé à la caisse
           beginner: débutant à la caisse
           proficient: formé à la caisse
+        duration: La durée
+        genres:
+          event: Événement
+          regulated: Régulée
+          standard: Standard
     errors:
       models:
         mission:
-          messages:
-            insufficient_proficiency: Votre maîtrise de la caisse est insuffisante pour prendre la dernière place du créneau de %{start_time} à %{end_time}
           attributes:
             duration:
-              multiple: La durée doit être un multiple de 1h30
-              extend: La durée de la mission est trop grande
-              minimum: La mission doit durer au moins une minute
+              maximum: doit être inférieure ou égale à 10 heures
+              minimum: doit être supérieure à 0 minute
+              multiple: doit être un multiple de 90 minutes
