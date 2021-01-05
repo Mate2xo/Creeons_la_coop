@@ -145,17 +145,21 @@ RSpec.describe 'A Mission request', type: :request do
     context 'with a regulated mission and when enrollment params are given' do
       let(:mission) { create :mission, genre: 'regulated' }
       let(:other_member) { create :member }
+      let(:enrollment_expected_params) do
+        { member_id: other_member.id, start_time: mission.start_date, end_time: mission.start_date + 3.hours }
+      end
+
       let(:enrollment_params) do
-        { member_id: other_member.id, start_time: mission.start_date, end_time: mission.due_date }
+        { member_id: other_member.id, time_slots: [mission.start_date, mission.start_date + 90.minutes] }
       end
       let(:mission_params) do
-        { name: 'updated_mission', enrollments_attributes: { '1234': enrollment_params } }
+        { name: 'updated_mission', genre: 'regulated', enrollments_attributes: { '1234': enrollment_params } }
       end
 
       it 'adds member enrollment' do
         put mission_path(mission.id), params: { mission: mission_params }
 
-        enrollment_params.each do |key, value|
+        enrollment_expected_params.each do |key, value|
           expect(mission.enrollments.first[key]).to eq value
         end
       end
@@ -173,7 +177,7 @@ RSpec.describe 'A Mission request', type: :request do
       end
 
       let(:mission_params) do
-        { name: 'updated_mission', enrollments_attributes: { '1234': enrollment_params } }
+        { name: 'updated_mission', genre: 'regulated', enrollments_attributes: { '1234': enrollment_params } }
       end
 
       it 'adds member enrollment' do
@@ -194,7 +198,7 @@ RSpec.describe 'A Mission request', type: :request do
       it 'updates the mission' do
         put_mission
 
-        expect(mission.genre).to eq 'standard'
+        expect(mission.reload.genre).to eq 'standard'
       end
     end
 
@@ -238,7 +242,7 @@ RSpec.describe 'A Mission request', type: :request do
       end
 
       let(:mission_params) do
-        { name: 'updated_mission', enrollments_attributes: { '0': enrollment_params } }
+        { name: 'updated_mission', genre: 'regulated', enrollments_attributes: { '0': enrollment_params } }
       end
 
       it 'disenroll members from mission' do
