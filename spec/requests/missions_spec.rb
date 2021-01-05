@@ -132,20 +132,18 @@ RSpec.describe 'A Mission request', type: :request do
       expect(mission.reload.name).to eq 'updated_mission'
     end
 
-    context 'when the mission is :regulated and an other :genre is given in params' do
+    context 'with a regulated mission' do
       let(:mission) { create :mission, genre: 'regulated' }
-      let(:mission_params) do
-        { name: 'updated_mission', genre: 'standard' }
-      end
 
       it 'updates the mission' do
         put_mission
 
-        expect(mission.genre).to eq 'standard'
+        expect(mission.reload.name).to eq 'updated_mission'
       end
     end
 
-    context 'when enrollment params are given' do
+    context 'with a regulated mission and when enrollment params are given' do
+      let(:mission) { create :mission, genre: 'regulated' }
       let(:other_member) { create :member }
       let(:enrollment_params) do
         { member_id: other_member.id, start_time: mission.start_date, end_time: mission.due_date }
@@ -161,94 +159,92 @@ RSpec.describe 'A Mission request', type: :request do
           expect(mission.enrollments.first[key]).to eq value
         end
       end
+    end
 
-      context 'with a :regulated mission' do # rubocop:disable RSpec/NestedGroups
-        let(:mission) { create :mission, genre: 'regulated' }
-        let(:other_member) { create :member }
+    context 'with a regulated mission and when a part of time slots is given in enrollment params' do
+      let(:mission) { create :mission, genre: 'regulated' }
+      let(:other_member) { create :member }
+      let(:enrollment_expected_params) do
+        { member_id: other_member.id, start_time: mission.start_date, end_time: mission.start_date + 90.minutes }
+      end
 
-        let(:enrollment_expected_params) do
-          { member_id: other_member.id, start_time: mission.start_date, end_time: mission.start_date + 3.hours }
+      let(:enrollment_params) do
+        { member_id: other_member.id, time_slots: [mission.start_date] }
+      end
+
+      let(:mission_params) do
+        { name: 'updated_mission', enrollments_attributes: { '1234': enrollment_params } }
+      end
+
+      it 'adds member enrollment' do
+        put_mission
+
+        enrollment_expected_params.each do |key, value|
+          expect(mission.enrollments.first[key]).to eq value
         end
+      end
+    end
 
-        let(:enrollment_params) do
-          { member_id: other_member.id, time_slots: [mission.start_date, mission.start_date + 90.minutes] }
+    context 'when the mission is :regulated and an other :genre is given' do
+      let(:mission) { create :mission, genre: 'regulated' }
+      let(:mission_params) do
+        { name: 'updated_mission', genre: 'standard' }
+      end
+
+      it 'updates the mission' do
+        put_mission
+
+        expect(mission.genre).to eq 'standard'
+      end
+    end
+
+    context 'when the mission is :regulated, other :genre is given and enrollments params are given' do
+      let(:mission) { create :mission, genre: 'regulated' }
+      let(:other_member) { create :member }
+      let(:enrollment_expected_params) do
+        { member_id: other_member.id, start_time: mission.start_date, end_time: mission.start_date + 3.hours }
+      end
+
+      let(:enrollment_params) do
+        { member_id: other_member.id, time_slots: [mission.start_date, mission.start_date + 90.minutes] }
+      end
+
+      let(:mission_params) do
+        { name: 'updated_mission', genre: 'standard', enrollments_attributes: { '1234': enrollment_params } }
+      end
+
+      it 'updates the mission' do
+        put_mission
+
+        expect(mission.reload.genre).to eq 'standard'
+      end
+
+      it 'adds member enrollment' do
+        put_mission
+
+        enrollment_expected_params.each do |key, value|
+          expect(mission.enrollments.first[key]).to eq value
         end
+      end
+    end
 
-        let(:mission_params) do
-          { name: 'updated_mission', enrollments_attributes: { '1234': enrollment_params } }
-        end
+    context 'with :regulated mission and when the destroyed params is given for an enrolled member' do
+      let(:mission) { create :mission, genre: 'regulated' }
+      let(:other_member) { create :member }
+      let(:enrollment) { create :enrollment, member: other_member, mission: mission }
 
-        it 'adds member enrollment' do
-          put_mission
+      let(:enrollment_params) do
+        { member_id: other_member.id, _destroy: '1', id: enrollment.id }
+      end
 
-          enrollment_expected_params.each do |key, value|
-            expect(mission.enrollments.first[key]).to eq value
-          end
-        end
+      let(:mission_params) do
+        { name: 'updated_mission', enrollments_attributes: { '0': enrollment_params } }
+      end
 
-        context 'when an other :genre is given in params' do # rubocop:disable RSpec/NestedGroups
-          let(:enrollment_params) do
-            { member_id: other_member.id, time_slots: [mission.start_date, mission.start_date + 90.minutes] }
-          end
+      it 'disenroll members from mission' do
+        put_mission
 
-          let(:mission_params) do
-            { name: 'updated_mission', genre: 'standard', enrollments_attributes: { '1234': enrollment_params } }
-          end
-
-          it 'updates the mission' do
-            put_mission
-
-            expect(mission.reload.genre).to eq 'standard'
-          end
-
-          it 'adds member enrollment' do
-            put_mission
-
-            enrollment_expected_params.each do |key, value|
-              expect(mission.enrollments.first[key]).to eq value
-            end
-          end
-        end
-
-        context 'when a part of time slots is given' do # rubocop:disable RSpec/NestedGroups
-          let(:enrollment_expected_params) do
-            { member_id: other_member.id, start_time: mission.start_date, end_time: mission.start_date + 90.minutes }
-          end
-
-          let(:enrollment_params) do
-            { member_id: other_member.id, time_slots: [mission.start_date] }
-          end
-
-          let(:mission_params) do
-            { name: 'updated_mission', enrollments_attributes: { '1234': enrollment_params } }
-          end
-
-          it 'adds member enrollment' do
-            put_mission
-
-            enrollment_expected_params.each do |key, value|
-              expect(mission.enrollments.first[key]).to eq value
-            end
-          end
-        end
-
-        context 'when the destroyed params is given for an enrolled member' do # rubocop:disable RSpec/NestedGroups
-          let(:enrollment) { create :enrollment, member: other_member, mission: mission }
-
-          let(:enrollment_params) do
-            { member_id: other_member.id, _destroy: '1', id: enrollment.id }
-          end
-
-          let(:mission_params) do
-            { name: 'updated_mission', enrollments_attributes: { '0': enrollment_params } }
-          end
-
-          it 'disenroll members from mission' do
-            put_mission
-
-            expect(mission.members).not_to include(other_member)
-          end
-        end
+        expect(mission.members).not_to include(other_member)
       end
     end
   end
