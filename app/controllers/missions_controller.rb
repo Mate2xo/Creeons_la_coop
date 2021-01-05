@@ -79,7 +79,7 @@ class MissionsController < ApplicationController
   end
 
   def permitted_params
-    if params['genre'] == 'regulated'
+    if params['mission']['genre'] == 'regulated'
       regulated_mission_params
     else
       standard_mission_params
