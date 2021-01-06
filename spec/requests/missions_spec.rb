@@ -144,13 +144,16 @@ RSpec.describe 'A Mission request', type: :request do
 
     context 'with a regulated mission and when enrollment params are given' do
       let(:mission) { create :mission, genre: 'regulated' }
-      let(:other_member) { create :member }
+      let(:member_other_than_the_currently_logged_in_user) { create :member }
       let(:enrollment_expected_params) do
-        { member_id: other_member.id, start_time: mission.start_date, end_time: mission.start_date + 3.hours }
+        { member_id: member_other_than_the_currently_logged_in_user.id,
+          start_time: mission.start_date,
+          end_time: mission.start_date + 3.hours }
       end
 
       let(:enrollment_params) do
-        { member_id: other_member.id, time_slots: [mission.start_date, mission.start_date + 90.minutes] }
+        { member_id: member_other_than_the_currently_logged_in_user.id,
+          time_slots: [mission.start_date, mission.start_date + 90.minutes] }
       end
       let(:mission_params) do
         { name: 'updated_mission', genre: 'regulated', enrollments_attributes: { '1234': enrollment_params } }
@@ -167,13 +170,15 @@ RSpec.describe 'A Mission request', type: :request do
 
     context 'with a regulated mission and when a part of time slots is given in enrollment params' do
       let(:mission) { create :mission, genre: 'regulated' }
-      let(:other_member) { create :member }
+      let(:member_other_than_the_currently_logged_in_user) { create :member }
       let(:enrollment_expected_params) do
-        { member_id: other_member.id, start_time: mission.start_date, end_time: mission.start_date + 90.minutes }
+        { member_id: member_other_than_the_currently_logged_in_user.id,
+          start_time: mission.start_date,
+          end_time: mission.start_date + 90.minutes }
       end
 
       let(:enrollment_params) do
-        { member_id: other_member.id, time_slots: [mission.start_date] }
+        { member_id: member_other_than_the_currently_logged_in_user.id, time_slots: [mission.start_date] }
       end
 
       let(:mission_params) do
@@ -204,13 +209,16 @@ RSpec.describe 'A Mission request', type: :request do
 
     context 'when the mission is :regulated, other :genre is given and enrollments params are given' do
       let(:mission) { create :mission, genre: 'regulated' }
-      let(:other_member) { create :member }
+      let(:member_other_than_the_currently_logged_in_user) { create :member }
       let(:enrollment_expected_params) do
-        { member_id: other_member.id, start_time: mission.start_date, end_time: mission.start_date + 3.hours }
+        { member_id: member_other_than_the_currently_logged_in_user.id,
+          start_time: mission.start_date,
+          end_time: mission.start_date + 3.hours }
       end
 
       let(:enrollment_params) do
-        { member_id: other_member.id, time_slots: [mission.start_date, mission.start_date + 90.minutes] }
+        { member_id: member_other_than_the_currently_logged_in_user.id,
+          time_slots: [mission.start_date, mission.start_date + 90.minutes] }
       end
 
       let(:mission_params) do
@@ -232,13 +240,13 @@ RSpec.describe 'A Mission request', type: :request do
       end
     end
 
-    context 'with :regulated mission and when the destroyed params is given for an enrolled member' do
+    context 'with :regulated mission and when the destroy params is given for an enrolled member' do
       let(:mission) { create :mission, genre: 'regulated' }
-      let(:other_member) { create :member }
-      let(:enrollment) { create :enrollment, member: other_member, mission: mission }
+      let(:member_other_than_the_currently_logged_in_user) { create :member }
+      let(:enrollment) { create :enrollment, member: member_other_than_the_currently_logged_in_user, mission: mission }
 
       let(:enrollment_params) do
-        { member_id: other_member.id, _destroy: '1', id: enrollment.id }
+        { member_id: member_other_than_the_currently_logged_in_user.id, _destroy: '1', id: enrollment.id }
       end
 
       let(:mission_params) do
@@ -248,7 +256,7 @@ RSpec.describe 'A Mission request', type: :request do
       it 'disenroll members from mission' do
         put_mission
 
-        expect(mission.members).not_to include(other_member)
+        expect(mission.members).not_to include(member_other_than_the_currently_logged_in_user)
       end
     end
   end
