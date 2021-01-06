@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# This task is only a one-time use
 desc 'create some static slots'
 task create_some_static_slots: :environment do
   common_days = %w[Wednesday Thursday Friday]
@@ -19,6 +20,7 @@ def create_static_slots_for_one_day(week_type, week_day)
   create_static_slots_for_one_afternoon(week_type, week_day)
 end
 
+# The date is actually not important here
 def create_static_slots_for_one_morning(week_type, week_day)
   current_start_time = DateTime.new(2020, 1, 1, 9, 0)
   StaticSlot.create(week_type: week_type, week_day: week_day, start_time: current_start_time)
