@@ -101,6 +101,6 @@ class Member < ApplicationRecord
   def family_enrollments
     return enrollments if register_id.nil?
 
-    Member.where(register_id: register_id).map(&:enrollments).flatten
+    Member.includes(:enrollments, enrollments: :mission).where(register_id: register_id).map(&:enrollments).flatten
   end
 end

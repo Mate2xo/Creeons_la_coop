@@ -2,7 +2,7 @@
 
 # rubocop: disable Metrics/BlockLength
 ActiveAdmin.register Member do
-  includes :groups
+  includes :groups, :enrollments
   permit_params :email,
                 :password,
                 :encrypted_password,
