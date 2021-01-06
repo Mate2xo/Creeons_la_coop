@@ -8,6 +8,8 @@ module Missions
     step :transform_time_slots_in_time_params_for_enrollment
     step :update
 
+    private
+
     def transform_time_slots_in_time_params_for_enrollment(params, regulated:)
       return Success(params) unless regulated
       return Success(params) if params['enrollments_attributes'].blank?
@@ -28,6 +30,9 @@ module Missions
       end
     end
 
+    # helpers
+
+    # this helper corrects the unpermitted params made by transform_enroll_params
     def auth_params(params)
       params.permit(
         :name, :description, :event, :delivery_expected,
@@ -39,13 +44,13 @@ module Missions
     end
 
     def transform_enroll_params(params)
-      params['enrollments_attributes'].each do |_key, enrollment|
+      params['enrollments_attributes'].each do |_key, enrollment| # this loop unpermit the params
         next if enrollment['time_slots'].nil?
 
         enrollment['end_time'] = enrollment['time_slots'].max.to_datetime + 90.minutes
         enrollment['start_time'] = enrollment['time_slots'].min
       end
-      auth_params(params)
+      auth_params(params)                                         # this helpers correct the unpermitted params
     end
   end
 end
