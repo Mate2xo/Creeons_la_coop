@@ -27,6 +27,7 @@ class MissionsController < ApplicationController
   def edit; end
 
   def update
+    update_transaction = generate_update_transaction
     if update_transaction.success?
       flash[:notice] = translate 'activerecord.notices.messages.update_success'
       render :show
@@ -71,7 +72,7 @@ class MissionsController < ApplicationController
     end
   end
 
-  def update_transaction
+  def generate_update_transaction
     Missions::UpdateTransaction.new.with_step_args(
       transform_time_slots_in_time_params_for_enrollment: [regulated: @mission.regulated?],
       update: [mission: @mission]
