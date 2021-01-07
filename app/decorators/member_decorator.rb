@@ -5,12 +5,8 @@ class MemberDecorator < Draper::Decorator
   decorates_association :static_slots
   delegate_all
 
-  def worked_hours_in_the_last_three_months(csv: false)
-    if csv
-      hours_per_month.reverse.join("\n")
-    else
-      h.safe_join(hours_per_month.map { |month_total| h.content_tag(:p, month_total) }.reverse)
-    end
+  def worked_hours_in_the_last_three_months
+    h.safe_join(hours_per_month.map { |month_total| h.content_tag(:p, month_total) }.reverse)
   end
 
   def time_slot_already_taken?(time_slot, mission)
