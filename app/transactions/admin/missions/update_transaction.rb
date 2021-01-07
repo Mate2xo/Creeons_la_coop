@@ -6,7 +6,7 @@ module Admin
     class UpdateTransaction
       include Dry::Transaction
 
-      around :transaction
+      around :rollback_if_failure
 
       step :update_mission
       tee :get_updatable_missions
@@ -14,7 +14,7 @@ module Admin
 
       private
 
-      def transaction(input, &block)
+      def rollback_if_failure(input, &block)
         result = nil
 
         Mission.transaction do
