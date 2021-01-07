@@ -16,15 +16,5 @@ RSpec.describe MemberDecorator do
         expect(content).to include('<p>')
       end
     end
-
-    context 'when the :csv option is true' do
-      it 'return the csv version' do
-        member_decorator = generate_member_decorator
-
-        content = member_decorator.worked_hours_in_the_last_three_months(csv: true)
-
-        expect(content).not_to include('<p>')
-      end
-    end
   end
 end
