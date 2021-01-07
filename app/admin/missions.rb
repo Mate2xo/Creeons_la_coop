@@ -88,7 +88,7 @@ ActiveAdmin.register Mission do
       end
     end
 
-    # helpers
+    private
 
     def generate_update_transaction
       Admin::Missions::UpdateTransaction
