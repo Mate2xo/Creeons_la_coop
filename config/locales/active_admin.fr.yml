@@ -44,6 +44,9 @@ fr:
         enroll_static_members: 'Inscrire les membres fixes'
         generate_schedule: 'Générer un planning'
         worked_hours: 'Heures travaillées ces trois derniers mois'
+        worked_hours_in_the_second_last_month: "Heures travaillées dans l'avant dernier mois"
+        worked_hours_in_the_last_month: "Heures travaillées dans le dernier mois"
+        worked_hours_in_the_current_month: "Heures travaillées dans le mois courant"
       show:
         remove_static_slots_of_this_member: 'Retirer les créneaux fixes de ce membre'
         selected_at: Sélectionné le
