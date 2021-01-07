@@ -12,6 +12,7 @@ fr:
           event: Événement
           regulated: Régulée
           standard: Standard
+        recurrent_change: Changement Récurrent
     errors:
       models:
         mission:

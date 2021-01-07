@@ -11,7 +11,8 @@ ActiveAdmin.register Mission do
                 :min_member_count,
                 :start_date,
                 :due_date,
-                :cash_register_proficiency_requirement
+                :cash_register_proficiency_requirement,
+                :recurrent_change
 
   index do
     selectable_column
@@ -40,6 +41,7 @@ ActiveAdmin.register Mission do
       f.input :cash_register_proficiency_requirement,
               :as => :select,
               collection => Mission.cash_register_proficiency_requirements
+      f.input :recurrent_change, as: :boolean if f.object.persisted?
     end
 
     actions
@@ -63,8 +65,8 @@ ActiveAdmin.register Mission do
     panel 'Participants' do
       table_for resource.enrollments do
         column :member
-        column(:start_time) do |enrollment| enrollment.start_time.strftime('%H:%M') end
-        column(:end_time) do |enrollment| enrollment.end_time.strftime('%H:%M') end
+        column(:start_time) { |enrollment| enrollment.start_time.strftime('%H:%M') }
+        column(:end_time) { |enrollment| enrollment.end_time.strftime('%H:%M') }
         column 'actions' do |enrollment|
           link_to(t('active_admin.edit'), edit_admin_mission_enrollment_path(mission, enrollment)) +
             ' ' +
