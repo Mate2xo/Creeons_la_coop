@@ -78,7 +78,6 @@ ActiveAdmin.register Mission do
 
   controller do
     def update
-      update_transaction = generate_update_transaction
       if update_transaction.success?
         flash[:notice] = translate 'activerecord.notices.messages.update_success'
         redirect_to admin_mission_path(resource.id)
@@ -90,14 +89,17 @@ ActiveAdmin.register Mission do
 
     private
 
-    def generate_update_transaction
-      Admin::Missions::UpdateTransaction
-        .new
-        .with_step_args(
-          update_mission: [mission: resource],
-          get_updatable_missions: [old_mission: resource]
-        )
-        .call({ params: permitted_params[:mission] })
+    def update_transaction
+      @update_transaction ||=
+        begin
+          Admin::Missions::UpdateTransaction
+            .new
+            .with_step_args(
+              update_mission: [mission: resource],
+              get_updatable_missions: [old_mission: resource]
+            )
+            .call({ params: permitted_params[:mission] })
+        end
     end
   end
 
