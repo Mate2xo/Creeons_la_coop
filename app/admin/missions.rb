@@ -78,16 +78,19 @@ ActiveAdmin.register Mission do
 
   controller do
     def update
+      update_transaction = generate_update_transaction
       if update_transaction.success?
+        flash[:notice] = translate 'activerecord.notices.messages.update_success'
         redirect_to admin_mission_path(resource.id)
       else
+        flash[:error] = update_transaction.failure
         render :edit
       end
     end
 
     # helpers
 
-    def update_transaction
+    def generate_update_transaction
       Admin::Missions::UpdateTransaction
         .new
         .with_step_args(
