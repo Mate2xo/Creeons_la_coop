@@ -76,6 +76,28 @@ ActiveAdmin.register Mission do
     end
   end
 
+  controller do
+    def update
+      if update_transaction.success?
+        redirect_to admin_mission_path(resource.id)
+      else
+        render :edit
+      end
+    end
+
+    # helpers
+
+    def update_transaction
+      Admin::Missions::UpdateTransaction
+        .new
+        .with_step_args(
+          update_mission: [mission: resource],
+          get_updatable_missions: [old_mission: resource]
+        )
+        .call({ params: permitted_params[:mission] })
+    end
+  end
+
   action_item :create_enrollment, only: :show do
     link_to t('active_admin.new_model', model: Enrollment.model_name.human),
             new_admin_mission_enrollment_path(resource)
