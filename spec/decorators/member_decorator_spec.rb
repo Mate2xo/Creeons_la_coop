@@ -4,14 +4,14 @@ require 'rails_helper'
 require 'draper/test/rspec_integration'
 
 RSpec.describe MemberDecorator do
-  describe '#hours_worked_in_the_last_three_months' do
+  describe '#worked_hours_in_the_last_three_months' do
     let(:generate_member_decorator) { described_class.new(build_stubbed(:member)) }
 
     context 'when no options are given' do
       it 'return the html version' do
         member_decorator = generate_member_decorator
 
-        content = member_decorator.hours_worked_in_the_last_three_months
+        content = member_decorator.worked_hours_in_the_last_three_months
 
         expect(content).to include('<p>')
       end
@@ -21,7 +21,7 @@ RSpec.describe MemberDecorator do
       it 'return the csv version' do
         member_decorator = generate_member_decorator
 
-        content = member_decorator.hours_worked_in_the_last_three_months(csv: true)
+        content = member_decorator.worked_hours_in_the_last_three_months(csv: true)
 
         expect(content).not_to include('<p>')
       end

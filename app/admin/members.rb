@@ -71,15 +71,13 @@ ActiveAdmin.register Member do
         end
       end
       table_for member.static_slots do
-        column StaticSlot.model_name.human do |static_slot|
-          static_slot.full_display
-        end
+        column(StaticSlot.model_name.human, &:full_display)
       end
       table_for member.history_of_static_slot_selections, t('.selections_history') do
         column StaticSlot.model_name.human do |record|
           record.static_slot.decorate.full_display
         end
-        column(t('.selected_at')) { |record| record.created_at }
+        column(t('.selected_at'), &:created_at)
       end
     end
   end
@@ -95,7 +93,7 @@ ActiveAdmin.register Member do
              :register_id,
              :biography
     f.input :groups, as: :check_boxes
-    f.input :static_slots, as: :check_boxes, collection: StaticSlot.all.decorate.map { |static_slot| [static_slot.full_display, static_slot.id] }
+    f.input :static_slots, as: :check_boxes, collection: selectable_static_slots
     actions
   end
 
@@ -117,7 +115,7 @@ ActiveAdmin.register Member do
             data: { confirm: t('.confirm_enroll_static_members') }, method: :post
   end
 
-  action_item :remove_static_slots_of_a_member, only: [:show, :edit] do
+  action_item :remove_static_slots_of_a_member, only: %i[show edit] do
     link_to t('.remove_static_slots_of_this_member'),
             remove_static_slots_of_a_member_admin_members_path(member_id: resource.id),
             method: :put
@@ -135,7 +133,7 @@ ActiveAdmin.register Member do
   end
 
   controller do
-    def create(options = {}, &block)
+    def create(options = {}, &block) # rubocop:disable Metrics/MethodLength
       new_unloggable_member = build_resource
       first_name = new_unloggable_member.first_name
       last_name = new_unloggable_member.last_name
