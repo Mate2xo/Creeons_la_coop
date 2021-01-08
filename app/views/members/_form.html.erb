@@ -58,7 +58,7 @@
           class:'form-control' %>
       </div>
 
-      <% if @member.static_slots.empty? %>
+      <% if @member.static_slots.empty? && @member == current_member %>
         <div class="links">
           <%= link_to_add_association form,
             :static_slots,
