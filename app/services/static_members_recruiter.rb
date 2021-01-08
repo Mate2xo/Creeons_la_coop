@@ -42,19 +42,18 @@ class StaticMembersRecruiter
 
   def merge_multi_enrolls_on_one_mission(member)
     member.missions.each do |mission|
-      merge_enrolls(mission.enrollments) if mission.enrollments.count > 1
+      enrollments = Enrollment.where(member_id: member.id, mission_id: mission.id)
+      merge_enrolls(enrollments) if enrollments.count > 1
     end
   end
 
   def merge_enrolls(enrollments)
-    return if enrollments.count < 2
-
     enrollments = enrollments.order(:start_time)
-    Enrollment.create(start_time: enrollments.first.start_time,
-                      end_time: enrollments.last.end_time,
-                      mission_id: enrollments.first.mission_id,
-                      member_id: enrollments.first.member_id)
-    enrollments.destroy_all
+    enrollment_is_create = Enrollment.create(start_time: enrollments.first.start_time,
+                                             end_time: enrollments.last.end_time,
+                                             mission_id: enrollments.first.mission_id,
+                                             member_id: enrollments.first.member_id)
+    enrollments.destroy_all if enrollment_is_create
   end
 
   def enrollments_for_one_static_slot(member, static_slot)
