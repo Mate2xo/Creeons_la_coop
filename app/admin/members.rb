@@ -44,13 +44,13 @@ ActiveAdmin.register Member do
     column :phone_number
     column :role
     column(:group) { |member| member.groups.map(&:name).join(', ') }
-    column(worked_hours_name_with_month(Date.current - 2.months)) do |member|
+    column(worked_hours_title_for_given_month(Date.current - 2.months)) do |member|
       member.monthly_worked_hours(Date.current - 2.months)
     end
-    column(worked_hours_name_with_month(Date.current - 1.month)) do |member|
+    column(worked_hours_title_for_given_month(Date.current - 1.month)) do |member|
       member.monthly_worked_hours(Date.current - 1.month)
     end
-    column(worked_hours_name_with_month(Date.current)) do |member|
+    column(worked_hours_title_for_given_month(Date.current)) do |member|
       member.monthly_worked_hours(Date.current)
     end
     column :cash_register_proficiency
