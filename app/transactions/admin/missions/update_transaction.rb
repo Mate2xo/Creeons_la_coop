@@ -8,6 +8,7 @@ module Admin
 
       around :rollback_if_failure
 
+      tee :remove_datetime_attributes_if_recurrent_option
       step :update_mission
       tee :get_updatable_missions
       step :update_recurrently_other_missions
@@ -24,6 +25,15 @@ module Admin
           result
         end
         result
+      end
+
+      def remove_datetime_attributes_if_recurrent_option(input)
+        return Success(input) unless input[:params][:recurrent_change]
+
+        input[:params].delete(:start_date)
+        input[:params].delete(:due_date)
+
+        Success(input)
       end
 
       def update_mission(input, mission:)
