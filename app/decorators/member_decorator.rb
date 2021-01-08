@@ -5,7 +5,7 @@ class MemberDecorator < Draper::Decorator
   decorates_association :static_slots
   delegate_all
 
-  def worked_hours_in_the_last_three_months
+  def hours_worked_in_the_last_three_months
     h.safe_join(hours_per_month.map { |month_total| h.content_tag(:p, month_total) }.reverse)
   end
 

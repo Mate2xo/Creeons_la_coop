@@ -30,7 +30,7 @@ ActiveAdmin.register Member do
       group_links = member.groups.map { |group| auto_link group }
       safe_join group_links, ', '
     end
-    column(t('.worked_hours'), &:worked_hours_in_the_last_three_months)
+    column(t('.worked_hours'), &:hours_worked_in_the_last_three_months)
     column :cash_register_proficiency
     column :register_id
     column :email
