@@ -66,10 +66,11 @@ module Admin
       # helpers
 
       def updatable_missions(old_mission)
-        Mission.all.select do |mission|
-          mission.start_date > old_mission.start_date &&
-            mission.start_date.strftime('%R%u') == old_mission.start_date.strftime('%R%u') &&
-            mission.genre == old_mission.genre
+        missions = Mission.where('start_date > :old_mission_start_date AND genre = :old_mission_genre',
+                                 old_mission_start_date: old_mission.start_date,
+                                 old_mission_genre: Mission.genres[old_mission.genre])
+        missions.select do |mission|
+          mission.start_date.strftime('%R%u') == old_mission.start_date.strftime('%R%u')
         end
       end
     end
