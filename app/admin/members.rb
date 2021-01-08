@@ -17,7 +17,7 @@ ActiveAdmin.register Member do
                 :cash_register_proficiency,
                 :register_id,
                 group_ids: [],
-                static_slot_ids: []
+                member_static_slots_attributes: [:id, :static_slot_id, :member_id, :_destroy]
 
   decorate_with MemberDecorator
 
@@ -90,7 +90,10 @@ ActiveAdmin.register Member do
              :register_id,
              :biography
     f.input :groups, as: :check_boxes
-    f.input :static_slots, as: :check_boxes, collection: selectable_static_slots
+    f.has_many :member_static_slots, allow_destroy: true, new_record: true do |a|
+      a.input :static_slot_id, as: :select, collection: selectable_static_slots
+      a.input :member_id, value: f.object.id, as: :hidden
+    end
     actions
   end
 

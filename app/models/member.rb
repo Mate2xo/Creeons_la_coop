@@ -57,6 +57,7 @@ class Member < ApplicationRecord
 
   has_many :member_static_slots, dependent: :destroy
   has_many :static_slots, through: :member_static_slots
+  accepts_nested_attributes_for :member_static_slots, allow_destroy: true
   accepts_nested_attributes_for :static_slots
   has_many :created_infos, class_name: 'Info', inverse_of: 'author', foreign_key: 'author_id', dependent: :nullify
 
