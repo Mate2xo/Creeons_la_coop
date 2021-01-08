@@ -90,9 +90,9 @@ ActiveAdmin.register Member do
              :register_id,
              :biography
     f.input :groups, as: :check_boxes
-    f.has_many :member_static_slots, allow_destroy: true, new_record: true do |a|
-      a.input :static_slot_id, as: :select, collection: selectable_static_slots
-      a.input :member_id, value: f.object.id, as: :hidden
+    f.has_many :member_static_slots, allow_destroy: true, new_record: true do |member_static_slot_form|
+      member_static_slot_form.input :static_slot_id, as: :select, collection: selectable_static_slots
+      member_static_slot_form.input :member_id, value: f.object.id, as: :hidden
     end
     actions
   end
