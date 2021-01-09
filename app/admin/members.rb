@@ -80,19 +80,21 @@ ActiveAdmin.register Member do
   end
 
   form decorate: true do |f|
-    f.inputs :first_name,
-             :last_name,
-             :email,
-             :phone_number,
-             :role,
-             :moderator,
-             :cash_register_proficiency,
-             :register_id,
-             :biography
-    f.input :groups, as: :check_boxes
-    f.has_many :member_static_slots, allow_destroy: true, new_record: true do |member_static_slot_form|
-      member_static_slot_form.input :static_slot_id, as: :select, collection: selectable_static_slots
-      member_static_slot_form.input :member_id, value: f.object.id, as: :hidden
+    f.inputs do
+      f.input :first_name
+      f.input :last_name
+      f.input :email
+      f.input :phone_number
+      f.input :role
+      f.input :moderator
+      f.input :cash_register_proficiency
+      f.input :register_id
+      f.input :biography
+
+      f.input :groups, as: :check_boxes
+      f.has_many :member_static_slots, allow_destroy: true, new_record: true do |member_static_slot_form|
+        member_static_slot_form.input :static_slot_id, as: :select, collection: selectable_static_slots
+      end
     end
     actions
   end
