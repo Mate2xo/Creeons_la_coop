@@ -49,11 +49,11 @@ class StaticMembersRecruiter
 
   def merge_enrolls(enrollments)
     enrollments = enrollments.order(:start_time)
-    enrollment_is_create = Enrollment.create(start_time: enrollments.first.start_time,
-                                             end_time: enrollments.last.end_time,
-                                             mission_id: enrollments.first.mission_id,
-                                             member_id: enrollments.first.member_id)
-    enrollments.destroy_all if enrollment_is_create
+    enrollment_created = Enrollment.create(start_time: enrollments.first.start_time,
+                                           end_time: enrollments.last.end_time,
+                                           mission_id: enrollments.first.mission_id,
+                                           member_id: enrollments.first.member_id)
+    enrollments.destroy_all if enrollment_created
   end
 
   def enrollments_for_one_static_slot(member, static_slot)
