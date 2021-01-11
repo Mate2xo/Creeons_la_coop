@@ -38,7 +38,7 @@ RSpec.describe 'A Missions admin request', type: :request do
       end
 
       it 'updates futures missions that match the same week day, hour, and genre' do # rubocop:disable Layout/LineLength
-        other_missions = create_future_matching_mission(updated_mission)
+        other_missions = create_future_matching_missions(updated_mission)
 
         put_mission
 
@@ -74,7 +74,7 @@ RSpec.describe 'A Missions admin request', type: :request do
     end
   end
 
-  def create_future_matching_mission(mission)
+  def create_future_matching_missions(mission)
     occurrence_date = mission.start_date + 7.days
     other_missions = []
     4.times do
