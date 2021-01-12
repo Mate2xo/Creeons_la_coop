@@ -6,4 +6,5 @@ task restore_enrollments_from_csv: :environment do
   file = File.open('db/restore_enrollments/enrollments_restoration_from_csv_file.sql')
   ActiveRecord::Base.connection.execute(file.read)
   file.close
+  puts 'restoration_done'
 end
