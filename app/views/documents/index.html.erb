@@ -1,0 +1,21 @@
+<% provide :head_tags do %>
+  <%= javascript_include_tag 'infos', "data-turbolinks-track" => "reload" %>
+<% end %>
+
+<div class="container mb-4">
+  <div class="main-content">
+
+    <div class="page-title">
+      <h2 class="heading-infos heading heading-2 text-uppercase border-bottom border-dark strong-800 mt-5 mb-5">
+        Documents
+      </h2>
+    </div>
+
+    <div class="" id="documents">
+      <%= render partial: "documents/new",
+                 locals: {document: @document} if policy(Document).create? %>
+      <%= render partial: "documents/index", locals: {documents: @documents} %>
+    </div>
+  </div>
+</div>
+

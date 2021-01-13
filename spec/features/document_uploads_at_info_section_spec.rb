@@ -26,17 +26,17 @@ RSpec.feature "DocumentUploadsAtInfoSections", type: :feature do
   context "when an admin uploads a document" do
     before {
       sign_in admin
-      visit infos_path(anchor: 'documents')
+      visit documents_path(anchor: 'documents')
       attach_file('document_file', Rails.root.join('spec', 'support', 'fixtures', 'erd.pdf'))
       click_button "Ajouter"
     }
 
-    it "show the document on the infos/index#document view" do
+    it "show the document on the documents/index#document view" do
       expect(page).to have_content 'erd.pdf'
     end
 
     context 'when javascript is enabled in the browser', js: true do
-      it "show the document on the infos/index#document view" do
+      it "show the document on the documents/index#document view" do
         expect(page).to have_content 'erd.pdf'
       end
     end
@@ -46,16 +46,16 @@ RSpec.feature "DocumentUploadsAtInfoSections", type: :feature do
     before {
       sign_in admin
       create :document, :with_file
-      visit infos_path(anchor: 'documents')
+      visit documents_path(anchor: 'documents')
       click_on I18n.t("main_app.views.application.buttons.destroy")
     }
 
-    it "deletes the document from infos/index#document view" do
+    it "deletes the document from documents/index#document view" do
       expect(page).not_to have_content 'erd.pdf'
     end
 
     context 'when javascript is enabled in the browser', js: true do
-      it "deletes the document from from the infos/index#document view" do
+      it "deletes the document from from the documents/index#document view" do
         page.driver.browser.switch_to.alert.accept
         expect(page).not_to have_content 'erd.pdf'
       end
