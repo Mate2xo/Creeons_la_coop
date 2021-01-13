@@ -55,6 +55,7 @@ class Mission < ApplicationRecord
   # Virtual attributes
   attr_accessor :recurrence_rule
   attr_accessor :recurrence_end_date
+  attr_accessor :recurrent_change
 
   def duration
     (due_date - start_date).round

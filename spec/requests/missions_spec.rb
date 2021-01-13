@@ -122,7 +122,7 @@ RSpec.describe 'A Mission request', type: :request do
     subject(:put_mission) { put mission_path(mission.id), params: { mission: mission_params } }
 
     let(:mission) { create :mission }
-    let(:mission_params) {  { name: 'updated_mission' } }
+    let(:mission_params) { { name: 'updated_mission' } }
 
     before { sign_in create :member, :super_admin }
 

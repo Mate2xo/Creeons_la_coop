@@ -72,10 +72,13 @@ class MissionsController < ApplicationController
   end
 
   def update_transaction
-    Missions::UpdateTransaction.new.with_step_args(
-      transform_time_slots_in_time_params_for_enrollment: [regulated: @mission.regulated?],
-      update: [mission: @mission]
-    ).call(permitted_params)
+    @update_transaction ||=
+      begin
+        Missions::UpdateTransaction.new.with_step_args(
+          transform_time_slots_in_time_params_for_enrollment: [regulated: @mission.regulated?],
+          update: [mission: @mission]
+        ).call(permitted_params)
+      end
   end
 
   def permitted_params
