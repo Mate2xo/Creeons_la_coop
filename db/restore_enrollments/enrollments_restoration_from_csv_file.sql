@@ -69,21 +69,10 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE PROCEDURE copy_csv_in_db()
-LANGUAGE plpgsql AS $$
-BEGIN
-  COPY temp_enrollments_from_csv (member_id, mission_id, id, start_time, end_time)
-  FROM '/app/db/restore_enrollments/enrollments_from_2020_10_01_to_2021_01_04.csv' DELIMITER ',' CSV HEADER;
-END;
-$$;
-
 
 START TRANSACTION;
 
-CREATE TEMPORARY TABLE temp_enrollments_from_csv AS
-SELECT * FROM enrollments LIMIT 0;
-
-call copy_csv_in_db();
 call restore_enrollments_for_missions_in_last_three_months();
+
 COMMIT;
 
