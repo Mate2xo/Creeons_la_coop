@@ -7,15 +7,15 @@
 
     <div class="page-title">
       <h2 class="heading-infos heading heading-2 text-uppercase border-bottom border-dark strong-800 mt-5 mb-5">
-        Documents
+        Infos
       </h2>
     </div>
 
-    <div class="" id="documents">
-      <%= render partial: "documents/new",
-                 locals: {document: @document} if policy(Document).create? %>
-      <%= render partial: "documents/index", locals: {documents: @documents} %>
+    <div class="tab-content" id="myTabContent">
+      <div class="fade show active" id="annonces">
+        <%= render partial: "annonces", locals: {infos: @infos} %>
+      </div>
     </div>
+
   </div>
 </div>
-
