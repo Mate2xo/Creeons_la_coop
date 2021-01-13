@@ -17,7 +17,7 @@ ActiveAdmin.register Member do
                 :cash_register_proficiency,
                 :register_id,
                 group_ids: [],
-                static_slot_ids: []
+                member_static_slots_attributes: [:id, :static_slot_id, :member_id, :_destroy]
 
   decorate_with MemberDecorator
 
@@ -30,7 +30,7 @@ ActiveAdmin.register Member do
       group_links = member.groups.map { |group| auto_link group }
       safe_join group_links, ', '
     end
-    column(t('.worked_hours')) { |member| member.hours_worked_in_the_last_three_months }
+    column(t('.worked_hours'), &:hours_worked_in_the_last_three_months)
     column :cash_register_proficiency
     column :register_id
     column :email
@@ -44,7 +44,15 @@ ActiveAdmin.register Member do
     column :phone_number
     column :role
     column(:group) { |member| member.groups.map(&:name).join(', ') }
-    column(t('active_admin.resource.index.worked_hours')) { |member| member.hours_worked_in_the_last_three_months(csv: true) }
+    column(worked_hours_title_for_given_month(Date.current - 2.months)) do |member|
+      member.monthly_worked_hours(Date.current - 2.months)
+    end
+    column(worked_hours_title_for_given_month(Date.current - 1.month)) do |member|
+      member.monthly_worked_hours(Date.current - 1.month)
+    end
+    column(worked_hours_title_for_given_month(Date.current)) do |member|
+      member.monthly_worked_hours(Date.current)
+    end
     column :cash_register_proficiency
     column :register_id
   end
@@ -60,31 +68,34 @@ ActiveAdmin.register Member do
         end
       end
       table_for member.static_slots do
-        column StaticSlot.model_name.human do |static_slot|
-          static_slot.full_display
-        end
+        column(StaticSlot.model_name.human, &:full_display)
       end
       table_for member.history_of_static_slot_selections, t('.selections_history') do
         column StaticSlot.model_name.human do |record|
           record.static_slot.decorate.full_display
         end
-        column(t('.selected_at')) { |record| record.created_at }
+        column(t('.selected_at'), &:created_at)
       end
     end
   end
 
   form decorate: true do |f|
-    f.inputs :first_name,
-             :last_name,
-             :email,
-             :phone_number,
-             :role,
-             :moderator,
-             :cash_register_proficiency,
-             :register_id,
-             :biography
-    f.input :groups, as: :check_boxes
-    f.input :static_slots, as: :check_boxes, collection: StaticSlot.all.decorate.map { |static_slot| [static_slot.full_display, static_slot.id] }
+    f.inputs do
+      f.input :first_name
+      f.input :last_name
+      f.input :email
+      f.input :phone_number
+      f.input :role
+      f.input :moderator
+      f.input :cash_register_proficiency
+      f.input :register_id
+      f.input :biography
+
+      f.input :groups, as: :check_boxes
+      f.has_many :member_static_slots, allow_destroy: true, new_record: true do |member_static_slot_form|
+        member_static_slot_form.input :static_slot_id, as: :select, collection: selectable_static_slots
+      end
+    end
     actions
   end
 
@@ -106,7 +117,7 @@ ActiveAdmin.register Member do
             data: { confirm: t('.confirm_enroll_static_members') }, method: :post
   end
 
-  action_item :remove_static_slots_of_a_member, only: [:show, :edit] do
+  action_item :remove_static_slots_of_a_member, only: %i[show edit] do
     link_to t('.remove_static_slots_of_this_member'),
             remove_static_slots_of_a_member_admin_members_path(member_id: resource.id),
             method: :put
@@ -124,7 +135,7 @@ ActiveAdmin.register Member do
   end
 
   controller do
-    def create(options = {}, &block)
+    def create(options = {}, &block) # rubocop:disable Metrics/MethodLength
       new_unloggable_member = build_resource
       first_name = new_unloggable_member.first_name
       last_name = new_unloggable_member.last_name
