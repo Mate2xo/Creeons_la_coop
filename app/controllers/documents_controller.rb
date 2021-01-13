@@ -5,7 +5,6 @@ class DocumentsController < ApplicationController
   before_action :authenticate_member!
 
   def index
-    @infos = Info.all
     @document = Document.new
     @documents = Document.with_attached_file
   end
