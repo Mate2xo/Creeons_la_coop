@@ -22,7 +22,9 @@ ActiveAdmin.register Mission do
     column(:genre) { |mission| Mission.human_enum_name(:genre, mission.genre) }
     column :due_date
     column :author
-    column :cash_register_proficiency_requirement
+    column :cash_register_proficiency_requirement do |mission|
+      Mission.human_enum_name('cash_register_proficiency_requirement', mission.cash_register_proficiency_requirement)
+    end
     actions
   end
 
