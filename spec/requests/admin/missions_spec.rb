@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe 'A Missions admin request', type: :request do
-  before { sign_in create :member, :super_admin }
+  let(:current_admin) { create :member, :super_admin }
+
+  before { sign_in current_admin }
 
   describe '#generate_schedule' do
     subject(:post_generate_schedule) { post generate_schedule_admin_missions_path(3) }
@@ -19,6 +21,20 @@ RSpec.describe 'A Missions admin request', type: :request do
         follow_redirect!
 
         expect(response.body).to include(I18n.t('admin.missions.generate_schedule.schedule_already_generated'))
+      end
+    end
+  end
+
+  describe 'POST' do
+    subject(:post_mission) { post admin_missions_path, params: { mission: mission_params } }
+
+    context 'when the :genre params is set to event' do
+      let(:mission_params) { attributes_for :mission, genre: 'event', author_id: current_admin.id }
+
+      it 'creates the mission with the genre setted to event' do
+        post_mission
+
+        expect(Mission.last[:genre]).to eq 'event'
       end
     end
   end
