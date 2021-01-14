@@ -5,7 +5,7 @@ ActiveAdmin.register Mission do
   permit_params :author_id,
                 :name,
                 :description,
-                :event,
+                :genre,
                 :delivery_expected,
                 :max_member_count,
                 :min_member_count,
@@ -19,7 +19,7 @@ ActiveAdmin.register Mission do
     column :name
     column :description
     column :delivery_expected
-    column :event
+    column(:genre) { |mission| Mission.human_enum_name(:genre, mission.genre) }
     column :due_date
     column :author
     column :cash_register_proficiency_requirement
@@ -33,7 +33,7 @@ ActiveAdmin.register Mission do
       f.input :name
       f.input :description
       f.input :delivery_expected
-      f.input :event
+      f.input :genre
       f.input :max_member_count
       f.input :min_member_count
       f.input :start_date
@@ -56,7 +56,7 @@ ActiveAdmin.register Mission do
       row :min_member_count
       row :max_member_count
       row :delivery_expected
-      row :event
+      row(:genre) { |mission| Mission.human_enum_name(:genre, mission.genre) }
       row(:cash_register_proficiency_requirement) do |resource|
         Mission.human_enum_name('cash_register_proficiency_requirement', resource.cash_register_proficiency_requirement)
       end
