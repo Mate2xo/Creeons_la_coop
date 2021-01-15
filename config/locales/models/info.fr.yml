@@ -1,0 +1,11 @@
+fr:
+  activerecord:
+    models:
+      info:
+        one: Info
+        other: Infos
+    attributes:
+      info:
+        title: Titre
+        content: Contenu
+        category: Catégorie
