@@ -1,25 +1,19 @@
-  <% if super_admin? || admin? %>
-    <div class="d-flex">
-      <%= link_to "Créer une annonce", new_info_path, class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mx-auto" %>
-    </div>
-  <% end %>
-
-  <div class="card no-border">
-    <table class="table table-sm table-hover">
-      <tbody>
-        <% @infos.each do |info| %>
-          <tr>
-            <td scope="row">
-              <%= info.title %>
-            </td>
-            <td class="d-none d-md-block" scope="row">
-              <%= sanitize info.content.truncate(80) %>
-            </td>
-            <td scope="row">
-              <%= link_to "Voir", info_path(info.id), class: "btn btn-base-1 btn-shadow btn-circle px-4" %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+<div class="card no-border">
+  <table class="table table-sm table-hover">
+    <tbody>
+      <% @infos.each do |info| %>
+        <tr>
+          <td scope="row">
+            <%= info.title %>
+          </td>
+          <td class="d-none d-md-block" scope="row">
+            <%= sanitize info.content.truncate(80) %>
+          </td>
+          <td scope="row">
+            <%= link_to "Voir", info_path(info.id), class: "btn btn-base-1 btn-shadow btn-circle px-4" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
