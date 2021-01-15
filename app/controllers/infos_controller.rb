@@ -11,10 +11,4 @@ class InfosController < ApplicationController
   def show
     @info = Info.find(params[:id])
   end
-
-  private
-
-  def permitted_params
-    params.require(:info).permit(:title, :content)
-  end
 end
