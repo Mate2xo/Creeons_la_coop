@@ -31,7 +31,7 @@ RSpec.describe 'A Missions admin request', type: :request do
     context 'when the :genre params is set to event' do
       let(:mission_params) { attributes_for :mission, genre: 'event', author_id: current_admin.id }
 
-      it 'creates the mission with the genre setted to event' do
+      it 'creates the mission with the genre set to event' do
         post_mission
 
         expect(Mission.last[:genre]).to eq 'event'

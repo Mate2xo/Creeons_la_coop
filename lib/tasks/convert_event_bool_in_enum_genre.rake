@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# This namespace contain all tasks who adapt the data at changements of db structure
-namespace :convertion do # rubocop:disable Metrics/BlockLength
-  desc 'it set enum genre at event for mission who have the event boolean at true'
-  task convert_event_bool_in_enum_genre: :environment do
+# This namespace contains all tasks that adapt existing data when the DB structure changes
+namespace :conversion do # rubocop:disable Metrics/BlockLength
+  desc 'it sets the :genre enum to the value of 2 (= event) for missions that have the :event boolean attribute set to true'
+  task mission_event_bool_to_genre_enum: :environment do
     puts ''.ljust 80, '*'
     puts 'start migration'.center 80
     puts ''.ljust 80, '*'
