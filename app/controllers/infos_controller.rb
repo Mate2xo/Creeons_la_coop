@@ -5,7 +5,7 @@ class InfosController < ApplicationController
   before_action :authenticate_member!
 
   def index
-    @infos = Info.all
+    @infos = Info.all.order(updated_at: :desc)
   end
 
   def show
