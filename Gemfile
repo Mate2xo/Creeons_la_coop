@@ -41,6 +41,7 @@ gem 'devise', '~> 4.7' # Users login/registration management
 gem 'devise_invitable', '~> 2.0.0'
 gem 'draper'
 gem 'dry-transaction'
+gem 'enumerize'
 gem 'httparty' # Http requests
 gem 'ice_cube' # Calendar events recurrence (for Missions)
 gem 'leaflet-rails' # GeoMap generator
