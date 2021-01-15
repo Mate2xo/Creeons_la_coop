@@ -18,4 +18,16 @@ RSpec.describe 'An info request', type: :request do
       expect(response).to be_successful
     end
   end
+
+  describe 'GET show' do
+    subject(:get_info) { get info_path(info) }
+
+    let(:info) { create :info }
+
+    it 'renders the view' do
+      get_info
+
+      expect(response).to be_successful
+    end
+  end
 end
