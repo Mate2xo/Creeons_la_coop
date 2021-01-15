@@ -15,8 +15,10 @@
 
 class Info < ApplicationRecord
   extend Enumerize
+  extend ActiveModel::Naming
+
   belongs_to :author, class_name: "Member" # , foreign_key: "author_id"
 
-  enumerize :category, in: %i[news event product], default: :news
+  enumerize :category, in: %i[news event management], default: :news
   validates :title, presence: true
 end

@@ -7,11 +7,34 @@
       </h2>
     </div>
 
-    <div class="tab-content" id="myTabContent">
-      <div class="fade show active" id="annonces">
-        <%= render partial: "annonces", locals: {infos: @infos} %>
-      </div>
-    </div>
+    <ul class="nav nav-tabs justify-content-center mb-5">
+      <li class="nav-item">
+        <a class="nav-link active" href="#all-infos" data-toggle="tab" role="tab">
+          <%= t(".all_infos") %>
+        </a>
+      </li>
 
+      <% Info.category.values.each do |category| %>
+        <li class="nav-item">
+          <a class="nav-link" href="#<%= category %>-info" data-toggle="tab" role="tab">
+            <%= category.text %>
+          </a>
+        </li> 
+      <% end %>
+    </ul>
+
+    <main class="tab-content" id="myTabContent">
+      <section class="tab-pane fade show active" id="all-infos" role="tabpanel" aria-labelledby="all-infos-tab">
+        <%= render partial: "annonces", locals: {infos: @infos} %>
+      </section>
+
+      <% Info.category.values.each do |category| %>
+        <section class="tab-pane fade" id="<%= category %>-info" role="tabpanel" aria-labelledby="<%= category %>-info-tab">
+          <div class="tab-content" id="myTabContent">
+            <%= render partial: "annonces", locals: {infos: infos_of_this_category(category)} %>
+          </div>
+        </section> 
+      <% end %>
+    </main>
   </div>
 </div>

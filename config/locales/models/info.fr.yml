@@ -9,3 +9,10 @@ fr:
         title: Titre
         content: Contenu
         category: Catégorie
+  enumerize:
+    info:
+      category:
+        event: Evénement
+        management: Gestion
+        news: Actualités
+

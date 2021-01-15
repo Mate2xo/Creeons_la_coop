@@ -9,3 +9,9 @@ en:
         title: Title
         content: Content
         category: Category
+  enumerize:
+    info:
+      category:
+        event: Event
+        management: Management
+        news: News
