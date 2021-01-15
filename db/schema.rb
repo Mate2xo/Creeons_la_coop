@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_31_163056) do
+ActiveRecord::Schema.define(version: 2021_01_15_110415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,6 +141,7 @@ ActiveRecord::Schema.define(version: 2020_12_31_163056) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "author_id"
+    t.string "category"
     t.index ["author_id"], name: "index_infos_on_author_id"
   end
 
@@ -237,6 +238,16 @@ ActiveRecord::Schema.define(version: 2020_12_31_163056) do
     t.integer "week_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "temp_enrollments_from_csv", id: false, force: :cascade do |t|
+    t.bigint "member_id"
+    t.bigint "mission_id"
+    t.bigint "id"
+    t.time "old_start_time"
+    t.time "old_end_time"
+    t.datetime "start_time"
+    t.datetime "end_time"
   end
 
   create_table "thredded_categories", force: :cascade do |t|

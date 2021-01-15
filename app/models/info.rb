@@ -6,6 +6,7 @@
 #
 #  id         :bigint(8)        not null, primary key
 #  content    :text
+#  category   :string
 #  title      :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -13,6 +14,9 @@
 #
 
 class Info < ApplicationRecord
-  validates :title, presence: true
+  extend Enumerize
   belongs_to :author, class_name: "Member" # , foreign_key: "author_id"
+
+  enumerize :category, in: %i[news event product], default: :news
+  validates :title, presence: true
 end
