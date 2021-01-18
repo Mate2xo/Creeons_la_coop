@@ -53,7 +53,7 @@ class StaticMembersRecruiter
                                            end_time: enrollments.last.end_time,
                                            mission_id: enrollments.first.mission_id,
                                            member_id: enrollments.first.member_id)
-    enrollments.destroy_all if enrollment_created
+    enrollments.where('id != ?', enrollment_created.id).destroy_all if enrollment_created
   end
 
   def enrollments_for_one_static_slot(member, static_slot)
