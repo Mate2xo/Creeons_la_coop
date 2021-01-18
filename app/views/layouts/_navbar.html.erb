@@ -72,10 +72,18 @@
 
       <ul class="navbar-nav ml-lg-auto">
         <% if member_signed_in? %>
-          <% if super_admin?  %>
+          <% if super_admin? %>
             <li class="nav-item">
               <%= link_to translate("main_app.views.navbar.admin_section"),
                           main_app.admin_members_path,
+                          class:"nav-link" %>
+            </li>
+          <% end %>
+
+          <% if !super_admin? && current_member.redactor? %>
+            <li class="nav-item">
+              <%= link_to translate("main_app.views.navbar.blog_management"),
+                          main_app.admin_infos_path,
                           class:"nav-link" %>
             </li>
           <% end %>

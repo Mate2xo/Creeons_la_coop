@@ -86,6 +86,13 @@ class Member < ApplicationRecord
       .reduce(0.0) { |sum, enrollment| sum + enrollment.duration }
   end
 
+  def redactor?
+    groups.each do |group|
+      return true if group.name == 'Rédacteur'
+    end
+    false
+  end
+
   private
 
   def set_unique_display_name

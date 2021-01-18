@@ -10,15 +10,15 @@ class InfoPolicy < ApplicationPolicy
   end
 
   def create?
-    admin? || super_admin?
+    admin? || super_admin? || redactor?
   end
 
   def update?
-    admin? || super_admin?
+    admin? || super_admin? || redactor?
   end
 
   def destroy?
-    super_admin? || record.author == user
+    super_admin? || record.author == user || redactor?
   end
 
   class Scope < Scope
