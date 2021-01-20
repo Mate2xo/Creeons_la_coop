@@ -16,4 +16,11 @@ class Group < ApplicationRecord
   has_many :members, through: :group_members
 
   validates :name, presence: true, uniqueness: true
+
+  def self.localized_name_of_group_which_grant_right_to_members(name_to_localize)
+    list_of_groups_with_rights = ['redactor']
+    return nil unless list_of_groups_with_rights.include?(name_to_localize)
+
+    I18n.t("activerecord.attributes.group.localized_names.#{name_to_localize}")
+  end
 end

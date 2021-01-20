@@ -6,6 +6,9 @@ fr:
         other: Groupes
     attributes:
       group:
+        localized_names:
+          redactor: Rédacteur
         name: Nom
         members_count: Nombre de membres
         managers: Référents
+
