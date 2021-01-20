@@ -23,7 +23,7 @@ module ActiveAdmin
     end
 
     def destroy?
-      super_admin? || record.author == user
+      super_admin? || (admin? && record.author == user)
     end
 
     class Scope < Scope # rubocop:disable Style/Documentation

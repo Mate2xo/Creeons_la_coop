@@ -3,23 +3,23 @@
 module ActiveAdmin
   class ProductorPolicy < ApplicationPolicy # rubocop:disable Style/Documentation
     def index?
-      super_admin?
+      super_admin? || admin?
     end
 
     def create?
-      super_admin?
+      super_admin? || admin?
     end
 
     def show?
-      super_admin?
+      super_admin? || admin?
     end
 
     def edit?
-      super_admin?
+      super_admin? || admin?
     end
 
     def update?
-      super_admin?
+      super_admin? || admin?
     end
 
     def destroy?
