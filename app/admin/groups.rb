@@ -3,6 +3,8 @@
 ActiveAdmin.register Group do
   permit_params :name, manager_ids: []
 
+  menu if: proc { authorized? :index, %i[active_admin Group] } # display menu according to ActiveAdmin::Policy
+
   index do
     selectable_column
     column :name

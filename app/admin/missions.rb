@@ -14,6 +14,8 @@ ActiveAdmin.register Mission do
                 :cash_register_proficiency_requirement,
                 :recurrent_change
 
+  menu if: proc { authorized? :index, %i[active_admin Mission] } # display menu according to ActiveAdmin::Policy
+
   index do
     selectable_column
     column :name

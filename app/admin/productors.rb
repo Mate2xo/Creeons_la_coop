@@ -8,6 +8,8 @@ ActiveAdmin.register Productor do
                                      :street_name_1, :street_name_2,
                                      :_destroy, coordinates: []]
 
+  menu if: proc { authorized? :index, %i[active_admin Productor] } # display menu according to ActiveAdmin::Policy
+
   index do
     selectable_column
     column :name

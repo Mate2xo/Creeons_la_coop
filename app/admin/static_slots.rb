@@ -7,6 +7,8 @@ ActiveAdmin.register StaticSlot do
 
   decorate_with StaticSlotDecorator
 
+  menu if: proc { authorized? :index, %i[active_admin StaticSlot] } # display menu according to ActiveAdmin::Policy
+
   index do
     selectable_column
     column(:week_day) { |resource| StaticSlot.human_enum_name('week_day', resource.week_day) }

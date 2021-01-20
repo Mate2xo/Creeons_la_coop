@@ -3,6 +3,8 @@
 ActiveAdmin.register Info do
   permit_params :title, :content, :category, :author_id
 
+  menu if: proc { authorized? :index, %i[active_admin Info] } # display menu according to ActiveAdmin::Policy
+
   index do
     selectable_column
     column :title
