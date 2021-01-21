@@ -36,14 +36,33 @@
 				</div>
 
 				<div class="tab-pane fade" id="suppliers" role="tabpanel" aria-labelledby="suppliers-tab">
+          <p>
+            Nos fournisseurs proposent toujours de nouveaux produits, les tarifs baissent ou augmentent...
+            <br>
+            <br>
+            La liste de fournisseurs  présentée ci-dessous est en perpétuel mouvement.
+            <br>
+            <br>
+            Notre travail de recherches et de comparaisons est constant au gré de vos demandes pour la satisfaction de tous.
+            <br>
+            Nous sélectionnons les meilleurs qualité/prix. 
+            Rappelons que les meilleures qualités ne sont pas obligatoirement plus chères que les autres 
+            car de nombreux paramètres jouent  dans la composition du prix d’un produit. 
+            Azade sera parmi nous après la crise sanitaire et nous expliquera tout cela.
+            <br>
+            <br>
+            Au fil du temps, apparaîtront sur nos étiquettes les renseignements suivants avec ce codage :
+            O : origine, E : équitable, S : solidaire, P/T : producteur/ transformateur, D : Demeter ( biodynamie)
+          </p>
+		
 					<% if super_admin? || admin? %>
 						<div class="d-flex">
-              <%= link_to  "Ajouter un fournisseur",
+              <%= link_to  "ajouter un fournisseur",
                 new_productor_path,
                 class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mx-auto" %>
 						</div>
 					<% end %>
-		
+
 					<div class="row cols-md-space cols-sm-space cols-xs-space">
             <%= render partial: "suppliers",
               locals: { suppliers: @productors.select {|productor|
