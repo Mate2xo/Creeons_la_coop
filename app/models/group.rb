@@ -17,7 +17,7 @@ class Group < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
 
-  def self.localized_name_of_group_which_grant_right_to_members(name_to_localize)
+  def self.localized_name_of_group_which_grant_rights_to_members(name_to_localize)
     list_of_groups_with_rights = ['redactor']
     return nil unless list_of_groups_with_rights.include?(name_to_localize)
 
