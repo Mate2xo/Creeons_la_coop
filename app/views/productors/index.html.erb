@@ -1,20 +1,3 @@
-<% provide :head_tags do %>
-	<%= javascript_include_tag "openStreetMaps", "data-turbolinks-track" => "reload" %>
-<% end %>
-
-<%= map(:center => {
-					:latlng => [49.24914, 2.460288],
-					:zoom => 10
-				},
-				:markers => @productors.map { |p|
-						{ 
-							:latlng => p.address.coordinates,
-							:popup => p.name
-						} unless p.address.nil? || p.address.coordinates.nil?
-				}.compact
-) %>
-
-
 <div class="container">
 	<div class="widget mt-4">
 
