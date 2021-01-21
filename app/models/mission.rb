@@ -30,7 +30,7 @@
 # A time slot have several slots
 # Slots count for a time slot is equal to :max_member_count
 class Mission < ApplicationRecord
-  belongs_to :author, class_name: 'Member', inverse_of: 'created_missions'
+  belongs_to :author, class_name: 'Member', inverse_of: 'created_missions', optional: true
   has_many :enrollments, dependent: :destroy
   has_many :members, through: :enrollments
   has_and_belongs_to_many :productors
