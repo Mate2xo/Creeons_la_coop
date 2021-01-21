@@ -31,7 +31,7 @@
       <% Info.category.values.each do |category| %>
         <section class="tab-pane fade" id="<%= category %>-info" role="tabpanel" aria-labelledby="<%= category %>-info-tab">
           <div class="tab-content" id="myTabContent">
-            <%= render partial: "annonces", locals: {infos: infos_of_this_category(category)} %>
+            <%= render partial: "annonces", locals: {infos: infos_of_this_category(@infos, category)} %>
           </div>
         </section> 
       <% end %>

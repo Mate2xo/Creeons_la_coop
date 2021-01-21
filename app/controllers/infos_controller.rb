@@ -2,10 +2,12 @@
 
 # Newsfeeds.
 class InfosController < ApplicationController
-  before_action :authenticate_member!
-
   def index
-    @infos = Info.all.order(updated_at: :desc)
+    @infos = if member_signed_in?
+               Info.all.order(updated_at: :desc)
+             else
+               Info.where(published: true).order(updated_at: :desc)
+             end
   end
 
   def show
