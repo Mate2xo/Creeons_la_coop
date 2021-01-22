@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 2021_01_26_170516) do
   create_table "documents", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "published", default: false
   end
 
   create_table "enrollments", force: :cascade do |t|
@@ -232,6 +233,7 @@ ActiveRecord::Schema.define(version: 2021_01_26_170516) do
     t.datetime "updated_at", null: false
     t.string "website_url"
     t.boolean "local", default: false
+    t.string "category"
   end
 
   create_table "static_slots", force: :cascade do |t|
