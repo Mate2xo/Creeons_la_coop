@@ -2,8 +2,6 @@
 
 # Document management
 class DocumentsController < ApplicationController
-  before_action :authenticate_member!
-
   def index
     @document = Document.new
     @documents = if member_signed_in?

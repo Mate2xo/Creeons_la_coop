@@ -60,18 +60,26 @@ class ApplicationPolicy
   private
 
   def super_admin?
+    return false if user.blank?
+
     user.role == "super_admin"
   end
 
   def admin?
+    return false if user.blank?
+
     user.role == "admin"
   end
 
   def member?
+    return false if user.blank?
+
     user.role == "member"
   end
 
   def redactor?
+    return false if user.blank?
+
     user.redactor?
   end
 end
