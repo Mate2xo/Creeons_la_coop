@@ -2,6 +2,9 @@ en:
   activerecord:
     attributes:
       document:
+        category: Category
+        filename: Filename
+        preview: Preview
         published: Published
   enumerize:
     document:
