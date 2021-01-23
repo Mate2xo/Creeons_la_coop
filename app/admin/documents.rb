@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Document do
-  permit_params :published, :file
+  permit_params :published, :file, :category
    actions :all, except: [:show]
 
   menu if: proc { authorized? :index, %i[active_admin Productor] } # display menu according to ActiveAdmin::Policy
@@ -18,6 +18,7 @@ ActiveAdmin.register Document do
                 rails_blob_path(document.file, disposition: 'attachment'))
       end
     end
+    column :category
     column :published
     actions do |document|
       link_to t('main_app.views.application.buttons.edit'), edit_admin_document_path(document)
@@ -26,6 +27,7 @@ ActiveAdmin.register Document do
 
   form do |f|
     f.inputs do
+      f.input :category
       f.input :published
       f.input :file, as: :file if f.object.new_record?
     end
