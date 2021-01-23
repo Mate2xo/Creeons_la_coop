@@ -3,3 +3,14 @@ fr:
     attributes:
       document:
         published: Publié
+  enumerize:
+    document:
+      category:
+        weekly_orders: Commandes de la semaine
+        newsletters: Lettres d'informations
+        official_documents: Documents officiels
+        financial_documents: Documents comptables
+        communications: Communications
+        reports: Comptes rendus
+        procedures: Procédures
+        questionnaires: Questionnaires
