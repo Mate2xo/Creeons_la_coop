@@ -12,6 +12,9 @@
 #
 
 class Document < ApplicationRecord
+  extend Enumerize
+  extend ActiveModel::Naming
+
   has_one_attached :file
 
   enumerize :category, in: %i[weekly_orders
