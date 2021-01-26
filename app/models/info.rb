@@ -16,7 +16,6 @@
 
 class Info < ApplicationRecord
   extend Enumerize
-  extend ActiveModel::Naming
 
   belongs_to :author, class_name: "Member" # , foreign_key: "author_id"
 
