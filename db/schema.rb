@@ -241,16 +241,6 @@ ActiveRecord::Schema.define(version: 2021_01_20_181957) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "temp_enrollments_from_csv", id: false, force: :cascade do |t|
-    t.bigint "member_id"
-    t.bigint "mission_id"
-    t.bigint "id"
-    t.time "old_start_time"
-    t.time "old_end_time"
-    t.datetime "start_time"
-    t.datetime "end_time"
-  end
-
   create_table "thredded_categories", force: :cascade do |t|
     t.bigint "messageboard_id", null: false
     t.text "name", null: false
