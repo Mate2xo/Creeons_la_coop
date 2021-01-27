@@ -54,7 +54,7 @@ FactoryBot.define do
 
     after :create do |member, options|
       if options.redactor?
-        group = create :group, name: Group.localized_name_of_group_which_grant_rights_to_members('redactor')
+        group = create :group, roles: ['redactor']
         GroupMember.create(member: member, group: group)
       end
     end

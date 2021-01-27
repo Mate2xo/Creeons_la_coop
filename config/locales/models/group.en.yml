@@ -6,8 +6,12 @@ en:
         other: Groups
     attributes:
       group:
-        localized_names:
-          redactor: Redactor
         name: name
         members_count:
         managers: Managers
+        role: Role
+  enumerize:
+    group:
+      roles:
+        redactor: Redactor
+

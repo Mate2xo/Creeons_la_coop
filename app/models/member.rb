@@ -88,7 +88,7 @@ class Member < ApplicationRecord
 
   def redactor?
     groups.each do |group|
-      return true if group.name == Group.localized_name_of_group_which_grant_rights_to_members('redactor')
+      return true if group.roles.include?('redactor')
     end
     false
   end

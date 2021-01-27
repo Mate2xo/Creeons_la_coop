@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Group do
-  permit_params :name, manager_ids: []
+  permit_params :name, roles: [], manager_ids: []
 
   menu if: proc { authorized? :index, %i[active_admin Group] } # display menu according to ActiveAdmin::Policy
 
@@ -13,14 +13,16 @@ ActiveAdmin.register Group do
       safe_join manager_links, ', '
     end
     column(Group.human_attribute_name(:members_count)) { |group| group.members.size }
+    column(:roles) { |group| group.roles.texts.join(', ') }
     actions
   end
 
   show do
     attributes_table_for resource do
-      default_attribute_table_rows.each do |field|
-        row field
-      end
+      row :name
+      row(:roles) { resource.roles.texts.join(', ') }
+      row :created_at
+      row :updated_at
       table_for group.members do
         column Member.model_name.human do |member|
           link_to "#{member.last_name} #{member.first_name}", [:admin, member]
@@ -35,8 +37,11 @@ ActiveAdmin.register Group do
   end
 
   form do |f|
-    f.inputs
-    f.input :managers, as: :check_boxes, collection: group.members
+    f.inputs do
+      f.input :name
+      f.input :roles, as: :check_boxes, collection: Group.roles.options
+      f.input :managers, as: :check_boxes, collection: group.members
+    end
     actions
   end
 end
