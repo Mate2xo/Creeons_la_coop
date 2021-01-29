@@ -234,7 +234,6 @@ ActiveRecord::Schema.define(version: 2021_01_26_170516) do
     t.datetime "updated_at", null: false
     t.string "website_url"
     t.boolean "local", default: false
-    t.string "category"
   end
 
   create_table "static_slots", force: :cascade do |t|
