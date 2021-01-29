@@ -9,3 +9,9 @@ fr:
         name: Nom
         members_count: Nombre de membres
         managers: Référents
+        role: Rôle
+  enumerize:
+    group:
+      roles:
+        redactor: Rédacteur
+

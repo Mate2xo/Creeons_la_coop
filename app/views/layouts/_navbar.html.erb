@@ -44,11 +44,16 @@
 
           <li class="nav-item dropdown megamenu">
             <%= link_to Document.model_name.human.pluralize,
+                        main_app.documents_path,
+                        class: "nav-link"  %>
+          </li>
+
+          <li class="nav-item dropdown megamenu">
+            <%= link_to Info.model_name.human.pluralize,
                         main_app.infos_path,
                         class: "nav-link"  %>
           </li>
         </ul>
-
       <% else %>
        <ul class="navbar-nav">
         <li class="nav-item dropdown megamenu">
@@ -61,15 +66,28 @@
                       main_app.faq_path,
                       class: "nav-link" %>
         </li>
+        <li class="nav-item dropdown megamenu">
+          <%= link_to Info.model_name.human.pluralize,
+                      main_app.infos_path,
+                      class: "nav-link"  %>
+        </li>
       </ul>
       <% end %>
 
       <ul class="navbar-nav ml-lg-auto">
         <% if member_signed_in? %>
-          <% if super_admin?  %>
+          <% if super_admin? || admin? %>
             <li class="nav-item">
               <%= link_to translate("main_app.views.navbar.admin_section"),
                           main_app.admin_members_path,
+                          class:"nav-link" %>
+            </li>
+          <% end %>
+
+          <% if redactor? %>
+            <li class="nav-item">
+              <%= link_to translate("main_app.views.navbar.blog_management"),
+                          main_app.admin_infos_path,
                           class:"nav-link" %>
             </li>
           <% end %>

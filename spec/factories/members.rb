@@ -36,6 +36,10 @@
 
 FactoryBot.define do
   factory :member do
+    transient do
+      redactor? { false }
+    end
+
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
     biography { Faker::ChuckNorris.fact }
@@ -47,5 +51,12 @@ FactoryBot.define do
 
     trait :admin do role { 'admin' } end
     trait :super_admin do role { 'super_admin' } end
+
+    after :create do |member, options|
+      if options.redactor?
+        group = create :group, roles: ['redactor']
+        GroupMember.create(member: member, group: group)
+      end
+    end
   end
 end

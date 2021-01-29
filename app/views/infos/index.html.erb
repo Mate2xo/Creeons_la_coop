@@ -1,21 +1,40 @@
-<% provide :head_tags do %>
-  <%= javascript_include_tag 'infos', "data-turbolinks-track" => "reload" %>
-<% end %>
-
 <div class="container mb-4">
   <div class="main-content">
 
     <div class="page-title">
       <h2 class="heading-infos heading heading-2 text-uppercase border-bottom border-dark strong-800 mt-5 mb-5">
-        Documents
+        Infos
       </h2>
     </div>
 
-    <div class="" id="documents">
-      <%= render partial: "documents/new",
-                 locals: {document: @document} if policy(Document).create? %>
-      <%= render partial: "documents/index", locals: {documents: @documents} %>
-    </div>
+    <ul class="nav nav-tabs justify-content-center mb-5">
+      <li class="nav-item">
+        <a class="nav-link active" href="#all-infos" data-toggle="tab" role="tab">
+          <%= t(".all_infos") %>
+        </a>
+      </li>
+
+      <% Info.category.values.each do |category| %>
+        <li class="nav-item">
+          <a class="nav-link" href="#<%= category %>-info" data-toggle="tab" role="tab">
+            <%= category.text %>
+          </a>
+        </li> 
+      <% end %>
+    </ul>
+
+    <main class="tab-content" id="myTabContent">
+      <section class="tab-pane fade show active" id="all-infos" role="tabpanel" aria-labelledby="all-infos-tab">
+        <%= render partial: "annonces", locals: {infos: @infos} %>
+      </section>
+
+      <% Info.category.values.each do |category| %>
+        <section class="tab-pane fade" id="<%= category %>-info" role="tabpanel" aria-labelledby="<%= category %>-info-tab">
+          <div class="tab-content" id="myTabContent">
+            <%= render partial: "annonces", locals: {infos: infos_of_this_category(@infos, category)} %>
+          </div>
+        </section> 
+      <% end %>
+    </main>
   </div>
 </div>
-

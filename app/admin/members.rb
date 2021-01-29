@@ -19,6 +19,8 @@ ActiveAdmin.register Member do
                 group_ids: [],
                 member_static_slots_attributes: [:id, :static_slot_id, :member_id, :_destroy]
 
+  menu if: proc { authorized? :index, %i[active_admin Member] } # display menu according to ActiveAdmin::Policy
+
   decorate_with MemberDecorator
 
   index do

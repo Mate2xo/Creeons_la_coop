@@ -1,6 +1,8 @@
 en:
   main_app:
     views:
+      navbar:
+        blog_management: Blog management
       address:
         delete_button: Delete this address
       application:

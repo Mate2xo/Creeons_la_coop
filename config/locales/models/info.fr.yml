@@ -1,0 +1,18 @@
+fr:
+  activerecord:
+    models:
+      info:
+        one: Info
+        other: Infos
+    attributes:
+      info:
+        title: Titre
+        content: Contenu
+        category: Catégorie
+  enumerize:
+    info:
+      category:
+        event: Evénement
+        management: Gestion
+        news: Actualités
+
