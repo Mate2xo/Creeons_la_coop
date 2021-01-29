@@ -2,9 +2,9 @@
 
 ActiveAdmin.register Document do
   permit_params :published, :file, :category
-   actions :all, except: [:show]
+  actions :all, except: [:show]
 
-  menu if: proc { authorized? :index, %i[active_admin Productor] } # display menu according to ActiveAdmin::Policy
+  menu if: proc { authorized? :index, %i[active_admin Document] } # display menu according to ActiveAdmin::Policy
 
   index do
     selectable_column
