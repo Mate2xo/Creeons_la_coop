@@ -1,4 +1,5 @@
 //= require full_calendar
+//= require js.cookie
 
 document.addEventListener('turbolinks:load', () => {
   const calendarEl = document.getElementById('calendar');
@@ -8,6 +9,7 @@ document.addEventListener('turbolinks:load', () => {
       themeSystem: 'bootstrap',
       height: 'auto',
       defaultView: 'timeGridWeek',
+      defaultDate: Cookies.get('positionInPlanning'), // The displayed date when the calendar is loaded
       allDaySlot: false,
       firstDay: 1,
       locale: 'fr',
@@ -40,6 +42,8 @@ document.addEventListener('turbolinks:load', () => {
           const weekTypes = ['D', 'A', 'B', 'C'];
           return weekTypes[weekCountBetweenReferenceAndCurrentHour % 4];
         };
+
+        Cookies.set('positionInPlanning', info.view.currentStart);
 
         if (info.view.type === 'timeGridWeek') {
           const currentStart = new Date(info.view.currentStart);
