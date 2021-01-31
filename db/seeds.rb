@@ -91,6 +91,7 @@ Rails.logger.info 'static slots seeded'
                     address: FactoryBot.create(:address, :coordinates)
   FactoryBot.create :productor,
                     local: true,
+                    category: Productor.category.values.sample,
                     address: FactoryBot.create(:address, :coordinates)
 end
 
