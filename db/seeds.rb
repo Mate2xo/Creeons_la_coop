@@ -107,7 +107,7 @@ end
 
 Rails.logger.info 'Missions seeded'
 
-FactoryBot.create_list :info, 5, author: Member.all.sample
+FactoryBot.create_list :info, 5, author: Member.all.sample, category: Info.category.values.sample
 Rails.logger.info 'Infos seeded'
 
 5.times do
