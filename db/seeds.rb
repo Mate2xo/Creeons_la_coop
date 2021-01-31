@@ -73,6 +73,19 @@ end
 
 Rails.logger.info 'Groups seeded'
 
+FactoryBot.create :static_slot, week_day: 'Monday', week_type: 'A', start_time: DateTime.new(2020, 1, 1, 9)
+FactoryBot.create :static_slot, week_day: 'Monday', week_type: 'A', start_time: DateTime.new(2020, 1, 1, 10, 30)
+FactoryBot.create :static_slot, week_day: 'Thursday', week_type: 'B', start_time: DateTime.new(2020, 1, 1, 14)
+FactoryBot.create :static_slot, week_day: 'Monday', week_type: 'C', start_time: DateTime.new(2020, 1, 1, 14)
+FactoryBot.create :static_slot, week_day: 'Friday', week_type: 'D', start_time: DateTime.new(2020, 1, 1, 9)
+FactoryBot.create :static_slot, week_day: 'Saturday', week_type: 'D', start_time: DateTime.new(2020, 1, 1, 14)
+
+StaticSlot.all.each do |static_slot|
+  FactoryBot.create :member_static_slot, static_slot: static_slot, member: Member.all.sample
+end
+
+Rails.logger.info 'static slots seeded'
+
 10.times do
   FactoryBot.create :productor,
                     address: FactoryBot.create(:address, :coordinates)
