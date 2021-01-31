@@ -14,6 +14,8 @@ ActiveAdmin.register Mission do
                 :cash_register_proficiency_requirement,
                 :recurrent_change
 
+  menu if: proc { authorized? :index, %i[active_admin Mission] } # display menu according to ActiveAdmin::Policy
+
   index do
     selectable_column
     column :name
@@ -31,7 +33,9 @@ ActiveAdmin.register Mission do
   form do |f|
     f.inputs do
       f.input :author,
-              collection: options_from_collection_for_select(Member.all, :id, :email)
+              as: :select,
+              collection: Member.pluck(:email, :id),
+              selected: Member.pluck(:email, :id).find { |_mail, id| id == f.object.author_id }
       f.input :name
       f.input :description
       f.input :delivery_expected

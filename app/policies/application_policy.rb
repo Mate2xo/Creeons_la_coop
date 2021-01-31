@@ -70,4 +70,8 @@ class ApplicationPolicy
   def member?
     user.role == "member"
   end
+
+  def redactor?
+    user.redactor?
+  end
 end

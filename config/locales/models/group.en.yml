@@ -9,3 +9,9 @@ en:
         name: name
         members_count:
         managers: Managers
+        role: Role
+  enumerize:
+    group:
+      roles:
+        redactor: Redactor
+

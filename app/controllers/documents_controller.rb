@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
+# Document management
 class DocumentsController < ApplicationController
+  before_action :authenticate_member!
+
+  def index
+    @document = Document.new
+    @documents = Document.with_attached_file
+  end
+
   def create
     @document = authorize Document.new(permitted_params)
     @document.save
@@ -8,7 +16,7 @@ class DocumentsController < ApplicationController
     flash.merge! user_feedback_on_create(@document)
     respond_to do |format|
       format.js
-      format.html { redirect_to infos_path(anchor: 'documents') }
+      format.html { redirect_to documents_path(anchor: 'documents') }
     end
   end
 
@@ -20,7 +28,7 @@ class DocumentsController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.html { redirect_to infos_path(anchor: 'documents') }
+      format.html { redirect_to documents_path(anchor: 'documents') }
     end
   end
 

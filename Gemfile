@@ -39,11 +39,12 @@ gem 'bootstrap4-datetime-picker-rails'
 gem 'cocoon', '~> 1.2', '>= 1.2.12' # Dynamic nested forms
 gem 'devise', '~> 4.7' # Users login/registration management
 gem 'devise_invitable', '~> 2.0.0'
-gem 'draper'
+gem 'draper' # decorators manager
 gem 'dry-transaction'
 gem 'enumerize'
 gem 'httparty' # Http requests
 gem 'ice_cube' # Calendar events recurrence (for Missions)
+gem 'js_cookie_rails' # Cookie manager for js
 gem 'leaflet-rails' # GeoMap generator
 gem 'mailjet' # Production mailer API
 gem 'pundit' # Authorization management

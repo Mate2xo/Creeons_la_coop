@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_21_151053) do
+
+ActiveRecord::Schema.define(version: 2021_01_26_170516) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,6 +119,7 @@ ActiveRecord::Schema.define(version: 2021_01_21_151053) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "roles"
   end
 
   create_table "history_of_generated_schedules", force: :cascade do |t|
@@ -141,6 +143,8 @@ ActiveRecord::Schema.define(version: 2021_01_21_151053) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "author_id"
+    t.string "category"
+    t.boolean "published", default: false
     t.index ["author_id"], name: "index_infos_on_author_id"
   end
 

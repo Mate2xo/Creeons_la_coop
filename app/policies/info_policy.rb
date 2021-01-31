@@ -2,28 +2,28 @@
 
 class InfoPolicy < ApplicationPolicy
   def index?
-    user
+    true
   end
 
   def show?
-    user
+    user || record.published
   end
 
   def create?
-    admin? || super_admin?
+    admin? || super_admin? || redactor?
   end
 
   def update?
-    admin? || super_admin?
+    admin? || super_admin? || redactor?
   end
 
   def destroy?
-    super_admin? || record.author == user
+    super_admin? || redactor? || record.author == user
   end
 
   class Scope < Scope
     def resolve
-      scope.all
+      user ? scope.all : scope.where(published: true)
     end
   end
 end

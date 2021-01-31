@@ -61,9 +61,10 @@ RSpec.describe Admin::InfosController, type: :controller do
     end
     it "should render the form elements" do
       get :new
-      expect(page).to have_field('Title')
-      expect(page).to have_field('Content')
-      expect(page).to have_field('Author')
+      expect(page).to have_field('info_title')
+      expect(page).to have_field('info_content')
+      expect(page).to have_field('info_author_id')
+      expect(page).to have_field('info_category')
     end
   end
 
@@ -127,9 +128,10 @@ RSpec.describe Admin::InfosController, type: :controller do
       expect(assigns(:info)).to eq(info)
     end
     it "should render the form elements" do
-      expect(page).to have_field('Title', with: info.title)
-      expect(page).to have_field('Content', with: info.content)
-      expect(page).to have_select('Author', with_options: [info.author.email])
+      expect(page).to have_field('info_title', with: info.title)
+      expect(page).to have_field('info_content', with: info.content)
+      expect(page).to have_select('info_author_id', with_options: [info.author.email])
+      expect(page).to have_select('info_category', with_options: [info.category.text])
     end
   end
 
