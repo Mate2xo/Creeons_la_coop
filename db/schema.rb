@@ -10,7 +10,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema.define(version: 2021_01_26_170516) do
 
   # These are extensions that must be enabled in order to support this database
@@ -73,8 +72,6 @@ ActiveRecord::Schema.define(version: 2021_01_26_170516) do
   create_table "documents", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "published", default: false
-    t.string "category", default: "weekly_orders"
   end
 
   create_table "enrollments", force: :cascade do |t|
