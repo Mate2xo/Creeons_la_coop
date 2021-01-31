@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="widget mt-4">
+    <div class="row-wrapper">
+      <ul class="nav nav-tabs justify-content-center mb-5" role="tablist">
+        <% Productor.category.values.each_with_index do |category, index| %>
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if index.zero? %>" data-toggle="tab" href="#<%= category %>">
+              <%= t "enumerize.productor.category.#{category}" %>
+            </a>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="row-wrapper">
+      <div class="tab-content" id="myTabContent">
+        <% Productor.category.values.each_with_index do |category, index| %>
+          <div class="tab-pane fade show <%= 'active' if index.zero? %>" id=<%= category %> role="tabpanel" aria-labelledby="<%= category %>-tab">
+            <div class="row cols-md-space cols-sm-space cols-xs-space">
+              <%= render partial: "productors",
+                locals: { productors: suppliers.select {|productor|
+                productor.category == category 
+              }} %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

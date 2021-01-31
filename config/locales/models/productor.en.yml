@@ -1,0 +1,11 @@
+en:
+  activerecord:
+    attributes:
+      productor: 
+        category: category
+  enumerize:
+    productor:
+      category:
+        bio: Bio
+        bio_and_ethical: Bio and Ethical
+        conventional: Conventional

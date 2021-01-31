@@ -1,8 +1,13 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Productor do
-  permit_params :name, :description, :local,
-                :phone_number, :website_url, :avatar,
+  permit_params :name,
+                :description,
+                :category,
+                :local,
+                :phone_number,
+                :website_url,
+                :avatar,
                 catalogs: [],
                 address_attributes: [:id, :postal_code, :city,
                                      :street_name_1, :street_name_2,
@@ -14,6 +19,7 @@ ActiveAdmin.register Productor do
     selectable_column
     column :name
     column :description
+    column(:category, &:category_text)
     column :local
     column :phone_number
     column :website_url do |productor|
@@ -24,6 +30,7 @@ ActiveAdmin.register Productor do
 
   form do |f|
     f.inputs :name, :description, :local, :phone_number, :website_url
+    f.input :category, as: :select, collection: Productor.category.options
     f.inputs do
       f.has_many :address, allow_destroy: true do |address|
         address.input :street_name_1

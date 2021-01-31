@@ -26,6 +26,16 @@
         </div>
       </div>
 
+      <div class="field mt-4">
+        <%= f.label translate(".category") %>
+        <%= f.select :category, Productor.category.options, class: 'form-control' %>
+        <br>
+        <div class="px-3">
+        </div>
+      </div>
+
+      <br>
+
       <div class="field">
         <%= f.label :phone_number, Productor.human_attribute_name(:phone_number) %><br />
         <%= f.text_field :phone_number, class: "form-control form-control-lg" %><br />

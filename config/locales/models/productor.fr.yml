@@ -1,0 +1,11 @@
+fr:
+  activerecord:
+    attributes:
+      productor: 
+        category: catégorie
+  enumerize:
+    productor:
+      category:
+        bio: Bio
+        bio_and_ethical: Bio et éthique
+        conventional: Non bio

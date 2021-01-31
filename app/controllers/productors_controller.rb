@@ -61,6 +61,7 @@ class ProductorsController < ApplicationController
   def permitted_params
     params.require(:productor).permit(:name, :description, :local,
                                       :phone_number, :website_url, :avatar,
+                                      :category,
                                       catalogs: [],
                                       address_attributes: [
                                         :id, :postal_code, :city, :street_name_1,
