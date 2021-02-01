@@ -1,0 +1,19 @@
+en:
+  activerecord:
+    attributes:
+      document:
+        category: Category
+        filename: Filename
+        preview: Preview
+        published: Published
+  enumerize:
+    document:
+      category:
+        weekly_orders: Weekly_orders
+        newsletters: Newsletters
+        official_documents: Official documents
+        financial_documents: Financial documents
+        communications: Communications
+        reports: Reports
+        procedures: Procédures
+        questionnaires: Questionnaires

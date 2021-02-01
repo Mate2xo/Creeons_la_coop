@@ -2,11 +2,13 @@
 
 # Document management
 class DocumentsController < ApplicationController
-  before_action :authenticate_member!
-
   def index
     @document = Document.new
-    @documents = Document.with_attached_file
+    @documents = if member_signed_in?
+                   Document.with_attached_file
+                 else
+                   Document.where(published: true).with_attached_file
+                 end
   end
 
   def create
