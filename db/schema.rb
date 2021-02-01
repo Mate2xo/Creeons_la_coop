@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 2021_01_26_170516) do
+ActiveRecord::Schema.define(version: 2021_01_31_235943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -216,7 +215,6 @@ ActiveRecord::Schema.define(version: 2021_01_26_170516) do
     t.integer "max_member_count"
     t.integer "min_member_count"
     t.boolean "delivery_expected", default: false
-    t.boolean "event", default: false
     t.integer "genre", default: 0
     t.integer "cash_register_proficiency_requirement", default: 0
     t.index ["author_id"], name: "index_missions_on_author_id"
