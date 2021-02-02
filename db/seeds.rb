@@ -112,6 +112,7 @@ Rails.logger.info 'Infos seeded'
 
 5.times do
   document = Document.new
+  document.category = Document.category.values.sample
   document.file.attach(io: File.open('spec/support/fixtures/erd.pdf'),
                        filename: 'erd.pdf', content_type: 'application/pdf')
   document.save!
