@@ -2,10 +2,10 @@
 
 # Fetches all existing StaticSlots, and enrolls the associated Member to the associated Mission
 # on a given StaticSlot start_time
-class StaticMembersRecruiter
-  attr_reader :errors
+class StaticMembersRecruiter # rubocop:disable Metrics/ClassLength
+  attr_reader :reports
   def initialize
-    @errors = []
+    @reports = []
     @static_slots = StaticSlot.all
     @members_with_static_slots = Member.all.select { |member| member.static_slots.any? }
     @current_time = DateTime.current
@@ -65,15 +65,28 @@ class StaticMembersRecruiter
   def enroll_on_time_slot(time_slot, member)
     return if member.enrollments.any? { |enrollment| enrollment.contain_this_time_slot?(time_slot) }
 
-    mission = search_mission_with_this_time_slot(time_slot)
+    missions = search_missions_with_this_time_slot(member, time_slot)
+    return if missions.nil?
+
+    mission = find_mission_with_adequate_cash_register_requirement(member, missions, time_slot)
     return if mission.nil?
 
     Enrollment.create(mission: mission, member: member, start_time: time_slot, end_time: time_slot + 90.minutes)
   end
 
-  def search_mission_with_this_time_slot(time_slot)
+  def search_mission_with_this_time_slot(member, time_slot)
     missions = Mission.where(genre: 'regulated')
-    missions.select { |mission| mission.selectable_time_slots.include?(time_slot) }.first
+    selected_missions = missions.select do |mission|
+      mission.max_member_count < mission.members.count &&
+        mission.selectable_time_slots.include?(time_slot)
+    end
+
+    return selected_missions if selected_missions.present?
+
+    @reports << I18n.t('static_member.recruiter.reports.no_mission_available',
+                       member,
+                       time_slot)
+    nil
   end
 
   def first_time_slot_corresponding_to_static_slot_after_current_date(static_slot)
@@ -105,5 +118,27 @@ class StaticMembersRecruiter
     rank_of_static_slot_day = StaticSlot.week_days[static_slot.week_day] + 1
     rank_of_current_day = @current_time.strftime('%u').to_i
     (rank_of_static_slot_day - rank_of_current_day) % 7
+  end
+
+  def find_mission_with_adequate_cash_register_requirement(member, missions, time_slot)
+    finded_mission = missions.find { |mission| adequate_cash_register_requirement?(mission, member) }
+
+    return finded_mission if finded_mission.present?
+
+    @reports << I18n.t('static_member.recruiter.reports.no_mission_available',
+                       member: member,
+                       time_slot: time_slot)
+    nil
+  end
+
+  def adequate_cash_register_requirement?(member, mission)
+    cash_register_proficiency_level_of_member =
+      Member.cash_register_proficiencies[member.check_cash_register_proficiency]
+
+    cash_register_proficiency_level_of_mission =
+      Mission.cash_register_proficiency_requirements[mission.cash_register_proficiency_requirement]
+
+    mission.max_member_count - mission.members.count >= 2 ||
+      cash_register_proficiency_level_of_member >= cash_register_proficiency_level_of_mission
   end
 end
