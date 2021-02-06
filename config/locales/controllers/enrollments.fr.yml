@@ -7,5 +7,5 @@ fr:
       max_member_count_reached: Le nombre maximum de participants est déjà atteint
       time_slots_requirement: Ils faut indiquer des créneaux fixes
     destroy:
-      disenroll: La désiscription à ce créneau à été prise en compte
+      disenroll: La désinscription à ce créneau à été prise en compte
 
