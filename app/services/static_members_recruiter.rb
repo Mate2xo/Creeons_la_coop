@@ -59,7 +59,6 @@ class StaticMembersRecruiter # rubocop:disable Metrics/ClassLength
   def enrollments_for_one_static_slot(member, static_slot)
     time_slot = first_time_slot_corresponding_to_static_slot_after_current_date(static_slot)
     enroll_on_time_slot(time_slot, member)
-    enroll_on_time_slot(time_slot + 4.weeks, member)
   end
 
   def enroll_on_time_slot(time_slot, member)
@@ -74,18 +73,18 @@ class StaticMembersRecruiter # rubocop:disable Metrics/ClassLength
     Enrollment.create(mission: mission, member: member, start_time: time_slot, end_time: time_slot + 90.minutes)
   end
 
-  def search_mission_with_this_time_slot(member, time_slot)
+  def search_missions_with_this_time_slot(member, time_slot)
     missions = Mission.where(genre: 'regulated')
     selected_missions = missions.select do |mission|
-      mission.max_member_count < mission.members.count &&
-        mission.selectable_time_slots.include?(time_slot)
+      mission.max_member_count > mission.members.count && mission.selectable_time_slots.include?(time_slot)
     end
 
     return selected_missions if selected_missions.present?
 
-    @reports << I18n.t('static_member.recruiter.reports.no_mission_available',
-                       member,
-                       time_slot)
+    @reports << I18n.t('static_members_recruiter.reports.mission_unavailability',
+                       first_name: member.first_name,
+                       last_name: member.last_name,
+                       time_slot: time_slot.strftime('%D %Hh%M'))
     nil
   end
 
@@ -121,19 +120,20 @@ class StaticMembersRecruiter # rubocop:disable Metrics/ClassLength
   end
 
   def find_mission_with_adequate_cash_register_requirement(member, missions, time_slot)
-    finded_mission = missions.find { |mission| adequate_cash_register_requirement?(mission, member) }
+    finded_mission = missions.find { |mission| adequate_cash_register_requirement?(member, mission) }
 
     return finded_mission if finded_mission.present?
 
-    @reports << I18n.t('static_member.recruiter.reports.no_mission_available',
-                       member: member,
-                       time_slot: time_slot)
+    @reports << I18n.t('static_members_recruiter.reports.mission_unavailability',
+                       first_name: member.first_name,
+                       last_name: member.last_name,
+                       time_slot: time_slot.strftime('%D %Hh%M'))
     nil
   end
 
   def adequate_cash_register_requirement?(member, mission)
     cash_register_proficiency_level_of_member =
-      Member.cash_register_proficiencies[member.check_cash_register_proficiency]
+      Member.cash_register_proficiencies[member.cash_register_proficiency]
 
     cash_register_proficiency_level_of_mission =
       Mission.cash_register_proficiency_requirements[mission.cash_register_proficiency_requirement]
