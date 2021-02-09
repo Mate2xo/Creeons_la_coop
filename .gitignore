@@ -21,6 +21,7 @@
 /yarn-error.log
 
 /public/assets
+/public/javascripts/i18n/*
 .byebug_history
 
 coverage

@@ -37,6 +37,7 @@ ActiveAdmin.register Member do
     column :register_id
     column :email
     actions
+    render 'admin/i18n_js_script' # config for i18n-js-gem
   end
 
   csv do
@@ -126,7 +127,7 @@ ActiveAdmin.register Member do
   end
 
   collection_action :enroll_static_members, method: :post do
-    EnrollStaticMembersJob.set(wait: 5.seconds).perform_later # We must wait the end of reload for keep job notifications
+    EnrollStaticMembersJob.set(wait: 5.seconds).perform_later # We must wait the end of page reload for keep job notifications
     redirect_to admin_members_path, notice: t('.enroll_in_progress')
   end
 
