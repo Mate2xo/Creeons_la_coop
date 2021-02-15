@@ -8,11 +8,11 @@ App.notifications = App.cable.subscriptions.create("NotificationsChannel", {
     $('.flashes').append(html); //We use the flash management of active admin
     data.reports.forEach(report => this.appendLine(report));
   },
-  appendLine(data) {
-    let line = this.createLine(data);
+  appendLine(report) {
+    let line = this.createLine(report);
     $('#reports').append(line);
   },
-  createLine(data) {
-    return `<li> ${data.message} </li>`;
+  createLine(report) {
+    return `<li> ${report} </li>`;
   }
 });
