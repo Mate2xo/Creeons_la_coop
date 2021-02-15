@@ -48,4 +48,56 @@ RSpec.describe StaticMembersRecruiter, type: :model do
       expect(mission.members).to include(member)
     end
   end
+
+  context 'when all static slots of all members has a corresponding time slot in missions' do
+    subject(:recruit_static_members) do
+      recruiter = StaticMembersRecruiter.new
+      recruiter.call
+      recruiter
+    end
+
+    let(:create_members_with_static_slot) do
+      static_slot = create :static_slot, week_day: 'Monday', week_type: 'A', start_time: DateTime.new(2021, 1, 4, 9)
+      create :member_static_slot, member: member, static_slot: static_slot
+      static_slot2 = create :static_slot, week_day: 'Tuesday', week_type: 'A', start_time: DateTime.new(2021, 1, 5, 9)
+      create :member_static_slot, member: member, static_slot: static_slot2
+    end
+
+    let(:create_missions) do
+      create :mission, start_date: DateTime.new(2021, 1, 4, 9), genre: 'regulated'
+      create :mission, start_date: DateTime.new(2021, 1, 5, 9), genre: 'regulated'
+    end
+
+    it 'The recruiter has no reports' do
+      create_members_with_static_slot
+      create_missions
+
+      recruiter = recruit_static_members
+
+      expect(recruiter.reports.size).to eq 0
+    end
+  end
+
+  context 'when a static slots of one member has not a corresponding time slot in missions' do
+    subject(:recruit_static_members) do
+      recruiter = StaticMembersRecruiter.new
+      recruiter.call
+      recruiter
+    end
+
+    let(:create_members_with_static_slot) do
+      static_slot = create :static_slot, week_day: 'Monday', week_type: 'A', start_time: DateTime.new(2021, 1, 4, 9)
+      create :member_static_slot, member: member, static_slot: static_slot
+      static_slot2 = create :static_slot, week_day: 'Tuesday', week_type: 'A', start_time: DateTime.new(2021, 1, 5, 9)
+      create :member_static_slot, member: member, static_slot: static_slot2
+    end
+
+    it 'The recruiter has no reports' do
+      create_members_with_static_slot
+
+      recruiter = recruit_static_members
+
+      expect(recruiter.reports.size).to eq 2
+    end
+  end
 end
