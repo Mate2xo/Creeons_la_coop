@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ActiveAdmin.register Info do
+ActiveAdmin.register Info do # rubocop:disable Metrics/BlockLength
   permit_params :title, :content, :category, :author_id, :published
 
   menu if: proc { authorized? :index, %i[active_admin Info] } # display menu according to ActiveAdmin::Policy
@@ -17,8 +17,17 @@ ActiveAdmin.register Info do
 
   form do |f|
     f.inputs do
-      f.input :author,
-              collection: options_from_collection_for_select(Member.all, :id, :email)
+      if f.object.persisted?
+        f.input :author,
+                as: :select,
+                collection: Member.pluck(:email, :id),
+                selected: Member.pluck(:email, :id).find { |_email, id| id == f.object.author.id }
+      else
+        f.input :author,
+                as: :select,
+                collection: Member.pluck(:email, :id),
+                selected: Member.pluck(:email, :id).find { |_email, id| id == current_member.id }
+      end
       f.input :title
       f.input :category
       f.input :content
