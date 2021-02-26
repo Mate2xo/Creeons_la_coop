@@ -108,7 +108,7 @@ RSpec.describe Admin::MembersController, type: :controller do
       end
 
       %i[
-        first_name last_name group phone_number cash_register_proficiency biography email
+        first_name last_name phone_number cash_register_proficiency biography email
       ].each do |attribute|
         it "updates the #{attribute} attribute" do
           member.reload
