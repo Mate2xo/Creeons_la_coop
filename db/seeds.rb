@@ -44,6 +44,10 @@ FactoryBot.create :group, name: 'Autres Fournisseurs'
 FactoryBot.create :group, name: 'Appovisionnement'
 FactoryBot.create :group, name: 'Commande'
 FactoryBot.create :group, name: 'Informatique'
+redactor_group = FactoryBot.create :group, name: 'Rédacteur'
+
+redactor_group.roles << :redactor
+redactor_group.save
 
 Member.all.each do |member|
   rand(4).times do
@@ -51,6 +55,12 @@ Member.all.each do |member|
                       member: member,
                       group: Group.all.sample
   end
+end
+
+if redactor_group.members.empty?
+  FactoryBot.create :group_member,
+                    member: Member.all.sample,
+                    group: redactor_group
 end
 
 Group.all.each do |group|
@@ -63,29 +73,46 @@ end
 
 Rails.logger.info 'Groups seeded'
 
+FactoryBot.create :static_slot, week_day: 'Monday', week_type: 'A', start_time: DateTime.new(2020, 1, 1, 9)
+FactoryBot.create :static_slot, week_day: 'Monday', week_type: 'A', start_time: DateTime.new(2020, 1, 1, 10, 30)
+FactoryBot.create :static_slot, week_day: 'Thursday', week_type: 'B', start_time: DateTime.new(2020, 1, 1, 14)
+FactoryBot.create :static_slot, week_day: 'Monday', week_type: 'C', start_time: DateTime.new(2020, 1, 1, 14)
+FactoryBot.create :static_slot, week_day: 'Friday', week_type: 'D', start_time: DateTime.new(2020, 1, 1, 9)
+FactoryBot.create :static_slot, week_day: 'Saturday', week_type: 'D', start_time: DateTime.new(2020, 1, 1, 14)
+
+StaticSlot.all.each do |static_slot|
+  FactoryBot.create :member_static_slot, static_slot: static_slot, member: Member.all.sample
+end
+
+Rails.logger.info 'static slots seeded'
+
 10.times do
   FactoryBot.create :productor,
                     address: FactoryBot.create(:address, :coordinates)
   FactoryBot.create :productor,
                     local: true,
+                    category: Productor.category.values.sample,
                     address: FactoryBot.create(:address, :coordinates)
 end
 
 Rails.logger.info 'Productors seeded'
 
-10.times do
+20.times do
   FactoryBot.create :mission,
+                    genre: Mission.genres.keys.sample,
                     members: Member.all.sample(rand(0..8)),
                     addresses: FactoryBot.create_list(:address, rand(1..2)),
                     author: Member.all.sample
 end
 
 Rails.logger.info 'Missions seeded'
-FactoryBot.create_list :info, 5, author: Member.all.sample
+
+FactoryBot.create_list :info, 5, author: Member.all.sample, category: Info.category.values.sample
 Rails.logger.info 'Infos seeded'
 
 5.times do
   document = Document.new
+  document.category = Document.category.values.sample
   document.file.attach(io: File.open('spec/support/fixtures/erd.pdf'),
                        filename: 'erd.pdf', content_type: 'application/pdf')
   document.save!
