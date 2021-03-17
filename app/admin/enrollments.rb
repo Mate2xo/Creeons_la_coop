@@ -37,7 +37,8 @@ ActiveAdmin.register Enrollment do # rubocop:disable Metrics/BlockLength
       @create_enrollment_transaction ||=
         begin
           mission = Mission.find(params[:mission_id])
-          input = permitted_params[:enrollment].merge({ mission: mission })
+          member = Member.find(permitted_params[:enrollment][:member_id])
+          input = permitted_params[:enrollment].merge({ mission: mission, member: member })
           Admin::Enrollments::CreateTransaction
             .new
             .call(input)
