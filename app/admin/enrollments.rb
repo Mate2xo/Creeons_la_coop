@@ -31,6 +31,17 @@ ActiveAdmin.register Enrollment do # rubocop:disable Metrics/BlockLength
       end
     end
 
+    def update # rubocop:disable Metrics/AbcSize
+      build_resource
+      if update_enrollment_transaction.success?
+        flash[:notice] = translate 'enrollments.update.confirm_update'
+        redirect_to admin_mission_path(params[:mission_id])
+      else
+        flash[:error] = create_enrollment_transaction.failure
+        render :edit
+      end
+    end
+
     private
 
     def create_enrollment_transaction # rubocop:disable Metrics/MethodLength
@@ -40,6 +51,18 @@ ActiveAdmin.register Enrollment do # rubocop:disable Metrics/BlockLength
           member = Member.find(permitted_params[:enrollment][:member_id])
           input = permitted_params[:enrollment].merge({ mission: mission, member: member })
           Admin::Enrollments::CreateTransaction
+            .new
+            .call(input)
+        end
+    end
+
+    def update_enrollment_transaction # rubocop:disable Metrics/MethodLength
+      @update_enrollment_transaction ||=
+        begin
+          mission = Mission.find(params[:mission_id])
+          member = Member.find(permitted_params[:enrollment][:member_id])
+          input = permitted_params[:enrollment].merge({ mission: mission, member: member })
+          Admin::Enrollments::UpdateTransaction
             .new
             .call(input)
         end
