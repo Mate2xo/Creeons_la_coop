@@ -14,6 +14,7 @@ module Admin
       step :check_if_enrollment_are_matching_the_mission_s_timeslots
       step :check_slot_availability_for_regulated_mission
       step :check_cash_register_mastery
+      step :update_enrollment
 
       private
 
@@ -81,6 +82,17 @@ module Admin
 
         Success(input)
       end
+
+      def update_enrollment(input)
+        failure_message = I18n.t('activerecord.errors.messages.update_fail')
+        mission = input[:mission]
+        enrollment = Enrollment.find(input[:id])
+        input.merge!(mission_id: mission.id)
+        return Failure(failure_message) unless enrollment.update(input)
+
+        Success(input)
+      end
+
       # helpers
 
       def convert_datetime(input, key)

@@ -9,8 +9,8 @@ ActiveAdmin.register Enrollment do # rubocop:disable Metrics/BlockLength
   index do
     column :member
     column :mission
-    column(:start_time) do |enrollment| enrollment.start_time.strftime('%H:%M') end
-    column(:end_time) do |enrollment| enrollment.end_time.strftime('%H:%M') end
+    column(:start_time) { |enrollment| enrollment.start_time.strftime('%H:%M') }
+    column(:end_time) { |enrollment| enrollment.end_time.strftime('%H:%M') }
     actions
   end
 
@@ -61,7 +61,7 @@ ActiveAdmin.register Enrollment do # rubocop:disable Metrics/BlockLength
         begin
           mission = Mission.find(params[:mission_id])
           member = Member.find(permitted_params[:enrollment][:member_id])
-          input = permitted_params[:enrollment].merge({ mission: mission, member: member })
+          input = permitted_params[:enrollment].merge({ mission: mission, member: member, id: params[:id] })
           Admin::Enrollments::UpdateTransaction
             .new
             .call(input)
