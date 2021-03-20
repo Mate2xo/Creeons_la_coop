@@ -1,0 +1,6 @@
+fr:
+  missions:
+    update:
+      confirm_update: La mission a été mise à jour
+    destroy:
+

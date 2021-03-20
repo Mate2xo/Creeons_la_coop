@@ -85,7 +85,7 @@ ActiveAdmin.register Mission do
   controller do
     def update
       if update_transaction.success?
-        flash[:notice] = translate 'activerecord.notices.messages.update_success'
+        flash[:notice] = translate 'missions.update.confirm_update'
         redirect_to admin_mission_path(resource.id)
       else
         flash[:error] = update_transaction.failure
@@ -98,13 +98,12 @@ ActiveAdmin.register Mission do
     def update_transaction
       @update_transaction ||=
         begin
-          Admin::Missions::UpdateTransaction
-            .new
-            .with_step_args(
-              update_mission: [mission: resource],
-              get_updatable_missions: [old_mission: resource]
-            )
-            .call({ params: permitted_params[:mission] })
+          input = { params: permitted_params[:mission], mission: resource }
+          if permitted_params[:mission][:recurrent_change]
+            Admin::Missions::RecurrentUpdateTransaction.new.call(input)
+          else
+            Admin::Missions::UpdateTransaction.new.call(input)
+          end
         end
     end
   end
