@@ -15,8 +15,16 @@ ActiveAdmin.register Enrollment do # rubocop:disable Metrics/BlockLength
   end
 
   form do |f|
-    f.inputs :member, :start_time, :end_time
-    actions
+    unless f.object.persisted?
+      f.object.start_time = resource.mission.start_date
+      f.object.end_time = resource.mission.due_date
+    end
+    f.inputs do
+      f.input :member, include_blank: false
+      f.input :start_time, include_blank: false
+      f.input :end_time, include_blank: false
+      actions
+    end
   end
 
   controller do # rubocop:disable Metrics/BlockLength
