@@ -64,8 +64,11 @@ module Admin
         end
       end
 
-      def determine_failure_message(_failure, _mission)
-        'toto'
+      def determine_failure_message(failure, mission)
+        I18n.t('activerecord.errors.models.mission.recurrent_update_cancel',
+               name: mission.name,
+               start_date: mission.start_date,
+               failure: failure)
       end
 
       def build_mission_input(mission, params)
