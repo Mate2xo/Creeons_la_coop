@@ -83,6 +83,17 @@ ActiveAdmin.register Mission do
   end
 
   controller do
+    def create # rubocop:disable Metrics/AbcSize
+      build_resource
+      if resource.save
+        flash[:notice] = translate 'missions.activerecord.notices.messages.record_created'
+        redirect_to admin_mission_path(resource.id)
+      else
+        flash[:error] = resource.errors.full_messages.join
+        render :new
+      end
+    end
+
     def update
       if update_transaction.success?
         flash[:notice] = translate 'missions.update.confirm_update'
