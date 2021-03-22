@@ -25,7 +25,7 @@ RSpec.describe 'A Enrollment admin request', type: :request do
       attributes
     end
 
-    it 'create the enrollment' do
+    it 'creates the enrollment' do
       expect { post_enrollment }.to change(Mission, :count).by(1)
     end
 
@@ -250,7 +250,7 @@ RSpec.describe 'A Enrollment admin request', type: :request do
         attributes
       end
 
-      it 'display an error message' do
+      it 'displays an error message' do
         put_enrollment
 
         expect(response.body).to include(I18n.t('activerecord.errors.models.enrollment.inconsistent_datetimes'))
@@ -268,7 +268,7 @@ RSpec.describe 'A Enrollment admin request', type: :request do
         attributes
       end
 
-      it 'display an error message' do
+      it 'displays an error message' do
         put_enrollment
 
         expect(response.body).to include(I18n.t('activerecord.errors.models.enrollment.negative_duration'))
@@ -288,7 +288,7 @@ RSpec.describe 'A Enrollment admin request', type: :request do
         attributes
       end
 
-      it 'display an error message' do
+      it 'displays an error message' do
         put_enrollment
 
         expect(response.body).to include(I18n.t('activerecord.errors.models.enrollment.time_slot_mismatch'))

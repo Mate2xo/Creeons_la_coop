@@ -3,10 +3,10 @@ en:
     errors:
       models:
         enrollment:
-          inconsistent_datetimes: The selected datetimes are outside of the period of the mission
-          negative_duration: The duration can't be negative
           full_mission: This mission is full
+          inconsistent_datetimes: The selected datetimes are outside of the period of the mission
           insufficient_cash_register_mastery: The selected member has not a sufficicient cash register mastery
+          negative_duration: The duration can't be negative
           member_already_enrolled: The selected member is already enrolled on this mission
           slot_unavailability: There is not still slot availlable for this time slot
           time_slot_mismatch: The indicated period match no time slot of this mission

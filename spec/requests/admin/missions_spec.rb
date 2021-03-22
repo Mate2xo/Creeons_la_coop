@@ -112,7 +112,7 @@ RSpec.describe 'A Missions admin request', type: :request do
                        genre: 'standard'
       end
 
-      it 'confirm the update' do
+      it 'confirms the update' do
         put_mission
         follow_redirect!
 
@@ -155,6 +155,7 @@ RSpec.describe 'A Missions admin request', type: :request do
         expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.multiple'))
       end
     end
+
     context "when the mission have several enrollments and the datetimes of the related enrollments are outside
     of the new mission's period" do
       let(:create_enrollments) do
