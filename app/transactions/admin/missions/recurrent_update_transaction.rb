@@ -26,6 +26,8 @@ module Admin
         result
       end
 
+      # For recurrent changes, we only update non time-related attributes to not mess with individual
+      # time slots validations. Time slots validation's responsibility belongs to each individual missions
       def remove_datetime_attributes(input)
         input[:params].delete(:start_date)
         input[:params].delete(:due_date)
