@@ -49,7 +49,8 @@ RSpec.describe StaticMembersRecruiter, type: :model do
     end
   end
 
-  context 'when all static slots of all members has a corresponding time slot in missions' do
+  context 'when all static slots of all members have been assigned
+  to a corresponding time slot in the upcoming missions' do
     subject(:recruit_static_members) do
       recruiter = StaticMembersRecruiter.new
       recruiter.call
@@ -68,7 +69,7 @@ RSpec.describe StaticMembersRecruiter, type: :model do
       create :mission, start_date: DateTime.new(2021, 1, 5, 9), genre: 'regulated'
     end
 
-    it 'The recruiter has no reports' do
+    it 'The recruiter has no report' do
       create_members_with_static_slot
       create_missions
 
@@ -78,7 +79,7 @@ RSpec.describe StaticMembersRecruiter, type: :model do
     end
   end
 
-  context 'when a static slots of one member has not a corresponding time slot in missions' do
+  context 'when a static slot of a given member has no available time slot in upcoming missions' do
     subject(:recruit_static_members) do
       recruiter = StaticMembersRecruiter.new
       recruiter.call
@@ -92,7 +93,7 @@ RSpec.describe StaticMembersRecruiter, type: :model do
       create :member_static_slot, member: member, static_slot: static_slot2
     end
 
-    it 'The recruiter has no reports' do
+    it 'The recruiter has one report' do
       create_members_with_static_slot
 
       recruiter = recruit_static_members
