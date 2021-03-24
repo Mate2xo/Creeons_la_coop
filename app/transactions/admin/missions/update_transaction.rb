@@ -7,7 +7,7 @@ module Admin
       include Dry::Transaction
 
       step :check_if_enrollment_are_inside_of_new_mission_s_period?
-      step :check_if_enrollments_mission_s_time_slots_for_regulated_mission
+      step :check_if_enrollments_match_a_mission_s_time_slots_for_regulated_mission
       step :update_mission
 
       private
