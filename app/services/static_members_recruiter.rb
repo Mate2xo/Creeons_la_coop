@@ -67,7 +67,7 @@ class StaticMembersRecruiter # rubocop:disable Metrics/ClassLength
     missions = search_missions_with_this_time_slot(member, time_slot)
     return if missions.nil?
 
-    mission = find_mission_with_adequate_cash_register_requirement(member, missions, time_slot)
+    mission = find_adequate_mission_or_send_error_report(member, missions, time_slot)
     return if mission.nil?
 
     Enrollment.create(mission: mission, member: member, start_time: time_slot, end_time: time_slot + 90.minutes)
@@ -119,7 +119,7 @@ class StaticMembersRecruiter # rubocop:disable Metrics/ClassLength
     (rank_of_static_slot_day - rank_of_current_day) % 7
   end
 
-  def find_mission_with_adequate_cash_register_requirement(member, missions, time_slot)
+  def find_adequate_mission_or_send_error_report(member, missions, time_slot)
     finded_mission = missions.find { |mission| adequate_cash_register_requirement?(member, mission) }
 
     return finded_mission if finded_mission.present?

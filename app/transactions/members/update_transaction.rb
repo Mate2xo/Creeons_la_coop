@@ -9,7 +9,7 @@ module Members
     tee :extract_static_slots_ids
     step :assign_static_slot
     step :save_in_history
-    tee :enroll_member_according_to_new_static_slots
+    tee :enroll_member_according_to_new_static_slots_or_send_error_report
     step :update_member
 
     private
@@ -54,7 +54,7 @@ module Members
       Success(input)
     end
 
-    def enroll_member_according_to_new_static_slots(input)
+    def enroll_member_according_to_new_static_slots_or_send_error_report(input)
       return Success(input) if @static_slots_attributes.nil?
 
       static_members_recruiter = StaticMembersRecruiter.new
