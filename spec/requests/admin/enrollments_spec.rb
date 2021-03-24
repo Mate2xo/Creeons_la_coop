@@ -223,7 +223,8 @@ RSpec.describe 'A Enrollment admin request', type: :request do
       create :enrollment,
              start_time: mission.start_date,
              end_time: mission.due_date,
-             member_id: member.id
+             member_id: member.id,
+             mission_id: mission.id
     end
 
     it 'updates the enrollment' do
@@ -302,7 +303,8 @@ RSpec.describe 'A Enrollment admin request', type: :request do
       let(:enrollment) do
         create :enrollment,
                start_time: mission.start_date,
-               end_time: mission.start_date + 90.minutes
+               end_time: mission.start_date + 90.minutes,
+               mission_id: mission.id
       end
 
       let(:enrollment_params) do
@@ -339,7 +341,8 @@ RSpec.describe 'A Enrollment admin request', type: :request do
       let(:enrollment) do
         create :enrollment,
                start_time: mission.start_date,
-               end_time: mission.start_date + 90.minutes
+               end_time: mission.start_date + 90.minutes,
+               mission_id: mission.id
       end
       let(:enrollment_params) do
         attributes = attributes_for :enrollment,
