@@ -95,11 +95,12 @@ ActiveAdmin.register Mission do
     end
 
     def update
-      if update_transaction.success?
+      transaction_result = update_transaction
+      if transaction_result.success?
         flash[:notice] = translate 'missions.update.confirm_update'
         redirect_to admin_mission_path(resource.id)
       else
-        flash[:error] = update_transaction.failure
+        flash[:error] = transaction_result.failure
         render :edit
       end
     end
@@ -107,15 +108,12 @@ ActiveAdmin.register Mission do
     private
 
     def update_transaction
-      @update_transaction ||=
-        begin
-          input = { params: permitted_params[:mission], mission: resource }
-          if permitted_params[:mission][:recurrent_change]
-            Admin::Missions::RecurrentUpdateTransaction.new.call(input)
-          else
-            Admin::Missions::UpdateTransaction.new.call(input)
-          end
-        end
+      input = { params: permitted_params[:mission], mission: resource }
+      if permitted_params[:mission][:recurrent_change]
+        Admin::Missions::RecurrentUpdateTransaction.new.call(input)
+      else
+        Admin::Missions::UpdateTransaction.new.call(input)
+      end
     end
   end
 

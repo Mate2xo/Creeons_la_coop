@@ -6,11 +6,21 @@ module Admin
     class UpdateTransaction
       include Dry::Transaction
 
+      tee :convert_datepicker_params_in_datetime
       step :check_if_enrollment_are_inside_of_new_mission_s_period?
       step :check_if_enrollments_match_a_mission_s_time_slots_for_regulated_mission
       step :update_mission
 
       private
+
+      def convert_datepicker_params_in_datetime(input)
+        return Success(input) unless input[:params]['start_date(1i)']
+
+        start_date = convert_params_in_datetime(input[:params], 'start_date')
+        due_date = convert_params_in_datetime(input[:params], 'due_date')
+        input[:params].merge!(start_date: start_date, due_date: due_date)
+        Success(input)
+      end
 
       def check_if_enrollment_are_inside_of_new_mission_s_period?(input)
         enrollments = input[:mission].enrollments
@@ -21,9 +31,9 @@ module Admin
         Success(input)
       end
 
-      def check_if_enrollments_mission_s_time_slots_for_regulated_mission(input)
+      def check_if_enrollments_match_a_mission_s_time_slots_for_regulated_mission(input)
         enrollments = input[:mission].enrollments
-        i18n_key =  'activerecord.errors.models.mission.mismatch_between_time_slots_and_related_enrollments'
+        i18n_key = 'activerecord.errors.models.mission.mismatch_between_time_slots_and_related_enrollments'
         failure_message = I18n.t(i18n_key)
         enrollments.each do |enrollment|
           return Failure(failure_message) unless match_a_time_slot?(input, enrollment)
@@ -62,6 +72,16 @@ module Admin
           current_time_slot += 90.minutes
         end
         false
+      end
+
+      def convert_params_in_datetime(params, key)
+        DateTime.new(
+          params["#{key}(1i)"].to_i,
+          params["#{key}(2i)"].to_i,
+          params["#{key}(3i)"].to_i,
+          params["#{key}(4i)"].to_i,
+          params["#{key}(5i)"].to_i
+        )
       end
     end
   end

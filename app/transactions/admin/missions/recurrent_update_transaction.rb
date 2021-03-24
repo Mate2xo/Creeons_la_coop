@@ -29,6 +29,8 @@ module Admin
       def remove_datetime_attributes(input)
         input[:params].delete(:start_date)
         input[:params].delete(:due_date)
+        remove_datepicker_params(input, 'start_date')
+        remove_datepicker_params(input, 'due_date')
         input[:params].delete(:recurrent_change)
 
         Success(input)
@@ -45,10 +47,12 @@ module Admin
         all_missions = input[:all_missions]
 
         all_missions.each do |current_mission|
-          update_transaction = Admin::Missions::UpdateTransaction.new
-          next if update_transaction.call(build_mission_input(current_mission, input[:params])).success?
+          transaction_result = Admin::Missions::UpdateTransaction
+                               .new
+                               .call(build_mission_input(current_mission, input[:params]))
+          next if transaction_result.success?
 
-          return Failure(determine_failure_message(update_transaction.failure, mission))
+          return Failure(determine_failure_message(transaction_result.failure, current_mission))
         end
         Success(input)
       end
@@ -72,11 +76,17 @@ module Admin
       end
 
       def build_mission_input(mission, params)
-        mission_params = mission.attributes
-        params.each do |key, value|
-          mission_params[key] = value
-        end
-        { params: mission_params, mission: mission }
+        params[:start_date] = mission.start_date
+        params[:due_date] = mission.due_date
+        { params: params, mission: mission }
+      end
+
+      def remove_datepicker_params(input, key)
+        input[:params].delete("#{key}(1i)")
+        input[:params].delete("#{key}(2i)")
+        input[:params].delete("#{key}(3i)")
+        input[:params].delete("#{key}(4i)")
+        input[:params].delete("#{key}(5i)")
       end
     end
   end
