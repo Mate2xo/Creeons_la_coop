@@ -41,7 +41,7 @@ RSpec.describe "Mission events color codes:", type: :feature do
 
   context "when :event is set to true" do
     it "shows the event colored in orange", js: true do
-      mission = create :mission, event: true
+      mission = create :mission, genre: 'event'
 
       visit missions_path
 
