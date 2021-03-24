@@ -43,7 +43,6 @@ gem 'draper' # decorators manager
 gem 'dry-transaction'
 gem 'enumerize'
 gem 'httparty' # Http requests
-gem 'i18n-js' # i18n for js files
 gem 'ice_cube' # Calendar events recurrence (for Missions)
 gem 'js_cookie_rails' # Cookie manager for js
 gem 'leaflet-rails' # GeoMap generator

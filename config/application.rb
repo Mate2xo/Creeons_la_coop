@@ -20,6 +20,5 @@ module CreonsLaCoop
 
     config.i18n.available_locales = %i[en fr]
     config.i18n.load_path += Dir[Rails.root.join('config/locales/**/*.{rb,yml}')]
-    config.middleware.use I18n::JS::Middleware
   end
 end

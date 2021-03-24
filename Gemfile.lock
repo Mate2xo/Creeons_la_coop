@@ -237,8 +237,6 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
-    i18n-js (3.8.0)
-      i18n (>= 0.6.6)
     ice_cube (0.16.3)
     image_processing (1.9.3)
       mini_magick (>= 4.9.5, < 5)
@@ -601,7 +599,6 @@ DEPENDENCIES
   faker
   guard-rspec
   httparty
-  i18n-js
   ice_cube
   image_processing (~> 1.9, >= 1.9.3)
   jbuilder (~> 2.5)

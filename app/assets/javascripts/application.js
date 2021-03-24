@@ -55,4 +55,3 @@
 //= require thredded-custom
 //= require flash_messages_on_xhr
 //= require js.cookie
-//= require i18n/translations
