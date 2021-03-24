@@ -86,7 +86,7 @@ ActiveAdmin.register Mission do
     def create # rubocop:disable Metrics/AbcSize
       build_resource
       if resource.save
-        flash[:notice] = translate 'missions.activerecord.notices.messages.record_created'
+        flash[:notice] = translate '.record_created'
         redirect_to admin_mission_path(resource.id)
       else
         flash[:error] = resource.errors.full_messages.join
@@ -97,7 +97,7 @@ ActiveAdmin.register Mission do
     def update
       transaction_result = update_transaction
       if transaction_result.success?
-        flash[:notice] = translate 'missions.update.confirm_update'
+        flash[:notice] = translate '.confirm_update'
         redirect_to admin_mission_path(resource.id)
       else
         flash[:error] = transaction_result.failure
