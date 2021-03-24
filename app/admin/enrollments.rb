@@ -30,50 +30,33 @@ ActiveAdmin.register Enrollment do # rubocop:disable Metrics/BlockLength
   controller do # rubocop:disable Metrics/BlockLength
     def create # rubocop:disable Metrics/AbcSize
       build_resource
-      if create_enrollment_transaction.success?
+      transaction_result = Admin::Enrollments::CreateTransaction.new.call(resource)
+      if transaction_result.success?
         flash[:notice] = translate 'enrollments.create.confirm_enroll'
         redirect_to admin_mission_path(params[:mission_id])
       else
-        flash[:error] = create_enrollment_transaction.failure
+        flash[:error] = transaction_result.failure
         render :new
       end
     end
 
     def update # rubocop:disable Metrics/AbcSize
       build_resource
-      if update_enrollment_transaction.success?
+      transaction_result = update_transaction
+      if transaction_result.success?
         flash[:notice] = translate 'enrollments.update.confirm_update'
         redirect_to admin_mission_path(params[:mission_id])
       else
-        flash[:error] = update_enrollment_transaction.failure
+        flash[:error] = transaction_result.failure
         render :edit
       end
     end
 
-    private
+    # helpers
 
-    def create_enrollment_transaction # rubocop:disable Metrics/MethodLength
-      @create_enrollment_transaction ||=
-        begin
-          mission = Mission.find(params[:mission_id])
-          member = Member.find(permitted_params[:enrollment][:member_id])
-          input = permitted_params[:enrollment].merge({ mission: mission, member: member })
-          Admin::Enrollments::CreateTransaction
-            .new
-            .call(input)
-        end
-    end
-
-    def update_enrollment_transaction # rubocop:disable Metrics/MethodLength
-      @update_enrollment_transaction ||=
-        begin
-          mission = Mission.find(params[:mission_id])
-          member = Member.find(permitted_params[:enrollment][:member_id])
-          input = permitted_params[:enrollment].merge({ mission: mission, member: member, id: params[:id] })
-          Admin::Enrollments::UpdateTransaction
-            .new
-            .call(input)
-        end
+    def update_transaction
+      enrollment = Enrollment.find(params[:id])
+      Admin::Enrollments::UpdateTransaction.new.call({ params: permitted_params[:enrollment], enrollment: enrollment })
     end
   end
 end
