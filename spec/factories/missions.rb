@@ -16,7 +16,6 @@
 #  max_member_count  :integer
 #  min_member_count  :integer
 #  delivery_expected :boolean          default(FALSE)
-#  event             :boolean          default(FALSE)
 #  genre             :integer          default: 0
 #
 
