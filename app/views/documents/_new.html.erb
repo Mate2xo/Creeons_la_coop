@@ -5,6 +5,7 @@
 
       <div class="field">
         <%= form.label :file, "Ajouter un document" %><br/>
+        <%= form.select :category, Document.category.options, class: 'form-control' %>
         <%= form.file_field(:file,
                             accept: 'application/pdf, application/msword, 
                                     application/vnd.openxmlformats-officedocument.wordprocessingml.document, 

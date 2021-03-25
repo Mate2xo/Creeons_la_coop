@@ -37,7 +37,7 @@ class DocumentsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:document).permit(:file)
+    params.require(:document).permit(:category, :file)
   end
 
   def user_feedback_on_create(record)
