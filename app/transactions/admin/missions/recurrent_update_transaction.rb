@@ -31,8 +31,8 @@ module Admin
       def remove_datetime_attributes(input)
         input[:params].delete(:start_date)
         input[:params].delete(:due_date)
-        remove_datepicker_params(input, 'start_date')
-        remove_datepicker_params(input, 'due_date')
+        remove_activeadmin_datepicker_params(input, 'start_date')
+        remove_activeadmin_datepicker_params(input, 'due_date')
         input[:params].delete(:recurrent_change)
 
         Success(input)
@@ -83,7 +83,7 @@ module Admin
         { params: params, mission: mission }
       end
 
-      def remove_datepicker_params(input, key)
+      def remove_activeadmin_datepicker_params(input, key)
         input[:params].delete("#{key}(1i)")
         input[:params].delete("#{key}(2i)")
         input[:params].delete("#{key}(3i)")

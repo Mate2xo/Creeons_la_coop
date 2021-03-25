@@ -33,8 +33,8 @@ module Admin
 
       def check_if_enrollments_match_a_mission_s_time_slots_for_regulated_mission(input)
         enrollments = input[:mission].enrollments
-        i18n_key = 'activerecord.errors.models.mission.mismatch_between_time_slots_and_related_enrollments'
-        failure_message = I18n.t(i18n_key)
+        failure_message = I18n.t('mismatch_between_time_slots_and_related_enrollments',
+                                 scope: %i[activerecord errors models mission])
         enrollments.each do |enrollment|
           return Failure(failure_message) unless match_a_time_slot?(input, enrollment)
         end
