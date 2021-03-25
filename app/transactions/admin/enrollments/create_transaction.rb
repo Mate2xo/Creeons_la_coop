@@ -6,8 +6,6 @@ module Admin
     class CreateTransaction # rubocop:disable Metrics/ClassLength
       include Dry::Transaction
 
-      around :rollback_if_failure
-
       step :check_if_member_is_already_enrolled
       step :check_if_the_standard_mission_is_not_full
       step :check_if_the_duration_is_positive
@@ -18,18 +16,6 @@ module Admin
       step :create_enrollment
 
       private
-
-      def rollback_if_failure(input, &block)
-        result = nil
-
-        Enrollment.transaction do
-          result = block.call(Success(input))
-          raise ActiveRecord::Rollback if result.failure?
-
-          result
-        end
-        result
-      end
 
       def check_if_member_is_already_enrolled(input)
         mission = input.mission
