@@ -52,7 +52,7 @@ ActiveAdmin.register Enrollment do # rubocop:disable Metrics/BlockLength
       end
     end
 
-    # helpers
+    private
 
     def update_transaction
       enrollment = Enrollment.find(params[:id])

@@ -8,13 +8,13 @@ module Admin
 
       around :rollback_if_failure
 
-      step :check_member_if_member_is_already_enrolled
+      step :check_if_member_is_already_enrolled
       step :check_if_the_standard_mission_is_not_full
       step :check_if_the_duration_is_positive
       step :check_if_datetimes_of_enrollment_are_inside_the_mission_s_period
-      step :check_if_enrollment_are_matching_the_mission_s_timeslots
+      step :check_if_enrollment_is_matching_the_mission_s_timeslots
       step :check_slot_availability_for_regulated_mission
-      step :check_cash_register_mastery
+      step :check_cash_register_proficiency
       step :create_enrollment
 
       private
@@ -31,7 +31,7 @@ module Admin
         result
       end
 
-      def check_member_if_member_is_already_enrolled(input)
+      def check_if_member_is_already_enrolled(input)
         mission = input.mission
         member = input.member
         failure_message = I18n.t('activerecord.errors.models.enrollment.member_already_enrolled')
@@ -69,7 +69,7 @@ module Admin
         Success(input)
       end
 
-      def check_if_enrollment_are_matching_the_mission_s_timeslots(input)
+      def check_if_enrollment_is_matching_the_mission_s_timeslots(input)
         return Success(input) unless input.mission.genre == 'regulated'
 
         failure_message = I18n.t('activerecord.errors.models.enrollment.time_slot_mismatch')
@@ -82,16 +82,16 @@ module Admin
         failure_message = I18n.t('activerecord.errors.models.enrollment.slot_unavailability')
         return Success(input) if input.mission.genre != 'regulated'
 
-        return Failure(failure_message) unless are_all_timeslots_available?(input)
+        return Failure(failure_message) unless are_all_timeslots_selected_by_enrollment_available?(input)
 
         Success(input)
       end
 
-      def check_cash_register_mastery(input)
+      def check_cash_register_proficiency(input)
         return Success(input) unless input.mission.genre == 'regulated'
 
         failure_message = I18n.t('activerecord.errors.models.enrollment.insufficient_cash_register_mastery')
-        return Failure(failure_message) unless inspect_all_slots_for_register_cash_mastery(input)
+        return Failure(failure_message) unless slot_available_for_given_cash_register_proficiency?(input)
 
         Success(input)
       end
@@ -118,7 +118,7 @@ module Admin
         false
       end
 
-      def are_all_timeslots_available?(input)
+      def are_all_timeslots_selected_by_enrollment_available?(input)
         mission = input.mission
 
         current_time_slot = input.start_time
@@ -130,7 +130,7 @@ module Admin
         true
       end
 
-      def inspect_all_slots_for_register_cash_mastery(input)
+      def slot_available_for_given_cash_register_proficiency?(input)
         current_time_slot = input.start_time
 
         while current_time_slot < input.end_time
@@ -145,7 +145,7 @@ module Admin
         true
       end
 
-      def are_cash_register_mastery_sufficient?(input)
+      def minimum_cash_register_proficiency_requirement_satisfied?(input)
         mission = input.mission
         member = input.member
 
