@@ -181,7 +181,7 @@ RSpec.describe 'A Enrollment admin request', type: :request do
       end
 
       i18n_key = <<~KEY.strip
-        activerecord.errors.models.enrollment.insufficient_cash_register_mastery
+        activerecord.errors.models.enrollment.insufficient_cash_register_proficiency
       KEY
 
       it 'displays an error' do
@@ -364,7 +364,7 @@ RSpec.describe 'A Enrollment admin request', type: :request do
       end
 
       i18n_key = <<~KEY.strip
-        activerecord.errors.models.enrollment.insufficient_cash_register_mastery
+        activerecord.errors.models.enrollment.insufficient_cash_register_proficiency
       KEY
 
       it 'displays an error message' do

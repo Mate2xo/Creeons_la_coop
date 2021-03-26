@@ -6,16 +6,23 @@ module Admin
     class CreateTransaction # rubocop:disable Metrics/ClassLength
       include Dry::Transaction
 
-      step :check_if_member_is_already_enrolled
-      step :check_if_the_standard_mission_is_not_full
-      step :check_if_the_duration_is_positive
-      step :check_if_datetimes_of_enrollment_are_inside_the_mission_s_period
-      step :check_if_enrollment_is_matching_the_mission_s_timeslots
-      step :check_slot_availability_for_regulated_mission
-      step :check_cash_register_proficiency
+      step :validation
       step :create_enrollment
 
       private
+
+      def validation(enrollment) # rubocop:disable Metrics/AbcSize
+        enrollment.check_if_member_is_already_enrolled
+        enrollment.check_if_the_standard_mission_is_not_full
+        enrollment.check_if_the_duration_is_positive
+        enrollment.check_if_datetimes_of_enrollment_are_inside_the_mission_s_period
+        enrollment.check_if_enrollment_is_matching_the_mission_s_timeslots
+        enrollment.check_slots_availability_for_regulated_mission
+        enrollment.check_cash_register_proficiency
+        return Failure(enrollment.errors.values.flatten[0]) if enrollment.errors.present?
+
+        Success(enrollment)
+      end
 
       def check_if_member_is_already_enrolled(input)
         mission = input.mission
@@ -90,46 +97,6 @@ module Admin
       end
 
       # helpers
-
-      def match_a_time_slot?(input)
-        mission = input.mission
-        return false unless ((input.end_time.to_i - input.start_time.to_i) % (60 * 90)).zero?
-
-        current_time_slot = mission.start_date
-        while current_time_slot < mission.due_date
-          return true if current_time_slot == input.start_time
-
-          current_time_slot += 90.minutes
-        end
-        false
-      end
-
-      def are_all_timeslots_selected_by_enrollment_available?(input)
-        mission = input.mission
-
-        current_time_slot = input.start_time
-        while current_time_slot < input.end_time
-          return false if mission.available_slots_count_for_a_time_slot(current_time_slot).zero?
-
-          current_time_slot += 90.minutes
-        end
-        true
-      end
-
-      def slot_available_for_given_cash_register_proficiency?(input)
-        current_time_slot = input.start_time
-
-        while current_time_slot < input.end_time
-          if input.mission.available_slots_count_for_a_time_slot(current_time_slot) == 1 &&
-             !are_cash_register_mastery_sufficient?(input)
-            return false
-          end
-
-          current_time_slot += 90.minutes
-        end
-
-        true
-      end
 
       def minimum_cash_register_proficiency_requirement_satisfied?(input)
         mission = input.mission
