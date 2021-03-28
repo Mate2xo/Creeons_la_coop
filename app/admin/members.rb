@@ -126,7 +126,11 @@ ActiveAdmin.register Member do
   end
 
   collection_action :enroll_static_members, method: :post do
-    EnrollStaticMembersJob.perform_later
+    # We must wait the end of page reload from the redirection.
+    # Otherwise if the job finishes before the page reload,
+    # the user won't get the 'job finished' notification from ActionCable
+    EnrollStaticMembersJob.set(wait: 5.seconds).perform_later
+
     redirect_to admin_members_path, notice: t('.enroll_in_progress')
   end
 

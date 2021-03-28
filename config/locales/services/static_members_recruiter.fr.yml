@@ -1,0 +1,4 @@
+fr:
+  static_members_recruiter:
+    reports:
+      mission_unavailability: "Aucune mission n'a été trouvé pour %{first_name} %{last_name} sur le créneau suivant: %{time_slot}"

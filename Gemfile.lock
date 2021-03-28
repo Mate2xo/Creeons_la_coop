@@ -399,6 +399,7 @@ GEM
       jquery-rails (>= 3.0)
       rails (>= 3.2)
       sass-rails (>= 4.0)
+    redis (4.2.5)
     regexp_parser (1.3.0)
     request_store (1.5.0)
       rack (>= 1.4)
@@ -615,6 +616,7 @@ DEPENDENCIES
   rails (~> 5.2)
   rails-controller-testing
   recurring_select
+  redis (~> 4.0)
   rspec-rails (~> 3.7, >= 3.7.2)
   rubocop
   rubocop-rails
