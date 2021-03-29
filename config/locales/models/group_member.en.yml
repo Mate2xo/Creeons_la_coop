@@ -1,0 +1,9 @@
+en:
+  active_admin:
+    resource:
+      show:
+        function: Function
+  activerecord:
+    attributes:
+      group_member:
+        function: Function

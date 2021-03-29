@@ -2,7 +2,7 @@
 
 # rubocop: disable Metrics/BlockLength
 ActiveAdmin.register Member do
-  includes :groups, :enrollments
+  includes :groups, :enrollments, :group_members
   permit_params :email,
                 :password,
                 :encrypted_password,
@@ -17,6 +17,7 @@ ActiveAdmin.register Member do
                 :cash_register_proficiency,
                 :register_id,
                 group_ids: [],
+                group_members_attributes: [[%i[id function]]],
                 member_static_slots_attributes: [:id, :static_slot_id, :member_id, :_destroy]
 
   menu if: proc { authorized? :index, %i[active_admin Member] } # display menu according to ActiveAdmin::Policy
@@ -64,10 +65,12 @@ ActiveAdmin.register Member do
       default_attribute_table_rows.each do |field|
         row field
       end
-      table_for member.groups do
-        column 'groups' do |group|
-          link_to Arbre::Context.new { (status_tag class: 'important', label: group.name) }, [:admin, group]
+      table_for member.group_members do
+        column t('.groups') do |group_member|
+          link_to Arbre::Context.new { (status_tag class: 'important', label: group_member.group.name) },
+                  [:admin, group_member.group]
         end
+        column t('.function'), :function
       end
       table_for member.static_slots do
         column(StaticSlot.model_name.human, &:full_display)
@@ -92,6 +95,16 @@ ActiveAdmin.register Member do
       f.input :cash_register_proficiency
       f.input :register_id
       f.input :biography
+
+      tabs do
+        resource.group_members.each do |group_member|
+          tab group_member.group.name do
+            f.fields_for :group_members, group_member do |group_member_form|
+              group_member_form.text_area :function
+            end
+          end
+        end
+      end
 
       f.input :groups, as: :check_boxes
       f.has_many :member_static_slots, allow_destroy: true, new_record: true do |member_static_slot_form|
