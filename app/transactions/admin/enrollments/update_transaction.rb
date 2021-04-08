@@ -36,18 +36,18 @@ module Admin
         enrollment.check_if_datetimes_of_enrollment_are_inside_the_mission_s_period
         enrollment.check_if_enrollment_is_matching_the_mission_s_timeslots
         enrollment.check_slots_availability_for_regulated_mission
-        enrollment.check_cash_register_proficiency
         return Failure(enrollment.errors.values.flatten[0]) if enrollment.errors.present?
 
-        Success(enrollment)
+        Success(input)
       end
 
-      def update_enrollment(enrollment)
+      def update_enrollment(input)
+        enrollment = input[:enrollment]
+        params = input[:params]
         if enrollment.save
           Success(enrollment)
         else
-          failure_message = I18n.t('activerecord.errors.messages.update_fail')
-          Failure(failure_message) unless enrollment.update(input[:params])
+          Failure(enrollment.errors.full_messages)
         end
       end
 

@@ -3,6 +3,9 @@ en:
     errors:
       models:
         enrollment:
+          attributes:
+            member:
+              required: The member must exist
           full_mission: This mission is full
           inconsistent_datetimes: The selected datetimes are outside of the period of the mission
           insufficient_cash_register_proficiency: The selected member has not a sufficient cash register proficiency

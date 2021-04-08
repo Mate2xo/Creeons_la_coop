@@ -18,6 +18,8 @@ class Enrollment < ApplicationRecord
 
   before_save :set_defaults
 
+  validates_with CashRegisterProficiencyValidator
+
   def duration
     return 0 if start_time == nil || end_time == nil
 
@@ -93,19 +95,6 @@ class Enrollment < ApplicationRecord
     unless mission.all_timeslots_covered_by_enrollment_available?(self)
       failure_message = I18n.t('activerecord.errors.models.enrollment.slot_unavailability')
       errors.add :slot_unavailability, failure_message
-      return false
-    end
-
-    true
-  end
-
-  def check_cash_register_proficiency
-    return true unless mission.regulated?
-
-    proficiency_level_of_member = Member.cash_register_proficiencies[member.cash_register_proficiency]
-    unless mission.slot_available_for_given_cash_register_proficiency?(self, proficiency_level_of_member)
-      failure_message = I18n.t('activerecord.errors.models.enrollment.insufficient_cash_register_proficiency')
-      errors.add :insufficient_cash_register_proficiency, failure_message
       return false
     end
 

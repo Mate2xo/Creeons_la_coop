@@ -71,11 +71,13 @@ RSpec.describe 'Enrollments', type: :request do
     end
 
     context 'with invalid params' do
-      let(:params) { { enrollment: { member_id: '0' } } }
+      let(:params) { { enrollment: { member_id: 0, mission_id: (create :mission).id } } }
+      let(:i18n_key) { 'activerecord.errors.models.enrollment.attributes.member.required' }
 
-      it 'sets a feedback message to the user' do
+      it 'displays an error message' do
         post_enrollment
-        expect(flash[:alert]).not_to be_blank
+
+        expect(flash[:alert]).to include(I18n.t(i18n_key))
       end
     end
   end

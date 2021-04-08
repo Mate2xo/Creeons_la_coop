@@ -18,7 +18,6 @@ module Admin
         enrollment.check_if_datetimes_of_enrollment_are_inside_the_mission_s_period
         enrollment.check_if_enrollment_is_matching_the_mission_s_timeslots
         enrollment.check_slots_availability_for_regulated_mission
-        enrollment.check_cash_register_proficiency
         return Failure(enrollment.errors.values.flatten[0]) if enrollment.errors.present?
 
         Success(enrollment)
@@ -90,10 +89,12 @@ module Admin
       end
 
       def create_enrollment(input)
-        failure_message = I18n.t('activerecord.errors.messages.update_fail')
-        return Failure(failure_message) unless Enrollment.create(input.attributes).valid?
-
-        Success(input)
+        new_enrollment = Enrollment.new(input.attributes)
+        if new_enrollment.save
+          Success(input)
+        else
+          return Failure(new_enrollment.errors.full_messages) unless Enrollment.create(input.attributes).valid?
+        end
       end
 
       # helpers

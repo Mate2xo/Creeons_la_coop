@@ -356,11 +356,17 @@ RSpec.describe 'A Enrollment admin request', type: :request do
 
       let(:assign_other_members_to_this_mission) do
         create_list :enrollment,
-                    3,
+                    2,
                     start_time: mission.start_date,
                     end_time: mission.due_date,
                     mission_id: mission.id,
                     member_id: (create :member).id
+
+        create :enrollment,
+               start_time: mission.start_date + 90.minutes,
+               end_time: mission.due_date,
+               mission_id: mission.id,
+               member_id: (create :member).id
       end
 
       i18n_key = <<~KEY.strip

@@ -16,9 +16,7 @@ RSpec.describe 'Cash register proficiency checking :', type: :feature do
     end
 
     let(:expected_message) do
-      I18n.t('enrollments.create.insufficient_proficiency',
-             start_time: start_time.first.strftime('%H:%M'),
-             end_time: (start_time.first + 90.minutes).strftime('%H:%M'))
+      I18n.t('activerecord.errors.models.enrollment.insufficient_cash_register_proficiency')
     end
     let(:mission) { create :mission, genre: 'regulated', cash_register_proficiency_requirement: 'proficient' }
     let(:start_time) { [mission.start_date, mission.start_date + 90.minutes] }
