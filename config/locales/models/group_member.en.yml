@@ -2,8 +2,8 @@ en:
   active_admin:
     resource:
       show:
-        function: Function
+        assignment: Assignment
   activerecord:
     attributes:
       group_member:
-        function: Function
+        assignement: Assignment

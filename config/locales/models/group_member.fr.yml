@@ -2,8 +2,8 @@ fr:
   active_admin:
     resource:
       show:
-        function: Fonction
+        assignment: Tâche
   activerecord:
     attributes:
       group_member:
-        function: Fonction
+        assignment: Tâche
