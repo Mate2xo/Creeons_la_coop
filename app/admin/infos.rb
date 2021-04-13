@@ -17,17 +17,12 @@ ActiveAdmin.register Info do # rubocop:disable Metrics/BlockLength
 
   form do |f|
     f.inputs do
-      if f.object.persisted?
-        f.input :author,
-                as: :select,
-                collection: Member.pluck(:email, :id),
-                selected: Member.pluck(:email, :id).find { |_email, id| id == f.object.author.id }
-      else
-        f.input :author,
-                as: :select,
-                collection: Member.pluck(:email, :id),
-                selected: Member.pluck(:email, :id).find { |_email, id| id == current_member.id }
-      end
+      preset_author_id = f.object.persisted? ? f.object.author_id : current_member.id
+
+      f.input :author,
+              as: :select,
+              collection: Member.pluck(:email, :id),
+              selected: Member.find(preset_author_id).attributes.fetch_values('email', 'id')
       f.input :title
       f.input :category
       f.input :content
