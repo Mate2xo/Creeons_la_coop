@@ -1,0 +1,9 @@
+fr:
+  active_admin:
+    resource:
+      show:
+        assignment: Tâche
+  activerecord:
+    attributes:
+      group_member:
+        assignment: Tâche

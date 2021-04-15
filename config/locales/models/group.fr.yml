@@ -1,4 +1,8 @@
 fr:
+  active_admin:
+    resource:
+      show:
+        groups: Groupes
   activerecord:
     models:
       group:

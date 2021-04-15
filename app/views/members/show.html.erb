@@ -30,7 +30,7 @@
               <% if @member.groups.any? %>
                 <h6 class="heading heading-light heading-sm strong-300">
                   Groupes:
-                  <%= @member.groups.map(&:name).join(', ') %>
+                  <%= render partial: "group_members", locals: { group_members: @member.group_members } %>
                 </h6>
                 <br/>
               <% end %>
