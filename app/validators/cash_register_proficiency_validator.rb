@@ -23,7 +23,7 @@ class CashRegisterProficiencyValidator < ActiveModel::Validator
     proficiency_level_of_member = Member.cash_register_proficiencies[member.cash_register_proficiency]
     unless slot_available?(enrollment.mission, enrollment.start_time, proficiency_level_of_member)
       failure_message = I18n.t('activerecord.errors.models.enrollment.insufficient_cash_register_proficiency')
-      enrollment.errors.add :insufficient_cash_register_proficiency, failure_message
+      enrollment.errors.add :base, failure_message
       return false
     end
     true

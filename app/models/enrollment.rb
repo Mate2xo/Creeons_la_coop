@@ -16,9 +16,10 @@ class Enrollment < ApplicationRecord
   belongs_to :member
   belongs_to :mission
 
-  before_save :set_defaults
+  before_validation :set_defaults
 
   validates_with CashRegisterProficiencyValidator
+  validates_with DatetimesInclusionValidator
 
   def duration
     return 0 if start_time == nil || end_time == nil
@@ -64,16 +65,6 @@ class Enrollment < ApplicationRecord
 
   def duration_multiple_of_90_minutes?
     ((end_time.to_i - start_time.to_i) % (60 * 90)).zero?
-  end
-
-  def check_if_datetimes_of_enrollment_are_inside_the_mission_s_period
-    unless mission.inside_period?(self)
-      failure_message = I18n.t('activerecord.errors.models.enrollment.inconsistent_datetimes')
-      errors.add :inconsistent_datetimes, failure_message
-      return false
-    end
-
-    true
   end
 
   def check_if_enrollment_is_matching_the_mission_s_timeslots

@@ -38,7 +38,9 @@ RSpec.describe 'Enrollments', type: :request do
       let(:enrollment) do
         enrollment = attributes_for :enrollment,
                                     time_slots: time_slots,
-                                    genre: 'regulated'
+                                    genre: 'regulated',
+                                    start_time: mission.start_date,
+                                    end_time: mission.start_date + 3.hours
         enrollment[:member_id] = current_member.id
         enrollment[:mission_id] = mission.id
         enrollment
@@ -83,17 +85,18 @@ RSpec.describe 'Enrollments', type: :request do
   end
 
   describe 'DELETE mission_enrollments_path' do
-    subject(:disenroll) { delete mission_enrollments_path(mission) }
+    subject(:disenroll) { delete mission_enrollments_path(mission, enrollment) }
 
     before { sign_in current_member }
 
     let(:current_member) { create :member }
-    let(:params) { { enrollment: build(:enrollment, mission: mission, member: current_member).attributes } }
+    let(:mission) { create :mission }
+    let(:enrollment) { create :enrollment, mission: mission, member: current_member }
 
     it "deletes the current members' enrollment" do
-      post mission_enrollments_path(mission), params: params
-
       disenroll
+
+      expect(Enrollment.where(id: enrollment.id).exists?).to be_falsey
     end
   end
 end
