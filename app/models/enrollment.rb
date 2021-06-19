@@ -20,6 +20,7 @@ class Enrollment < ApplicationRecord
 
   validates_with CashRegisterProficiencyValidator
   validates_with DatetimesInclusionValidator
+  validates_with UniquenessEnrollmentValidator, on: :create
 
   def duration
     return 0 if start_time == nil || end_time == nil
@@ -29,16 +30,6 @@ class Enrollment < ApplicationRecord
 
   def contain_this_time_slot?(time_slot)
     start_time <= time_slot && time_slot < end_time
-  end
-
-  def check_if_member_is_already_enrolled
-    if mission.members.include?(member)
-      failure_message = I18n.t('activerecord.errors.models.enrollment.member_already_enrolled')
-      errors.add :member_already_enrolled, failure_message
-      return false
-    end
-
-    true
   end
 
   def check_if_the_standard_mission_is_not_full

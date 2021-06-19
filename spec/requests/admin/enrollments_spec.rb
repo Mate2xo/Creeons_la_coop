@@ -48,7 +48,7 @@ RSpec.describe 'A Enrollment admin request', type: :request do
     end
 
     context 'when member is already enrolled' do
-      let(:assign_member_to_the_mission) do
+      let(:enroll_member) do
         create :enrollment,
                start_time: mission.start_date,
                end_time: (mission.start_date + 90.minutes),
@@ -57,7 +57,7 @@ RSpec.describe 'A Enrollment admin request', type: :request do
       end
 
       it 'displays an error message' do
-        assign_member_to_the_mission
+        enroll_member
 
         post_enrollment
 
@@ -123,17 +123,9 @@ RSpec.describe 'A Enrollment admin request', type: :request do
 
     context 'when the mission is :standard and :max_member_count is already reached' do
       let(:mission) { create :mission, max_member_count: 4 }
-      let(:assign_other_members_to_this_mission) do
-        create_list :enrollment,
-                    4,
-                    start_time: mission.start_date,
-                    end_time: mission.due_date,
-                    mission_id: mission.id,
-                    member_id: (create :member).id
-      end
 
       it 'displays an error message' do
-        assign_other_members_to_this_mission
+        assign_other_members_to_this_mission(4, mission)
 
         post_enrollment
 
@@ -144,17 +136,9 @@ RSpec.describe 'A Enrollment admin request', type: :request do
     context 'when the related mission is regulated and the member max_member_count
              is already reached for a :time_slot' do
       let(:mission) { create :mission, genre: 'regulated', max_member_count: 4 }
-      let(:assign_other_members_to_this_mission) do
-        create_list :enrollment,
-                    4,
-                    start_time: mission.start_date,
-                    end_time: mission.due_date,
-                    mission_id: mission.id,
-                    member_id: (create :member).id
-      end
 
       it 'displays an error message' do
-        assign_other_members_to_this_mission
+        assign_other_members_to_this_mission(4, mission)
 
         post_enrollment
 
@@ -171,21 +155,12 @@ RSpec.describe 'A Enrollment admin request', type: :request do
                cash_register_proficiency_requirement: 'proficient'
       end
 
-      let(:assign_other_members_to_this_mission) do
-        create_list :enrollment,
-                    3,
-                    start_time: mission.start_date,
-                    end_time: mission.due_date,
-                    mission_id: mission.id,
-                    member_id: (create :member).id
-      end
-
       i18n_key = <<~KEY.strip
         activerecord.errors.models.enrollment.insufficient_cash_register_proficiency
       KEY
 
       it 'displays an error' do
-        assign_other_members_to_this_mission
+        assign_other_members_to_this_mission(3, mission)
 
         post_enrollment
 
@@ -316,18 +291,15 @@ RSpec.describe 'A Enrollment admin request', type: :request do
         attributes.merge!(convert_datetime_in_params(attributes[:end_time], 'end_time'))
         attributes
       end
-
-      let(:assign_other_members_to_this_mission) do
-        create_list :enrollment,
-                    4,
-                    start_time: enrollment.start_time + 90.minutes,
-                    end_time: enrollment.end_time + 90.minutes,
-                    mission_id: mission.id,
-                    member_id: (create :member).id
+      let(:assign_other_members) do
+        assign_other_members_to_this_mission(4,
+                                             mission,
+                                             enrollment.start_time + 90.minutes,
+                                             enrollment.end_time + 90.minutes)
       end
 
       it 'displays an error message' do
-        assign_other_members_to_this_mission
+        assign_other_members
 
         put_enrollment
 
@@ -354,27 +326,13 @@ RSpec.describe 'A Enrollment admin request', type: :request do
         attributes
       end
 
-      let(:assign_other_members_to_this_mission) do
-        create_list :enrollment,
-                    2,
-                    start_time: mission.start_date,
-                    end_time: mission.due_date,
-                    mission_id: mission.id,
-                    member_id: (create :member).id
-
-        create :enrollment,
-               start_time: mission.start_date + 90.minutes,
-               end_time: mission.due_date,
-               mission_id: mission.id,
-               member_id: (create :member).id
-      end
-
       i18n_key = <<~KEY.strip
         activerecord.errors.models.enrollment.insufficient_cash_register_proficiency
       KEY
 
       it 'displays an error message' do
-        assign_other_members_to_this_mission
+        assign_other_members_to_this_mission(2, mission)
+        assign_other_members_to_this_mission(1, mission, mission.start_date + 90.minutes)
 
         put_enrollment
 
@@ -392,5 +350,19 @@ RSpec.describe 'A Enrollment admin request', type: :request do
       "#{key}(4i)": datetime.hour,
       "#{key}(5i)": datetime.min
     }
+  end
+
+  def assign_other_members_to_this_mission(members_count,
+                                           mission,
+                                           start_time = mission.start_date,
+                                           end_time = mission.due_date)
+
+    members_count.times do # rubocop:disable FactoryBot/CreateList
+      create :enrollment,
+             start_time: start_time,
+             end_time: end_time,
+             mission_id: mission.id,
+             member_id: (create :member).id
+    end
   end
 end

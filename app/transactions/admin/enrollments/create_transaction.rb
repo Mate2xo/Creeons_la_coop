@@ -12,7 +12,6 @@ module Admin
       private
 
       def validation(enrollment) # rubocop:disable Metrics/AbcSize
-        enrollment.check_if_member_is_already_enrolled
         enrollment.check_if_the_standard_mission_is_not_full
         enrollment.check_if_the_duration_is_positive
         enrollment.check_if_enrollment_is_matching_the_mission_s_timeslots
@@ -20,16 +19,6 @@ module Admin
         return Failure(enrollment.errors.values.flatten[0]) if enrollment.errors.present?
 
         Success(enrollment)
-      end
-
-      def check_if_member_is_already_enrolled(input)
-        mission = input.mission
-        member = input.member
-        failure_message = I18n.t('activerecord.errors.models.enrollment.member_already_enrolled')
-
-        return Failure(failure_message) if mission.members.include?(member)
-
-        Success(input)
       end
 
       def check_if_the_standard_mission_is_not_full(input)
