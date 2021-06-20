@@ -30,12 +30,11 @@ ActiveAdmin.register Enrollment do # rubocop:disable Metrics/BlockLength
   controller do # rubocop:disable Metrics/BlockLength
     def create # rubocop:disable Metrics/AbcSize
       build_resource
-      transaction_result = Admin::Enrollments::CreateTransaction.new.call(resource)
-      if transaction_result.success?
+      if resource.save
         flash[:notice] = translate 'enrollments.create.confirm_enroll'
         redirect_to admin_mission_path(params[:mission_id])
       else
-        flash[:error] = transaction_result.failure
+        flash[:error] = resource.errors.full_messages.join(', ')
         render :new
       end
     end
