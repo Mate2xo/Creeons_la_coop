@@ -37,15 +37,6 @@ module Admin
         Success(input)
       end
 
-      def check_cash_register_proficiency(input)
-        return Success(input) unless input.mission.genre == 'regulated'
-
-        failure_message = I18n.t('activerecord.errors.models.enrollment.insufficient_cash_register_mastery')
-        return Failure(failure_message) unless slot_available_for_given_cash_register_proficiency?(input)
-
-        Success(input)
-      end
-
       def create_enrollment(input)
         new_enrollment = Enrollment.new(input.attributes)
         if new_enrollment.save
