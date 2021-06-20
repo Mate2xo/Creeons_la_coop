@@ -18,10 +18,10 @@ class Enrollment < ApplicationRecord
 
   before_validation :set_defaults
 
-  validates_with CashRegisterProficiencyValidator
-  validates_with DatetimesInclusionValidator
-  validates_with UniquenessEnrollmentValidator, on: :create
-  validates_with AvailabilityPlaceValidator
+  validates_with EnrollmentValidators::CashRegisterProficiencyValidator
+  validates_with EnrollmentValidators::DatetimesInclusionValidator
+  validates_with EnrollmentValidators::UniquenessEnrollmentValidator, on: :create
+  validates_with EnrollmentValidators::AvailabilityPlaceValidator
   validates_with EnrollmentValidators::DurationValidator
 
   def duration

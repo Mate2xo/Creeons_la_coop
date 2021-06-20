@@ -42,7 +42,7 @@ class Mission < ApplicationRecord
   validates :min_member_count, numericality: { only_integer: true }, presence: true
   validates :max_member_count, numericality: { only_integer: true }, allow_nil: true
   validates :genre, presence: true
-  validates_with DurationValidator
+  validates_with MissionValidators::DurationValidator
 
   accepts_nested_attributes_for :addresses, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :enrollments, reject_if: :all_blank, allow_destroy: true
