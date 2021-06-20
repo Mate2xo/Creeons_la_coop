@@ -13,7 +13,6 @@ module Admin
 
       def validation(enrollment) # rubocop:disable Metrics/AbcSize
         enrollment.check_if_enrollment_is_matching_the_mission_s_timeslots
-        enrollment.check_slots_availability_for_regulated_mission
         return Failure(enrollment.errors.values.flatten[0]) if enrollment.errors.present?
 
         Success(enrollment)
@@ -24,15 +23,6 @@ module Admin
 
         failure_message = I18n.t('activerecord.errors.models.enrollment.time_slot_mismatch')
         return Failure(failure_message) unless match_a_time_slot?(input)
-
-        Success(input)
-      end
-
-      def check_slot_availability_for_regulated_mission(input)
-        failure_message = I18n.t('activerecord.errors.models.enrollment.slot_unavailability')
-        return Success(input) if input.mission.genre != 'regulated'
-
-        return Failure(failure_message) unless are_all_timeslots_selected_by_enrollment_available?(input)
 
         Success(input)
       end

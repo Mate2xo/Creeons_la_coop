@@ -22,6 +22,7 @@ class Enrollment < ApplicationRecord
   validates_with EnrollmentValidators::DatetimesInclusionValidator
   validates_with EnrollmentValidators::UniquenessEnrollmentValidator, on: :create
   validates_with EnrollmentValidators::AvailabilityPlaceValidator
+  validates_with EnrollmentValidators::AvailabilitySlotValidator
   validates_with EnrollmentValidators::DurationValidator
 
   def duration
@@ -56,18 +57,6 @@ class Enrollment < ApplicationRecord
       failure_message = I18n.t('activerecord.errors.models.enrollment.time_slot_mismatch')
       errors.add :time_slot_mismatch, failure_message
 
-      return false
-    end
-
-    true
-  end
-
-  def check_slots_availability_for_regulated_mission
-    return true unless mission.regulated?
-
-    unless mission.all_timeslots_covered_by_enrollment_available?(self)
-      failure_message = I18n.t('activerecord.errors.models.enrollment.slot_unavailability')
-      errors.add :slot_unavailability, failure_message
       return false
     end
 

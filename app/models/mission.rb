@@ -106,18 +106,6 @@ class Mission < ApplicationRecord
     false
   end
 
-  def all_timeslots_covered_by_enrollment_available?(enrollment)
-    return nil unless regulated?
-
-    current_time_slot = enrollment.start_time
-    while current_time_slot < enrollment.end_time
-      return false if available_slots_count_for_a_time_slot(current_time_slot).zero?
-
-      current_time_slot += 90.minutes
-    end
-    true
-  end
-
   def slot_available_for_given_cash_register_proficiency?(enrollment, cash_register_proficiency_level)
     current_time_slot = enrollment.start_time
     proficiency_level_of_mission = Mission.cash_register_proficiency_requirements[cash_register_proficiency_requirement]
