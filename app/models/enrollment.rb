@@ -21,6 +21,7 @@ class Enrollment < ApplicationRecord
   validates_with CashRegisterProficiencyValidator
   validates_with DatetimesInclusionValidator
   validates_with UniquenessEnrollmentValidator, on: :create
+  validates_with AvailabilityPlaceValidator
 
   def duration
     return 0 if start_time == nil || end_time == nil
@@ -32,17 +33,6 @@ class Enrollment < ApplicationRecord
     start_time <= time_slot && time_slot < end_time
   end
 
-  def check_if_the_standard_mission_is_not_full
-    return true unless mission.genre == 'standard'
-
-    if mission.standard_full?
-      failure_message = I18n.t('activerecord.errors.models.enrollment.full_mission')
-      errors.add :full_mission, failure_message
-      return false
-    end
-
-    true
-  end
 
   def check_if_the_duration_is_positive
     if start_time >= end_time

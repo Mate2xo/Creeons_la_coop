@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'support/helpers/assign_members_helpers'
+
+RSpec.configure do |c|
+  c.include AssignMembersHelpers
+end
 
 RSpec.describe 'A Missions admin request', type: :request do
   let(:current_admin) { create :member, :super_admin }
@@ -163,15 +168,6 @@ RSpec.describe 'A Missions admin request', type: :request do
 
     context "when the mission have several enrollments and the datetimes of the related enrollments are outside
     of the new mission's period" do
-      let(:create_enrollments) do
-        create_list :enrollment,
-                    3,
-                    start_time: mission.start_date,
-                    end_time: mission.due_date,
-                    member_id: (create :member).id,
-                    mission_id: mission.id
-      end
-
       let(:mission_params) do
         generate_attributes_for_mission({ name: 'updated_mission',
                                           start_date: mission.start_date + 3.hours,
@@ -182,8 +178,7 @@ RSpec.describe 'A Missions admin request', type: :request do
       let(:i18n_key) { 'activerecord.errors.models.mission.inconsistent_datetimes_for_related_enrollments' }
 
       it 'displays an error message' do
-        create_enrollments
-
+        assign_members_to_this_mission(3, mission)
         put_mission
 
         expect(response.body).to include(I18n.t(i18n_key))
@@ -199,19 +194,10 @@ RSpec.describe 'A Missions admin request', type: :request do
                                           genre: 'regulated' })
       end
 
-      let(:create_enrollments) do
-        create_list :enrollment,
-                    3,
-                    start_time: mission.start_date + 1.hour,
-                    end_time: mission.start_date + 2.hours,
-                    member_id: (create :member).id,
-                    mission_id: mission.id
-      end
-
       let(:i18n_key) { 'activerecord.errors.models.mission.mismatch_between_time_slots_and_related_enrollments' }
 
       it 'displays a error message' do
-        create_enrollments
+        assign_members_to_this_mission(3, mission, mission.start_date + 1.hour, mission.start_date + 2.hours)
 
         put_mission
 
@@ -241,7 +227,7 @@ RSpec.describe 'A Missions admin request', type: :request do
       let(:i18n_key) { 'activerecord.errors.models.mission.mismatch_between_time_slots_and_related_enrollments' }
 
       it 'displays a error message' do
-        create_enrollments
+        assign_members_to_this_mission(3, mission, mission.start_date, mission.start_date + 90.minutes)
 
         put_mission
 

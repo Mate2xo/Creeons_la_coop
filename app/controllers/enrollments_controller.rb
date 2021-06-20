@@ -8,7 +8,6 @@ class EnrollmentsController < ApplicationController
   def create
     create_transaction = Enrollments::CreateTransaction.new.with_step_args(
       include_mission_date_in_enrollment_datetimes: [mission: @mission],  #todo change include mission in inputs
-      validate: [mission: @mission],
       transform_time_slots_in_time_params_for_enrollment: [regulated: @mission.regulated?,
                                                            time_slots: permitted_params['time_slots']]
     ).call(permitted_params)

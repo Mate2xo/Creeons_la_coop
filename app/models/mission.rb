@@ -64,12 +64,6 @@ class Mission < ApplicationRecord
     (genre == 'regulated')
   end
 
-  def standard_full?
-    return nil unless genre == 'standard'
-
-    max_member_count == members.count
-  end
-
   def selectable_time_slots(member = nil)
     return nil unless genre == 'regulated'
 

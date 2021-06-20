@@ -12,23 +12,12 @@ module Admin
       private
 
       def validation(enrollment) # rubocop:disable Metrics/AbcSize
-        enrollment.check_if_the_standard_mission_is_not_full
         enrollment.check_if_the_duration_is_positive
         enrollment.check_if_enrollment_is_matching_the_mission_s_timeslots
         enrollment.check_slots_availability_for_regulated_mission
         return Failure(enrollment.errors.values.flatten[0]) if enrollment.errors.present?
 
         Success(enrollment)
-      end
-
-      def check_if_the_standard_mission_is_not_full(input)
-        mission = input.mission
-
-        failure_message = I18n.t('activerecord.errors.models.enrollment.full_mission')
-        return Success(input) if mission.genre != 'standard'
-        return Failure(failure_message) unless mission.members.count < mission.max_member_count
-
-        Success(input)
       end
 
       def check_if_the_duration_is_positive(input)

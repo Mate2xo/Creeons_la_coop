@@ -6,7 +6,6 @@ module Enrollments
     include Dry::Transaction
 
     tee :include_mission_date_in_enrollment_datetimes
-    step :validate
     step :transform_time_slots_in_time_params_for_enrollment
     step :create
 
@@ -16,14 +15,6 @@ module Enrollments
       permitted_params[:start_time] = "#{mission_date} #{start_time}"
       permitted_params[:end_time] = "#{mission_date} #{end_time}"
       permitted_params
-    end
-
-    def validate(permitted_params, mission:)
-      return Success(permitted_params) if mission.max_member_count.nil?
-      return Success(permitted_params) if mission.members.count < mission.max_member_count
-
-      failure_message = I18n.t('enrollments.create.max_member_count_reached')
-      Failure(failure_message)
     end
 
     def transform_time_slots_in_time_params_for_enrollment(permitted_params, regulated:, time_slots:)
