@@ -12,19 +12,11 @@ module Admin
       private
 
       def validation(enrollment) # rubocop:disable Metrics/AbcSize
-        enrollment.check_if_the_duration_is_positive
         enrollment.check_if_enrollment_is_matching_the_mission_s_timeslots
         enrollment.check_slots_availability_for_regulated_mission
         return Failure(enrollment.errors.values.flatten[0]) if enrollment.errors.present?
 
         Success(enrollment)
-      end
-
-      def check_if_the_duration_is_positive(input)
-        failure_message = I18n.t('activerecord.errors.models.enrollment.negative_duration')
-        return Failure(failure_message) unless input.start_time < input.end_time
-
-        Success(input)
       end
 
       def check_if_enrollment_is_matching_the_mission_s_timeslots(input)

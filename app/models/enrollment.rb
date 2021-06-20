@@ -22,6 +22,7 @@ class Enrollment < ApplicationRecord
   validates_with DatetimesInclusionValidator
   validates_with UniquenessEnrollmentValidator, on: :create
   validates_with AvailabilityPlaceValidator
+  validates_with EnrollmentValidators::DurationValidator
 
   def duration
     return 0 if start_time == nil || end_time == nil
