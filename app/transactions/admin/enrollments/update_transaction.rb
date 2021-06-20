@@ -31,7 +31,6 @@ module Admin
 
       def validation(input) # rubocop:disable Metrics/AbcSize
         enrollment = input[:enrollment]
-        enrollment.check_if_enrollment_is_matching_the_mission_s_timeslots
         return Failure(enrollment.errors.values.flatten[0]) if enrollment.errors.present?
 
         Success(input)

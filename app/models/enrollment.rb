@@ -24,6 +24,7 @@ class Enrollment < ApplicationRecord
   validates_with EnrollmentValidators::AvailabilityPlaceValidator
   validates_with EnrollmentValidators::AvailabilitySlotValidator
   validates_with EnrollmentValidators::DurationValidator
+  validates_with EnrollmentValidators::MatchingMissionTimeSlotsValidator
 
   def duration
     return 0 if start_time == nil || end_time == nil
@@ -40,23 +41,6 @@ class Enrollment < ApplicationRecord
     if start_time >= end_time
       failure_message = I18n.t('activerecord.errors.models.enrollment.negative_duration')
       errors.add :negative_duration, failure_message
-      return false
-    end
-
-    true
-  end
-
-  def duration_multiple_of_90_minutes?
-    ((end_time.to_i - start_time.to_i) % (60 * 90)).zero?
-  end
-
-  def check_if_enrollment_is_matching_the_mission_s_timeslots
-    return true unless mission.regulated?
-
-    unless mission.match_a_time_slot?(self) && duration_multiple_of_90_minutes?
-      failure_message = I18n.t('activerecord.errors.models.enrollment.time_slot_mismatch')
-      errors.add :time_slot_mismatch, failure_message
-
       return false
     end
 

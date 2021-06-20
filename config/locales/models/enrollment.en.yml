@@ -6,6 +6,7 @@ en:
           attributes:
             member:
               required: The member must exist
+          duration_is_not_a_multiple_of_90_minutes: La durée n'est pas un multiple de 90 minutes
           full_mission: This mission is full
           inconsistent_datetimes: The selected datetimes are outside of the period of the mission
           insufficient_cash_register_proficiency: The selected member has not a sufficient cash register proficiency

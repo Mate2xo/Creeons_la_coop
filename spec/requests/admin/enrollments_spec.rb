@@ -111,8 +111,8 @@ RSpec.describe 'A Enrollment admin request', type: :request do
       let(:mission) { create :mission, genre: 'regulated' }
       let(:enrollment_params) do
         attributes = attributes_for :enrollment,
-                                    start_time: mission.start_date,
-                                    end_time: (mission.start_date + 10.minutes),
+                                    start_time: mission.start_date + 10.minutes,
+                                    end_time: (mission.start_date + 100.minutes),
                                     member_id: member.id
         attributes.merge!(convert_datetime_in_params(attributes[:start_time], 'start_time'))
         attributes.merge!(convert_datetime_in_params(attributes[:end_time], 'end_time'))
