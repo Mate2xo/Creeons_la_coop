@@ -7,8 +7,7 @@ module Admin
       include Dry::Transaction
 
       tee :convert_params_in_datetime
-      tee :prepare_object
-      step :validation
+      tee :prepare_attributes_of_enrollment_before_the_save
       step :update_enrollment
 
       private
@@ -20,7 +19,7 @@ module Admin
         Success(input)
       end
 
-      def prepare_object(input)
+      def prepare_attributes_of_enrollment_before_the_save(input)
         enrollment = input[:enrollment]
         params = input[:params]
 
@@ -29,16 +28,8 @@ module Admin
         end
       end
 
-      def validation(input) # rubocop:disable Metrics/AbcSize
-        enrollment = input[:enrollment]
-        return Failure(enrollment.errors.values.flatten[0]) if enrollment.errors.present?
-
-        Success(input)
-      end
-
       def update_enrollment(input)
         enrollment = input[:enrollment]
-        params = input[:params]
         if enrollment.save
           Success(enrollment)
         else
