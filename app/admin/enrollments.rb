@@ -27,6 +27,7 @@ ActiveAdmin.register Enrollment do # rubocop:disable Metrics/BlockLength
     end
   end
 
+  # The controlles is rewrited because without this the flash is not displayed
   controller do # rubocop:disable Metrics/BlockLength
     def create # rubocop:disable Metrics/AbcSize
       build_resource
