@@ -126,6 +126,28 @@ RSpec.describe 'A Enrollment admin request', type: :request do
       end
     end
 
+    context "when the related misison is regulated and the enrollment's duration is not a multiple of 90 minutes" do
+      let(:mission) { create :mission, genre: 'regulated' }
+      let(:enrollment_params) do
+        attributes = attributes_for :enrollment,
+                                    start_time: mission.start_date,
+                                    end_time: (mission.start_date + 10.minutes),
+                                    member_id: member.id,
+                                    mission_id: mission.id
+        attributes.merge!(convert_datetime_in_params(attributes[:start_time], 'start_time'))
+        attributes.merge!(convert_datetime_in_params(attributes[:end_time], 'end_time'))
+        attributes
+      end
+      let(:i18n_scope) { %i[activerecord errors models enrollment] }
+
+      it 'displays a related error message' do
+        post_enrollment
+
+        expect(CGI.unescapeHTML(response.body)).to include(I18n.t('duration_is_not_a_multiple_of_90_minutes',
+                                                                  scope: i18n_scope))
+      end
+    end
+
     context 'when the mission is :standard and :max_member_count is already reached' do
       let(:mission) { create :mission, max_member_count: 4 }
 
@@ -298,9 +320,9 @@ RSpec.describe 'A Enrollment admin request', type: :request do
       end
       let(:assign_other_members) do
         assign_members_to_this_mission(4,
-                                             mission,
-                                             enrollment.start_time + 90.minutes,
-                                             enrollment.end_time + 90.minutes)
+                                       mission,
+                                       enrollment.start_time + 90.minutes,
+                                       enrollment.end_time + 90.minutes)
       end
 
       it 'displays an error message' do
