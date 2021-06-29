@@ -162,9 +162,7 @@ RSpec.describe 'A Mission request', type: :request do
       it 'adds member enrollment' do
         put mission_path(mission.id), params: { mission: mission_params }
 
-        enrollment_expected_params.each do |key, value|
-          expect(mission.enrollments.first[key]).to eq value
-        end
+        expect(mission.reload.enrollments.first.attributes.symbolize_keys).to include enrollment_expected_params
       end
     end
 
@@ -188,9 +186,7 @@ RSpec.describe 'A Mission request', type: :request do
       it 'adds member enrollment' do
         put_mission
 
-        enrollment_expected_params.each do |key, value|
-          expect(mission.enrollments.first[key]).to eq value
-        end
+        expect(mission.reload.enrollments.first.attributes.symbolize_keys).to include enrollment_expected_params
       end
     end
 
@@ -234,9 +230,7 @@ RSpec.describe 'A Mission request', type: :request do
       it 'adds member enrollment' do
         put_mission
 
-        enrollment_expected_params.each do |key, value|
-          expect(mission.enrollments.first[key]).to eq value
-        end
+        expect(mission.reload.enrollments.first.attributes.symbolize_keys).to include enrollment_expected_params
       end
     end
 

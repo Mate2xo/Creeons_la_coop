@@ -175,13 +175,19 @@ RSpec.describe 'A Missions admin request', type: :request do
       end
 
       let(:expected_params) { { start_date: mission_params['start_date'], due_date: mission_params['due_date'] } }
-      let(:i18n_key) { 'activerecord.errors.models.mission.inconsistent_datetimes_for_related_enrollments' }
+      let(:i18n_scope) { [:activerecord, :errors, :models, :mission]}
 
-      it 'displays an error message' do
+      it "doesn't update the mission" do
         assign_members_to_this_mission(3, mission)
         put_mission
 
-        expect(response.body).to include(I18n.t(i18n_key))
+        expect(mission.reload.name).not_to eq('updated_mission')
+      end
+
+      it 'renders a successful response' do
+        assign_members_to_this_mission(3, mission)
+        put_mission
+        expect(response).to be_successful
       end
     end
 
@@ -194,14 +200,20 @@ RSpec.describe 'A Missions admin request', type: :request do
                                           genre: 'regulated' })
       end
 
-      let(:i18n_key) { 'activerecord.errors.models.mission.mismatch_between_time_slots_and_related_enrollments' }
-
-      it 'displays a error message' do
+      it 'renders a successful response' do
         assign_members_to_this_mission(3, mission, mission.start_date + 1.hour, mission.start_date + 2.hours)
 
         put_mission
 
-        expect(response.body).to include(I18n.t(i18n_key))
+        expect(response).to be_successful
+      end
+
+      it "doesn't update the mission" do
+        assign_members_to_this_mission(3, mission, mission.start_date + 1.hour, mission.start_date + 2.hours)
+
+        put_mission
+
+        expect(mission.reload.name).not_to eq('updated_mission')
       end
     end
 
@@ -226,12 +238,20 @@ RSpec.describe 'A Missions admin request', type: :request do
 
       let(:i18n_key) { 'activerecord.errors.models.mission.mismatch_between_time_slots_and_related_enrollments' }
 
-      it 'displays a error message' do
+      it 'renders a successful response' do
         assign_members_to_this_mission(3, mission, mission.start_date, mission.start_date + 90.minutes)
 
         put_mission
 
-        expect(response.body).to include(I18n.t(i18n_key))
+        expect(response).to be_successful
+      end
+
+      it "doesn't update the mission" do
+        assign_members_to_this_mission(3, mission, mission.start_date, mission.start_date + 90.minutes)
+
+        put_mission
+
+        expect(mission.reload.name).not_to eq('updated_mission')
       end
     end
 

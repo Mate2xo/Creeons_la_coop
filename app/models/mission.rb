@@ -43,6 +43,7 @@ class Mission < ApplicationRecord
   validates :max_member_count, numericality: { only_integer: true }, allow_nil: true
   validates :genre, presence: true
   validates_with MissionValidators::DurationValidator
+  validates_associated :enrollments, message: I18n.t('activerecord.errors.models.mission.related_enrollment_invalidation')
 
   accepts_nested_attributes_for :addresses, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :enrollments, reject_if: :all_blank, allow_destroy: true
@@ -123,29 +124,6 @@ class Mission < ApplicationRecord
   end
 
   # validation methods
-
-  def check_if_enrollments_are_inside_new_mission_s_period
-    failure_message = I18n.t('activerecord.errors.models.mission.inconsistent_datetimes_for_related_enrollments')
-    enrollments.each do |enrollment|
-      unless inside_period?(enrollment)
-        errors.add :inconsistent_datetimes_for_related_enrollments, failure_message
-        return false
-      end
-    end
-    true
-  end
-
-  def check_if_enrollments_match_a_mission_s_time_slots_for_regulated_mission
-    failure_message = I18n.t('mismatch_between_time_slots_and_related_enrollments',
-                             scope: %i[activerecord errors models mission])
-    enrollments.each do |enrollment|
-      unless match_a_time_slot?(enrollment)
-        errors.add :mismatch_between_time_slots_and_related_enrollments, failure_message
-        return false
-      end
-    end
-    true
-  end
 
   private
 

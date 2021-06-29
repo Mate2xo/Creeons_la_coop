@@ -16,7 +16,7 @@ fr:
     errors:
       models:
         mission:
-          inconsistent_datetimes_for_related_enrollments: Au moins une inscription se trouve hors de la periode indiquée
+          related_enrollment_invalidation: Au moins une inscription est invalidée par le mise à jour demandée
           mismatch_between_time_slots_and_related_enrollments: Les inscriptions de la mission ne correspondent pas aux créneaux régulées de celle_ci
           recurrent_update_cancel: "La mise à jour récurrente a echoué car la mission nommé %{name} daté au %{date} pour cette raison: %{failure}"
           attributes:

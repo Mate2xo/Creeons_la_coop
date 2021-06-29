@@ -8,7 +8,6 @@ module Admin
 
       tee :convert_datepicker_params_in_datetime
       tee :prepare_object
-      step :validation
       step :update_mission
 
       private
@@ -31,16 +30,8 @@ module Admin
         end
       end
 
-      def validation(input)
+      def update_mission(input)
         mission = input[:mission]
-        mission.check_if_enrollments_are_inside_new_mission_s_period
-        mission.check_if_enrollments_match_a_mission_s_time_slots_for_regulated_mission
-        return Failure(mission.errors.values.flatten[0]) if mission.errors.present?
-
-        Success(mission)
-      end
-
-      def update_mission(mission)
         if mission.save
           Success(mission)
         else
