@@ -17,7 +17,6 @@ FactoryBot.define do
     association :mission
     association :member
 
-
     trait :one_hour do
       start_time { Time.zone.parse(mission.start_date.to_s) + 3600 }
     end

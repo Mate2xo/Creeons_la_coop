@@ -6,7 +6,10 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
   let(:member) { create :member }
 
   context 'when a member goes on his/her profile page,' do
-    before { sign_in member }
+    before do
+      sign_in member
+      allow(Date).to receive(:current).and_return(Date.new(2021, 6, 15))
+    end
 
     it 'shows the number of worked hours this month' do
       enrollment = create :enrollment, member: member

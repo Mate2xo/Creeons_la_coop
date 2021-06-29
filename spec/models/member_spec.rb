@@ -173,6 +173,8 @@ RSpec.describe Member, type: :model do
   end
 
   describe '#monthly_worked_hours' do
+    before { allow(Date).to receive(:current).and_return(Date.new(2021, 6, 15)) }
+
     context 'when a member shares the same register_id with his/her family' do
       let(:member) { create :member, register_id: 1234 }
       let(:family_member) { create :member, register_id: 1234 }
