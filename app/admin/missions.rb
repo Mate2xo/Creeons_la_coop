@@ -86,7 +86,7 @@ ActiveAdmin.register Mission do
     def create # rubocop:disable Metrics/AbcSize
       build_resource
       if resource.save
-        flash[:notice] = translate '.record_created'
+        flash[:notice] = translate '.mission_created'
         redirect_to admin_mission_path(resource.id)
       else
         flash[:error] = resource.errors.full_messages.join
