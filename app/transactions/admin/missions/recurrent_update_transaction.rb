@@ -8,8 +8,7 @@ module Admin
 
       around :rollback_if_failure
 
-      tee :remove_datetime_attributes
-      tee :get_missions_with_same_time_slot
+      tee :get_missions_to_update
       step :update_all_missions
 
       private
@@ -26,47 +25,35 @@ module Admin
         result
       end
 
-      # For recurrent changes, we only update non time-related attributes to not mess with individual
-      # time slots validations. Time slots validation's responsibility belongs to each individual missions
-      def remove_datetime_attributes(input)
-        input[:params].delete(:start_date)
-        input[:params].delete(:due_date)
-        remove_activeadmin_datepicker_params(input, 'start_date')
-        remove_activeadmin_datepicker_params(input, 'due_date')
-        input[:params].delete(:recurrent_change)
+      def get_missions_to_update(input)
+        old_mission, params = input.values_at(:old_mission, :params)
 
-        Success(input)
-      end
-
-      def get_missions_with_same_time_slot(input)
-        mission = input[:mission]
-
-        input.merge!({ all_missions: all_missions(mission) })
+        input.merge!({ all_missions: missions_to_change(old_mission, params) })
         Success(input)
       end
 
       def update_all_missions(input)
         all_missions = input[:all_missions]
+        params = input[:params][:recurrent_change] ? input[:params].except(:start_date, :due_date) : input[:params]
 
         all_missions.each do |current_mission|
-          transaction_result = Admin::Missions::UpdateTransaction
-                               .new
-                               .call(build_mission_input(current_mission, input[:params]))
-          next if transaction_result.success?
+          next if current_mission.update(params)
 
-          return Failure(determine_failure_message(transaction_result.failure, current_mission))
+          return Failure(current_mission.errors.full_messages.join(', '))
         end
         Success(input)
       end
 
       # helpers
 
-      def all_missions(mission)
+      def missions_to_change(old_mission, params)
+        return [old_mission] unless params[:recurrent_change]
+
         all_missions = Mission.where('start_date >= :mission_start_date AND genre = :mission_genre',
-                                     mission_start_date: mission.start_date,
-                                     mission_genre: Mission.genres[mission.genre])
+                                     mission_start_date: old_mission.start_date,
+                                     mission_genre: Mission.genres[old_mission.genre])
         all_missions.select do |current_mission|
-          current_mission.start_date.strftime('%R%u') == mission.start_date.strftime('%R%u')
+          current_mission.start_date.strftime('%R%u') == old_mission.start_date.strftime('%R%u')
         end
       end
 
@@ -75,20 +62,6 @@ module Admin
                name: mission.name,
                start_date: mission.start_date,
                failure: failure)
-      end
-
-      def build_mission_input(mission, params)
-        params[:start_date] = mission.start_date
-        params[:due_date] = mission.due_date
-        { params: params, mission: mission }
-      end
-
-      def remove_activeadmin_datepicker_params(input, key)
-        input[:params].delete("#{key}(1i)")
-        input[:params].delete("#{key}(2i)")
-        input[:params].delete("#{key}(3i)")
-        input[:params].delete("#{key}(4i)")
-        input[:params].delete("#{key}(5i)")
       end
     end
   end

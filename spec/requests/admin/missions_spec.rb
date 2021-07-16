@@ -33,7 +33,7 @@ RSpec.describe 'A Missions admin request', type: :request do
     subject(:post_mission) { post admin_missions_path, params: { mission: mission_params } }
 
     context 'when the :genre params is set to event' do
-      let(:mission_params) { generate_attributes_for_mission genre: 'event', author_id: current_admin.id }
+      let(:mission_params) { attributes_for :mission, genre: 'event', author_id: current_admin.id }
 
       it 'creates the mission with the genre set to event' do
         post_mission
@@ -44,7 +44,7 @@ RSpec.describe 'A Missions admin request', type: :request do
 
     context 'when the duration is negative' do
       let(:mission_params) do
-        generate_attributes_for_mission start_date: DateTime.current, due_date: DateTime.current - 5.minutes
+        attributes_for :mission, start_date: DateTime.current, due_date: DateTime.current - 5.minutes
       end
 
       it 'sends an error message when due date is inferior to start_date' do
@@ -56,7 +56,7 @@ RSpec.describe 'A Missions admin request', type: :request do
 
     context 'when the duration is superior to ten hours' do
       let(:mission_params) do
-        generate_attributes_for_mission start_date: DateTime.current, due_date: DateTime.current + 11.hours
+        attributes_for :mission, start_date: DateTime.current, due_date: DateTime.current + 11.hours
       end
 
       it 'displays an error message' do
@@ -68,9 +68,10 @@ RSpec.describe 'A Missions admin request', type: :request do
 
     context 'when the mission is regulated and the duration is not a multiple of 1.5 hours' do
       let(:mission_params) do
-        generate_attributes_for_mission({ genre: 'regulated',
-                                          start_date: DateTime.current,
-                                          due_date: DateTime.current + 1.hour })
+        attributes_for :mission,
+          genre: 'regulated',
+          start_date: DateTime.current,
+          due_date: DateTime.current + 1.hour
       end
 
       it 'displays an error message' do
@@ -86,9 +87,10 @@ RSpec.describe 'A Missions admin request', type: :request do
 
     let(:mission) { create :mission, start_date: DateTime.current + 2.days }
     let(:mission_params) do
-      generate_attributes_for_mission({ name: 'updated_mission',
-                                        start_date: mission.start_date + 3.hours,
-                                        due_date: mission.start_date + 6.hours })
+      attributes_for :mission,
+        name: 'updated_mission',
+        start_date: mission.start_date + 3.hours,
+        due_date: mission.start_date + 6.hours
     end
 
     let!(:expected_params) do
@@ -114,10 +116,11 @@ RSpec.describe 'A Missions admin request', type: :request do
       let(:mission) { create :mission, start_date: DateTime.current + 2.days, genre: 'regulated' }
 
       let(:mission_params) do
-        generate_attributes_for_mission({ name: 'updated_mission',
-                                          start_date: mission.start_date,
-                                          due_date: mission.due_date,
-                                          genre: 'standard' })
+        attributes_for :mission,
+          name: 'updated_mission',
+          start_date: mission.start_date,
+          due_date: mission.due_date,
+          genre: 'standard'
       end
 
       it 'confirms the update' do
@@ -126,11 +129,18 @@ RSpec.describe 'A Missions admin request', type: :request do
 
         expect(response.body).to include(I18n.t('missions.update.confirm_update'))
       end
+
+      it 'updates the mission with the params' do
+        put_mission
+        follow_redirect!
+
+        expect(mission.reload.attributes).to include(mission_params.stringify_keys)
+      end
     end
 
     context 'when the duration is negative' do
       let(:mission_params) do
-        generate_attributes_for_mission start_date: DateTime.current, due_date: DateTime.current - 5.minutes
+        attributes_for :mission, start_date: DateTime.current, due_date: DateTime.current - 5.minutes
       end
 
       it 'sends an error message when due date is inferior to start_date' do
@@ -142,7 +152,7 @@ RSpec.describe 'A Missions admin request', type: :request do
 
     context 'when the duration is superior to ten hours' do
       let(:mission_params) do
-        generate_attributes_for_mission start_date: DateTime.current, due_date: DateTime.current + 11.hours
+        attributes_for :mission, start_date: DateTime.current, due_date: DateTime.current + 11.hours
       end
 
       it 'displays an error message' do
@@ -154,9 +164,10 @@ RSpec.describe 'A Missions admin request', type: :request do
 
     context 'when the mission is regulated and the duration is not a multiple of 1.5 hours' do
       let(:mission_params) do
-        generate_attributes_for_mission({ genre: 'regulated',
-                                          start_date: DateTime.current,
-                                          due_date: DateTime.current + 1.hour })
+        attributes_for :mission,
+                       genre: 'regulated',
+                       start_date: DateTime.current,
+                       due_date: DateTime.current + 1.hour
       end
 
       it 'displays an error message' do
@@ -169,9 +180,10 @@ RSpec.describe 'A Missions admin request', type: :request do
     context "when the mission have several enrollments and the datetimes of the related enrollments are outside
     of the new mission's period" do
       let(:mission_params) do
-        generate_attributes_for_mission({ name: 'updated_mission',
-                                          start_date: mission.start_date + 3.hours,
-                                          due_date: mission.due_date + 3.hours })
+        attributes_for :mission,
+                       name: 'updated_mission',
+                       start_date: mission.start_date + 3.hours,
+                       due_date: mission.due_date + 3.hours
       end
 
       let(:expected_params) { { start_date: mission_params['start_date'], due_date: mission_params['due_date'] } }
@@ -194,10 +206,11 @@ RSpec.describe 'A Missions admin request', type: :request do
     context "when the :regulate type is passed in params and the datetimes of the related enrollments
     mismatch the mission's time_slots" do
       let(:mission_params) do
-        generate_attributes_for_mission({ name: 'updated_mission',
-                                          start_date: mission.start_date,
-                                          due_date: mission.due_date,
-                                          genre: 'regulated' })
+        attributes_for :mission,
+                       name: 'updated_mission',
+                       start_date: mission.start_date,
+                       due_date: mission.due_date,
+                       genre: 'regulated'
       end
 
       it 'renders a successful response' do
@@ -222,9 +235,10 @@ RSpec.describe 'A Missions admin request', type: :request do
       let(:mission) { create :mission, start_date: DateTime.current + 2.days, genre: 'regulated' }
 
       let(:mission_params) do
-        generate_attributes_for_mission({ name: 'updated_mission',
-                                          start_date: mission.start_date - 1.hour,
-                                          due_date: mission.due_date - 1.hour })
+        attributes_for :mission,
+                       name: 'updated_mission',
+                       start_date: mission.start_date - 1.hour,
+                       due_date: mission.due_date - 1.hour
       end
 
       let(:create_enrollments) do
@@ -257,10 +271,11 @@ RSpec.describe 'A Missions admin request', type: :request do
 
     context 'when the recurrent changes params is true' do
       let(:mission_params) do
-        generate_attributes_for_mission({ name: 'updated_mission',
-                                          recurrent_change: true,
-                                          start_date: mission.start_date + 3.hours,
-                                          due_date: mission.due_date + 3.hours })
+        attributes_for :mission,
+                       name: 'updated_mission',
+                       recurrent_change: true,
+                       start_date: mission.start_date + 3.hours,
+                       due_date: mission.due_date + 3.hours
       end
 
       let(:all_missions) { create_future_matching_missions(mission) + [mission] }
@@ -320,24 +335,5 @@ RSpec.describe 'A Missions admin request', type: :request do
       occurrence_date += 7.days
     end
     other_missions
-  end
-
-  def generate_attributes_for_mission(params)
-    attributes = attributes_for :mission, params
-    attributes.merge!(convert_datetime_in_datepicker_params(attributes[:start_date], 'start_date'))
-    attributes.merge!(convert_datetime_in_datepicker_params(attributes[:due_date], 'due_date'))
-    attributes.delete(:start_date)
-    attributes.delete(:due_date)
-    attributes
-  end
-
-  def convert_datetime_in_datepicker_params(datetime, key)
-    {
-      "#{key}(1i)": datetime.year,
-      "#{key}(2i)": datetime.month,
-      "#{key}(3i)": datetime.day,
-      "#{key}(4i)": datetime.hour,
-      "#{key}(5i)": datetime.min
-    }
   end
 end

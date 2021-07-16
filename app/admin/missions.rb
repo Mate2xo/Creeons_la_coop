@@ -108,12 +108,8 @@ ActiveAdmin.register Mission do
     private
 
     def update_transaction
-      input = { params: permitted_params[:mission], mission: resource }
-      if permitted_params[:mission][:recurrent_change]
-        Admin::Missions::RecurrentUpdateTransaction.new.call(input)
-      else
-        Admin::Missions::UpdateTransaction.new.call(input)
-      end
+      input = { params: permitted_params[:mission], old_mission: resource }
+      Admin::Missions::RecurrentUpdateTransaction.new.call(input)
     end
   end
 

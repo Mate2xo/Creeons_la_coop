@@ -123,8 +123,6 @@ class Mission < ApplicationRecord
     true
   end
 
-  # validation methods
-
   private
 
   def time_slot_selectable?(current_time_slot, member)
