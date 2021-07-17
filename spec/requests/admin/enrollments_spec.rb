@@ -21,13 +21,10 @@ RSpec.describe 'A Enrollment admin request', type: :request do
 
     let(:mission) { create :mission }
     let(:enrollment_params) do
-      attributes = attributes_for :enrollment,
-                                  start_time: mission.start_date,
-                                  end_time: mission.due_date,
-                                  member_id: member.id
-      attributes.merge!(convert_datetime_in_params(mission.start_date, 'start_time'))
-      attributes.merge!(convert_datetime_in_params(mission.due_date, 'end_time'))
-      attributes
+      attributes_for :enrollment,
+                     start_time: mission.start_date,
+                     end_time: mission.due_date,
+                     member_id: member.id
     end
 
     it 'creates the enrollment' do
@@ -72,13 +69,10 @@ RSpec.describe 'A Enrollment admin request', type: :request do
 
     context "when the datetimes of the enrollment aren't inside the mission's period" do
       let(:enrollment_params) do
-        attributes = attributes_for :enrollment,
-                                    start_time: mission.start_date,
-                                    end_time: (mission.due_date + 3.minutes),
-                                    member_id: member.id
-        attributes.merge!(convert_datetime_in_params(attributes[:start_time], 'start_time'))
-        attributes.merge!(convert_datetime_in_params(attributes[:end_time], 'end_time'))
-        attributes
+        attributes_for :enrollment,
+                       start_time: mission.start_date,
+                       end_time: (mission.due_date + 3.minutes),
+                       member_id: member.id
       end
 
       it 'displays an error message' do
@@ -90,13 +84,10 @@ RSpec.describe 'A Enrollment admin request', type: :request do
 
     context 'when the duration is negative' do
       let(:enrollment_params) do
-        attributes = attributes_for :enrollment,
-                                    start_time: mission.start_date,
-                                    end_time: (mission.start_date - 3.minutes),
-                                    member_id: member.id
-        attributes.merge!(convert_datetime_in_params(attributes[:start_time], 'start_time'))
-        attributes.merge!(convert_datetime_in_params(attributes[:end_time], 'end_time'))
-        attributes
+        attributes_for :enrollment,
+                       start_time: mission.start_date,
+                       end_time: (mission.start_date - 3.minutes),
+                       member_id: member.id
       end
 
       it 'displays an error message' do
@@ -110,13 +101,10 @@ RSpec.describe 'A Enrollment admin request', type: :request do
              datetimes are not matching mission's time_slots" do
       let(:mission) { create :mission, genre: 'regulated' }
       let(:enrollment_params) do
-        attributes = attributes_for :enrollment,
-                                    start_time: mission.start_date + 10.minutes,
-                                    end_time: (mission.start_date + 100.minutes),
-                                    member_id: member.id
-        attributes.merge!(convert_datetime_in_params(attributes[:start_time], 'start_time'))
-        attributes.merge!(convert_datetime_in_params(attributes[:end_time], 'end_time'))
-        attributes
+        attributes_for :enrollment,
+                       start_time: mission.start_date + 10.minutes,
+                       end_time: (mission.start_date + 100.minutes),
+                       member_id: member.id
       end
 
       it 'displays an error message' do
@@ -129,14 +117,11 @@ RSpec.describe 'A Enrollment admin request', type: :request do
     context "when the related misison is regulated and the enrollment's duration is not a multiple of 90 minutes" do
       let(:mission) { create :mission, genre: 'regulated' }
       let(:enrollment_params) do
-        attributes = attributes_for :enrollment,
-                                    start_time: mission.start_date,
-                                    end_time: (mission.start_date + 10.minutes),
-                                    member_id: member.id,
-                                    mission_id: mission.id
-        attributes.merge!(convert_datetime_in_params(attributes[:start_time], 'start_time'))
-        attributes.merge!(convert_datetime_in_params(attributes[:end_time], 'end_time'))
-        attributes
+        attributes_for :enrollment,
+                       start_time: mission.start_date,
+                       end_time: (mission.start_date + 10.minutes),
+                       member_id: member.id,
+                       mission_id: mission.id
       end
       let(:i18n_scope) { %i[activerecord errors models enrollment] }
 
@@ -204,13 +189,10 @@ RSpec.describe 'A Enrollment admin request', type: :request do
 
     let(:mission) { create :mission }
     let(:enrollment_params) do
-      attributes = attributes_for :enrollment,
-                                  start_time: mission.start_date + 10.minutes,
-                                  end_time: mission.due_date,
-                                  member_id: member.id
-      attributes.merge!(convert_datetime_in_params(attributes[:start_time], 'start_time'))
-      attributes.merge!(convert_datetime_in_params(attributes[:end_time], 'end_time'))
-      attributes
+      attributes_for :enrollment,
+                     start_time: mission.start_date + 10.minutes,
+                     end_time: mission.due_date,
+                     member_id: member.id
     end
 
     let(:expected_attributes) do
@@ -244,13 +226,10 @@ RSpec.describe 'A Enrollment admin request', type: :request do
 
     context "when the enrollment's datetimes are outside the mission's period" do
       let(:enrollment_params) do
-        attributes = attributes_for :enrollment,
-                                    start_time: mission.start_date - 10.minutes,
-                                    end_time: mission.due_date,
-                                    member_id: member.id
-        attributes.merge!(convert_datetime_in_params(attributes[:start_time], 'start_time'))
-        attributes.merge!(convert_datetime_in_params(attributes[:end_time], 'end_time'))
-        attributes
+        attributes_for :enrollment,
+                       start_time: mission.start_date - 10.minutes,
+                       end_time: mission.due_date,
+                       member_id: member.id
       end
 
       it 'displays an error message' do
@@ -262,13 +241,10 @@ RSpec.describe 'A Enrollment admin request', type: :request do
 
     context 'when the enrollment duration is negative' do
       let(:enrollment_params) do
-        attributes = attributes_for :enrollment,
-                                    start_time: enrollment.end_time,
-                                    end_time: enrollment.start_time,
-                                    member_id: member.id
-        attributes.merge!(convert_datetime_in_params(attributes[:start_time], 'start_time'))
-        attributes.merge!(convert_datetime_in_params(attributes[:end_time], 'end_time'))
-        attributes
+        attributes_for :enrollment,
+                       start_time: enrollment.end_time,
+                       end_time: enrollment.start_time,
+                       member_id: member.id
       end
 
       it 'displays an error message' do
@@ -282,13 +258,10 @@ RSpec.describe 'A Enrollment admin request', type: :request do
              datetimes are not matching mission's time_slots" do
       let(:mission) { create :mission, genre: 'regulated' }
       let(:enrollment_params) do
-        attributes = attributes_for :enrollment,
-                                    start_time: (enrollment.start_time + 10.minutes),
-                                    end_time: enrollment.end_time,
-                                    member_id: member.id
-        attributes.merge!(convert_datetime_in_params(attributes[:start_time], 'start_time'))
-        attributes.merge!(convert_datetime_in_params(attributes[:end_time], 'end_time'))
-        attributes
+        attributes_for :enrollment,
+                       start_time: (enrollment.start_time + 10.minutes),
+                       end_time: enrollment.end_time,
+                       member_id: member.id
       end
 
       it 'displays an error message' do
@@ -310,13 +283,10 @@ RSpec.describe 'A Enrollment admin request', type: :request do
       end
 
       let(:enrollment_params) do
-        attributes = attributes_for :enrollment,
-                                    start_time: enrollment.start_time + 90.minutes,
-                                    end_time: enrollment.end_time + 90.minutes,
-                                    member_id: member.id
-        attributes.merge!(convert_datetime_in_params(attributes[:start_time], 'start_time'))
-        attributes.merge!(convert_datetime_in_params(attributes[:end_time], 'end_time'))
-        attributes
+        attributes_for :enrollment,
+                       start_time: enrollment.start_time + 90.minutes,
+                       end_time: enrollment.end_time + 90.minutes,
+                       member_id: member.id
       end
       let(:assign_other_members) do
         assign_members_to_this_mission(4,
@@ -344,13 +314,10 @@ RSpec.describe 'A Enrollment admin request', type: :request do
                mission_id: mission.id
       end
       let(:enrollment_params) do
-        attributes = attributes_for :enrollment,
-                                    start_time: enrollment.start_time + 90.minutes,
-                                    end_time: enrollment.end_time + 90.minutes,
-                                    member_id: member.id
-        attributes.merge!(convert_datetime_in_params(attributes[:start_time], 'start_time'))
-        attributes.merge!(convert_datetime_in_params(attributes[:end_time], 'end_time'))
-        attributes
+        attributes_for :enrollment,
+                       start_time: enrollment.start_time + 90.minutes,
+                       end_time: enrollment.end_time + 90.minutes,
+                       member_id: member.id
       end
 
       i18n_key = <<~KEY.strip
@@ -366,16 +333,5 @@ RSpec.describe 'A Enrollment admin request', type: :request do
         expect(CGI.unescapeHTML(response.body)).to include(I18n.t(i18n_key))
       end
     end
-  end
-
-  # this helper imitate the struture of date_params created by active admin datepicker
-  def convert_datetime_in_params(datetime, key)
-    {
-      "#{key}(1i)": datetime.year,
-      "#{key}(2i)": datetime.month,
-      "#{key}(3i)": datetime.day,
-      "#{key}(4i)": datetime.hour,
-      "#{key}(5i)": datetime.min
-    }
   end
 end

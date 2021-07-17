@@ -41,22 +41,13 @@ ActiveAdmin.register Enrollment do # rubocop:disable Metrics/BlockLength
     end
 
     def update # rubocop:disable Metrics/AbcSize
-      build_resource
-      transaction_result = update_transaction
-      if transaction_result.success?
+      if resource.update(permitted_params[:enrollment])
         flash[:notice] = translate 'enrollments.update.confirm_update'
         redirect_to admin_mission_path(params[:mission_id])
       else
-        flash[:error] = transaction_result.failure
+        flash[:error] = resource.errors.full_messages.join(', ')
         render :edit
       end
-    end
-
-    private
-
-    def update_transaction
-      enrollment = Enrollment.find(params[:id])
-      Admin::Enrollments::UpdateTransaction.new.call({ params: permitted_params[:enrollment], enrollment: enrollment })
     end
   end
 end
