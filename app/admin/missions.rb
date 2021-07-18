@@ -89,7 +89,7 @@ ActiveAdmin.register Mission do
         flash[:notice] = translate '.mission_created'
         redirect_to admin_mission_path(resource.id)
       else
-        flash[:error] = resource.errors.full_messages.join
+        flash[:error] = resource.errors.full_messages.join(', ')
         render :new
       end
     end
