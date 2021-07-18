@@ -7,7 +7,7 @@ RSpec.configure do |c|
   c.include AssignMembersHelpers
 end
 
-RSpec.describe 'A Enrollment admin request', type: :request do
+RSpec.describe 'admin/enrollments', type: :request do
   let(:current_admin) { create :member, :super_admin }
   let(:member) { create :member }
 
@@ -38,7 +38,7 @@ RSpec.describe 'A Enrollment admin request', type: :request do
       expect(CGI.unescapeHTML(response.body)).to include(I18n.t('enrollments.create.confirm_enroll'))
     end
 
-    context 'when the related mission is :regulated and the enrollment match a time slot' do
+    context 'when the related mission is :regulated and the enrollment matches a time slot' do
       let(:mission) { create :mission, genre: 'regulated' }
 
       it 'confirms the enrollment creation' do
