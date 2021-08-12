@@ -345,7 +345,8 @@ GEM
       byebug (~> 10.0)
       pry (~> 0.10)
     public_suffix (3.0.3)
-    puma (3.12.6)
+    puma (4.3.8)
+      nio4r (~> 2.0)
     pundit (2.0.1)
       activesupport (>= 3.0.0)
     racc (1.5.2)
@@ -609,7 +610,7 @@ DEPENDENCIES
   mini_magick (~> 4.9.5)
   pg (>= 0.18, < 2.0)
   pry-byebug (~> 3.6)
-  puma (~> 3.12)
+  puma (~> 4.3)
   pundit
   rails (~> 5.2.5)
   rails-controller-testing
