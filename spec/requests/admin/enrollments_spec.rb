@@ -159,7 +159,7 @@ RSpec.describe 'admin/enrollments', type: :request do
     end
 
     context 'when the related mission is regulated, there is one slot left,
-             and the member has an insufficient cash register mastery' do
+             and the member has an insufficient cash register proficiency' do
       let(:mission) do
         create :mission,
                genre: 'regulated',
@@ -305,7 +305,7 @@ RSpec.describe 'admin/enrollments', type: :request do
     end
 
     context 'when the related mission is regulated and the member has an
-             insufficient cash register mastery for the new time slot' do
+             insufficient cash register proficiency for the new time slot' do
       let(:mission) { create :mission, genre: 'regulated', cash_register_proficiency_requirement: 'proficient' }
       let(:enrollment) do
         create :enrollment,
