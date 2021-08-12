@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 module MissionValidators
-  # Mission validator
-  class DurationValidator < ActiveModel::Validator
+  class DurationValidator < ActiveModel::Validator # rubocop:disable Style/Documentation
     def validate(mission)
       return false if mission.start_date.nil? || mission.due_date.nil?
       return true if mission.genre == 'event'

@@ -27,10 +27,11 @@ ActiveAdmin.register Enrollment do # rubocop:disable Metrics/BlockLength
     end
   end
 
-  # The controlles is rewrited because without this the flash is not displayed
   controller do # rubocop:disable Metrics/BlockLength
     def create # rubocop:disable Metrics/AbcSize
       build_resource
+
+      # force flash messages to be shown, as the default behaviour would not show them
       if resource.save
         flash[:notice] = translate 'enrollments.create.confirm_enroll'
         redirect_to admin_mission_path(params[:mission_id])
@@ -41,6 +42,7 @@ ActiveAdmin.register Enrollment do # rubocop:disable Metrics/BlockLength
     end
 
     def update # rubocop:disable Metrics/AbcSize
+      # force flash messages to be shown, as the default behaviour would not show them
       if resource.update(permitted_params[:enrollment])
         flash[:notice] = translate 'enrollments.update.confirm_update'
         redirect_to admin_mission_path(params[:mission_id])

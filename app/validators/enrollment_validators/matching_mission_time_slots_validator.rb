@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 module EnrollmentValidators
-  # this validator check if the enrollment the timeslots of a regulated mission
-  class MatchingMissionTimeSlotsValidator < ActiveModel::Validator
+  class MatchingMissionTimeSlotsValidator < ActiveModel::Validator # rubocop:disable Style/Documentation
     def validate(enrollment)
       return unless enrollment.mission.genre == 'regulated'
       return if match_a_mission_time_slot?(enrollment)
