@@ -1,0 +1,9 @@
+en:
+  active_admin:
+    resource:
+      show:
+        assignment: Assignment
+  activerecord:
+    attributes:
+      group_member:
+        assignement: Assignment

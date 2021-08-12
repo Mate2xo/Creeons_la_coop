@@ -3,7 +3,11 @@ fr:
     members:
       enroll_static_members:
         enroll_in_progress: Inscription des membres fixes en cours.
+      js:
+        end_of_auto_enrollment: L'inscription automatique des membres est terminée
   members:
+    group_members:
+      no_assignment: Aucune tâche assignée
     edit:
       change_password: Modifier votre mot de passe
       confirm_static_slots_reset: Êtes-vous sûr de vouloir réinitialiser vos créneaux fixes ?

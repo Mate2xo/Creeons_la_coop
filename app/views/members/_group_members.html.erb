@@ -1,0 +1,19 @@
+<ul class="nav nav-tabs justify-content-center mb-5" role="tablist">
+  <% group_members.each_with_index do |group_member, index| %>
+    <li class="nav-item">
+      <a class="nav-link <%= 'active' if index.zero? %>" data-toggle="tab" href="#<%= group_member.group.name %>">
+        <%= group_member.group.name %>
+      </a>
+    </li>
+  <% end %>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+  <% group_members.each_with_index do |group_member, index| %>
+    <div class="tab-pane fade show <%= 'active' if index.zero? %>" id=<%= group_member.group.name %> role="tabpanel" aria-labelledby="<%= group_member.group.name %>-tab">
+      <div class="row cols-md-space cols-sm-space cols-xs-space">
+        <%= group_member.assignment.present? ? group_member.assignment : t('.no_assignment') %>
+      </div>
+    </div>
+  <% end %>
+</div>
