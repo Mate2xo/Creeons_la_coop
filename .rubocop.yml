@@ -2,9 +2,6 @@ require:
   - rubocop-rspec
   - rubocop-rails
 
-# inherit_from:
-#   - http://relaxed.ruby.style/rubocop.yml
-
 AllCops:
   DisplayStyleGuide: true
   DisplayCopNames: true
@@ -12,9 +9,7 @@ AllCops:
     - 'db/schema.rb'
     - 'vendor/**/*'
     - 'bin/*'
-
-# Style/DateTime:
-#   Enabled: true
+  NewCops: enable
 
 Layout/LineLength:
   Max: 120
@@ -45,7 +40,6 @@ Style/HashTransformKeys:
   Enabled: true
 Style/HashTransformValues:
   Enabled: true
-
-  Style/StringLiterals:
-    Exclude:
-      - db/schema.rb
+Style/StringLiterals:
+  Exclude:
+    - db/schema.rb
