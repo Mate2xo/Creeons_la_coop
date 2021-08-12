@@ -16,6 +16,8 @@ en:
     errors:
       models:
         mission:
+          related_enrollment_invalidation: One or more related enrollment will become invalid with this update
+          mismatch_between_time_slots_and_related_enrollments: There is a mismatch between the related enrollments and the availlable time slots
           attributes:
             duration:
               maximum: must be less than or equal to 10 hours

@@ -7,8 +7,7 @@ class EnrollmentsController < ApplicationController
 
   def create
     create_transaction = Enrollments::CreateTransaction.new.with_step_args(
-      validate: [mission: @mission],
-      check_cash_register_proficiency: [mission: @mission, member: current_member],
+      include_mission_date_in_enrollment_datetimes: [mission: @mission],  #todo change include mission in inputs
       transform_time_slots_in_time_params_for_enrollment: [regulated: @mission.regulated?,
                                                            time_slots: permitted_params['time_slots']]
     ).call(permitted_params)
@@ -18,6 +17,7 @@ class EnrollmentsController < ApplicationController
       redirect_to mission_path(params[:mission_id])
     else
       flash[:alert] = create_transaction.failure
+      render 'missions/index'
     end
   end
 

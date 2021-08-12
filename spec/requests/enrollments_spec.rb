@@ -11,7 +11,7 @@ RSpec.describe 'Enrollments', type: :request do
   end
 
   describe 'POST mission_enrollments_path' do
-    subject(:enroll) { post mission_enrollments_path(mission), params: params }
+    subject(:post_enrollment) { post mission_enrollments_path(mission), params: params }
 
     before { sign_in current_member }
 
@@ -27,7 +27,7 @@ RSpec.describe 'Enrollments', type: :request do
     let(:params) { { enrollment: enrollment } }
 
     it 'creates an enrollment on the given mission' do
-      enroll
+      post_enrollment
       expect(mission.reload.enrollments.size).to eq 1
     end
 
@@ -38,7 +38,9 @@ RSpec.describe 'Enrollments', type: :request do
       let(:enrollment) do
         enrollment = attributes_for :enrollment,
                                     time_slots: time_slots,
-                                    genre: 'regulated'
+                                    genre: 'regulated',
+                                    start_time: mission.start_date,
+                                    end_time: mission.start_date + 3.hours
         enrollment[:member_id] = current_member.id
         enrollment[:mission_id] = mission.id
         enrollment
@@ -46,14 +48,14 @@ RSpec.describe 'Enrollments', type: :request do
       let(:params) { { enrollment: enrollment } }
 
       it 'creates an enrollment on the given mission' do
-        enroll
+        post_enrollment
         expect(mission.reload.enrollments.size).to eq 1
       end
     end
 
     context 'without a member field' do
       it 'enrolls the current_member to the mission' do
-        enroll
+        post_enrollment
         expect(Enrollment.last.member_id).to eq current_member.id
       end
     end
@@ -64,34 +66,37 @@ RSpec.describe 'Enrollments', type: :request do
       it 'enrolls the given member to the mission' do
         enrollment.merge!(member_id: other_member.id)
 
-        enroll
+        post_enrollment
 
         expect(Enrollment.last.member_id).to eq other_member.id
       end
     end
 
     context 'with invalid params' do
-      let(:params) { { enrollment: { member_id: '0' } } }
+      let(:params) { { enrollment: { member_id: 0, mission_id: (create :mission).id } } }
+      let(:i18n_key) { 'activerecord.errors.models.enrollment.attributes.member.required' }
 
-      it 'sets a feedback message to the user' do
-        enroll
-        expect(flash[:alert]).not_to be_blank
+      it 'displays an error message' do
+        post_enrollment
+
+        expect(flash[:alert]).to include(I18n.t(i18n_key))
       end
     end
   end
 
   describe 'DELETE mission_enrollments_path' do
-    subject(:disenroll) { delete mission_enrollments_path(mission) }
+    subject(:disenroll) { delete mission_enrollments_path(mission, enrollment) }
 
     before { sign_in current_member }
 
     let(:current_member) { create :member }
-    let(:params) { { enrollment: build(:enrollment, mission: mission, member: current_member).attributes } }
+    let(:mission) { create :mission }
+    let(:enrollment) { create :enrollment, mission: mission, member: current_member }
 
     it "deletes the current members' enrollment" do
-      post mission_enrollments_path(mission), params: params
-
       disenroll
+
+      expect(Enrollment.where(id: enrollment.id).exists?).to be_falsey
     end
   end
 end

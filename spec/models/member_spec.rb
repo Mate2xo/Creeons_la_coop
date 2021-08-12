@@ -173,6 +173,8 @@ RSpec.describe Member, type: :model do
   end
 
   describe '#monthly_worked_hours' do
+    before { allow(Date).to receive(:current).and_return(Date.new(2021, 6, 15)) }
+
     context 'when a member shares the same register_id with his/her family' do
       let(:member) { create :member, register_id: 1234 }
       let(:family_member) { create :member, register_id: 1234 }
@@ -186,10 +188,11 @@ RSpec.describe Member, type: :model do
     context 'when a member is enrolled on an event' do
       let(:member) { create :member }
       let(:current_date) { Date.current }
+      let(:event) { create :mission, genre: 'event' }
 
       it 'ignores these hours' do
         create :enrollment, member: member
-        create :enrollment, member: member, on_event: true
+        create :enrollment, member: member, mission: event
 
         expect(member.monthly_worked_hours(current_date)).to eq 3
       end

@@ -12,10 +12,13 @@ fr:
           event: Événement
           regulated: Régulée
           standard: Standard
-        recurrent_change: Changement Récurrent
+        recurrent_change: Changement récurrent
     errors:
       models:
         mission:
+          related_enrollment_invalidation: Au moins une inscription est invalidée par la mise à jour demandée
+          mismatch_between_time_slots_and_related_enrollments: Un décalage existe entre les inscriptions et les créneaux régulés disponibles
+          recurrent_update_cancel: "La mise à jour récurrente de la mission %{name} du %{date} a échoué : %{failure}"
           attributes:
             duration:
               maximum: doit être inférieure ou égale à 10 heures

@@ -16,10 +16,18 @@ class Enrollment < ApplicationRecord
   belongs_to :member
   belongs_to :mission
 
-  before_save :set_defaults
+  before_validation :set_defaults
+
+  validates_with EnrollmentValidators::CashRegisterProficiencyValidator
+  validates_with EnrollmentValidators::DatetimesInclusionValidator
+  validates_with EnrollmentValidators::UniquenessEnrollmentValidator, on: :create
+  validates_with EnrollmentValidators::AvailabilityPlaceValidator
+  validates_with EnrollmentValidators::AvailabilitySlotValidator
+  validates_with EnrollmentValidators::DurationValidator
+  validates_with EnrollmentValidators::MatchingMissionTimeSlotsValidator
 
   def duration
-    return 0 if start_time == nil || end_time == nil
+    return 0 if start_time.nil? || end_time.nil?
 
     ((end_time - start_time) / 60 / 60).round 1
   end

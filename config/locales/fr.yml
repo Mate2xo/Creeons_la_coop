@@ -42,10 +42,6 @@ fr:
         postal_code: code postal
         street_name_1: Numéro et nom de voie
         street_name_2: Complément d'addresse
-      enrollment:
-        member: membre
-        start_time: heure de début
-        end_time: heure de fin
       member:
         avatar: Photo de profil
         biography: Présentation

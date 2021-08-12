@@ -13,18 +13,8 @@
 
 FactoryBot.define do
   factory :enrollment do
-    transient do
-      on_event { false }
-      mission_start_date { DateTime.current.beginning_of_day + 8.hours }
-    end
 
-    mission do
-      if on_event
-        association :mission, genre: 'event', start_date: mission_start_date
-      else
-        association :mission, start_date: mission_start_date
-      end
-    end
+    association :mission
     association :member
 
     trait :one_hour do

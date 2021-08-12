@@ -38,7 +38,7 @@ RSpec.describe 'Member count limit on missions :', type: :feature do
       end
 
       it 'sets a feedback message to the user', js: true do
-        expect(page).to have_content(I18n.t('enrollments.create.max_member_count_reached'))
+        expect(page).to have_content(I18n.t('activerecord.errors.models.enrollment.full_mission'))
       end
     end
   end
