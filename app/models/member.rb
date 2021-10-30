@@ -81,10 +81,8 @@ class Member < ApplicationRecord
   # @return [Float]
   # @param date [Date]
   def monthly_worked_hours(date)
-    month_number = date.month
-    family_enrollments
-      .select { |enroll| (enroll.mission.start_date.month == month_number && enroll.mission.genre != 'event') }
-      .reduce(0.0) { |sum, enrollment| sum + enrollment.duration }
+    family_enrollments.has_worked_this_month(date)
+                      .reduce(0.0) { |sum, enrollment| sum + enrollment.duration }
   end
 
   def redactor?
@@ -110,6 +108,7 @@ class Member < ApplicationRecord
   def family_enrollments
     return enrollments if register_id.nil?
 
-    Member.includes(:enrollments, enrollments: :mission).where(register_id: register_id).map(&:enrollments).flatten
+    Enrollment.joins(:member)
+              .where(members: { register_id: register_id })
   end
 end

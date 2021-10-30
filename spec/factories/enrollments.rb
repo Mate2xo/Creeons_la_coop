@@ -13,7 +13,6 @@
 
 FactoryBot.define do
   factory :enrollment do
-
     association :mission
     association :member
 

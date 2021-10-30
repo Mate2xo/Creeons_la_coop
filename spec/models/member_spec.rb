@@ -62,20 +62,23 @@ RSpec.describe Member, type: :model do
     describe 'associations' do
       it { is_expected.to accept_nested_attributes_for(:address).allow_destroy(true) }
       it { is_expected.to have_one(:address).dependent(:destroy) }
-      it {
-        expect(instance).to have_many(:created_missions)
-          .class_name('Mission').with_foreign_key('author_id')
-          .dependent(:nullify)
-      }
-      it {
-        expect(instance).to have_many(:managed_groups)
-          .class_name('Group').through(:group_managers).with_foreign_key('manager_id')
-          .dependent(:nullify)
-      }
       it { is_expected.to have_many(:missions).through(:enrollments) }
       it { is_expected.to have_many(:history_of_static_slot_selections) }
       it { is_expected.to have_many(:groups).through(:group_members) }
       it { is_expected.to have_many(:static_slots).through(:member_static_slots) }
+
+      it {
+        expect(instance).to have_many(:created_missions).class_name('Mission')
+                                                        .with_foreign_key('author_id')
+                                                        .dependent(:nullify)
+      }
+
+      it {
+        expect(instance).to have_many(:managed_groups).class_name('Group')
+                                                      .through(:group_managers)
+                                                      .with_foreign_key('manager_id')
+                                                      .dependent(:nullify)
+      }
     end
 
     describe 'validations' do
@@ -173,28 +176,50 @@ RSpec.describe Member, type: :model do
   end
 
   describe '#monthly_worked_hours' do
+    subject(:monthly_worked_hours) { member.monthly_worked_hours(Date.current) }
+
+    let(:member) { create :member, register_id: 1234 }
+
     before { allow(Date).to receive(:current).and_return(Date.new(2021, 6, 15)) }
 
+    it 'sums the worked hours during the month of the given date' do
+      create :enrollment, member: member
+      expect(monthly_worked_hours).to eq 3
+    end
+
+    it 'does not sum the worked hours during the years outside of the given date' do
+      last_year_mission = create :mission, start_date: Date.current - 1.year
+      create :enrollment, mission: last_year_mission, member: member
+
+      expect(monthly_worked_hours).to eq 0
+    end
+
+    it 'does not sum worked hours of other members' do
+      create_list :enrollment, 4
+      create :enrollment, member: member
+
+      expect(monthly_worked_hours).to eq 3
+    end
+
     context 'when a member shares the same register_id with his/her family' do
-      let(:member) { create :member, register_id: 1234 }
       let(:family_member) { create :member, register_id: 1234 }
 
       it "affects every family members' worked hours count" do
         create :enrollment, member: family_member
-        expect(member.monthly_worked_hours(Date.current)).to eq family_member.monthly_worked_hours(Date.current)
+
+        expect(monthly_worked_hours)
+          .to eq family_member.monthly_worked_hours(Date.current)
       end
     end
 
     context 'when a member is enrolled on an event' do
-      let(:member) { create :member }
-      let(:current_date) { Date.current }
       let(:event) { create :mission, genre: 'event' }
 
       it 'ignores these hours' do
         create :enrollment, member: member
         create :enrollment, member: member, mission: event
 
-        expect(member.monthly_worked_hours(current_date)).to eq 3
+        expect(monthly_worked_hours).to eq 3
       end
     end
   end
