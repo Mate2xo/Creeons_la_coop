@@ -26,6 +26,14 @@ class Enrollment < ApplicationRecord
   validates_with EnrollmentValidators::DurationValidator
   validates_with EnrollmentValidators::MatchingMissionTimeSlotsValidator
 
+  scope :has_worked_this_month, lambda { |date|
+    joins(:mission)
+      .where(missions: {
+               start_date: (date.beginning_of_month)..(date.end_of_month)
+             })
+      .where.not(missions: { genre: 'event' })
+  }
+
   def duration
     return 0 if start_time.nil? || end_time.nil?
 
