@@ -58,7 +58,7 @@ RSpec.describe MissionsController, type: :controller do
       %w[name description min_member_count start_date].each do |attribute|
         it 'redirects to the edit form' do
           invalid_request(attribute)
-          expect(response).to render_template(:edit)
+          expect(response).to redirect_to edit_mission_path
         end
 
         it "does not change the mission :#{attribute} attribute" do
