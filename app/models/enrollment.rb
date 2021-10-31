@@ -17,6 +17,7 @@ class Enrollment < ApplicationRecord
   belongs_to :mission
 
   before_validation :set_defaults
+  before_validation :synchronise_date_info_with_parent_mission
 
   validates_with EnrollmentValidators::CashRegisterProficiencyValidator
   validates_with EnrollmentValidators::DatetimesInclusionValidator
@@ -49,5 +50,19 @@ class Enrollment < ApplicationRecord
   def set_defaults
     self.start_time ||= mission.start_date
     self.end_time ||= mission.due_date
+  end
+
+  def synchronise_date_info_with_parent_mission
+    enrollment_and_mission_are_on_the_same_date = start_time.to_date == mission.start_date.to_date &&
+                                                  end_time.to_date == mission.due_date.to_date
+    return if enrollment_and_mission_are_on_the_same_date
+
+    year, month, day = extract_date_info_from(mission.start_date)
+    self.start_time = self.start_time.change(year: year, month: month, day: day)
+    self.end_time = self.end_time.change(year: year, month: month, day: day)
+  end
+
+  def extract_date_info_from(date)
+    [date.year, date.month, date.day]
   end
 end
