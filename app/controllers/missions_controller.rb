@@ -32,7 +32,8 @@ class MissionsController < ApplicationController
       render :show
     else
       flash[:error] = update_transaction.failure
-      render :edit
+      # TODO: change this to #render, and properly translate error messages
+      redirect_to edit_mission_path(@mission)
     end
   end
 
