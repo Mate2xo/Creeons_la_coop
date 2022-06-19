@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.1'
+ruby '2.6.9'
 
 # Rails base gems
 gem 'bootstrap', '~> 4.3.1'
@@ -33,7 +33,7 @@ gem 'mini_magick', '~> 4.9.5' # Use ActiveStorage variant
 
 gem 'activeadmin' # Admin interface
 gem 'active_storage_validations'
-gem 'addressable' # URI manipulations
+gem 'addressable', '~> 2.8.0' # URI manipulations
 gem 'aws-sdk-s3', '= 1.48', require: false # S3 file upload storage
 gem 'bootstrap4-datetime-picker-rails'
 gem 'cocoon', '~> 1.2', '>= 1.2.12' # Dynamic nested forms
