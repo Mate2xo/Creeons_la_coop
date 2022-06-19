@@ -62,8 +62,8 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    addressable (2.5.2)
-      public_suffix (>= 2.0.2, < 4.0)
+    addressable (2.8.0)
+      public_suffix (>= 2.0.2, < 5.0)
     annotate (2.7.4)
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 13.0)
@@ -343,7 +343,7 @@ GEM
     pry-byebug (3.6.0)
       byebug (~> 10.0)
       pry (~> 0.10)
-    public_suffix (3.0.3)
+    public_suffix (4.0.7)
     puma (4.3.12)
       nio4r (~> 2.0)
     pundit (2.0.1)
@@ -580,7 +580,7 @@ PLATFORMS
 DEPENDENCIES
   active_storage_validations
   activeadmin
-  addressable
+  addressable (~> 2.8.0)
   annotate (~> 2.7, >= 2.7.4)
   aws-sdk-s3 (= 1.48)
   bootsnap (>= 1.1.0)
