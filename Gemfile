@@ -7,7 +7,7 @@ ruby '2.6.9'
 
 # Rails base gems
 gem 'bootstrap', '~> 4.3.1'
-gem 'image_processing', '~> 1.9', '>= 1.9.3'
+gem 'image_processing', '~> 1.12'
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
 gem 'pg', '>= 0.18', '< 2.0'
