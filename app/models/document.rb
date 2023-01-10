@@ -24,7 +24,8 @@ class Document < ApplicationRecord
                               communications
                               reports
                               procedures
-                              questionnaires],
+                              questionnaires
+                              recipes],
                        default: :weekly_orders
 
   validates :file, attached: true, size: { less_than: 20.megabytes }, content_type: [
