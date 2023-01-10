@@ -98,11 +98,16 @@ end
 Rails.logger.info 'Productors seeded'
 
 20.times do
+  begin
   FactoryBot.create :mission,
                     genre: Mission.genres.keys.sample,
                     members: Member.all.sample(rand(0..8)),
                     addresses: FactoryBot.create_list(:address, rand(1..2)),
                     author: Member.all.sample
+    
+  rescue ActiveRecord::RecordInvalid => e
+    next
+  end
 end
 
 Rails.logger.info 'Missions seeded'
