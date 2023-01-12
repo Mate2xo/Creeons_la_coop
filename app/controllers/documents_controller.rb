@@ -22,6 +22,28 @@ class DocumentsController < ApplicationController
     end
   end
 
+  def edit
+  
+    @document = Document.find(params[:id])
+   
+  end
+
+  def update
+    @document = Document.find(params[:id])
+    transaction = Documents::UpdateTransaction.new.with_step_args(
+                    change_filename: [document: @document],
+                    update_file: [document: @document] 
+                  ).call(permitted_params)
+
+    if transaction.success?
+      flash[:notice] = t 'activerecord.notices.messages.update_success'
+      redirect_to documents_path
+    else
+      flash[:error] = transaction[:errors]
+      render :edit
+    end
+  end
+
   def destroy
     @document = authorize Document.find(params[:id])
     @document.destroy
@@ -37,7 +59,7 @@ class DocumentsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:document).permit(:category, :file)
+    params.require(:document).permit(:category, :file, :file_name)
   end
 
   def user_feedback_on_create(record)

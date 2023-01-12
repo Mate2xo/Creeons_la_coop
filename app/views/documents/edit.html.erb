@@ -1,0 +1,30 @@
+<%= form_with model: @document, local: true do |form| %>
+  <div class="col">
+    <div class="col-lg-12">
+      <div class="field">
+        <%= form.label :category%><br />
+        <%= form.select :category, Document.category.options, :selected => @document.category, class: "form-control form-control-lg" %>
+      </div>
+      <br/>
+
+      <div class="d-flex justify-content-between flex-wrap">
+        <div class="field flex-fill">
+          <%= form.label :file_name %>
+          <br />
+          <%= form.text_field :file_name, class: "form-control form-control-lg" %>
+        </div>
+
+        <div class="mx-2"></div>
+
+      </div>
+      <br>
+
+    </div>
+  </div>
+  <br />
+
+
+  <div class="actions">
+    <%= form.submit t("main_app.views.application.buttons.edit_submit"), class: "btn-update btn btn-styled btn-lg btn-block btn-base-1 mt-4" %>
+  </div><br />
+<% end %>

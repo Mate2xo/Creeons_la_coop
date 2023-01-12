@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_12_173612) do
+ActiveRecord::Schema.define(version: 2021_04_08_074322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,7 +74,6 @@ ActiveRecord::Schema.define(version: 2023_01_12_173612) do
     t.datetime "updated_at", null: false
     t.boolean "published", default: false
     t.string "category", default: "weekly_orders"
-    t.string "file_name"
   end
 
   create_table "enrollments", force: :cascade do |t|
