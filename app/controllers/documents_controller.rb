@@ -11,6 +11,10 @@ class DocumentsController < ApplicationController
                  end
   end
 
+  def edit
+    @document = authorize Document.find(params[:id])
+  end
+
   def create
     @document = authorize Document.new(permitted_params)
     @document.save
@@ -22,20 +26,9 @@ class DocumentsController < ApplicationController
     end
   end
 
-  def edit
-  
-    @document = Document.find(params[:id])
-   
-  end
-
   def update
-    @document = Document.find(params[:id])
-    transaction = Documents::UpdateTransaction.new.with_step_args(
-                    change_filename: [document: @document],
-                    update_file: [document: @document] 
-                  ).call(permitted_params)
-
-    if transaction.success?
+    @document = authorize Document.find(params[:id])
+    if update_transaction.success?
       flash[:notice] = t 'activerecord.notices.messages.update_success'
       redirect_to documents_path
     else
@@ -60,6 +53,16 @@ class DocumentsController < ApplicationController
 
   def permitted_params
     params.require(:document).permit(:category, :file, :file_name)
+  end
+
+  def update_transaction
+    @update_transaction ||=
+      begin
+        Documents::UpdateTransaction.new.with_step_args(
+          change_filename: [document: @document],
+          update_file: [document: @document]
+        ).call(permitted_params)
+      end
   end
 
   def user_feedback_on_create(record)
