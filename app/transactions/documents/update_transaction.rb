@@ -10,12 +10,12 @@ module Documents
         blob_id = ActiveStorage::Attachment.find_by(record_id: document.id).blob_id
         blob = ActiveStorage::Blob.find(blob_id)
         extension = blob.filename.to_s.split('.')[-1]
-        if blob.update(filename: "#{params[:file_name]}.#{extension.to_s}") 
+        if blob.update(filename: "#{params[:file_name]}.#{extension}")
           Success(params)
         else
           failure_message = <<-MESSAGE
             "#{I18n.t('activerecord.errors.messages.update_fail')}
-            #{mission.errors.full_messages.join(', ')}"
+            #{document.errors.full_messages.join(', ')}"
           MESSAGE
           Failure(failure_message)
         end
@@ -31,7 +31,7 @@ module Documents
       else
         failure_message = <<-MESSAGE
           "#{I18n.t('activerecord.errors.messages.update_fail')}
-          #{mission.errors.full_messages.join(', ')}"
+          #{document.errors.full_messages.join(', ')}"
         MESSAGE
         Failure(failure_message)
       end
