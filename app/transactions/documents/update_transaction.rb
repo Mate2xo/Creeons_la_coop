@@ -9,8 +9,8 @@ module Documents
       if params[:file_name].present?
         blob_id = ActiveStorage::Attachment.find_by(record_id: document.id).blob_id
         blob = ActiveStorage::Blob.find(blob_id)
-        extension = blob.filename.to_s.split('.')[-1]
-        if blob.update(filename: "#{params[:file_name]}.#{extension}")
+        extension = blob.filename.extension_with_delimiter
+        if blob.update(filename: "#{params[:file_name]}#{extension}")
           Success(params)
         else
           failure_message = <<-MESSAGE
