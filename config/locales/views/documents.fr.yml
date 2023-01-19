@@ -1,6 +1,5 @@
 fr:
   documents:
-    file_name: Nom du document
     download_file: Télécharger
     edit:
       document_edit: Modifier votre document
