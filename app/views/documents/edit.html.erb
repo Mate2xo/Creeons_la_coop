@@ -11,14 +11,14 @@
               <div class="col-lg-12">
               </br>
                 <div class="field">
-                  <%= form.label :category, t('activerecord.attributes.document.category')%><br />
+                  <%= form.label :category, Document.human_attribute_name(:category)%><br />
                   <%= form.select :category, Document.category.options, :selected => @document.category, class: "form-control form-control-lg" %>
                 </div>
                 <br/>
 
                 <div class="d-flex justify-content-between flex-wrap">
                   <div class="field flex-fill">
-                    <%= form.label :file_name, t('activerecord.attributes.document.filename') %>
+                    <%= form.label :file_name, Document.human_attribute_name(:file_name) %>
                     <br />
                     <%= form.text_field :file_name, class: "form-control form-control-lg" %>
                   </div>

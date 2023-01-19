@@ -21,7 +21,7 @@
               <table id="documents" class="table table-sm table-hover">
                 <thead>
                   <tr>
-                    <th scope="col"> <%= t 'activerecord.attributes.document.filename' %></th>
+                    <th scope="col"> <%=  Document.human_attribute_name(:file_name) %></th> 
                     <th scope="col"><%= t 'documents.download_file' %></th>
                   </tr>
                 </thead>
