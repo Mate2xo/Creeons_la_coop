@@ -55,14 +55,10 @@ class DocumentsController < ApplicationController
     params.require(:document).permit(:category, :file, :file_name)
   end
 
-  def update_transaction
-    @update_transaction ||=
-      begin
-        Documents::UpdateTransaction.new.with_step_args(
-          change_filename: [document: @document],
-          update_file: [document: @document]
-        ).call(permitted_params)
-      end
+  def update_transaction # removed the equals thing here, don't know if it still works
+    begin
+      Documents::UpdateTransaction.new.call(permitted_params.merge(document: @document))
+    end
   end
 
   def user_feedback_on_create(record)
