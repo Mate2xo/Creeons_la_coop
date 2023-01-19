@@ -6,7 +6,6 @@ module Documents
     step :update_file
 
     def change_filename(params)
-
       blob = get_blob(params[:document])
       new_filename = "#{params[:file_name]}#{blob.filename.extension_with_delimiter}"
 
