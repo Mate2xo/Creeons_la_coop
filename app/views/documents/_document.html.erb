@@ -13,6 +13,9 @@
       <% end %>
     </td>
     <td scope="row">
+      <%= document.created_at.strftime("%H:%M %d/%m/%Y") %>
+    </td>
+    <td scope="row">
       <%= link_to translate('main_app.views.application.buttons.destroy'),
         document, method: :delete, id: document.id,
         class: 'btn btn-mini btn-danger',
