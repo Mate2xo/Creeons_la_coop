@@ -1,0 +1,3 @@
+$("tbody").replaceWith("<tbody><%= j render partial: "documents/document", collection: @documents.select {|document|
+                    document.category == @category} %></tbody>")
+
