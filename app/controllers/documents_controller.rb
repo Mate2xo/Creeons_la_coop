@@ -3,19 +3,19 @@
 # Document management
 class DocumentsController < ApplicationController
   def index
+    @sorting_params = [params[:sort], params[:direction]]
     @category = params[:category] || :filename
     join_sql = "INNER JOIN active_storage_attachments ON active_storage_attachments.record_id = documents.id INNER JOIN active_storage_blobs ON active_storage_blobs.id = active_storage_attachments.blob_id"
 
     respond_to do |format|
-      format.js {}
+      format.js
       format.html
     end
-
     @document = Document.new
     @documents = if member_signed_in?
-                   Document.with_attached_file.joins(join_sql).order(params[:sort] || :filename)
+                   Document.with_attached_file.joins(join_sql).order(order_params)
                  else
-                   Document.where(published: true).with_attached_file.joins(join_sql).order(params[:sort] || :filename)
+                   Document.where(published: true).with_attached_file.joins(join_sql).order(order_params)
                  end
   end
 
@@ -43,6 +43,15 @@ class DocumentsController < ApplicationController
   end
 
   private
+  def order_params
+    if params[:sort].present?
+      "#{params[:sort]} #{params[:direction]}"
+      
+    else
+      :filename
+    end
+  end
+
   def permitted_params
     params.require(:document).permit(:category, :file)
   end

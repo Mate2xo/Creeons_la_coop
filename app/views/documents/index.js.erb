@@ -1,3 +1,16 @@
 $("tbody").replaceWith("<tbody><%= j render partial: "documents/document", collection: @documents.select {|document|
-                    document.category == @category} %></tbody>")
+                    document.category == @category} %></tbody>");
 
+<% if  @sorting_params.include?("created_at") %> 
+  if (document.querySelector("#sort-date").classList.contains("desc")){
+    $("#sort-date").replaceWith("<%= j link_to "Date", documents_path(sort: "created_at", direction: "ASC", category: @category.to_s), class:"created_at", id:"sort-date", remote: true %>");
+  } else {
+    $("#sort-date").replaceWith("<%= j link_to "Date", documents_path(sort: "created_at", direction: "DESC", category: @category.to_s), class:"created_at desc", id:"sort-date", remote: true %>");
+  };
+<% else %>
+  if (document.querySelector("#sort-name").classList.contains("desc")){
+    $("#sort-name").replaceWith("<%= j link_to "Name", documents_path(sort: "filename", direction: "ASC", category: @category.to_s), class:"filename", id:"sort-name", remote: true %>");
+  } else {
+    $("#sort-name").replaceWith("<%= j link_to "Name", documents_path(sort: "filename", direction: "DESC", category: @category.to_s), class:"filename desc", id:"sort-name", remote: true %>");
+  };
+<% end %>
