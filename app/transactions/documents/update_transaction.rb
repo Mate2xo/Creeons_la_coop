@@ -11,6 +11,8 @@ module Documents
 
       if params[:file_name].present? && blob.update(filename: new_filename)
         Success(params)
+      elsif params[:file_name].blank?
+        Success(params)
       else
         error_message(params[:document])
       end

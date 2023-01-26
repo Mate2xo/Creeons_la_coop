@@ -32,7 +32,7 @@ class DocumentsController < ApplicationController
       flash[:notice] = t 'activerecord.notices.messages.update_success'
       redirect_to documents_path
     else
-      flash[:error] = transaction[:errors]
+      flash[:error] = update_transaction[:errors]
       render :edit
     end
   end
@@ -56,9 +56,7 @@ class DocumentsController < ApplicationController
   end
 
   def update_transaction # removed the equals thing here, don't know if it still works
-    begin
-      Documents::UpdateTransaction.new.call(permitted_params.merge(document: @document))
-    end
+    Documents::UpdateTransaction.new.call(permitted_params.merge(document: @document))
   end
 
   def user_feedback_on_create(record)
