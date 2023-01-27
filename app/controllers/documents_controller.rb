@@ -4,7 +4,7 @@
 class DocumentsController < ApplicationController
   def index
     @sorting_params = [params[:sort], params[:direction]]
-    @category = params[:category] || :filename
+    @category = params[:category]
     join_sql = "INNER JOIN active_storage_attachments ON active_storage_attachments.record_id = documents.id INNER JOIN active_storage_blobs ON active_storage_blobs.id = active_storage_attachments.blob_id"
 
     respond_to do |format|
