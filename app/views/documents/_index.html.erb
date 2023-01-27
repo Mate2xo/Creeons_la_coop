@@ -21,7 +21,7 @@
               <table id="documents" class="table table-sm table-hover">
                 <thead>
                   <tr>
-                    <th scope="col"><%= link_to "Name", documents_path(sort: "filename", direction: "ASC", category: category.to_s), class:"name", id:"sort-name", remote: true %></th>
+                    <th scope="col"><%= link_to "Name", documents_path(sort: "filename", direction: "DESC", category: category.to_s), class:"name desc", id:"sort-name", remote: true %></th>
                     <th scope="col">Télécharger</th>
                     <th scope="col"><%= link_to "Date", documents_path(sort: "created_at", direction: "ASC", category: category.to_s), class:"created_at", id:"sort-date", remote: true %></th>
                   </tr>
@@ -30,7 +30,7 @@
                 <tbody>
                   <%= render partial: "documents/document", collection: @documents.select {|document|
                     document.category == category 
-                  } %>
+                  }, id: "documents" %>
                 </tbody>
               </table>
             </div>

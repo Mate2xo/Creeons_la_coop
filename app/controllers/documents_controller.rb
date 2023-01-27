@@ -46,7 +46,7 @@ class DocumentsController < ApplicationController
   def order_params
     if params[:sort].present?
       "#{params[:sort]} #{params[:direction]}"
-      
+
     else
       :filename
     end
