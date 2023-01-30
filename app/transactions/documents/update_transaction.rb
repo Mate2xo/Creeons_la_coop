@@ -9,9 +9,9 @@ module Documents
       blob = get_blob(params[:document])
       new_filename = "#{params[:file_name]}#{blob.filename.extension_with_delimiter}"
 
-      if params[:file_name].present? && blob.update(filename: new_filename)
+      if params[:file_name].blank?
         Success(params)
-      elsif params[:file_name].blank?
+      elsif blob.update(filename: new_filename)
         Success(params)
       else
         error_message(params[:document])

@@ -1,5 +1,7 @@
 fr:
   documents:
-    download_file: Télécharger
     edit:
+      submit: Sauvegarder les changements
       document_edit: Modifier votre document
+    index:
+      download_file: Télécharger
