@@ -1,42 +1,42 @@
-$("tbody").replaceWith("<tbody><%= j render partial: "documents/document", collection: @documents.select {|document|
-                    document.category == @category} %></tbody>");
+$("tbody").replaceWith("<tbody><%= j render partial: "documents/document", collection: @documents.select { |document| document.category == @category } %></tbody>");
 
+
+setSortingDirectionParamAndClass()
 <%# I'd like to add the code between the comments to a different file, so that this file is organized better %>
-function date_asc(){
+function setDateSortDirectionToAscending(){
   $("#sort-date").replaceWith("<%= j link_to "Date", documents_path(sort: "created_at", direction: "ASC", category: @category.to_s), class:"created_at", id:"sort-date", remote: true %>");
 };
 
-function date_desc(){
+function setDateSortDirectionToDescending(){
   $("#sort-date").replaceWith("<%= j link_to "Date", documents_path(sort: "created_at", direction: "DESC", category: @category.to_s), class:"created_at desc", id:"sort-date", remote: true %>");
 };
 
-function name_asc(){
-  $("#sort-name").replaceWith("<%= j link_to "Name", documents_path(sort: "filename", direction: "ASC", category: @category.to_s), class:"filename", id:"sort-name", remote: true %>");
+function setNameSortDirectionToAscending(){
+  $("#sort-name").replaceWith("<%= j link_to t('.name'), documents_path(sort: "filename", direction: "ASC", category: @category.to_s), class:"filename", id:"sort-name", remote: true %>");
 };
 
-function name_desc(){
-  $("#sort-name").replaceWith("<%= j link_to "Name", documents_path(sort: "filename", direction: "DESC", category: @category.to_s), class:"filename desc", id:"sort-name", remote: true %>");
+function setNameSortDirectionToDescending(){
+  $("#sort-name").replaceWith("<%= j link_to t('.name'), documents_path(sort: "filename", direction: "DESC", category: @category.to_s), class:"filename desc", id:"sort-name", remote: true %>");
 };
 
-function sort_class(){
+function setSortingDirectionParamAndClass(){
   <% if  @sorting_params.include?("created_at") %> 
     if (document.querySelector("#sort-date").classList.contains("desc")){
-      date_asc();
+      setDateSortDirectionToAscending();
     } else {
-      date_desc();
+      setDateSortDirectionToDescending();
     };
-    name_asc();
+    setNameSortDirectionToAscending();
   <% elsif @sorting_params.include?("filename") %>
     if (document.querySelector("#sort-name").classList.contains("desc")){
-      name_asc();
+      setNameSortDirectionToAscending();
     } else {
-      name_desc();
+      setNameSortDirectionToDescending();
     };
-    date_asc();
+    setDateSortDirectionToAscending();
   <% else %>
-    name_desc();
+    setNameSortDirectionToDescending();
   <% end %>
 }
 <%# I need to find a way to require .js.erb in this file so all I'll need to do is execute the function%>
 
-sort_class()

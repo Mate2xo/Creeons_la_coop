@@ -5,17 +5,12 @@ class DocumentsController < ApplicationController
   def index
     @sorting_params = [params[:sort], params[:direction]]
     @category = params[:category]
-    join_sql = "INNER JOIN active_storage_attachments ON active_storage_attachments.record_id = documents.id INNER JOIN active_storage_blobs ON active_storage_blobs.id = active_storage_attachments.blob_id"
-
-    respond_to do |format|
-      format.js
-      format.html
-    end
+    join_document_and_blob_tables = "INNER JOIN active_storage_attachments ON active_storage_attachments.record_id = documents.id INNER JOIN active_storage_blobs ON active_storage_blobs.id = active_storage_attachments.blob_id"
     @document = Document.new
     @documents = if member_signed_in?
-                   Document.with_attached_file.joins(join_sql).order(order_params)
+                   Document.with_attached_file.joins(join_document_and_blob_tables).order(order_params)
                  else
-                   Document.where(published: true).with_attached_file.joins(join_sql).order(order_params)
+                   Document.where(published: true).with_attached_file.joins(join_document_and_blob_tables).order(order_params)
                  end
   end
 
