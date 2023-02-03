@@ -29,7 +29,7 @@ class DocumentsController < ApplicationController
   def update
     @document = authorize Document.find(params[:id])
     if update_transaction.success?
-      flash[:notice] = t 'activerecord.notices.messages.update_success'
+      flash[:notice] = t '.success'
       redirect_to documents_path
     else
       flash[:error] = update_transaction[:errors]

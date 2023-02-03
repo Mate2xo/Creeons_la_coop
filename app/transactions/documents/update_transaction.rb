@@ -6,12 +6,12 @@ module Documents
     step :update_file
 
     def change_filename(params)
+      return Success(params) if params[:file_name].blank?
+
       blob = get_blob(params[:document])
       new_filename = "#{params[:file_name]}#{blob.filename.extension_with_delimiter}"
 
-      if params[:file_name].blank?
-        Success(params)
-      elsif blob.update(filename: new_filename)
+      if blob.update(filename: new_filename)
         Success(params)
       else
         error_message(params[:document])
@@ -33,7 +33,7 @@ module Documents
 
     def error_message(document)
       failure_message = <<-MESSAGE
-        "#{I18n.t('activerecord.errors.messages.update_fail')}
+        "#{I18n.t('.update_fail')}
         #{document.errors.full_messages.join(', ')}"
       MESSAGE
       Failure(failure_message)
