@@ -37,4 +37,12 @@ class Document < ApplicationRecord
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', # .xlsx
     'text/plain'
   ]
+  def self.join_documents_to_filenames
+    joins(<<-SQL)
+      INNER JOIN active_storage_attachments
+      ON active_storage_attachments.record_id = documents.id
+      INNER JOIN active_storage_blobs
+      ON active_storage_blobs.id = active_storage_attachments.blob_id
+    SQL
+  end
 end
