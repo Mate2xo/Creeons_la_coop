@@ -25,6 +25,18 @@ RSpec.describe Enrollment, type: :model do
     end
   end
 
+  describe 'validations' do
+    context 'when a new enrollment is created where mission is full' do
+      it 'raises an error' do
+        mission =  create :mission, max_member_count: 4 
+        enroll_n_members_on_mission(mission, 4)
+        extra_enrollment = Enrollment.new(mission: mission)
+
+        expect(extra_enrollment).to_not be_valid
+      end
+    end
+  end
+
   describe '#duration' do
     subject(:create_enrollment) do
       create :enrollment, start_time: mission.start_date, end_time: mission.start_date + 2.hours, mission: mission
@@ -56,6 +68,17 @@ RSpec.describe Enrollment, type: :model do
 
         expect(enrollment.duration).to eq 1.5
       end
+    end
+  end
+
+  def enroll_n_members_on_mission(mission, members_count)
+    members = create_list :member, members_count
+    members.each do |member|
+      create :enrollment,
+             member: member,
+             mission: mission,
+             start_time: mission.start_date,
+             end_time: mission.start_date + 3.hours
     end
   end
 end
