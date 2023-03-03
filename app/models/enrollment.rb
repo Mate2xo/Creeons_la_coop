@@ -22,7 +22,7 @@ class Enrollment < ApplicationRecord
   validates_with EnrollmentValidators::CashRegisterProficiencyValidator
   validates_with EnrollmentValidators::DatetimesInclusionValidator
   validates_with EnrollmentValidators::UniquenessEnrollmentValidator, on: :create
-  validates_with EnrollmentValidators::AvailabilityPlaceValidator
+  validates_with EnrollmentValidators::AvailabilityPlaceValidator, on: :create
   validates_with EnrollmentValidators::AvailabilitySlotValidator
   validates_with EnrollmentValidators::DurationValidator
   validates_with EnrollmentValidators::MatchingMissionTimeSlotsValidator

@@ -65,7 +65,7 @@ module Members
     end
 
     def update_member(input)
-      Failure(t('activerecord.errors.messages.update_fail')) unless @current_member.update(@member_params)
+      Failure(I18n.t 'activerecord.errors.messages.update_fail') unless @current_member.update(@member_params)
 
       Success(input)
     end
