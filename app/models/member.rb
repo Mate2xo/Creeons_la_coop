@@ -72,7 +72,7 @@ class Member < ApplicationRecord
   before_validation :set_unique_display_name
 
   enum role: { member: 0, admin: 1, super_admin: 2 }
-  enum cash_register_proficiency: { untrained: 0, beginner: 1, proficient: 2 }
+  enum cash_register_proficiency: { untrained: 0,newbie: 1, beginner: 2, proficient: 3 }
 
   def thredded_admin?
     admin? || super_admin?
