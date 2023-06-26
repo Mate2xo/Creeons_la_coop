@@ -4,11 +4,20 @@
 class DocumentsController < ApplicationController
   def index
     @document = Document.new
-    @documents = if member_signed_in?
-                   Document.with_attached_file
-                 else
-                   Document.where(published: true).with_attached_file
-                 end
+    documents_with_file = Document.with_attached_file.joined_with_name
+    @documents_by_name =
+      if member_signed_in?
+        documents_with_file.order(:filename)
+      else
+        documents_with_file.where(published: true).order(:filename)
+      end
+
+    @documents_by_date =
+      if member_signed_in?
+        documents_with_file.order(:created_at)
+      else
+        documents_with_file.where(published: true).order(:created_at)
+      end
   end
 
   def create
@@ -26,7 +35,7 @@ class DocumentsController < ApplicationController
     @document = authorize Document.find(params[:id])
     @document.destroy
     flash[:notice] = t('activerecord.notices.messages.record_destroyed',
-                       model: @document.model_name.singular)
+                     model: @document.model_name.singular)
 
     respond_to do |format|
       format.js
@@ -43,16 +52,16 @@ class DocumentsController < ApplicationController
   def user_feedback_on_create(record)
     if record.persisted?
       message = t("activerecord.notices.messages.record_created",
-                  model: @document.model_name.singular)
-      { notice: message }
+                model: @document.model_name.singular)
+                { notice: message }
     elsif record.invalid?
       message = record.errors.full_messages.join(', ')
       record.file.purge
       { alert: message }
     else
       message = t('activerecord.errors.messages.creation_fail',
-                  model: @document.model_name.singular)
-      { error: message }
+                model: @document.model_name.singular)
+                { error: message }
     end
   end
 end

@@ -18,6 +18,7 @@ Rails.application.config.assets.paths << Rails.root.join('lib')
 Rails.application.config.assets.precompile += %w(
   fullCalendar.js fullCalendar.css
   openStreetMaps.js
+  index/documents.js
   missionForm.js missions.css
   infos.js infos.css
 )

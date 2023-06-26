@@ -1,0 +1,9 @@
+en:
+  documents:
+    edit:
+      submit: Submit changes 
+      document_edit: Edit document
+    index:
+      download_file: Download
+      name: Name
+      date: Date

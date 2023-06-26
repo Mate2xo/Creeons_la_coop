@@ -1,12 +1,13 @@
 <br/>
-
 <div class="card no-border">
   <div class="widget mt-4">
     <div class="row-wrapper">
       <ul class="nav nav-tabs justify-content-center mb-5" role="tablist">
         <% Document.category.values.each_with_index do |category, index| %>
           <li class="nav-item">
-            <a class="nav-link <%= 'active' if index.zero? %>" data-toggle="tab" href="#<%= category %>">
+            <a class="nav-link <%= 'active' if index.zero? %>" 
+              data-toggle="tab" 
+              href="#<%= category %>">
               <%= t "enumerize.document.category.#{category}" %>
             </a>
           </li>
@@ -16,26 +17,72 @@
     <div class="row-wrapper">
       <div class="tab-content" id="myTabContent">
         <% Document.category.values.each_with_index do |category, index| %>
-          <div class="tab-pane fade show <%= 'active' if index.zero? %>" id=<%= category %> role="tabpanel" aria-labelledby="<%= category %>-tab">
-            <div class="row cols-md-space cols-sm-space cols-xs-space">
-              <table id="documents" class="table table-sm table-hover">
-                <thead>
-                  <tr>
-                    <th scope="col">Nom du document</th>
-                    <th scope="col">Télécharger</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <%= render partial: "documents/document", collection: @documents.select {|document|
-                    document.category == category 
-                  } %>
-                </tbody>
-              </table>
-            </div>
+          <div class="tab-pane fade show <%= 'active' if index.zero? %>"
+            id=<%= category %> 
+          role="tabpanel" 
+          aria-labelledby="<%= category %>-tab">
+          <div class="row cols-md-space cols-sm-space cols-xs-space">
+            <table id="documents" class="table table-sm table-hover">
+              <thead>
+                <tr >
+                  <th scope="col">
+                    <li style="list-style: none;">
+                      <a class="sort-link name" 
+                        data-category="<%= category %>"
+                        data-turbolinks="false"
+                        href="#"
+                        id="<%= category %>-name-desc"><%= t ".name" %></a>
+                      <a hidden class="sort-link name" 
+                        href="#"
+                        data-category="<%= category %>"
+                        data-turbolinks="false"
+                        id="<%= category %>-name-asc"><%= t ".name" %></a>
+                    </li>
+                  </th>
+                  <th scope="col"><%= t ".download_file" %></th>
+                  <th scope="col">
+                    <li style="list-style: none;">
+                      <a hidden class="sort-link date" 
+                        data-category="<%= category %>"
+                        data-turbolinks="false"
+                        href="#"
+                        id="<%= category %>-date-desc"> <%= t ".date" %></a>
+                      <a class="sort-link date" 
+                        data-category="<%= category %>"
+                        data-turbolinks="false"
+                        href="#"
+                        id="<%= category %>-date-asc"> <%= t  ".date" %></a>
+                    </li>
+                  </th>
+                </tr>
+              </thead>
+              <tbody data-category="<%= category %>"
+                class="sort-pane <%= category %>-name-asc">
+                <%= render partial: "documents/document", 
+                  collection: @documents_by_name.select { |document| document.category == category } %>
+            </tbody>
+            <tbody hidden data-category="<%= category %>"
+              class="sort-pane <%= category %>-name-desc">
+              <%= render partial: "documents/document", 
+                collection: @documents_by_name.reverse.select { |document| document.category == category } %>
+          </tbody>
+          <tbody hidden data-category="<%= category %>"
+            class="sort-pane <%= category %>-date-asc">
+            <%= render partial: "documents/document", 
+              collection: @documents_by_date.select { |document| document.category == category } %>
+        </tbody>
+        <tbody hidden data-category="<%= category %>"
+          class="sort-pane <%= category %>-date-desc">
+          <%= render partial: "documents/document", 
+            collection: @documents_by_date.reverse.select { |document| document.category == category } %>
+      </tbody>
+            </table>
+          </div>
           </div>
         <% end %>
       </div>
     </div>
   </div>
 </div>
+
+<%= javascript_include_tag "index/documents.js"  %>
