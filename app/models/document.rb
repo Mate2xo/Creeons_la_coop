@@ -16,6 +16,8 @@ class Document < ApplicationRecord
   extend ActiveModel::Naming
 
   has_one_attached :file
+  has_one :file_attachment, class_name: 'ActiveStorage::Attachment', as: :record, dependent: :destroy
+  has_one :file_blob, through: :file_attachment, source: :blob
 
   enumerize :category, in: %i[weekly_orders
                               newsletters
@@ -37,12 +39,6 @@ class Document < ApplicationRecord
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', # .xlsx
     'text/plain'
   ]
-  def self.join_documents_to_filenames
-    joins(<<-SQL)
-      INNER JOIN active_storage_attachments
-      ON active_storage_attachments.record_id = documents.id
-      INNER JOIN active_storage_blobs
-      ON active_storage_blobs.id = active_storage_attachments.blob_id
-    SQL
-  end
+
+  scope :joined_with_name, -> { joins(:file_blob) }
 end

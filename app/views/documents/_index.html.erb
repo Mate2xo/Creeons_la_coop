@@ -6,8 +6,8 @@
         <% Document.category.values.each_with_index do |category, index| %>
           <li class="nav-item">
             <a class="nav-link <%= 'active' if index.zero? %>" 
-               data-toggle="tab" 
-               href="#<%= category %>">
+              data-toggle="tab" 
+              href="#<%= category %>">
               <%= t "enumerize.document.category.#{category}" %>
             </a>
           </li>
@@ -18,66 +18,66 @@
       <div class="tab-content" id="myTabContent">
         <% Document.category.values.each_with_index do |category, index| %>
           <div class="tab-pane fade show <%= 'active' if index.zero? %>"
-               id=<%= category %> 
-               role="tabpanel" 
-               aria-labelledby="<%= category %>-tab">
-            <div class="row cols-md-space cols-sm-space cols-xs-space">
-              <table id="documents" class="table table-sm table-hover">
-                <thead>
-                  <tr >
-                    <th scope="col">
-                      <li style="list-style: none;">
-                        <a class="sort-link name" 
-                           data-category="<%= category %>"
-                           href="#"
-                           data-remote="true"
-                           id="<%= category.split("_").join("-") %>-name-desc"><%= t ".name" %></a>
-                        <a hidden class="sort-link name" 
-                                  href="#"
-                                  data-category="<%= category %>"
-                                  data-remote="true"
-                                  id="<%= category.split("_").join("-") %>-name-asc"><%= t ".name" %></a>
-                      </li>
-                    </th>
-                    <th scope="col"><%= t ".download_file" %></th>
-                    <th scope="col">
-                      <li style="list-style: none;">
-                        <a hidden class="sort-link date" 
-                                  data-category="<%= category %>"
-                                  href="#"
-                                  data-remote="true"
-                                  id="<%= category.split("_").join("-") %>-date-desc"> <%= t ".date" %></a>
-                        <a class="sort-link date" 
-                           data-category="<%= category %>"
-                           href="#"
-                           data-remote="true"
-                           id="<%= category.split("_").join("-") %>-date-asc"> <%= t  ".date" %></a>
-                      </li>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody data-category="<%= category %>"
-                       class="sort-pane <%= category.split("_").join("-") %>-name-asc">
-                  <%= render partial: "documents/document", 
-                             collection: @documents_by_name.select { |document| document.category == category } %>
-                </tbody>
-                <tbody hidden data-category="<%= category %>"
-                              class="sort-pane <%= category.split("_").join("-") %>-name-desc">
-                  <%= render partial: "documents/document", 
-                             collection: @documents_by_name.reverse.select { |document| document.category == category } %>
-                </tbody>
-                <tbody hidden data-category="<%= category %>"
-                              class="sort-pane <%= category.split("_").join("-") %>-date-asc">
-                  <%= render partial: "documents/document", 
-                             collection: @documents_by_date.select { |document| document.category == category } %>
-                </tbody>
-                <tbody hidden data-category="<%= category %>"
-                              class="sort-pane <%= category.split("_").join("-") %>-date-desc">
-                  <%= render partial: "documents/document", 
-                             collection: @documents_by_date.reverse.select { |document| document.category == category } %>
-                </tbody>
-              </table>
-            </div>
+            id=<%= category %> 
+          role="tabpanel" 
+          aria-labelledby="<%= category %>-tab">
+          <div class="row cols-md-space cols-sm-space cols-xs-space">
+            <table id="documents" class="table table-sm table-hover">
+              <thead>
+                <tr >
+                  <th scope="col">
+                    <li style="list-style: none;">
+                      <a class="sort-link name" 
+                        data-category="<%= category %>"
+                        data-turbolinks="false"
+                        href="#"
+                        id="<%= category %>-name-desc"><%= t ".name" %></a>
+                      <a hidden class="sort-link name" 
+                        href="#"
+                        data-category="<%= category %>"
+                        data-turbolinks="false"
+                        id="<%= category %>-name-asc"><%= t ".name" %></a>
+                    </li>
+                  </th>
+                  <th scope="col"><%= t ".download_file" %></th>
+                  <th scope="col">
+                    <li style="list-style: none;">
+                      <a hidden class="sort-link date" 
+                        data-category="<%= category %>"
+                        data-turbolinks="false"
+                        href="#"
+                        id="<%= category %>-date-desc"> <%= t ".date" %></a>
+                      <a class="sort-link date" 
+                        data-category="<%= category %>"
+                        data-turbolinks="false"
+                        href="#"
+                        id="<%= category %>-date-asc"> <%= t  ".date" %></a>
+                    </li>
+                  </th>
+                </tr>
+              </thead>
+              <tbody data-category="<%= category %>"
+                class="sort-pane <%= category %>-name-asc">
+                <%= render partial: "documents/document", 
+                  collection: @documents_by_name.select { |document| document.category == category } %>
+            </tbody>
+            <tbody hidden data-category="<%= category %>"
+              class="sort-pane <%= category %>-name-desc">
+              <%= render partial: "documents/document", 
+                collection: @documents_by_name.reverse.select { |document| document.category == category } %>
+          </tbody>
+          <tbody hidden data-category="<%= category %>"
+            class="sort-pane <%= category %>-date-asc">
+            <%= render partial: "documents/document", 
+              collection: @documents_by_date.select { |document| document.category == category } %>
+        </tbody>
+        <tbody hidden data-category="<%= category %>"
+          class="sort-pane <%= category %>-date-desc">
+          <%= render partial: "documents/document", 
+            collection: @documents_by_date.reverse.select { |document| document.category == category } %>
+      </tbody>
+            </table>
+          </div>
           </div>
         <% end %>
       </div>
@@ -85,4 +85,4 @@
   </div>
 </div>
 
-<%= javascript_include_tag "documents.js"  %>
+<%= javascript_include_tag "index/documents.js"  %>
