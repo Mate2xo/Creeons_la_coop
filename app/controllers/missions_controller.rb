@@ -8,7 +8,15 @@ class MissionsController < ApplicationController
   before_action :set_authorized_mission, only: %i[show edit update destroy]
 
   def index
-    @missions = Mission.includes(:members)
+    respond_to do |format|
+      format.html
+      format.json do
+        @missions = Mission.includes(:members, :enrollments)
+        if (filter = date_filtering_params)
+          @missions = @missions.where(start_date: filter[:from]..filter[:to])
+        end
+      end
+    end
   end
 
   def show; end
@@ -115,5 +123,16 @@ class MissionsController < ApplicationController
 
   def set_authorized_mission
     @mission = authorize Mission.find(params[:id])
+  end
+
+  def date_filtering_params
+    return unless params[:start].present? && params[:end].present?
+
+    start_date = Date.parse(params[:start])
+    end_date = Date.parse(params[:end])
+
+    { from: start_date, to: end_date }
+  rescue ArgumentError => _e
+    nil
   end
 end

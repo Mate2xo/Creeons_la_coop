@@ -25,6 +25,47 @@ RSpec.describe '/missions', type: :request do
       index
       expect(response).to have_http_status(:ok)
     end
+
+    it 'returns mission records' do
+      index
+      expect(response.parsed_body.size).to eq 2
+    end
+
+    context 'with date-filtering params' do
+      subject(:index) { get missions_path, as: :json, params: params }
+
+      let(:params) do
+        { 'start' => '2024-03-11T00:00:00Z',
+          'end' => '2024-03-18T00:00:00Z',
+          'timeZone' => 'UTC' }
+      end
+      let!(:missions) do
+        create(:mission, start_date: Date.new(2024, 3, 11))
+        create(:mission, start_date: Date.new(2024, 4, 11))
+      end
+
+      it 'returns only missions in the required time period', :aggregate_failures do
+        index
+
+        expect(response.parsed_body.size).to eq 1
+        expect(Date.parse(response.parsed_body.first['start'])).to eq Date.new(2024, 3, 11)
+      end
+
+      context 'with unexpected date-filtering params' do
+        subject(:index) { get missions_path, as: :json, params: params }
+
+        let(:params) do
+          { 'start' => '; raise BOOM',
+            'end' => 'aa 123047 %; ""',
+            'timeZone' => 'UTC' }
+        end
+
+        it 'ignores them and returns all records' do
+          index
+          expect(response.parsed_body.size).to eq 2
+        end
+      end
+    end
   end
 
   describe 'GET /:id' do
