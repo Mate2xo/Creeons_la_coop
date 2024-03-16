@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# TODO: Move these tests into the matching request spec
 RSpec.describe MissionsController, type: :controller do
   let(:member) { create :member }
   let(:super_admin) { create :member, :super_admin }
@@ -9,13 +10,6 @@ RSpec.describe MissionsController, type: :controller do
   let(:valid_attributes) { attributes_for(:mission) }
 
   before { sign_in super_admin }
-
-  describe 'GET index' do
-    before { get :index }
-
-    it 'assigns @mission' do expect(assigns(:missions)).to include(mission) end
-    it { expect(response).to have_http_status(:success) }
-  end
 
   describe 'GET show' do
     before { get :show, params: { id: mission.id } }

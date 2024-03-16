@@ -7,7 +7,29 @@ RSpec.describe 'A Mission request', type: :request do
 
   before { sign_in create :member }
 
-  describe 'Get show' do
+  describe 'GET / (HTML)' do
+    subject(:index) { get missions_path }
+
+    let!(:missions) { create_list(:mission, 2) }
+
+    it 'has an HTTP :OK status' do
+      index
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
+  describe 'GET / (JSON)' do
+    subject(:index) { get missions_path, as: :json }
+
+    let!(:missions) { create_list(:mission, 2) }
+
+    it 'has an HTTP :OK status' do
+      index
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
+  describe 'GET /:id' do
     subject(:get_mission) { get mission_path(mission) }
 
     context 'when the genre is set to standard' do
