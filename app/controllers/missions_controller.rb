@@ -8,12 +8,24 @@ class MissionsController < ApplicationController
   before_action :set_authorized_mission, only: %i[show edit update destroy]
 
   def index
-    @missions = Mission.includes(:members)
+    respond_to do |format|
+      format.html
+      format.json do
+        @missions = Mission.includes(:members, :enrollments)
+        if (filter = date_filtering_params)
+          @missions = @missions.where(start_date: filter[:from]..filter[:to])
+        end
+      end
+    end
   end
+
+  def show; end
 
   def new
     @mission = Mission.new
   end
+
+  def edit; end
 
   def create
     @mission = Mission.new(permitted_params)
@@ -21,10 +33,6 @@ class MissionsController < ApplicationController
 
     generate(@mission)
   end
-
-  def show; end
-
-  def edit; end
 
   def update
     if update_transaction.success?
@@ -74,12 +82,10 @@ class MissionsController < ApplicationController
 
   def update_transaction
     @update_transaction ||=
-      begin
-        Missions::UpdateTransaction.new.with_step_args(
-          transform_time_slots_in_time_params_for_enrollment: [regulated: @mission.regulated?],
-          update: [mission: @mission]
-        ).call(permitted_params)
-      end
+      Missions::UpdateTransaction.new.with_step_args(
+        transform_time_slots_in_time_params_for_enrollment: [regulated: @mission.regulated?],
+        update: [mission: @mission]
+      ).call(permitted_params)
   end
 
   def permitted_params
@@ -101,7 +107,11 @@ class MissionsController < ApplicationController
   end
 
   def regulated_mission_params
-    enrollment_params = params.require(:mission).permit(enrollments_attributes: [:id, :_destroy, :member_id, time_slots: []])
+    enrollment_params = params.require(:mission)
+                              .permit(enrollments_attributes: [
+                                        :id, :_destroy, :member_id,
+                                        { time_slots: [] }
+                                      ])
     base_params.merge(enrollment_params)
   end
 
@@ -113,5 +123,16 @@ class MissionsController < ApplicationController
 
   def set_authorized_mission
     @mission = authorize Mission.find(params[:id])
+  end
+
+  def date_filtering_params
+    return unless params[:start].present? && params[:end].present?
+
+    start_date = Date.parse(params[:start])
+    end_date = Date.parse(params[:end])
+
+    { from: start_date, to: end_date }
+  rescue ArgumentError => _e
+    nil
   end
 end
