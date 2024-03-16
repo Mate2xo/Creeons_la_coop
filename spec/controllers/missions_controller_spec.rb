@@ -4,9 +4,9 @@ require 'rails_helper'
 
 # TODO: Move these tests into the matching request spec
 RSpec.describe MissionsController, type: :controller do
-  let(:member) { create :member }
-  let(:super_admin) { create :member, :super_admin }
-  let(:mission) { create :mission }
+  let(:member) { create(:member) }
+  let(:super_admin) { create(:member, :super_admin) }
+  let(:mission) { create(:mission) }
   let(:valid_attributes) { attributes_for(:mission) }
 
   before { sign_in super_admin }
@@ -15,14 +15,20 @@ RSpec.describe MissionsController, type: :controller do
     before { get :show, params: { id: mission.id } }
 
     it { expect(response).to have_http_status :success }
-    it 'assigns @mission' do expect(assigns(:mission)).to eq(mission) end
+
+    it 'assigns @mission' do
+      expect(assigns(:mission)).to eq(mission)
+    end
   end
 
   describe 'GET edit' do
     before { get :edit, params: { id: mission.id } }
 
     it { expect(response).to have_http_status :success }
-    it 'assigns @mission' do expect(assigns(:mission)).to eq(mission) end
+
+    it 'assigns @mission' do
+      expect(assigns(:mission)).to eq(mission)
+    end
   end
 
   describe 'PUT update' do
@@ -32,7 +38,10 @@ RSpec.describe MissionsController, type: :controller do
         mission.reload
       end
 
-      it 'assigns @mission' do expect(assigns(:mission)).to eq(mission) end
+      it 'assigns @mission' do
+        expect(assigns(:mission)).to eq(mission)
+      end
+
       it { expect(response).to render_template(:show) }
 
       %i[
@@ -79,7 +88,8 @@ RSpec.describe MissionsController, type: :controller do
     end
 
     before do
-      mission_params['recurrence_rule'] = '{"interval":1, "until":null, "count":null, "validations":{ "day":[2,3,5,6] }, "rule_type":"IceCube::WeeklyRule", "week_start":1 }'
+      mission_params['recurrence_rule'] =
+        '{"interval":1, "until":null, "count":null, "validations":{ "day":[2,3,5,6] }, "rule_type":"IceCube::WeeklyRule", "week_start":1 }'
       mission_params['recurrence_end_date'] = 1.week.from_now
     end
 

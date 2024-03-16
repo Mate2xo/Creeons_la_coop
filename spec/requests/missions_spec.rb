@@ -2,9 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'A Mission request', type: :request do
-  let(:member) { create :member }
-
+RSpec.describe '/missions', type: :request do
   before { sign_in create :member }
 
   describe 'GET / (HTML)' do
@@ -33,7 +31,7 @@ RSpec.describe 'A Mission request', type: :request do
     subject(:get_mission) { get mission_path(mission) }
 
     context 'when the genre is set to standard' do
-      let(:mission) { create :mission }
+      let(:mission) { create(:mission) }
 
       it 'renders the standard partial' do
         get_mission
@@ -43,7 +41,7 @@ RSpec.describe 'A Mission request', type: :request do
     end
 
     context 'when the genre is set to regulated' do
-      let(:mission) { create :mission, genre: 'regulated' }
+      let(:mission) { create(:mission, genre: 'regulated') }
 
       it 'renders the regulated partial' do
         get_mission
@@ -53,7 +51,7 @@ RSpec.describe 'A Mission request', type: :request do
     end
   end
 
-  describe 'Post' do
+  describe 'POST /' do
     subject(:post_mission) { post missions_path, params: { mission: mission_params } }
 
     before { sign_in create :member, :super_admin }
@@ -116,12 +114,12 @@ RSpec.describe 'A Mission request', type: :request do
     end
   end
 
-  describe 'GET edit' do
+  describe 'GET /:id/edit' do
     before { sign_in create :member, :super_admin }
 
     context 'when the mission is not regulated' do
       it 'rends the standards partials' do
-        mission = create :mission
+        mission = create(:mission)
 
         get edit_mission_path(mission.id)
 
@@ -131,7 +129,7 @@ RSpec.describe 'A Mission request', type: :request do
 
     context 'when the mission is regulated' do
       it 'rends the regulated partials' do
-        mission = create :mission, genre: 'regulated'
+        mission = create(:mission, genre: 'regulated')
 
         get edit_mission_path(mission.id)
 
@@ -140,10 +138,10 @@ RSpec.describe 'A Mission request', type: :request do
     end
   end
 
-  describe 'PUT' do
+  describe 'PUT /:id' do
     subject(:put_mission) { put mission_path(mission.id), params: { mission: mission_params } }
 
-    let(:mission) { create :mission }
+    let(:mission) { create(:mission) }
     let(:mission_params) { { name: 'updated_mission' } }
 
     before { sign_in create :member, :super_admin }
@@ -155,7 +153,7 @@ RSpec.describe 'A Mission request', type: :request do
     end
 
     context 'with a regulated mission' do
-      let(:mission) { create :mission, genre: 'regulated' }
+      let(:mission) { create(:mission, genre: 'regulated') }
 
       it 'updates the mission' do
         put_mission
@@ -165,8 +163,8 @@ RSpec.describe 'A Mission request', type: :request do
     end
 
     context 'with a regulated mission and when enrollment params are given' do
-      let(:mission) { create :mission, genre: 'regulated' }
-      let(:member_other_than_the_currently_logged_in_user) { create :member }
+      let(:mission) { create(:mission, genre: 'regulated') }
+      let(:member_other_than_the_currently_logged_in_user) { create(:member) }
       let(:enrollment_expected_params) do
         { member_id: member_other_than_the_currently_logged_in_user.id,
           start_time: mission.start_date,
@@ -189,8 +187,8 @@ RSpec.describe 'A Mission request', type: :request do
     end
 
     context 'with a regulated mission and when a part of time slots is given in enrollment params' do
-      let(:mission) { create :mission, genre: 'regulated' }
-      let(:member_other_than_the_currently_logged_in_user) { create :member }
+      let(:mission) { create(:mission, genre: 'regulated') }
+      let(:member_other_than_the_currently_logged_in_user) { create(:member) }
       let(:enrollment_expected_params) do
         { member_id: member_other_than_the_currently_logged_in_user.id,
           start_time: mission.start_date,
@@ -213,7 +211,7 @@ RSpec.describe 'A Mission request', type: :request do
     end
 
     context 'when the mission is :regulated and an other :genre is given' do
-      let(:mission) { create :mission, genre: 'regulated' }
+      let(:mission) { create(:mission, genre: 'regulated') }
       let(:mission_params) do
         { name: 'updated_mission', genre: 'standard' }
       end
@@ -226,8 +224,8 @@ RSpec.describe 'A Mission request', type: :request do
     end
 
     context 'when the mission is :regulated, other :genre is given and enrollments params are given' do
-      let(:mission) { create :mission, genre: 'regulated' }
-      let(:member_other_than_the_currently_logged_in_user) { create :member }
+      let(:mission) { create(:mission, genre: 'regulated') }
+      let(:member_other_than_the_currently_logged_in_user) { create(:member) }
       let(:enrollment_expected_params) do
         { member_id: member_other_than_the_currently_logged_in_user.id,
           start_time: mission.start_date,
@@ -257,9 +255,9 @@ RSpec.describe 'A Mission request', type: :request do
     end
 
     context 'with :regulated mission and when the destroy params is given for an enrolled member' do
-      let(:mission) { create :mission, genre: 'regulated' }
-      let(:member_other_than_the_currently_logged_in_user) { create :member }
-      let(:enrollment) { create :enrollment, member: member_other_than_the_currently_logged_in_user, mission: mission }
+      let(:mission) { create(:mission, genre: 'regulated') }
+      let(:member_other_than_the_currently_logged_in_user) { create(:member) }
+      let(:enrollment) { create(:enrollment, member: member_other_than_the_currently_logged_in_user, mission: mission) }
 
       let(:enrollment_params) do
         { member_id: member_other_than_the_currently_logged_in_user.id, _destroy: '1', id: enrollment.id }

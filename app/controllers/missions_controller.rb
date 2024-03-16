@@ -11,9 +11,13 @@ class MissionsController < ApplicationController
     @missions = Mission.includes(:members)
   end
 
+  def show; end
+
   def new
     @mission = Mission.new
   end
+
+  def edit; end
 
   def create
     @mission = Mission.new(permitted_params)
@@ -21,10 +25,6 @@ class MissionsController < ApplicationController
 
     generate(@mission)
   end
-
-  def show; end
-
-  def edit; end
 
   def update
     if update_transaction.success?
@@ -74,12 +74,10 @@ class MissionsController < ApplicationController
 
   def update_transaction
     @update_transaction ||=
-      begin
-        Missions::UpdateTransaction.new.with_step_args(
-          transform_time_slots_in_time_params_for_enrollment: [regulated: @mission.regulated?],
-          update: [mission: @mission]
-        ).call(permitted_params)
-      end
+      Missions::UpdateTransaction.new.with_step_args(
+        transform_time_slots_in_time_params_for_enrollment: [regulated: @mission.regulated?],
+        update: [mission: @mission]
+      ).call(permitted_params)
   end
 
   def permitted_params
@@ -101,7 +99,11 @@ class MissionsController < ApplicationController
   end
 
   def regulated_mission_params
-    enrollment_params = params.require(:mission).permit(enrollments_attributes: [:id, :_destroy, :member_id, time_slots: []])
+    enrollment_params = params.require(:mission)
+                              .permit(enrollments_attributes: [
+                                        :id, :_destroy, :member_id,
+                                        { time_slots: [] }
+                                      ])
     base_params.merge(enrollment_params)
   end
 
