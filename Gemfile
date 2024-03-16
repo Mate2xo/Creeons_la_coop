@@ -52,6 +52,7 @@ gem 'recurring_select' # Events recurrence rules set helper
 gem 'thredded', '~> 0.16.16' # Forum engine
 
 group :development, :test do
+  gem 'bullet'
   gem 'factory_bot_rails', '~> 4.0'
   gem 'faker' # Generate fake data for the seed.rb and spec factories
   gem 'guard-rspec', require: false
@@ -61,7 +62,6 @@ end
 
 group :development do
   gem 'annotate', '~> 2.7', '>= 2.7.4'
-  gem 'bullet'
   gem 'letter_opener'
   gem 'solargraph' # LSP provinding app documention through IDE
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
