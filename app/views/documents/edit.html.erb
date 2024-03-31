@@ -1,0 +1,44 @@
+<div class="container slice-xs">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="card form-card form-card--style-1">
+        <div class="form-body">
+          <h2 class='text-center px-2 heading heading-2 strong-400 mb-0'>
+            <%= t '.title' %>
+          </h2>
+          <%= form_with model: @document, local: true do |form| %>
+            <div class="col">
+              <div class="col-lg-12">
+              </br>
+                <div class="field">
+                  <%= form.label :category, Document.human_attribute_name(:category)%><br />
+                  <%= form.select :category, Document.category.options, :selected => @document.category, class: "form-control form-control-lg" %>
+                </div>
+                <br/>
+
+                <div class="d-flex justify-content-between flex-wrap">
+                  <div class="field flex-fill">
+                    <%= form.label :file_name, Document.human_attribute_name(:file_name) %>
+                    <br />
+                    <%= form.text_field :file_name, class: "form-control form-control-lg" %>
+                  </div>
+
+                  <div class="mx-2"></div>
+
+                </div>
+                <br>
+
+              </div>
+            </div>
+            <br />
+
+
+            <div class="actions">
+              <%= form.submit t(".submit"), class: "btn-update btn btn-styled btn-lg btn-block btn-base-1 mt-4" %>
+            </div><br />
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

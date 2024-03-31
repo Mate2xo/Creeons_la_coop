@@ -21,8 +21,8 @@
               <table id="documents" class="table table-sm table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">Nom du document</th>
-                    <th scope="col">Télécharger</th>
+                    <th scope="col"> <%=  Document.human_attribute_name(:file_name) %></th> 
+                    <th scope="col"><%= t '.download_file' %></th>
                   </tr>
                 </thead>
 

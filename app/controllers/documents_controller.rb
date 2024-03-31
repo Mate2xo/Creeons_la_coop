@@ -11,6 +11,10 @@ class DocumentsController < ApplicationController
                  end
   end
 
+  def edit
+    @document = authorize Document.find(params[:id])
+  end
+
   def create
     @document = authorize Document.new(permitted_params)
     @document.save
@@ -19,6 +23,17 @@ class DocumentsController < ApplicationController
     respond_to do |format|
       format.js
       format.html { redirect_to documents_path(anchor: 'documents') }
+    end
+  end
+
+  def update
+    @document = authorize Document.find(params[:id])
+    if update_transaction.success?
+      flash[:notice] = t '.success'
+      redirect_to documents_path
+    else
+      flash[:error] = update_transaction[:errors]
+      render :edit
     end
   end
 
@@ -37,7 +52,11 @@ class DocumentsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:document).permit(:category, :file)
+    params.require(:document).permit(:category, :file, :file_name)
+  end
+
+  def update_transaction # removed the equals thing here, don't know if it still works
+    Documents::UpdateTransaction.new.call(permitted_params.merge(document: @document))
   end
 
   def user_feedback_on_create(record)

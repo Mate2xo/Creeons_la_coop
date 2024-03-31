@@ -13,6 +13,7 @@
       <% end %>
     </td>
     <td scope="row">
+    <%= link_to translate('main_app.views.application.buttons.edit'), edit_document_path(document.id), class: 'btn btn-mini btn-primary' %>
       <%= link_to translate('main_app.views.application.buttons.destroy'),
         document, method: :delete, id: document.id,
         class: 'btn btn-mini btn-danger',

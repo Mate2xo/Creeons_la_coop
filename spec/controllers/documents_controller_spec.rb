@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe DocumentsController, type: :controller do
+
   before { sign_in create(:member, :admin) }
 
   context "when a document is uploaded" do
@@ -41,6 +42,20 @@ RSpec.describe DocumentsController, type: :controller do
         expect(flash[:alert]).to eq(I18n.t('errors.format',
                                            attribute: Document.human_attribute_name(:file),
                                            message: I18n.t('errors.messages.blank')))
+      end
+    end
+  end
+
+  context "when file is updated" do
+    context "with valid params" do
+      before do
+        new_document = create :document, :with_file
+        patch :update, params: { id: new_document.id, document: { category: Document.category.options.sample, file_name: "new_name"} }
+        new_document.reload
+      end
+
+      it "gives confirmation feedback to the user" do
+        expect(flash[:notice]).to eq I18n.t('activerecord.notices.messages.update_success')
       end
     end
   end

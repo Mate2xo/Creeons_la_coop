@@ -1,0 +1,7 @@
+fr:
+  documents:
+    edit:
+      title: Modifier votre document
+      submit: Sauvegarder les changements
+    index:
+      download_file: Télécharger

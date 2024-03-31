@@ -1,0 +1,7 @@
+en:
+  documents:
+    edit:
+      title: Edit your file
+      submit: Save changes
+    index:
+      download_file: Download
