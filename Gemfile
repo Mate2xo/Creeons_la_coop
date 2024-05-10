@@ -83,7 +83,6 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
-  gem 'database_cleaner' # Easy database + association testing
   gem 'rails-controller-testing' # If you are using Rails 5.x
   gem 'shoulda-matchers', '~> 5.3' # NOTE: Update me when ugrading to Rails6 and Ruby3
   gem 'simplecov', require: false
