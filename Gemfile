@@ -79,7 +79,7 @@ end
 group :test do
   gem 'email_spec'
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '~> 3.21.0'
+  gem 'capybara', '~> 3.39.0' # NOTE: Update me when upgrading to Ruby3
   # gem 'selenium-webdriver', '~> 4.11'
   gem 'webdrivers' # NOTE: Delete this gem, & use selenium-webdriver 4.11+ when upgrading to Ruby3
   # Easy installation and use of chromedriver to run system tests with Chrome
