@@ -80,9 +80,9 @@ group :test do
   gem 'email_spec'
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 3.21.0'
-  gem 'selenium-webdriver'
+  # gem 'selenium-webdriver', '~> 4.11'
+  gem 'webdrivers' # NOTE: Delete this gem, & use selenium-webdriver 4.11+ when upgrading to Ruby3
   # Easy installation and use of chromedriver to run system tests with Chrome
-  gem 'chromedriver-helper'
   gem 'rails-controller-testing' # If you are using Rails 5.x
   gem 'shoulda-matchers', '~> 5.3' # NOTE: Update me when ugrading to Rails6 and Ruby3
   gem 'simplecov', require: false
