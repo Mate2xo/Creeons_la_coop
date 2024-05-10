@@ -67,6 +67,10 @@ RSpec/NestedGroups:
   AllowedGroups: [describe]
   Max: 3
 
+RSpec/ExampleLength:
+  Exclude:
+    - 'spec/system/**/*'
+
 # Personal taste
 Naming/MemoizedInstanceVariableName:
   EnforcedStyleForLeadingUnderscores: required
