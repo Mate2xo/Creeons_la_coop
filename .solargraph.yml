@@ -1,17 +1,26 @@
 ---
 include:
-- "**/*.rb"
+  - '**/*.rb'
 exclude:
-- spec/**/*
-- test/**/*
-- vendor/**/*
-- ".bundle/**/*"
+  - spec/**/*
+  - test/**/*
+  - vendor/**/*
+  - '.bundle/**/*'
 require: []
 domains: []
 reporters:
-- rubocop
-- require_not_found
-- typecheck
+  - rubocop
+  - require_not_found
+  - typecheck:typed
+  - reek
 require_paths: []
-plugins: []
+formatter:
+  rubocop:
+    cops: safe
+    except: []
+    only: []
+    extra_args: []
+plugins:
+  - solargraph-rails
+  - solargraph-reek
 max_files: 5000
