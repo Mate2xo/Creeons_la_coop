@@ -65,7 +65,7 @@ group :development do
   gem 'letter_opener'
   gem 'solargraph', '~> 0.50' # LSP provinding app documention through IDE
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'listen', '~> 3.9' # NOTE: Update me to 3.3 with Ruby3
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
