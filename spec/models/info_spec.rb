@@ -14,7 +14,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Info, type: :model do
+RSpec.describe Info do
   describe 'Model instanciation' do
     subject { described_class.new }
 
@@ -26,6 +26,10 @@ RSpec.describe Info, type: :model do
 
     describe 'validations' do
       it { is_expected.to validate_presence_of(:title) }
+
+      it 'has a valid factory' do # rubocop:disable RSpec/NoExpectationExample
+        FactoryBot.lint(FactoryBot.factories.select { |f| f.name == :info })
+      end
     end
 
     describe 'associations' do

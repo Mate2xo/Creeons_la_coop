@@ -53,7 +53,7 @@ gem 'thredded', '~> 0.16.16' # Forum engine
 
 group :development, :test do
   gem 'bullet'
-  gem 'factory_bot_rails', '~> 4.0'
+  gem 'factory_bot_rails', '~> 6.4'
   gem 'faker', '~> 3.3' # Generate fake data for the seed.rb and spec factories
   gem 'pry-byebug', '~> 3.10'
   gem 'rspec-rails', '~> 5.1'

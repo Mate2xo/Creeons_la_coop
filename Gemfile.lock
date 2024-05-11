@@ -188,11 +188,11 @@ GEM
       activesupport (>= 3.2)
     erubi (1.12.0)
     execjs (2.7.0)
-    factory_bot (4.11.1)
-      activesupport (>= 3.0.0)
-    factory_bot_rails (4.11.1)
-      factory_bot (~> 4.11.1)
-      railties (>= 3.0.0)
+    factory_bot (6.4.5)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.4.3)
+      factory_bot (~> 6.4)
+      railties (>= 5.0.0)
     faker (3.3.1)
       i18n (>= 1.8.11, < 2)
     ffi (1.16.3)
@@ -601,7 +601,7 @@ DEPENDENCIES
   dry-transaction
   email_spec
   enumerize
-  factory_bot_rails (~> 4.0)
+  factory_bot_rails (~> 6.4)
   faker (~> 3.3)
   httparty
   ice_cube
