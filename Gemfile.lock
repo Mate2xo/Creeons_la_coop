@@ -276,8 +276,8 @@ GEM
       addressable (~> 2.8)
     leaflet-rails (1.5.1)
       rails (>= 4.2.0)
-    letter_opener (1.7.0)
-      launchy (~> 2.2)
+    letter_opener (1.8.1)
+      launchy (>= 2.2, < 3)
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -636,7 +636,7 @@ DEPENDENCIES
   jquery-rails
   js_cookie_rails
   leaflet-rails
-  letter_opener
+  letter_opener (~> 1.8.0)
   listen (~> 3.9)
   mailjet
   mini_magick (~> 4.9.5)
