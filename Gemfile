@@ -61,7 +61,7 @@ group :development, :test do
 end
 
 group :development do
-  gem 'annotate', '~> 2.7', '>= 2.7.4'
+  gem 'annotate', '~> 3.1'
   gem 'letter_opener', '~> 1.8.0' # NOTE: Update me to 1.9 with Ruby3
   gem 'solargraph', '~> 0.50' # LSP provinding app documention through IDE
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
