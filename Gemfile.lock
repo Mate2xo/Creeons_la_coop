@@ -193,8 +193,8 @@ GEM
     factory_bot_rails (4.11.1)
       factory_bot (~> 4.11.1)
       railties (>= 3.0.0)
-    faker (2.5.0)
-      i18n (~> 1.6.0)
+    faker (3.3.1)
+      i18n (>= 1.8.11, < 2)
     ffi (1.16.3)
     formtastic (3.1.5)
       actionpack (>= 3.2.13)
@@ -215,7 +215,7 @@ GEM
     httparty (0.21.0)
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
-    i18n (1.6.0)
+    i18n (1.14.5)
       concurrent-ruby (~> 1.0)
     ice_cube (0.16.3)
     image_processing (1.12.2)
@@ -602,7 +602,7 @@ DEPENDENCIES
   email_spec
   enumerize
   factory_bot_rails (~> 4.0)
-  faker
+  faker (~> 3.3)
   httparty
   ice_cube
   image_processing (~> 1.12)
