@@ -1,4 +1,4 @@
-<%= form_with scope: 'enrollment', url: mission_enrollments_path(@mission.id) do |f| %>
+<%= form_with scope: 'enrollment', url: mission_enrollments_path(@mission.id), local: true do |f| %>
   <h4 class="d-block text-center mx-auto">
     <%= translate ".quick_enroll" %>
   </h4>
