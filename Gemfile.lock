@@ -132,6 +132,7 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.2.3)
     crass (1.0.6)
+    date (3.3.4)
     db_text_search (0.3.1)
       activerecord (>= 4.1.15, < 7.0)
     devise (4.7.1)
@@ -179,7 +180,7 @@ GEM
       dry-matcher (>= 0.7.0)
       dry-monads (>= 0.4.0)
     e2mmap (0.1.0)
-    email_spec (2.2.0)
+    email_spec (2.2.2)
       htmlentities (~> 4.3.3)
       launchy (~> 2.1)
       mail (~> 2.7)
@@ -271,8 +272,8 @@ GEM
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
     language_server-protocol (3.17.0.3)
-    launchy (2.4.3)
-      addressable (~> 2.3)
+    launchy (2.5.2)
+      addressable (~> 2.8)
     leaflet-rails (1.5.1)
       rails (>= 4.2.0)
     letter_opener (1.7.0)
@@ -285,8 +286,11 @@ GEM
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.13)
-    mail (2.7.1)
+    mail (2.8.1)
       mini_mime (>= 0.1.1)
+      net-imap
+      net-pop
+      net-smtp
     mailjet (1.5.4)
       activesupport (>= 3.1.0)
       rack (>= 1.4.0)
@@ -310,6 +314,15 @@ GEM
     multi_xml (0.6.0)
     mustache (1.1.1)
     nenv (0.3.0)
+    net-imap (0.4.11)
+      date
+      net-protocol
+    net-pop (0.1.2)
+      net-protocol
+    net-protocol (0.2.2)
+      timeout
+    net-smtp (0.5.0)
+      net-protocol
     netrc (0.11.0)
     nio4r (2.5.8)
     nokogiri (1.15.6)
@@ -560,6 +573,7 @@ GEM
       timeago_js (>= 3.0.2.2)
     tilt (2.3.0)
     timeago_js (3.0.2.2)
+    timeout (0.4.1)
     turbolinks (5.2.0)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
