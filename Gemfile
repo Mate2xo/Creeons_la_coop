@@ -71,9 +71,9 @@ group :development do
   gem 'rubocop-rspec', require: false
   gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
+  gem 'spring' # NOTE: Update me to v4 with Ruby3
   gem 'spring-commands-rspec'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'spring-watcher-listen', '~> 2.0.0' # NOTE: Update me to 2.1 with spring 4 on Ruby3
 end
 
 group :test do
