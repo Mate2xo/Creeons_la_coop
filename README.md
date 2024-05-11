@@ -72,5 +72,4 @@ To get started:
   * [Docker Compose](https://docs.docker.com/compose/install/) setup : `$ docker-compose up` to setup containers, DB, and launch server on `localhost:3000`. `$ docker-compose down` to unmount. You might need administrative privileges.
   * Manual setup: You need to install [PostgreSQL](https://www.postgresql.org/). Then `$ rails db:setup` to create + migrate + seed DB, then `$ rails server` launch server on `localhost:3000`.
 - The main branch is `development`, start your branch from there.
-- Launch `$ bundle exec guard` if you want to auto-run tests on file save.
 - Launch `$ npm install` if you want to setup git hooks via `package.json`
