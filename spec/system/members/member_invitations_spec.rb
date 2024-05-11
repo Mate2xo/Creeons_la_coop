@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'MemberInvitations' do
   subject(:fill_email_and_submit) do
+    visit new_member_invitation_path
     fill_in Member.human_attribute_name(:email), with: 'test@test.com'
     click_button "Envoyer l'invitation"
   end
@@ -11,11 +12,10 @@ RSpec.describe 'MemberInvitations' do
   let(:super_admin) { create(:member, :super_admin) }
 
   before do
-    sign_in super_admin
-    visit 'members/invitation/new'
+    sign_in create(:member, :super_admin)
   end
 
-  it 'sends an invitation email', :aggregate_failures do
+  it 'sends an invitation email' do
     fill_email_and_submit
 
     expect(Devise.mailer.deliveries.count).to eq 1
@@ -38,6 +38,7 @@ RSpec.describe 'MemberInvitations' do
 
   context 'when filling an invalid email' do
     subject(:fill_invalid_email_and_submit) do
+      visit new_member_invitation_path
       fill_in Member.human_attribute_name(:email), with: 'wrong_email'
       click_button "Envoyer l'invitation"
     end
@@ -55,6 +56,7 @@ RSpec.describe 'MemberInvitations' do
     end
 
     before do
+      visit new_member_invitation_path
       fill_in Member.human_attribute_name(:email), with: 'test@test.com'
       click_button "Envoyer l'invitation"
       click_link 'Déconnexion'

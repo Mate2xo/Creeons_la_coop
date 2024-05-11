@@ -57,7 +57,7 @@ group :development, :test do
   gem 'faker' # Generate fake data for the seed.rb and spec factories
   gem 'guard-rspec', require: false
   gem 'pry-byebug', '~> 3.6'
-  gem 'rspec-rails', '~> 3.7', '>= 3.7.2'
+  gem 'rspec-rails', '~> 5.1'
 end
 
 group :development do
