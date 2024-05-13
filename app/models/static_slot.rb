@@ -2,14 +2,15 @@
 
 # == Schema Information
 #
-# Table name: calendar_locations
+# Table name: static_slots
 #
-#  id                        :bigint(8)        not null, primary key
-#  week_day                  :integer          not null
-#  start_time                :datetime         not null
-#  week_type                 :integer          not null
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
+#  id         :bigint           not null, primary key
+#  week_day   :integer          not null
+#  start_time :datetime         not null
+#  week_type  :integer          not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 
 # A StaticSlot refers to a place in calendar. It is combination of location in the week and a week_type.
 # A StaticSlot are coordinates in a 4 weeks cycle.

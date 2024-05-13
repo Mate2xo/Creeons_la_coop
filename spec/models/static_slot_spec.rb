@@ -1,5 +1,16 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: static_slots
+#
+#  id         :bigint           not null, primary key
+#  week_day   :integer          not null
+#  start_time :datetime         not null
+#  week_type  :integer          not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 require 'rails_helper'
 
 RSpec.describe StaticSlot, type: :model do

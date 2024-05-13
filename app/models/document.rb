@@ -4,11 +4,11 @@
 #
 # Table name: documents
 #
-#  id         :bigint(8)        not null, primary key
-#  category   :string           default: weekly_orders
-#  published  :boolean          default: false
+#  id         :bigint           not null, primary key
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  published  :boolean          default(FALSE)
+#  category   :string           default("weekly_orders")
 #
 
 class Document < ApplicationRecord

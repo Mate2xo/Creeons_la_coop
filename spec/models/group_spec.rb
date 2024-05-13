@@ -2,11 +2,14 @@
 
 # == Schema Information
 #
-# Table name: missions
+# Table name: groups
 #
-#  id                       :bigint(8)        not null, primary key
-#  name                     :string           not null
-#  group_manager_mail       :string
+#  id         :bigint           not null, primary key
+#  name       :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  roles      :string
+#
 
 require 'rails_helper'
 

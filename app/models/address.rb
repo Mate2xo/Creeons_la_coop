@@ -4,15 +4,15 @@
 #
 # Table name: addresses
 #
-#  id            :bigint(8)        not null, primary key
+#  id            :bigint           not null, primary key
 #  postal_code   :string
 #  city          :string           not null
 #  street_name_1 :string
 #  street_name_2 :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  productor_id  :bigint(8)
-#  member_id     :bigint(8)
+#  productor_id  :bigint
+#  member_id     :bigint
 #  coordinates   :float            is an Array
 #
 

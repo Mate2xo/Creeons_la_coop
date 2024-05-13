@@ -4,11 +4,13 @@
 #
 # Table name: enrollments
 #
-#  member_id  :bigint(8)        not null
-#  mission_id :bigint(8)        not null
-#  id         :bigint(8)        not null, primary key
-#  start_time :time
-#  end_time   :time
+#  id             :bigint           not null, primary key
+#  member_id      :bigint           not null
+#  mission_id     :bigint           not null
+#  old_start_time :time
+#  old_end_time   :time
+#  start_time     :datetime
+#  end_time       :datetime
 #
 
 # Represents a member enrolling to a given Mission

@@ -4,7 +4,7 @@
 #
 # Table name: members
 #
-#  id                        :bigint(8)        not null, primary key
+#  id                        :bigint           not null, primary key
 #  email                     :string           default(""), not null
 #  encrypted_password        :string           default(""), not null
 #  reset_password_token      :string
@@ -27,11 +27,12 @@
 #  invitation_accepted_at    :datetime
 #  invitation_limit          :integer
 #  invited_by_type           :string
-#  invited_by_id             :bigint(8)
+#  invited_by_id             :bigint
 #  invitations_count         :integer          default(0)
 #  display_name              :string
 #  moderator                 :boolean          default(FALSE)
 #  cash_register_proficiency :integer          default("untrained")
+#  register_id               :integer
 #
 
 FactoryBot.define do
