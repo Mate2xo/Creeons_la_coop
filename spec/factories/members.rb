@@ -46,16 +46,20 @@ FactoryBot.define do
     biography { Faker::ChuckNorris.fact }
     phone_number { Faker::PhoneNumber.phone_number }
     email { Faker::Internet.email(name: first_name) }
-    password { "password" }
-    password_confirmation { "password" }
+    password { 'password' }
+    password_confirmation { 'password' }
     confirmed_at { Time.zone.today }
 
-    trait :admin do role { 'admin' } end
-    trait :super_admin do role { 'super_admin' } end
+    trait :admin do
+      role { 'admin' }
+    end
+    trait :super_admin do
+      role { 'super_admin' }
+    end
 
     after :create do |member, options|
       if options.redactor?
-        group = create :group, roles: ['redactor']
+        group = create(:group, roles: ['redactor'])
         GroupMember.create(member: member, group: group)
       end
     end
