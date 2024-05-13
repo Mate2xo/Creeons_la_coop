@@ -7,3 +7,5 @@ fr:
     attributes:
       group_member:
         assignment: Tâche
+        group: Groupe
+        member: Membre
