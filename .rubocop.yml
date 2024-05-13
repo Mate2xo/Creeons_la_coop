@@ -19,7 +19,8 @@ AllCops:
 
 Layout/LineLength:
   Max: 120
-
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
 Lint/RedundantCopDisableDirective:
   Enabled: false
 
