@@ -13,7 +13,7 @@ RSpec.describe 'DocumentUploadsAtInfoSections' do
     end
 
     it 'does not show the delete button on a document' do
-      create(:document, :with_file)
+      create(:document)
 
       visit infos_path(anchor: 'documents')
 
@@ -53,7 +53,7 @@ RSpec.describe 'DocumentUploadsAtInfoSections' do
 
     before do
       sign_in create(:member, :admin)
-      create(:document, :with_file)
+      create(:document)
       visit documents_path(anchor: 'documents')
     end
 

@@ -12,7 +12,7 @@ RSpec.describe 'Document request' do
       before { sign_in create :member }
 
       it 'renders the view' do
-        create_list(:document, 3, :with_file)
+        create_list(:document, 3)
 
         get_documents
 
@@ -22,15 +22,15 @@ RSpec.describe 'Document request' do
 
     context 'when user is not signed ?' do
       it 'renders the view' do
-        create_list(:document, 3, :with_file, published: true)
+        create_list(:document, 3, published: true)
         get_documents
 
         expect(response).to be_successful
       end
 
       it "doesn't rend the documents with published attribute set to false" do
-        create_list(:document, 3, :with_file, published: true)
-        not_published_document = create(:document, :with_file, published: false)
+        create_list(:document, 3, published: true)
+        not_published_document = create(:document, published: false)
 
         get_documents
 

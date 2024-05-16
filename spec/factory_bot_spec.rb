@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 BROKEN_FACTORIES = %i[
-  document
   messageboard
   topic
   post
