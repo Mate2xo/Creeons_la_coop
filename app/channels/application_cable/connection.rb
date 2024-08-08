@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module ApplicationCable
+  # TODO: Add unit tests when upgrading to Rails6
   class Connection < ActionCable::Connection::Base # rubocop:disable Style/Documentation
     identified_by :current_member
 
