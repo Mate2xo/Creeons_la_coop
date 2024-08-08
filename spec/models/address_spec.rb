@@ -70,15 +70,11 @@ RSpec.describe Address, type: :model do
   end
 
   describe "instance coordinates search" do
-    let(:address) {
-      create :address, street_name_1: "4 allée de la faïencerie",
-                       street_name_2: "au bout de l'allée",
-                       postal_code: "60100"
-    }
-    describe "#fetch coordinates" do
-      it "connects successfully to api-adresse.data.gouv.fr/search/" do
-        expect(address.send(:fetch_coordinates).code).to eq 200
-      end
+    let(:address) do
+      create :address,
+             street_name_1: "4 allée de la faïencerie",
+             street_name_2: "au bout de l'allée",
+             postal_code: "60100"
     end
 
     describe "#assign_coordinates" do

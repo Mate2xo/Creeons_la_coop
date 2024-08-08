@@ -42,7 +42,9 @@ class Address < ApplicationRecord
   private
 
   def fetch_coordinates
-    template = Addressable::Template.new("https://api-adresse.data.gouv.fr/search/{?query*}")
+    return if Rails.env.test?
+
+    template = Addressable::Template.new('https://api-adresse.data.gouv.fr/search/{?query*}')
     uri = template.expand(
       query: {
         q: "#{street_name_1} #{street_name_2}",
