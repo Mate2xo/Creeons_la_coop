@@ -68,6 +68,6 @@ class Address < ApplicationRecord
   end
 
   def invalid_coordinates?
-    coordinates == [nil, nil] || !coordinates.nil? && !coordinates[0] || !coordinates.nil? && !coordinates[1]
+    coordinates == [nil, nil] || (!coordinates.nil? && !coordinates[0]) || (!coordinates.nil? && !coordinates[1])
   end
 end
