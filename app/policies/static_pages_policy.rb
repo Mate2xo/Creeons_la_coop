@@ -8,8 +8,4 @@ class StaticPagesPolicy < ApplicationPolicy
   def about_us
     true
   end
-
-  def dashboard?
-    member_signed_in?
-  end
 end
