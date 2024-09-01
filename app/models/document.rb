@@ -28,7 +28,7 @@ class Document < ApplicationRecord
                               recipes],
                        default: :weekly_orders
 
-  validates :file, attached: true, size: { less_than: 20.megabytes }, content_type: [
+  validates :file, attached: true, size: {less_than: 20.megabytes}, content_type: [
     'application/pdf',
     'application/msword', # .doc
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document', # .docx
