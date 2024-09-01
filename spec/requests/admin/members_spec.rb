@@ -44,6 +44,24 @@ RSpec.describe 'admin/members' do
       show
       expect(response).to have_http_status(:ok)
     end
+
+    context 'when the member belongs to a group' do
+      let(:member) { create(:group, :with_members_and_managers).members.first }
+
+      it 'has an :ok HTTP status' do
+        show
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context 'with static slots selection history' do
+      let(:member) { create(:history_of_static_slot_selection).member }
+
+      it 'has an :ok HTTP status' do
+        show
+        expect(response).to have_http_status(:ok)
+      end
+    end
   end
 
   describe 'GET /new' do
@@ -96,6 +114,15 @@ RSpec.describe 'admin/members' do
       edit
       expect(response).to have_http_status(:ok)
     end
+
+    context 'when the member belongs to a group' do
+      let(:member) { create(:group, :with_members_and_managers).members.first }
+
+      it 'has an :ok HTTP status' do
+        edit
+        expect(response).to have_http_status(:ok)
+      end
+    end
   end
 
   describe 'PUT /:id' do
@@ -119,6 +146,25 @@ RSpec.describe 'admin/members' do
       it 'does not update the member' do
         expect { update }.not_to(change { member.reload.first_name })
       end
+    end
+  end
+
+  describe 'POST /enroll_static_members' do
+    subject(:enroll_static_members) { post enroll_static_members_admin_members_path }
+
+    it 'launches an EnrollStaticMembersJob worker' do
+      expect { enroll_static_members }.to have_enqueued_job(EnrollStaticMembersJob)
+    end
+  end
+
+  describe 'PUT /remove_static_slots_of_a_member' do
+    subject(:remove_static_slots_of_a_member) { put remove_static_slots_of_a_member_admin_members_path, params: params }
+
+    let(:params) { {member_id: member.id} }
+    let(:member) { create(:member_static_slot).member }
+
+    it 'deletes all static slots associated to the given member' do
+      expect { remove_static_slots_of_a_member }.to change(member.member_static_slots, :count).from(1).to(0)
     end
   end
 end
