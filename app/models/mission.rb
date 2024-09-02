@@ -65,6 +65,7 @@ class Mission < ApplicationRecord
     (genre == 'regulated')
   end
 
+  # @return [Array<DateTime>, nil]
   def selectable_time_slots(member = nil)
     return nil unless genre == 'regulated'
 
@@ -77,6 +78,9 @@ class Mission < ApplicationRecord
     time_slots
   end
 
+  # @param current_time_slot [DateTime]
+  # @param member [Member]
+  # @return [Boolean]
   def time_slot_already_taken_by_member?(current_time_slot, member)
     member_enrollment = enrollments.find_by(mission: self, member: member)
     return false if member_enrollment.nil?
@@ -90,6 +94,7 @@ class Mission < ApplicationRecord
     max_member_count - occupied_slots_count
   end
 
+  # TODO: delete me if this is actually unused
   def inside_period?(enrollment)
     enrollment.start_time >= start_date &&
       enrollment.start_time <= due_date &&
@@ -97,6 +102,7 @@ class Mission < ApplicationRecord
       enrollment.end_time <= due_date
   end
 
+  # TODO: delete me if this is actually unused
   def match_a_time_slot?(enrollment)
     current_time_slot = start_date
     while current_time_slot < due_date
@@ -107,6 +113,7 @@ class Mission < ApplicationRecord
     false
   end
 
+  # TODO: delete me if this is actually unused
   def slot_available_for_given_cash_register_proficiency?(enrollment, cash_register_proficiency_level)
     current_time_slot = enrollment.start_time
     proficiency_level_of_mission = Mission.cash_register_proficiency_requirements[cash_register_proficiency_requirement]

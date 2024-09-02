@@ -64,34 +64,78 @@ RSpec.describe Mission, type: :model do
   end
 
   describe '#selectable_time_slots' do
-    it 'returns the time slots with at least one slot available' do
-      mission = create :mission, genre: 'regulated'
+    subject(:selectable_time_slots) { mission.selectable_time_slots }
 
-      time_slots = mission.selectable_time_slots
+    let(:mission) { create(:mission, genre: 'regulated') }
 
-      expect(time_slots).to eq([mission.start_date, mission.start_date + 90.minutes])
+    it 'returns the time slots that a member can enroll in' do
+      expect(selectable_time_slots).to eq([mission.start_date, mission.start_date + 90.minutes])
     end
 
     context 'when all slots are already taken by other members' do
+      let(:mission) do
+        create(:mission, genre: 'regulated') do |mission|
+          create_list(:member, 4).each do |member|
+            create(:enrollment,
+                   member: member,
+                   mission: mission,
+                   start_time: mission.start_date,
+                   end_time: mission.start_date + 3.hours)
+          end
+        end
+      end
+
       it 'returns no time slots' do
-        mission = create :mission, genre: 'regulated'
-        enroll_n_members_on_mission(mission, 4)
+        expect(selectable_time_slots).to be_empty
+      end
+    end
 
-        response = mission.selectable_time_slots
+    context 'with a non-regulated mission' do
+      let(:mission) { build(:mission) }
 
-        expect(response).to be_empty
+      it 'returns nil' do
+        expect(selectable_time_slots).to be_nil
       end
     end
   end
 
-  def enroll_n_members_on_mission(mission, members_count)
-    members = create_list :member, members_count
-    members.each do |member|
-      create :enrollment,
-             member: member,
-             mission: mission,
-             start_time: mission.start_date,
-             end_time: mission.start_date + 3.hours
+  describe '#time_slot_already_taken_by_member?' do
+    subject(:time_slot_already_taken_by_member?) do
+      mission.time_slot_already_taken_by_member?(time_slot, member)
+    end
+
+    let(:mission) { build(:mission) }
+    let(:member) { build(:member) }
+    let(:time_slot) { DateTime.current }
+
+    it { is_expected.to be false }
+
+    context 'with a member enrolled on this mission during the given time slot' do
+      let(:mission) do
+        create(:mission, start_date: time_slot - 1.hour) do |mission|
+          create(:enrollment,
+                 member: member,
+                 mission: mission,
+                 start_time: time_slot - 1.hour,
+                 end_time: time_slot + 1.hour)
+        end
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'with a member enrolled on this mission outside of the given time slot' do
+      let(:mission) do
+        create(:mission, start_date: time_slot - 2.hours) do |mission|
+          create(:enrollment,
+                 member: member,
+                 mission: mission,
+                 start_time: time_slot - 1.hour,
+                 end_time: time_slot)
+        end
+      end
+
+      it { is_expected.to be false }
     end
   end
 end
