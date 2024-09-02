@@ -39,23 +39,21 @@ class Mission < ApplicationRecord
   validates :description, presence: true
   validates :start_date, presence: true
   validates :due_date, presence: true
-  validates :min_member_count, numericality: { only_integer: true }, presence: true
-  validates :max_member_count, numericality: { only_integer: true }, allow_nil: true
+  validates :min_member_count, numericality: {only_integer: true}, presence: true
+  validates :max_member_count, numericality: {only_integer: true}, allow_nil: true
   validates :genre, presence: true
   validates_with MissionValidators::DurationValidator
-  validates_associated :enrollments, message: I18n.t('activerecord.errors.models.mission.related_enrollment_invalidation')
+  validates_associated :enrollments,
+                       message: I18n.t('activerecord.errors.models.mission.related_enrollment_invalidation')
 
   accepts_nested_attributes_for :addresses, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :enrollments, reject_if: :all_blank, allow_destroy: true
 
-  enum genre: { standard: 0, regulated: 1, event: 2 }
+  enum genre: {standard: 0, regulated: 1, event: 2}
 
-  enum cash_register_proficiency_requirement: { untrained: 0, beginner: 1, proficient: 2 }
+  enum cash_register_proficiency_requirement: {untrained: 0, beginner: 1, proficient: 2}
 
-  # Virtual attributes
-  attr_accessor :recurrence_rule
-  attr_accessor :recurrence_end_date
-  attr_accessor :recurrent_change
+  attr_accessor :recurrence_rule, :recurrence_end_date, :recurrent_change
 
   def duration
     (due_date - start_date).round
