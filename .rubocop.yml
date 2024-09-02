@@ -52,6 +52,8 @@ Style/HashTransformKeys:
   Enabled: true
 Style/HashTransformValues:
   Enabled: true
+Style/SingleLineDoEndBlock:
+  Enabled: false
 Style/StringLiterals:
   Exclude:
     - db/schema.rb
