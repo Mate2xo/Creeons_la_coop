@@ -70,5 +70,7 @@ Rails.application.configure do
     Bullet.console = true
     Bullet.rails_logger = true
     Bullet.add_footer = true
+
+    Redis.raise_deprecations = true
   end
 end

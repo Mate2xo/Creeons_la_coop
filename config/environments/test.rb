@@ -51,6 +51,8 @@ Rails.application.configure do
     Bullet.enable = true
     Bullet.bullet_logger = false
     Bullet.raise = false # raise an error if n+1 query occurs
+
+    Redis.raise_deprecations = true
   end
 
   config.active_job.queue_adapter = :test
