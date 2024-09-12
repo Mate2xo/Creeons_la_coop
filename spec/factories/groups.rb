@@ -13,7 +13,7 @@
 
 FactoryBot.define do
   factory :group do
-    name { Faker::Lorem.word }
+    name { Faker::Lorem.unique.word }
 
     trait :with_members_and_managers do
       group_managers { [association(:group_manager, managed_group: instance)] }
