@@ -21,7 +21,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'bootsnap', '~> 1.18.0', require: false
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'mini_racer', platforms: :ruby
+gem 'mini_racer', platforms: :ruby
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 5.0'
 # Use ActiveModel has_secure_password
@@ -31,7 +31,7 @@ gem 'redis', '~> 5.0'
 
 gem 'mini_magick', '~> 4.9.5' # Use ActiveStorage variant
 
-gem 'activeadmin' # Admin interface
+gem 'activeadmin', '~> 2.9.0' # TODO: update-me to 2.11+ when upgrading to Rails 7
 gem 'active_storage_validations'
 gem 'addressable', '~> 2.8.0' # URI manipulations
 gem 'aws-sdk-s3', '= 1.48', require: false # S3 file upload storage
