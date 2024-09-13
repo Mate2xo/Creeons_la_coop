@@ -34,7 +34,6 @@ Members buy products from productors, and sell these products to themselves. Eac
 ### Produtors
 
 - CRUD on `Produtor` model
-- Geolocation on `index` page, coordinates auto-lookup on `Address` model instanciation, with [Leaflet.js](https://github.com/axyjo/leaflet-rails/) and [OpenStreetMap](https://wiki.openstreetmap.org/wiki/API_v0.6)
 
 ### Activities
 
