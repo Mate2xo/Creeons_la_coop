@@ -47,7 +47,7 @@ gem 'ice_cube' # Calendar events recurrence (for Missions)
 gem 'js_cookie_rails' # Cookie manager for js
 gem 'mailjet' # Production mailer API
 gem 'pundit' # Authorization management
-gem 'recurring_select' # Events recurrence rules set helper
+gem 'recurring_select', '~> 3.0' # Events recurrence rules set helper
 gem 'thredded', '~> 1.0.0' # TODO: update me to 1.1 once upgraded to Rails 6
 
 group :development, :test do

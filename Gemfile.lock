@@ -400,11 +400,11 @@ GEM
     rb-inotify (0.11.1)
       ffi (~> 1.0)
     rbs (2.8.4)
-    recurring_select (2.1.0)
+    recurring_select (3.0.1)
       coffee-rails (>= 3.1)
       ice_cube (>= 0.11)
       jquery-rails (>= 3.0)
-      rails (>= 3.2)
+      rails (>= 5.2)
       sass-rails (>= 4.0)
     redis (5.3.0)
       redis-client (>= 0.22.0)
@@ -639,7 +639,7 @@ DEPENDENCIES
   pundit
   rails (~> 6.0.6)
   rails-controller-testing
-  recurring_select
+  recurring_select (~> 3.0)
   redis (~> 5.0)
   rspec-rails (~> 5.1)
   rubocop
