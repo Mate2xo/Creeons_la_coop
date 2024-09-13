@@ -6,7 +6,7 @@ require:
   - rubocop-performance
 
 inherit_gem:
-  pundit: config/rubocop-rspec.yml
+  # pundit: config/rubocop-rspec.yml
 
 AllCops:
   DisplayStyleGuide: true
