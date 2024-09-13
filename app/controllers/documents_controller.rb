@@ -42,14 +42,14 @@ class DocumentsController < ApplicationController
     if record.persisted?
       message = t('activerecord.notices.messages.record_created',
                   model: @document.model_name.singular)
-      { notice: message }
+      {notice: message}
     elsif record.invalid?
       message = record.errors.full_messages.join(', ')
-      { alert: message }
+      {alert: message}
     else
       message = t('activerecord.errors.messages.creation_fail',
                   model: @document.model_name.singular)
-      { error: message }
+      {error: message}
     end
   end
 end
