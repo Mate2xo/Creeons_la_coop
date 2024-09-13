@@ -48,7 +48,7 @@ gem 'js_cookie_rails' # Cookie manager for js
 gem 'mailjet' # Production mailer API
 gem 'pundit' # Authorization management
 gem 'recurring_select' # Events recurrence rules set helper
-gem 'thredded', '~> 0.16.16' # Forum engine
+gem 'thredded', '~> 1.0.0' # TODO: update me to 1.1 once upgraded to Rails 6
 
 group :development, :test do
   gem 'bullet', '~> 7.1'
