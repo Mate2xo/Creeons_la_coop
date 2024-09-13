@@ -18,8 +18,6 @@ RSpec.describe DocumentsController, type: :controller do
     end
 
     context 'when it is an invalid content type' do
-      before { post :create, params: params }
-
       let(:params) do
         {
           document: attributes_for(:document,
@@ -36,14 +34,12 @@ RSpec.describe DocumentsController, type: :controller do
                                            message: I18n.t('errors.messages.content_type_invalid')))
       end
 
-      # ActiveStorage in Rails 5.2 *immediatly* uploads files on assignment,
-      # even without using .save (thus without validation)
-      # So additionnal deletion of attachements, blobs, and stored file is necessary on invalid files
-      it 'purges the attached file', :aggregate_failures do
-        new_document_instance = @controller.instance_variable_get(:@document)
-
-        expect(new_document_instance.file).not_to be_attached
-        expect(ActiveStorage::Blob.count).to eq 0
+      # ActiveStorage in Rails 5.2 *immediatly* uploaded files on assignment, before saving.
+      # So additionnal deletion of attachements, blobs, and stored file was necessary on invalid files.
+      # This was fixed on Rails 6, but we keep this test just because I'm paranoid
+      # see https://github.com/rails/rails/pull/33303
+      it 'does not upload the attached file', :aggregate_failures do
+        expect { create_document }.not_to change ActiveStorage::Blob, :count
       end
     end
 

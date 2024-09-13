@@ -45,7 +45,6 @@ class DocumentsController < ApplicationController
       { notice: message }
     elsif record.invalid?
       message = record.errors.full_messages.join(', ')
-      record.file.purge
       { alert: message }
     else
       message = t('activerecord.errors.messages.creation_fail',
