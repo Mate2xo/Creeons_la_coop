@@ -67,8 +67,9 @@ ActiveAdmin.register Member do
       end
       table_for member.group_members do
         column t('.groups') do |group_member|
-          link_to Arbre::Context.new { (status_tag class: 'important', label: group_member.group.name) },
-                  [:admin, group_member.group]
+          link_to [:admin, group_member.group] do
+            status_tag(group_member.group.name, class: 'important')
+          end
         end
         column t('.assignment'), :assignment
       end
