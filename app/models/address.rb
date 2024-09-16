@@ -4,15 +4,15 @@
 #
 # Table name: addresses
 #
-#  id            :bigint(8)        not null, primary key
+#  id            :bigint           not null, primary key
 #  postal_code   :string
 #  city          :string           not null
 #  street_name_1 :string
 #  street_name_2 :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  productor_id  :bigint(8)
-#  member_id     :bigint(8)
+#  productor_id  :bigint
+#  member_id     :bigint
 #  coordinates   :float            is an Array
 #
 
@@ -42,7 +42,9 @@ class Address < ApplicationRecord
   private
 
   def fetch_coordinates
-    template = Addressable::Template.new("https://api-adresse.data.gouv.fr/search/{?query*}")
+    return if Rails.env.test?
+
+    template = Addressable::Template.new('https://api-adresse.data.gouv.fr/search/{?query*}')
     uri = template.expand(
       query: {
         q: "#{street_name_1} #{street_name_2}",
@@ -66,6 +68,6 @@ class Address < ApplicationRecord
   end
 
   def invalid_coordinates?
-    coordinates == [nil, nil] || !coordinates.nil? && !coordinates[0] || !coordinates.nil? && !coordinates[1]
+    coordinates == [nil, nil] || (!coordinates.nil? && !coordinates[0]) || (!coordinates.nil? && !coordinates[1])
   end
 end

@@ -1,0 +1,10 @@
+fr:
+  activerecord:
+    models:
+      group_manager:
+        one: Relation Groupe <-> Référent
+        other: Relations Groupe <-> Référent
+    attributes:
+      group_manager:
+        manager: Référent
+        managed_group: Groupe géré

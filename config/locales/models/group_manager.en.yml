@@ -1,0 +1,10 @@
+en:
+  activerecord:
+    models:
+      group_manager:
+        one: Group <-> Manager Relation
+        other: Group <-> Manager Relations
+    attributes:
+      group_manager:
+        manager: Manager
+        managed_group: Managed group

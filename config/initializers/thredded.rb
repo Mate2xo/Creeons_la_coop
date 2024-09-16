@@ -29,8 +29,8 @@ Thredded.user_path = ->(user) {
 # This method is used by Thredded controllers and views to fetch the currently signed-in user
 Thredded.current_user_method = :"current_#{Thredded.user_class_name.demodulize.underscore}"
 
-# User avatar URL. rb-gravatar gem is used by default:
-Thredded.avatar_url = ->(user) { Gravatar.src(user.email, 156, 'mm') }
+# User avatar URL. rails_gravatar gem is used by default:
+Thredded.avatar_url = ->(user) { RailsGravatar.src(user.email, 156, 'mm') }
 
 # ==> Permissions Configuration
 # By default, thredded uses a simple permission model, where all the users can post to all message boards,
@@ -64,6 +64,9 @@ Thredded.messageboards_order = :position
 
 # Whether admin users see button to delete entire messageboards on the messageboard edit page.
 Thredded.show_messageboard_delete_button = true
+
+# Whether MessageboardGroup show page is enabled.
+Thredded.show_messageboard_group_page = true
 
 # Whether users that are following a topic are listed on the topic page.
 Thredded.show_topic_followers = false

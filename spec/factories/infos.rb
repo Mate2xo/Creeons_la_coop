@@ -4,14 +4,14 @@
 #
 # Table name: infos
 #
-#  id         :bigint(8)        not null, primary key
+#  id         :bigint           not null, primary key
 #  content    :text
-#  category   :string
-#  published  :boolean          default: false
 #  title      :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  author_id  :bigint(8)
+#  author_id  :bigint
+#  category   :string
+#  published  :boolean          default(FALSE)
 #
 
 FactoryBot.define do

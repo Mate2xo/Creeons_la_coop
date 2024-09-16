@@ -5,38 +5,47 @@ require 'rails_helper'
 RSpec.describe DocumentsController, type: :controller do
   before { sign_in create(:member, :admin) }
 
-  context "when a document is uploaded" do
-    context "successfully" do
-      it "gives a confirmation feedback to the user" do
-        post :create, params: { document: attributes_for(:document, :with_file) }
+  describe '#create' do
+    subject(:create_document) { post :create, params: params }
 
-        expect(flash[:notice]).to eq I18n.t('activerecord.notices.messages.record_created',
-                                            model: Document.model_name.singular)
-      end
+    let(:params) { {document: attributes_for(:document)} }
+
+    it 'gives a confirmation feedback to the user' do
+      create_document
+
+      expect(flash[:notice]).to eq I18n.t('activerecord.notices.messages.record_created',
+                                          model: Document.model_name.singular)
     end
 
-    context "when it is an invalid content type" do
-      before { post :create, params: { document: attributes_for(:document, :with_invalid_file_type) } }
+    context 'when it is an invalid content type' do
+      let(:params) do
+        {
+          document: attributes_for(:document,
+                                   file: fixture_file_upload(Rails.root.join('spec/support/fixtures/fixture.json'),
+                                                             'application/json'))
+        }
+      end
 
       it "gives a 'invalid file type' feedback to the user" do
+        create_document
+
         expect(flash[:alert]).to eq(I18n.t('errors.format',
                                            attribute: Document.human_attribute_name(:file),
                                            message: I18n.t('errors.messages.content_type_invalid')))
       end
 
-      # ActiveStorage in Rails 5.2 *immediatly* uploads files on assignment, even without using .save (thus without validation)
-      # So additionnal deletion of attachements, blobs, and stored file is necessary on invalid files
-      it "purges the attached file" do
-        new_document_instance = @controller.instance_variable_get(:@document)
-
-        expect(new_document_instance.file).not_to be_attached
-        expect(ActiveStorage::Blob.count).to eq 0
+      # ActiveStorage in Rails 5.2 *immediatly* uploaded files on assignment, before saving.
+      # So additionnal deletion of attachements, blobs, and stored file was necessary on invalid files.
+      # This was fixed on Rails 6, but we keep this test just because I'm paranoid
+      # see https://github.com/rails/rails/pull/33303
+      it 'does not upload the attached file', :aggregate_failures do
+        expect { create_document }.not_to change ActiveStorage::Blob, :count
       end
     end
 
-    context "when no file is attached" do
+    context 'when no file is attached' do
       it "gives an 'no file attached' feedback to the user" do
-        post :create, params: { document: { random: 'whatever' } }
+        post :create, params: {document: {random: 'whatever'}}
 
         expect(flash[:alert]).to eq(I18n.t('errors.format',
                                            attribute: Document.human_attribute_name(:file),
@@ -45,11 +54,11 @@ RSpec.describe DocumentsController, type: :controller do
     end
   end
 
-  context "when a document is deleted" do
-    it "gives a confirmation feedback to the user" do
-      document = create :document, :with_file
+  context 'when a document is deleted' do
+    it 'gives a confirmation feedback to the user' do
+      document = create(:document)
 
-      delete :destroy, params: { id: document.id }
+      delete :destroy, params: {id: document.id}
 
       expect(flash[:notice]).to eq I18n.t('activerecord.notices.messages.record_destroyed',
                                           model: Document.model_name.singular)

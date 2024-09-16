@@ -4,11 +4,11 @@
 #
 # Table name: documents
 #
-#  id         :bigint(8)        not null, primary key
-#  category   :string           default: weekly_orders
-#  published  :boolean          default: false
+#  id         :bigint           not null, primary key
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  published  :boolean          default(FALSE)
+#  category   :string           default("weekly_orders")
 #
 
 # rubocop:disable Style/MixinUsage
@@ -17,12 +17,6 @@ include ActionDispatch::TestProcess::FixtureFile
 
 FactoryBot.define do
   factory :document do
-    trait :with_file do
-      file { fixture_file_upload(Rails.root.join('spec', 'support', 'fixtures', 'erd.pdf'), 'application/pdf') }
-    end
-
-    trait :with_invalid_file_type do
-      file { fixture_file_upload(Rails.root.join('spec', 'support', 'fixtures', 'fixture.json'), 'application/json') }
-    end
+    file { fixture_file_upload(Rails.root.join('spec/support/fixtures/erd.pdf'), 'application/pdf') }
   end
 end

@@ -4,17 +4,19 @@
 #
 # Table name: infos
 #
-#  id         :bigint(8)        not null, primary key
+#  id         :bigint           not null, primary key
 #  content    :text
 #  title      :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  author_id  :bigint(8)
+#  author_id  :bigint
+#  category   :string
+#  published  :boolean          default(FALSE)
 #
 
 require 'rails_helper'
 
-RSpec.describe Info, type: :model do
+RSpec.describe Info do
   describe 'Model instanciation' do
     subject { described_class.new }
 
@@ -26,6 +28,10 @@ RSpec.describe Info, type: :model do
 
     describe 'validations' do
       it { is_expected.to validate_presence_of(:title) }
+
+      it 'has a valid factory' do # rubocop:disable RSpec/NoExpectationExample
+        FactoryBot.lint(FactoryBot.factories.select { |f| f.name == :info })
+      end
     end
 
     describe 'associations' do

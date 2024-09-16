@@ -3,6 +3,7 @@ fr:
     resource:
       show:
         groups: Groupes
+
   activerecord:
     models:
       group:
@@ -10,12 +11,12 @@ fr:
         other: Groupes
     attributes:
       group:
-        name: Nom
-        members_count: Nombre de membres
         managers: Référents
+        members_count: Nombre de membres
+        name: Nom
         role: Rôle
+
   enumerize:
     group:
       roles:
         redactor: Rédacteur
-

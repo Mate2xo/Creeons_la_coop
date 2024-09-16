@@ -1,11 +1,9 @@
 # Créons la Coop (CLAC) :ear_of_rice:
 
-
 ## What's this app for:
 
 An association ('Créons la Coop') located north of France has created a food co-op, inspired by [Park Slope Food Coop](https://fr.wikipedia.org/wiki/Park_Slope_Food_Coop). Members of this co-op need to use more efficient means of communication than just e-mail and phone.
 Members buy products from productors, and sell these products to themselves. Each member must give at least 3 hours/month of their time to the association.
-
 
 ## Details
 
@@ -36,7 +34,6 @@ Members buy products from productors, and sell these products to themselves. Eac
 ### Produtors
 
 - CRUD on `Produtor` model
-- Geolocation on `index` page, coordinates auto-lookup on `Address` model instanciation, with [Leaflet.js](https://github.com/axyjo/leaflet-rails/) and [OpenStreetMap](https://wiki.openstreetmap.org/wiki/API_v0.6)
 
 ### Activities
 
@@ -53,24 +50,23 @@ Members buy products from productors, and sell these products to themselves. Eac
 - Forum set with [Thredded](https://github.com/thredded/thredded) engine
 
 ### Theme
+
 - Currently using [Boomerang](https://themes.getbootstrap.com/product/boomerang-bootstrap-4-business-corporate-theme/) bootstrap theme
 - If you want to use this app as it is, you must buy a Boomerang license. Otherwise, set up your own theme by deleting Boomerang resources from `/vendor` and asset pipeline. Libs and asset pipeline will be cleaned soon to facilitate this
-
 
 ## Versions:
 
 - Ruby => 2.5.1
 - Rails => 5.2.3
 
-
 ## Contributions / set up
 
 Any contributions would be very welcome. See projects tab if something interests you, or post an issue with a feature suggestion that you think would be useful considering the scope of this kind of app.
 
 To get started:
+
 - Choose one:
-  * [Docker Compose](https://docs.docker.com/compose/install/) setup : `$ docker-compose up` to setup containers, DB, and launch server on `localhost:3000`. `$ docker-compose down` to unmount. You might need administrative privileges.
-  * Manual setup: You need to install [PostgreSQL](https://www.postgresql.org/). Then `$ rails db:setup` to create + migrate + seed DB, then `$ rails server` launch server on `localhost:3000`.
+  - [Docker Compose](https://docs.docker.com/compose/install/) setup : `$ docker-compose up` to setup containers, DB, and launch server on `localhost:3000`. `$ docker-compose down` to unmount. You might need administrative privileges.
+  - Manual setup: You need to install [PostgreSQL](https://www.postgresql.org/). Then `$ rails db:setup` to create + migrate + seed DB, then `$ rails server` launch server on `localhost:3000`.
 - The main branch is `development`, start your branch from there.
-- Launch `$ bundle exec guard` if you want to auto-run tests on file save.
 - Launch `$ npm install` if you want to setup git hooks via `package.json`

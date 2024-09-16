@@ -1,6 +1,12 @@
-require: 
-  - rubocop-rspec
+require:
   - rubocop-rails
+  - rubocop-rspec
+  - rubocop-factory_bot
+  - rubocop-capybara
+  - rubocop-performance
+
+inherit_gem:
+  # pundit: config/rubocop-rspec.yml
 
 AllCops:
   DisplayStyleGuide: true
@@ -13,7 +19,8 @@ AllCops:
 
 Layout/LineLength:
   Max: 120
-
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
 Lint/RedundantCopDisableDirective:
   Enabled: false
 
@@ -23,15 +30,20 @@ Metrics/BlockLength:
     - 'test/**/*.rb'
     - 'Guardfile'
     - 'vendor/bundle'
-    - 'app/admin/productors.rb'
+    # - "app/admin/**/*"
     - 'config/environments/*.rb'
+    # - "app/views/admin/**/*"
 
-Layout/SpaceAroundMethodCallOperator:
-  Enabled: true
-Lint/RaiseException:
-  Enabled: true
-Lint/StructNewOverride:
-  Enabled: true
+Metrics/MethodLength:
+  Exclude:
+    - 'db/migrate/**/*'
+    - 'spec/**/*'
+
+Style/Documentation:
+  Exclude:
+    - 'app/controllers/**/*'
+  Include:
+    - 'app/controllers/concerns/**/*'
 Style/ExponentialNotation:
   Enabled: true
 Style/HashEachMethods:
@@ -40,6 +52,28 @@ Style/HashTransformKeys:
   Enabled: true
 Style/HashTransformValues:
   Enabled: true
+Style/SingleLineDoEndBlock:
+  Enabled: false
 Style/StringLiterals:
   Exclude:
     - db/schema.rb
+
+# ----------- Extensions overrides -----------
+Rails/UnknownEnv:
+  Environments:
+    - development
+    - production
+    - staging
+    - test
+
+RSpec/NestedGroups:
+  AllowedGroups: [describe]
+  Max: 3
+
+RSpec/ExampleLength:
+  Exclude:
+    - 'spec/system/**/*'
+
+# Personal taste
+Naming/MemoizedInstanceVariableName:
+  EnforcedStyleForLeadingUnderscores: required

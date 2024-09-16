@@ -7,27 +7,27 @@ RSpec.describe Admin::InfosController, type: :controller do
   render_views
 
   let(:page) { Capybara::Node::Simple.new(response.body) }
-  let(:super_admin) { create(:member, :super_admin) }
-  before { sign_in super_admin }
-
   let!(:info) { create(:info) }
-
-  let(:valid_attributes) { build(:info).attributes }
-
+  let(:valid_attributes) { attributes_for(:info, author_id: super_admin.id) }
   let(:invalid_attributes) do
     { title: '' }
   end
+  let(:super_admin) { create(:member, :super_admin) }
 
-  describe "GET index" do
+  before { sign_in super_admin }
+
+  describe 'GET index' do
     it 'returns http success' do
       get :index
       expect(response).to have_http_status(:success)
     end
+
     it 'assigns the info' do
       get :index
       expect(assigns(:infos)).to include(info)
     end
-    it "should render the expected columns" do
+
+    it 'renders the expected columns' do
       get :index
       expect(page).to have_content(info.content)
       expect(page).to have_content(info.title)
@@ -50,16 +50,18 @@ RSpec.describe Admin::InfosController, type: :controller do
     #   end
   end
 
-  describe "GET new" do
+  describe 'GET new' do
     it 'returns http success' do
       get :new
       expect(response).to have_http_status(:success)
     end
+
     it 'assigns the info' do
       get :new
       expect(assigns(:info)).to be_a_new(Info)
     end
-    it "should render the form elements" do
+
+    it 'renders the form elements' do
       get :new
       expect(page).to have_field('info_title')
       expect(page).to have_field('info_content')
@@ -68,66 +70,69 @@ RSpec.describe Admin::InfosController, type: :controller do
     end
   end
 
-  describe "POST create" do
-    context "with valid params" do
-      it "creates a new Info" do
-        expect {
+  describe 'POST create' do
+    context 'with valid params' do
+      it 'creates a new Info' do
+        expect do
           post :create, params: { info: valid_attributes }
-        }.to change(Info, :count).by(1)
+        end.to change(Info, :count).by(1)
       end
 
-      it "assigns a newly created info as @info" do
+      it 'assigns a newly created info as @info' do
         post :create, params: { info: valid_attributes }
         expect(assigns(:info)).to be_a(Info)
         expect(assigns(:info)).to be_persisted
       end
 
-      it "redirects to the created info" do
+      it 'redirects to the created info' do
         post :create, params: { info: valid_attributes }
         expect(response).to have_http_status(:redirect)
         expect(response).to redirect_to(admin_info_path(Info.last))
       end
 
-      it 'should create the info' do
+      it 'creates the info' do
         post :create, params: { info: valid_attributes }
         info = Info.last
 
-        expect(info.title).to eq(valid_attributes["title"])
-        expect(info.content).to eq(valid_attributes["content"])
-        expect(info.author_id).to eq(valid_attributes["author_id"])
+        expect(info.title).to eq(valid_attributes[:title])
+        expect(info.content).to eq(valid_attributes[:content])
+        expect(info.author_id).to eq(valid_attributes[:author_id])
       end
     end
 
-    context "with invalid params" do
+    context 'with invalid params' do
       it 'invalid_attributes return http success' do
         post :create, params: { info: invalid_attributes }
         expect(response).to have_http_status(:success)
       end
 
-      it "assigns a newly created but unsaved info as @info" do
+      it 'assigns a newly created but unsaved info as @info' do
         post :create, params: { info: invalid_attributes }
         expect(assigns(:info)).to be_a_new(Info)
       end
 
       it 'invalid_attributes do not create a Info' do
-        expect {
+        expect do
           post :create, params: { info: invalid_attributes }
-        }.not_to change(Info, :count)
+        end.not_to change(Info, :count)
       end
     end
   end
 
-  describe "GET edit" do
+  describe 'GET edit' do
     before do
       get :edit, params: { id: info.id }
     end
+
     it 'returns http success' do
       expect(response).to have_http_status(:success)
     end
+
     it 'assigns the info' do
       expect(assigns(:info)).to eq(info)
     end
-    it "should render the form elements" do
+
+    it 'renders the form elements' do
       expect(page).to have_field('info_title', with: info.title)
       expect(page).to have_field('info_content', with: info.content)
       expect(page).to have_select('info_author_id', with_options: [info.author.email])
@@ -135,63 +140,69 @@ RSpec.describe Admin::InfosController, type: :controller do
     end
   end
 
-  describe "PUT update" do
+  describe 'PUT update' do
     context 'with valid params' do
       before do
         put :update, params: { id: info.id, info: valid_attributes }
       end
+
       it 'assigns the info' do
         expect(assigns(:info)).to eq(info)
       end
+
       it 'returns http redirect' do
         expect(response).to have_http_status(:redirect)
         expect(response).to redirect_to(admin_info_path(info))
       end
-      it "should update the info" do
+
+      it 'updates the info' do
         info.reload
 
-        expect(info.title).to eq(valid_attributes["title"])
-        expect(info.content).to eq(valid_attributes["content"])
+        expect(info.title).to eq(valid_attributes[:title])
+        expect(info.content).to eq(valid_attributes[:content])
       end
     end
+
     context 'with invalid params' do
       it 'returns http success' do
         put :update, params: { id: info.id, info: invalid_attributes }
         expect(response).to have_http_status(:success)
       end
+
       it 'does not change info' do
-        expect {
+        expect do
           put :update, params: { id: info.id, info: invalid_attributes }
-        }.not_to change(info.reload.title, :methods)
+        end.not_to change(info.reload.title, :methods)
       end
     end
   end
 
-  describe "GET show" do
-    before do
-      get :show, params: { id: info.id }
-    end
+  describe 'GET show' do
+    before { get :show, params: { id: info.id } }
+
     it 'returns http success' do
       expect(response).to have_http_status(:success)
     end
+
     it 'assigns the info' do
       expect(assigns(:info)).to eq(info)
     end
-    it "should render the form elements" do
+
+    it 'renders the form elements' do
       expect(page).to have_content(info.title)
       expect(page).to have_content(info.content)
       expect(page).to have_content(info.author.display_name)
     end
   end
 
-  describe "DELETE #destroy" do
-    it "destroys the requested select_option" do
-      expect {
+  describe 'DELETE #destroy' do
+    it 'destroys the requested select_option' do
+      expect do
         delete :destroy, params: { id: info.id }
-      }.to change(Info, :count).by(-1)
+      end.to change(Info, :count).by(-1)
     end
 
-    it "redirects to the index" do
+    it 'redirects to the index' do
       delete :destroy, params: { id: info.id }
       expect(response).to redirect_to(admin_infos_path)
     end

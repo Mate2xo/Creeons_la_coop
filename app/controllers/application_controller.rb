@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   include Pundit
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_locale
-  after_action :ajax_flash_to_headers
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   #  The following lines are useful when developping Pundit policies
@@ -15,10 +14,12 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    added_attrs = %i[first_name biography last_name phone_number email password password_confirmation remember_me avatar]
+    added_attrs = %i[
+      first_name biography last_name phone_number email password password_confirmation remember_me avatar
+    ]
     devise_parameter_sanitizer.permit :sign_up, keys: added_attrs
     devise_parameter_sanitizer.permit :account_update, keys: added_attrs
-    devise_parameter_sanitizer.permit :accept_invitation, keys: [:first_name, :last_name]
+    devise_parameter_sanitizer.permit :accept_invitation, keys: %i[first_name last_name]
   end
 
   def active_admin_controller?
@@ -33,7 +34,7 @@ class ApplicationController < ActionController::Base
   def user_not_authorized(exception)
     policy_name = exception.policy.class.to_s.underscore
 
-    flash[:error] = t "#{policy_name}.#{exception.query}", scope: "pundit", default: :default
+    flash[:error] = t "#{policy_name}.#{exception.query}", scope: 'pundit', default: :default
     redirect_to root_path
   end
 
@@ -51,19 +52,9 @@ class ApplicationController < ActionController::Base
     I18n.locale = :fr
   end
 
-  def ajax_flash_to_headers
-    return unless request.xhr?
-
-    flash_type, flash_message = extract_flash
-    response.headers['Flash-message'] = flash_message
-    response.headers['Flash-message-type'] = flash_type
-
-    flash.discard
-  end
-
   def extract_flash
     flash.each do |type, msg|
-      return [type, msg] unless flash[type].blank?
+      return [type, msg] if flash[type].present?
     end
   end
 end

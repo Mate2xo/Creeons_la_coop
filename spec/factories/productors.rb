@@ -4,7 +4,7 @@
 #
 # Table name: productors
 #
-#  id           :bigint(8)        not null, primary key
+#  id           :bigint           not null, primary key
 #  name         :string
 #  description  :text
 #  phone_number :string
@@ -12,6 +12,7 @@
 #  updated_at   :datetime         not null
 #  website_url  :string
 #  local        :boolean          default(FALSE)
+#  category     :string
 #
 
 FactoryBot.define do

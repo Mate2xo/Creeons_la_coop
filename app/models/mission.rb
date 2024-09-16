@@ -4,20 +4,20 @@
 #
 # Table name: missions
 #
-#  id                :bigint(8)        not null, primary key
-#  name              :string           not null
-#  description       :text             not null
-#  due_date          :datetime
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  author_id         :bigint(8)
-#  start_date        :datetime
-#  recurrent         :boolean
-#  max_member_count  :integer
-#  min_member_count  :integer
-#  delivery_expected :boolean          default(FALSE)
-#  genre             :integer          default: 0
-#  cash_register_proficiency_requirement   :integer          default(0)
+#  id                                    :bigint           not null, primary key
+#  name                                  :string           not null
+#  description                           :text             not null
+#  due_date                              :datetime
+#  created_at                            :datetime         not null
+#  updated_at                            :datetime         not null
+#  author_id                             :bigint
+#  start_date                            :datetime
+#  recurrent                             :boolean
+#  max_member_count                      :integer
+#  min_member_count                      :integer
+#  delivery_expected                     :boolean          default(FALSE)
+#  genre                                 :integer          default("standard")
+#  cash_register_proficiency_requirement :integer          default("untrained")
 #
 
 # A Mission is an activity that has to be done for the Supermaket Team to function properly.
@@ -39,23 +39,21 @@ class Mission < ApplicationRecord
   validates :description, presence: true
   validates :start_date, presence: true
   validates :due_date, presence: true
-  validates :min_member_count, numericality: { only_integer: true }, presence: true
-  validates :max_member_count, numericality: { only_integer: true }, allow_nil: true
+  validates :min_member_count, numericality: {only_integer: true}, presence: true
+  validates :max_member_count, numericality: {only_integer: true}, allow_nil: true
   validates :genre, presence: true
   validates_with MissionValidators::DurationValidator
-  validates_associated :enrollments, message: I18n.t('activerecord.errors.models.mission.related_enrollment_invalidation')
+  validates_associated :enrollments,
+                       message: I18n.t('activerecord.errors.models.mission.related_enrollment_invalidation')
 
   accepts_nested_attributes_for :addresses, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :enrollments, reject_if: :all_blank, allow_destroy: true
 
-  enum genre: { standard: 0, regulated: 1, event: 2 }
+  enum genre: {standard: 0, regulated: 1, event: 2}
 
-  enum cash_register_proficiency_requirement: { untrained: 0, beginner: 1, proficient: 2 }
+  enum cash_register_proficiency_requirement: {untrained: 0, beginner: 1, proficient: 2}
 
-  # Virtual attributes
-  attr_accessor :recurrence_rule
-  attr_accessor :recurrence_end_date
-  attr_accessor :recurrent_change
+  attr_accessor :recurrence_rule, :recurrence_end_date, :recurrent_change
 
   def duration
     (due_date - start_date).round
@@ -65,6 +63,7 @@ class Mission < ApplicationRecord
     (genre == 'regulated')
   end
 
+  # @return [Array<DateTime>, nil]
   def selectable_time_slots(member = nil)
     return nil unless genre == 'regulated'
 
@@ -77,6 +76,9 @@ class Mission < ApplicationRecord
     time_slots
   end
 
+  # @param current_time_slot [DateTime]
+  # @param member [Member]
+  # @return [Boolean]
   def time_slot_already_taken_by_member?(current_time_slot, member)
     member_enrollment = enrollments.find_by(mission: self, member: member)
     return false if member_enrollment.nil?
@@ -90,6 +92,7 @@ class Mission < ApplicationRecord
     max_member_count - occupied_slots_count
   end
 
+  # TODO: delete me if this is actually unused
   def inside_period?(enrollment)
     enrollment.start_time >= start_date &&
       enrollment.start_time <= due_date &&
@@ -97,6 +100,7 @@ class Mission < ApplicationRecord
       enrollment.end_time <= due_date
   end
 
+  # TODO: delete me if this is actually unused
   def match_a_time_slot?(enrollment)
     current_time_slot = start_date
     while current_time_slot < due_date
@@ -107,6 +111,7 @@ class Mission < ApplicationRecord
     false
   end
 
+  # TODO: delete me if this is actually unused
   def slot_available_for_given_cash_register_proficiency?(enrollment, cash_register_proficiency_level)
     current_time_slot = enrollment.start_time
     proficiency_level_of_mission = Mission.cash_register_proficiency_requirements[cash_register_proficiency_requirement]

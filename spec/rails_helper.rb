@@ -1,7 +1,25 @@
 # frozen_string_literal: true
 
 require 'simplecov'
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  enable_coverage :branch
+
+  add_filter '/vendor'
+  add_filter '/spec/support'
+
+  add_group 'Admin', 'app/admin'
+  add_group 'Components', 'app/components'
+  add_group 'Decorators', 'app/decorators'
+  add_group 'Inputs', 'app/inputs'
+  add_group 'Policies', 'app/policies'
+  add_group 'QuerySets', 'app/query_sets'
+  add_group 'Presenters', 'app/presenters'
+  add_group 'Services', 'app/services'
+  add_group 'Transactions', 'app/transactions'
+  add_group 'Uploaders', 'app/uploaders'
+  add_group 'Validators', 'app/validators'
+  add_group 'Views', 'app/views'
+end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
@@ -14,6 +32,8 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'email_spec'
 require 'email_spec/rspec'
+
+Rails.application.eager_load! # see https://github.com/simplecov-ruby/simplecov?tab=readme-ov-file#want-to-use-spring-with-simplecov
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -40,7 +60,7 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  # config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_path = Rails.root.join('spec/support/fixtures')
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -70,7 +90,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :view
-  config.include Devise::Test::IntegrationHelpers, type: :feature
+  config.include Devise::Test::IntegrationHelpers, type: :system
   config.include Devise::Test::IntegrationHelpers, type: :request
 end
 
@@ -80,3 +100,5 @@ Shoulda::Matchers.configure do |config|
     with.library :rails
   end
 end
+
+Capybara.javascript_driver = :selenium_headless

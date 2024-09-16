@@ -2,6 +2,8 @@
 
 module ActiveAdmin
   # manage access to active admin ressource
+  # TODO: there should be an option now to setup this directly in ActiveAdmin.
+  # Use that option instead of this override when upgrading ActiveAdmin.
   module SiteRestriction
     # Overriding active admin method in order to get an active admin namespace for pundit
     # This override drive active admin to retrieve policy in active_admin namespace

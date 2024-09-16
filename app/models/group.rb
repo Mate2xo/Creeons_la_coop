@@ -2,12 +2,14 @@
 
 # == Schema Information
 #
-# Table name: missions
+# Table name: groups
 #
-#  id                       :bigint(8)        not null, primary key
-#  name                     :string           not null
-#  roles                    :array[string]
-#  group_manager_mail       :string
+#  id         :bigint           not null, primary key
+#  name       :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  roles      :string
+#
 
 # The members contribute to one or many groups. Each groups have a specific function in the association.
 class Group < ApplicationRecord
@@ -21,5 +23,5 @@ class Group < ApplicationRecord
   serialize :roles, Array
   enumerize :roles, in: %i[redactor], multiple: true
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: {case_sensitive: false}
 end

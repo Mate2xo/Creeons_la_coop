@@ -18,7 +18,7 @@ ActiveAdmin.register Member do
                 :register_id,
                 group_ids: [],
                 group_members_attributes: [[%i[id assignment]]],
-                member_static_slots_attributes: [:id, :static_slot_id, :member_id, :_destroy]
+                member_static_slots_attributes: %i[id static_slot_id member_id _destroy]
 
   menu if: proc { authorized? :index, %i[active_admin Member] } # display menu according to ActiveAdmin::Policy
 
@@ -67,8 +67,9 @@ ActiveAdmin.register Member do
       end
       table_for member.group_members do
         column t('.groups') do |group_member|
-          link_to Arbre::Context.new { (status_tag class: 'important', label: group_member.group.name) },
-                  [:admin, group_member.group]
+          link_to [:admin, group_member.group] do
+            status_tag(group_member.group.name, class: 'important')
+          end
         end
         column t('.assignment'), :assignment
       end
@@ -129,7 +130,7 @@ ActiveAdmin.register Member do
   action_item :enroll_static_members, only: :index do
     link_to t('.enroll_static_members'),
             enroll_static_members_admin_members_path,
-            data: { confirm: t('.confirm_enroll_static_members') }, method: :post
+            data: {confirm: t('.confirm_enroll_static_members')}, method: :post
   end
 
   action_item :remove_static_slots_of_a_member, only: %i[show edit] do

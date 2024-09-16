@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Members worked hours tracking', type: :feature do
-  let(:member) { create :member }
+RSpec.describe 'Members worked hours tracking' do
+  let(:member) { create(:member) }
 
   context 'when a member goes on his/her profile page,' do
     before do
@@ -12,7 +12,7 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
     end
 
     it 'shows the number of worked hours this month' do
-      enrollment = create :enrollment, member: member
+      enrollment = create(:enrollment, member: member)
 
       visit edit_member_path member
 
@@ -20,9 +20,9 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
     end
 
     it 'shows the number of worked hours during last month' do
-      last_month_enrollment = create :enrollment,
+      last_month_enrollment = create(:enrollment,
                                      member: member,
-                                     mission: create(:mission, start_date: 1.month.ago)
+                                     mission: create(:mission, start_date: 1.month.ago))
 
       visit edit_member_path member
 
@@ -30,9 +30,9 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
     end
 
     it 'shows the number of worked hours during last last month' do
-      last_last_month_enrollment = create :enrollment,
+      last_last_month_enrollment = create(:enrollment,
                                           member: member,
-                                          mission: create(:mission, start_date: 2.months.ago)
+                                          mission: create(:mission, start_date: 2.months.ago))
 
       visit edit_member_path member
 
@@ -54,7 +54,7 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
 
       visit admin_members_path
 
-      expect(page).to have_text "#{I18n.localize(current_time, format: :only_month)} : 3.0"
+      expect(page).to have_text "#{I18n.l(current_time, format: :only_month)} : 3.0"
     end
 
     it 'shows the number of worked hours during last month' do
@@ -62,7 +62,7 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
 
       visit admin_members_path
 
-      expect(page).to have_text "#{I18n.localize(current_time - 1.month, format: :only_month)} : 3.0"
+      expect(page).to have_text "#{I18n.l(current_time - 1.month, format: :only_month)} : 3.0"
     end
 
     it 'shows the number of worked hours during last last month' do
@@ -70,7 +70,7 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
 
       visit admin_members_path
 
-      expect(page).to have_text "#{I18n.localize(current_time - 2.months, format: :only_month)} : 3.0"
+      expect(page).to have_text "#{I18n.l(current_time - 2.months, format: :only_month)} : 3.0"
     end
   end
 
@@ -84,7 +84,7 @@ RSpec.describe 'Members worked hours tracking', type: :feature do
     slot = 1.week.ago.clamp(current_time.at_beginning_of_month, current_time)
     3.times do
       mission = create(:mission, start_date: slot.to_datetime, due_date: slot.to_datetime + 3.hours)
-      create :enrollment, mission: mission
+      create(:enrollment, mission: mission)
       slot -= 1.month
     end
   end

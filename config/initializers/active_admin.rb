@@ -293,6 +293,9 @@ ActiveAdmin.setup do |config|
   #
   # config.order_clause = MyOrderClause
 end
-ActiveAdmin::BaseController.class_eval do
-  include ActiveAdmin::SiteRestriction
+
+Rails.application.config.to_prepare do
+  ActiveAdmin::BaseController.class_eval do
+    include ActiveAdmin::SiteRestriction
+  end
 end

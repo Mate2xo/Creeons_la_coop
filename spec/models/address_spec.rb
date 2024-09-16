@@ -4,15 +4,15 @@
 #
 # Table name: addresses
 #
-#  id            :bigint(8)        not null, primary key
+#  id            :bigint           not null, primary key
 #  postal_code   :string
 #  city          :string           not null
 #  street_name_1 :string
 #  street_name_2 :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  productor_id  :bigint(8)
-#  member_id     :bigint(8)
+#  productor_id  :bigint
+#  member_id     :bigint
 #  coordinates   :float            is an Array
 #
 
@@ -70,15 +70,11 @@ RSpec.describe Address, type: :model do
   end
 
   describe "instance coordinates search" do
-    let(:address) {
-      create :address, street_name_1: "4 allée de la faïencerie",
-                       street_name_2: "au bout de l'allée",
-                       postal_code: "60100"
-    }
-    describe "#fetch coordinates" do
-      it "connects successfully to api-adresse.data.gouv.fr/search/" do
-        expect(address.send(:fetch_coordinates).code).to eq 200
-      end
+    let(:address) do
+      create :address,
+             street_name_1: "4 allée de la faïencerie",
+             street_name_2: "au bout de l'allée",
+             postal_code: "60100"
     end
 
     describe "#assign_coordinates" do

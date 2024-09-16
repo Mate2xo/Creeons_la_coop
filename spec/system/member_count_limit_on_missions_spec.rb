@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Member count limit on missions :', type: :feature do
-  let(:member) { create :member }
-  let(:mission) { create :mission }
+RSpec.describe 'Member count limit on missions :' do
+  let(:member) { create(:member) }
+  let(:mission) { create(:mission) }
 
   before { sign_in member }
 
@@ -19,7 +19,9 @@ RSpec.describe 'Member count limit on missions :', type: :feature do
         expect(mission.reload.members).to include(member)
       end
 
-      it { expect(page).to have_content(I18n.t('enrollments.create.confirm_enroll')) }
+      it 'shows a confirmation flash message' do
+        expect(page).to have_content(I18n.t('enrollments.create.confirm_enroll'))
+      end
     end
 
     context 'when the enrolled Member count has been reached' do
@@ -29,7 +31,6 @@ RSpec.describe 'Member count limit on missions :', type: :feature do
         mission.save
 
         visit mission_path(mission.id)
-        I18n.locale = :fr
         click_button I18n.t('main_app.views.missions.show.button_enroll')
       end
 
@@ -37,7 +38,7 @@ RSpec.describe 'Member count limit on missions :', type: :feature do
         expect(mission.reload.members).not_to include(member)
       end
 
-      it 'sets a feedback message to the user', js: true do
+      it 'sets a feedback message to the user', :js do
         expect(page).to have_content(I18n.t('activerecord.errors.models.enrollment.full_mission'))
       end
     end

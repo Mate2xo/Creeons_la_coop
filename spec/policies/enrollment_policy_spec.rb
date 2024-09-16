@@ -7,23 +7,17 @@ RSpec.describe EnrollmentPolicy, type: :policy do
 
   subject { described_class }
 
-  permissions ".scope" do
-    pending "add some examples to (or delete) #{__FILE__}"
+  permissions '.scope' do
+    subject(:scope) { described_class::Scope.new(nil, Enrollment).resolve }
+
+    it 'returns everything' do
+      allow(Enrollment).to receive(:all)
+      scope
+      expect(Enrollment).to have_received(:all)
+    end
   end
 
-  permissions :show? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
-  permissions :create? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
-  permissions :update? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
-  permissions :destroy? do
-    pending "add some examples to (or delete) #{__FILE__}"
+  permissions :index?, :show?, :create?, :update?, :destroy? do
+    it { is_expected.to permit }
   end
 end

@@ -2,26 +2,34 @@
 
 # == Schema Information
 #
-# Table name: missions
+# Table name: groups
 #
-#  id                       :bigint(8)        not null, primary key
-#  name                     :string           not null
-#  group_manager_mail       :string
+#  id         :bigint           not null, primary key
+#  name       :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  roles      :string
+#
 
 require 'rails_helper'
 
-RSpec.describe Group, type: :model do
-  describe 'Model instanciation' do
-    subject { described_class.new }
+RSpec.describe Group do
+  describe 'validations' do
+    subject(:instance) { build(:group) }
 
-    describe 'validations' do
-      it { is_expected.to validate_presence_of(:name) }
-      it { validate_uniqueness_of(:name).case_insensitive }
-    end
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_uniqueness_of(:name).case_insensitive }
+  end
 
-    describe 'associations' do
-      it { is_expected.to have_many(:members).through(:group_members) }
-      it { is_expected.to have_many(:managers).class_name('Member').inverse_of('managed_groups').through(:group_managers) }
+  describe 'associations' do
+    it { is_expected.to have_many(:members).through(:group_members) }
+
+    it 'has many managers' do
+      expect(subject)
+        .to have_many(:managers)
+        .class_name('Member')
+        .inverse_of('managed_groups')
+        .through(:group_managers)
     end
   end
 end

@@ -4,11 +4,11 @@
 #
 # Table name: documents
 #
-#  id         :bigint(8)        not null, primary key
-#  category   :string           default: weekly_orders
-#  published  :boolean          default: false
+#  id         :bigint           not null, primary key
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  published  :boolean          default(FALSE)
+#  category   :string           default("weekly_orders")
 #
 
 class Document < ApplicationRecord
@@ -28,7 +28,7 @@ class Document < ApplicationRecord
                               recipes],
                        default: :weekly_orders
 
-  validates :file, attached: true, size: { less_than: 20.megabytes }, content_type: [
+  validates :file, attached: true, size: {less_than: 20.megabytes}, content_type: [
     'application/pdf',
     'application/msword', # .doc
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document', # .docx
