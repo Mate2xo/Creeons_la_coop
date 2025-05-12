@@ -7,6 +7,7 @@ RSpec.describe 'MemberInvitations' do
     visit new_member_invitation_path
     fill_in Member.human_attribute_name(:email), with: 'test@test.com'
     click_button "Envoyer l'invitation"
+    wait_for_success_flash
   end
 
   let(:super_admin) { create(:member, :super_admin) }
@@ -60,6 +61,7 @@ RSpec.describe 'MemberInvitations' do
       fill_in Member.human_attribute_name(:email), with: 'test@test.com'
       click_button "Envoyer l'invitation"
       click_link 'Déconnexion'
+      wait_for_success_flash
     end
 
     it 'allows the user to finalize his account creation' do
