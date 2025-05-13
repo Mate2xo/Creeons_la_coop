@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'support/helpers/wait_for_flash_notice'
 
 RSpec.describe 'Member count limit on missions :' do
+  include WaitForFlashNotice
+
   let(:member) { create(:member) }
   let(:mission) { create(:mission) }
 
@@ -13,6 +16,7 @@ RSpec.describe 'Member count limit on missions :' do
       before do
         visit mission_path(mission.id)
         click_button I18n.t('main_app.views.missions.show.button_enroll')
+        wait_for_success_flash
       end
 
       it 'subscribes the member to this Mission' do
@@ -50,6 +54,7 @@ RSpec.describe 'Member count limit on missions :' do
       visit mission_path(mission.id)
 
       click_link I18n.t('main_app.views.missions.show.button_disenroll')
+      wait_for_warning_flash
     end
 
     it 'unsubcribes the member from this mission' do

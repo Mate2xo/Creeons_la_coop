@@ -67,6 +67,7 @@ group :development do
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+  gem 'rubocop-performance', require: false
   gem 'web-console', '~> 3.3' # NOTE: Update me to V4 with Rails6
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '~> 3.1' # NOTE: Update me to v4 with Ruby3

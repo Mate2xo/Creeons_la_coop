@@ -458,6 +458,9 @@ GEM
       rubocop (~> 1.41)
     rubocop-factory_bot (2.25.1)
       rubocop (~> 1.41)
+    rubocop-performance (1.23.1)
+      rubocop (>= 1.48.1, < 2.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
     rubocop-rails (2.24.1)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
@@ -643,6 +646,7 @@ DEPENDENCIES
   redis (~> 5.0)
   rspec-rails (~> 5.1)
   rubocop
+  rubocop-performance
   rubocop-rails
   rubocop-rspec
   sass-rails (~> 5.0)
