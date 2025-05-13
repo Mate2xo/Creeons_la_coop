@@ -56,8 +56,8 @@ Members buy products from productors, and sell these products to themselves. Eac
 
 ## Versions:
 
-- Ruby => 2.5.1
-- Rails => 5.2.3
+- Ruby => 2.7.8
+- Rails => 6.0.6
 
 ## Contributions / set up
 
