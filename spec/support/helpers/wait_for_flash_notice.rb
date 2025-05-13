@@ -15,7 +15,3 @@ module WaitForFlashNotice
     expect(page).to have_css('div#flash_error.alert-danger')
   end
 end
-
-RSpec.configure do |config|
-  config.include WaitForFlashNotice
-end

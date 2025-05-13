@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'support/helpers/wait_for_flash_notice'
 
 RSpec.describe 'Member count limit on missions :' do
+  include WaitForFlashNotice
+
   let(:member) { create(:member) }
   let(:mission) { create(:mission) }
 

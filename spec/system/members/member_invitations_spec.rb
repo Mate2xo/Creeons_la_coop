@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'support/helpers/wait_for_flash_notice'
 
 RSpec.describe 'MemberInvitations' do
+  include WaitForFlashNotice
+
   subject(:fill_email_and_submit) do
     visit new_member_invitation_path
     fill_in Member.human_attribute_name(:email), with: 'test@test.com'
