@@ -81,6 +81,9 @@ GEM
     annotate (3.2.0)
       activerecord (>= 3.2, < 8.0)
       rake (>= 10.4, < 14.0)
+    appsignal (4.5.13)
+      logger
+      rack (>= 2.0.0)
     arbre (1.7.0)
       activesupport (>= 3.0.0)
       ruby2_keywords (>= 0.0.2)
@@ -603,6 +606,7 @@ DEPENDENCIES
   activeadmin (~> 2.9.0)
   addressable (~> 2.8.0)
   annotate (~> 3.1)
+  appsignal (~> 4.5)
   aws-sdk-s3 (= 1.48)
   bootsnap (~> 1.18.0)
   bootstrap (~> 4.3.1)

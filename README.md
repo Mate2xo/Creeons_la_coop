@@ -54,7 +54,14 @@ Members buy products from productors, and sell these products to themselves. Eac
 - Currently using [Boomerang](https://themes.getbootstrap.com/product/boomerang-bootstrap-4-business-corporate-theme/) bootstrap theme
 - If you want to use this app as it is, you must buy a Boomerang license. Otherwise, set up your own theme by deleting Boomerang resources from `/vendor` and asset pipeline. Libs and asset pipeline will be cleaned soon to facilitate this
 
-## Versions:
+### Error Monitoring
+
+Error monitoring is managed through [Appsignal](https://www.appsignal.com/) who graciously offered us a sponsored account, through their [open source initiative](https://www.appsignal.com/open-source), to allow us to track error and performance issues. Thank you Roy!
+I personally recommend their app for their reliability and ease of use, as I've used it already for around 40 other production Rails apps :thumbsup:
+
+If another, or none, error reporting service is needed, we could add a `Monitoring` adapter to offer configuration options for this feature.
+
+## Versions
 
 - Ruby => 2.7.8
 - Rails => 6.0.6
