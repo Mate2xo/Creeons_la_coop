@@ -2,6 +2,10 @@
 fr:
   activerecord:
     errors:
+      models:
+        static_slot:
+          messages:
+            selection_save_failure: error 
       messages:
         creation_fail: La création de %{model} a échoué
         destroy_fail: La suppression de %{model} a échoué
@@ -48,6 +52,7 @@ fr:
         cash_register_proficiency: Formation à la caisse
         cash_register_proficiencies:
           untrained: non formé à la caisse
+          newbie: nouveau
           beginner: débutant à la caisse
           proficient: formé à la caisse
         email: E-mail
