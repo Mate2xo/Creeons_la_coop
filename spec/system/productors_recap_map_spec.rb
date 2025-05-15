@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Productors Recap Maps address coordinates auto-search' do
+  before { use_fast_non_js_browser }
+
   context 'when a new productor is created,' do
     let(:productor) { build(:productor) }
 

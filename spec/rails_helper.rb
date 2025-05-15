@@ -32,6 +32,7 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'email_spec'
 require 'email_spec/rspec'
+require 'support/helpers/system_browser'
 
 Rails.application.eager_load! # see https://github.com/simplecov-ruby/simplecov?tab=readme-ov-file#want-to-use-spring-with-simplecov
 
@@ -91,6 +92,7 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :view
   config.include Devise::Test::IntegrationHelpers, type: :system
+  config.include SystemBrowser, type: :system
   config.include Devise::Test::IntegrationHelpers, type: :request
 end
 

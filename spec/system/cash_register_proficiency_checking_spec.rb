@@ -3,7 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Cash register proficiency checking :' do
-  before { sign_in create(:member) }
+  before do
+    use_fast_non_js_browser
+    sign_in create(:member)
+  end
 
   context 'when the cash register proficiency is insufficient, and there is only one slot left on a given time_slot' do
     subject(:enroll_current_user) do

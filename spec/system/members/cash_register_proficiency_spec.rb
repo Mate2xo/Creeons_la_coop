@@ -6,7 +6,10 @@ RSpec.describe 'Members cash register proficiency' do
   let(:mission) { create(:mission) }
   let(:jack) { create(:member, cash_register_proficiency: :proficient) }
 
-  before { sign_in jack }
+  before do
+    use_fast_non_js_browser
+    sign_in jack
+  end
 
   context 'when on a mission details page' do
     before do
@@ -24,13 +27,14 @@ RSpec.describe 'Members cash register proficiency' do
 
   context 'when on the mission index page' do
     before do
+      use_headless_javascript_browser
       mission.members << create_list(:member, 3, cash_register_proficiency: :untrained)
       visit missions_path
     end
 
     it 'shows missions without proficient members in purple', :js do
       expect(first("a[href='/missions/#{mission.id}']").native.style('background-color'))
-        .to eq 'rgba(128, 0, 128, 1)'
+        .to eq 'rgb(128, 0, 128)'
     end
   end
 end
