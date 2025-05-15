@@ -11,7 +11,7 @@ RSpec.describe 'DocumentUploadsAtInfoSections' do
     it 'does not show the document upload form' do
       visit infos_path(anchor: 'documents')
 
-      expect(page).not_to have_content('Ajouter un document')
+      expect(page).to have_no_content('Ajouter un document')
     end
 
     it 'does not show the delete button on a document' do
@@ -19,7 +19,7 @@ RSpec.describe 'DocumentUploadsAtInfoSections' do
 
       visit infos_path(anchor: 'documents')
 
-      expect(page).not_to have_link(I18n.t('main_app.views.application.buttons.destroy'))
+      expect(page).to have_no_link(I18n.t('main_app.views.application.buttons.destroy'))
     end
   end
 
@@ -60,13 +60,13 @@ RSpec.describe 'DocumentUploadsAtInfoSections' do
 
     it 'deletes the document from documents/index#document view' do
       submit_document_destruction
-      expect(page).not_to have_content 'erd.pdf'
+      expect(page).to have_no_content 'erd.pdf'
     end
 
     context 'when javascript is enabled in the browser', :js do
       it 'deletes the document from from the documents/index#document view' do
         submit_document_destruction
-        expect(page).not_to have_content 'erd.pdf'
+        expect(page).to have_no_content 'erd.pdf'
       end
     end
   end

@@ -10,12 +10,12 @@ RSpec.describe 'MemberInvitations' do
     wait_flash(:success)
   end
 
-  let(:super_admin) { create(:member, :super_admin) }
-
   before do
     use_fast_non_js_browser
     sign_in create(:member, :super_admin)
   end
+
+  let(:super_admin) { create(:member, :super_admin) }
 
   it 'sends an invitation email' do
     fill_email_and_submit
