@@ -29,8 +29,6 @@ gem 'redis', '~> 5.0'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'mini_magick', '~> 4.13' # Use ActiveStorage variant
-
 gem 'activeadmin', '~> 2.9.0' # NOTE: update-me to 2.11+ when upgrading to Rails 7
 gem 'active_storage_validations', '~> 0.9' # NOTE: Update me to 1.1 when upgrading to Rails 7
 gem 'addressable', '~> 2.8.0' # URI manipulations

@@ -14,7 +14,7 @@ ActiveAdmin.register Document do
     end
     column(:preview) do |document|
       if document.file.previewable?
-        link_to(image_tag(document.file.preview(resize: '90x90')),
+        link_to(image_tag(document.file.preview(resize_to_limit: [90, 90])),
                 rails_blob_path(document.file, disposition: 'attachment'))
       end
     end
