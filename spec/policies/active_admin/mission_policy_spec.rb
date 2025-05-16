@@ -10,7 +10,7 @@ RSpec.describe ActiveAdmin::MissionPolicy, type: :policy do
   let(:super_admin) { build_stubbed :member, :super_admin }
   let(:any_mission) { build_stubbed :mission }
 
-  permissions :new?, :create?, :show? do
+  permissions :index?, :create?, :show?, :update? do
     it { is_expected.not_to permit member }
     it { is_expected.to permit admin }
     it { is_expected.to permit super_admin }

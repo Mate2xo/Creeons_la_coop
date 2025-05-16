@@ -13,6 +13,18 @@ RSpec.describe 'admin/enrollments', type: :request do
 
   before { sign_in current_admin }
 
+  describe 'GET' do
+    subject(:get_enrollment) do
+      enrollment = create(:enrollment)
+      get admin_mission_enrollments_path(enrollment.mission)
+    end
+
+    it 'renders with HTTP success' do
+      get_enrollment
+      expect(response).to have_http_status(:success)
+    end
+  end
+
   describe 'POST' do
     subject(:post_enrollment) do
       post admin_mission_enrollments_path(mission.id),

@@ -4,72 +4,55 @@ require 'rails_helper'
 
 # Visitor access is tested in matching controllers
 RSpec.describe InfoPolicy, type: :policy do
-  let(:member) { build(:member) }
-
   subject { described_class }
 
-  permissions ".scope" do
-    pending "add some examples to (or delete) #{__FILE__}"
+  let(:member) { build(:member) }
+  let(:admin) { build(:member, :admin) }
+  let(:super_admin) { build(:member, :super_admin) }
+
+  permissions :index?, :show? do
+    it { is_expected.to permit member }
   end
 
-  permissions :show? do
-    it "allows access to any member" do
-      expect(subject).to permit member
-    end
-  end
-
-  permissions :create? do
-    it "denies access to a regular member" do
-      expect(subject).not_to permit member
-    end
-
-    it "allows access to an admin" do
-      member.role = "admin"
-      expect(subject).to permit(member)
-    end
-
-    it "allows access to an super_admin" do
-      member.role = "super_admin"
-      expect(subject).to permit(member)
-    end
-  end
-
-  permissions :update? do
-    it "denies access to a regular member" do
-      expect(subject).not_to permit member
-    end
-
-    it "allows access to an admin" do
-      member.role = "admin"
-      expect(subject).to permit(member)
-    end
-
-    it "allows access to an super_admin" do
-      member.role = "super_admin"
-      expect(subject).to permit(member)
-    end
+  permissions :create?, :update? do
+    it { is_expected.not_to permit member }
+    it { is_expected.to permit admin }
+    it { is_expected.to permit super_admin }
   end
 
   permissions :destroy? do
     let(:info) { build(:info) }
-    it "denies access to a regular member" do
-      expect(subject).not_to permit member, info
+
+    it { is_expected.not_to permit member, info }
+    it { is_expected.not_to permit admin, info }
+    it { is_expected.to permit super_admin, info }
+
+    context 'with an info authored by the current user' do
+      let(:info) { build(:info, author: member) }
+
+      it { is_expected.to permit member, info }
+    end
+  end
+
+  describe '.scope' do
+    subject(:scope) do
+      create(:info)
+      create(:info, published: true)
+      described_class::Scope.new user, Info
     end
 
-    it "denies access to an admin" do
-      member.role = "admin"
-      expect(subject).not_to permit(member, info)
+    let(:user) { nil }
+
+    it 'fetches only published infos' do
+      expect(scope.resolve.count).to eq 1
     end
 
-    it "allows access to the info author (admin)" do
-      member.role = "admin"
-      info.author = member
-      expect(subject).to permit(member, info)
-    end
+    context 'with a member' do
+      let(:user) { build_stubbed(:member) }
 
-    it "allows access to a super_admin" do
-      member.role = "super_admin"
-      expect(subject).to permit(member, info)
+      it 'fetches all infos' do
+        expect(scope.resolve.count).to eq 2
+      end
     end
   end
 end
