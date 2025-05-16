@@ -14,22 +14,12 @@ module ActiveAdmin
       admin? || super_admin?
     end
 
-    def edit?
-      admin? || super_admin?
-    end
-
     def update?
       admin? || super_admin?
     end
 
     def destroy?
       super_admin? || (admin? && record.author == user)
-    end
-
-    class Scope < Scope # rubocop:disable Style/Documentation
-      def resolve
-        scope.all
-      end
     end
   end
 end
