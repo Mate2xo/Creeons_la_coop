@@ -7,12 +7,13 @@ ruby '3.3.8'
 
 # Rails base gems
 gem 'bootstrap', '~> 4.3.1'
+gem 'concurrent-ruby', '1.3.4' # NOTE: Remove-me when upgrading to Rails 7
 gem 'image_processing', '~> 1.12'
 gem 'jbuilder', '~> 2.13'
 gem 'jquery-rails'
 gem 'pg', '>= 1.1.4', '< 2.0'
 gem 'puma', '~> 4.3'
-gem 'rails', '~> 6.0.6'
+gem 'rails', '~> 6.1'
 gem 'sass-rails', '~> 5.0'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
@@ -48,14 +49,13 @@ gem 'mailjet' # Production mailer API
 gem 'pundit' # Authorization management
 gem 'recurring_select', '~> 3.0' # Events recurrence rules set helper
 gem 'thredded', '~> 1.0.0' # TODO: update me to 1.1 once upgraded to Rails 6
-gem 'concurrent-ruby', '1.3.4' # NOTE: remove me when upgrading to Rails 7
 
 group :development, :test do
   gem 'bullet', '~> 7.1'
   gem 'factory_bot_rails', '~> 6.4'
   gem 'faker', '~> 3.3' # Generate fake data for the seed.rb and spec factories
   gem 'pry-byebug', '~> 3.10'
-  gem 'rspec-rails', '~> 5.1'
+  gem 'rspec-rails', '~> 6.1'
 end
 
 group :development do
@@ -79,8 +79,8 @@ group :test do
   gem 'email_spec'
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 3.40.0'
-  gem 'selenium-webdriver', '~> 4.32'
-  gem 'simplecov', require: false
   gem 'rails-controller-testing' # NOTE: the methods `render_template` and `assigns` must be replaced in order to remove this gem
+  gem 'selenium-webdriver', '~> 4.32'
   gem 'shoulda-matchers', '~> 5.3' # NOTE: Update me when ugrading to Rails6.1 and Ruby3
+  gem 'simplecov', require: false
 end
