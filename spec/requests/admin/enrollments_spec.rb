@@ -3,13 +3,10 @@
 require 'rails_helper'
 require 'support/helpers/assign_members_helpers'
 
-RSpec.configure do |c|
-  c.include AssignMembersHelpers
-end
-
 RSpec.describe 'admin/enrollments', type: :request do
-  let(:current_admin) { create :member, :super_admin }
-  let(:member) { create :member }
+  include AssignMembersHelpers
+  let(:current_admin) { create(:member, :super_admin) }
+  let(:member) { create(:member) }
 
   before { sign_in current_admin }
 
@@ -28,15 +25,15 @@ RSpec.describe 'admin/enrollments', type: :request do
   describe 'POST' do
     subject(:post_enrollment) do
       post admin_mission_enrollments_path(mission.id),
-           params: { enrollment: enrollment_params }
+           params: {enrollment: enrollment_params}
     end
 
-    let(:mission) { create :mission }
+    let(:mission) { create(:mission) }
     let(:enrollment_params) do
-      attributes_for :enrollment,
+      attributes_for(:enrollment,
                      start_time: mission.start_date,
                      end_time: mission.due_date,
-                     member_id: member.id
+                     member_id: member.id)
     end
 
     it 'creates the enrollment' do
@@ -51,7 +48,7 @@ RSpec.describe 'admin/enrollments', type: :request do
     end
 
     context 'when the related mission is :regulated and the enrollment matches a time slot' do
-      let(:mission) { create :mission, genre: 'regulated' }
+      let(:mission) { create(:mission, genre: 'regulated') }
 
       it 'confirms the enrollment creation' do
         post_enrollment
@@ -63,11 +60,11 @@ RSpec.describe 'admin/enrollments', type: :request do
 
     context 'when member is already enrolled' do
       let(:enroll_member) do
-        create :enrollment,
+        create(:enrollment,
                start_time: mission.start_date,
                end_time: (mission.start_date + 90.minutes),
                member_id: member.id,
-               mission_id: mission.id
+               mission_id: mission.id)
       end
 
       it 'displays an error message' do
@@ -81,10 +78,10 @@ RSpec.describe 'admin/enrollments', type: :request do
 
     context "when the datetimes of the enrollment aren't inside the mission's period" do
       let(:enrollment_params) do
-        attributes_for :enrollment,
+        attributes_for(:enrollment,
                        start_time: mission.start_date,
                        end_time: (mission.due_date + 3.minutes),
-                       member_id: member.id
+                       member_id: member.id)
       end
 
       it 'displays an error message' do
@@ -96,10 +93,10 @@ RSpec.describe 'admin/enrollments', type: :request do
 
     context 'when the duration is negative' do
       let(:enrollment_params) do
-        attributes_for :enrollment,
+        attributes_for(:enrollment,
                        start_time: mission.start_date,
                        end_time: (mission.start_date - 3.minutes),
-                       member_id: member.id
+                       member_id: member.id)
       end
 
       it 'displays an error message' do
@@ -111,12 +108,12 @@ RSpec.describe 'admin/enrollments', type: :request do
 
     context "when the related mission is regulated and the enrollment's
              datetimes are not matching mission's time_slots" do
-      let(:mission) { create :mission, genre: 'regulated' }
+      let(:mission) { create(:mission, genre: 'regulated') }
       let(:enrollment_params) do
-        attributes_for :enrollment,
+        attributes_for(:enrollment,
                        start_time: mission.start_date + 10.minutes,
                        end_time: (mission.start_date + 100.minutes),
-                       member_id: member.id
+                       member_id: member.id)
       end
 
       it 'displays an error message' do
@@ -127,13 +124,13 @@ RSpec.describe 'admin/enrollments', type: :request do
     end
 
     context "when the related misison is regulated and the enrollment's duration is not a multiple of 90 minutes" do
-      let(:mission) { create :mission, genre: 'regulated' }
+      let(:mission) { create(:mission, genre: 'regulated') }
       let(:enrollment_params) do
-        attributes_for :enrollment,
+        attributes_for(:enrollment,
                        start_time: mission.start_date,
                        end_time: (mission.start_date + 10.minutes),
                        member_id: member.id,
-                       mission_id: mission.id
+                       mission_id: mission.id)
       end
       let(:i18n_scope) { %i[activerecord errors models enrollment] }
 
@@ -146,7 +143,7 @@ RSpec.describe 'admin/enrollments', type: :request do
     end
 
     context 'when the mission is :standard and :max_member_count is already reached' do
-      let(:mission) { create :mission, max_member_count: 4 }
+      let(:mission) { create(:mission, max_member_count: 4) }
 
       it 'displays an error message' do
         assign_members_to_this_mission(4, mission)
@@ -159,7 +156,7 @@ RSpec.describe 'admin/enrollments', type: :request do
 
     context 'when the related mission is regulated and the member max_member_count
              is already reached for a :time_slot' do
-      let(:mission) { create :mission, genre: 'regulated', max_member_count: 4 }
+      let(:mission) { create(:mission, genre: 'regulated', max_member_count: 4) }
 
       it 'displays an error message' do
         assign_members_to_this_mission(4, mission)
@@ -173,10 +170,10 @@ RSpec.describe 'admin/enrollments', type: :request do
     context 'when the related mission is regulated, there is one slot left,
              and the member has an insufficient cash register proficiency' do
       let(:mission) do
-        create :mission,
+        create(:mission,
                genre: 'regulated',
                max_member_count: 4,
-               cash_register_proficiency_requirement: 'proficient'
+               cash_register_proficiency_requirement: 'proficient')
       end
 
       i18n_key = <<~KEY.strip
@@ -196,15 +193,15 @@ RSpec.describe 'admin/enrollments', type: :request do
   describe 'PUT' do
     subject(:put_enrollment) do
       put admin_mission_enrollment_path(mission.id, enrollment.id),
-          params: { enrollment: enrollment_params }
+          params: {enrollment: enrollment_params}
     end
 
-    let(:mission) { create :mission }
+    let(:mission) { create(:mission) }
     let(:enrollment_params) do
-      attributes_for :enrollment,
+      attributes_for(:enrollment,
                      start_time: mission.start_date + 10.minutes,
                      end_time: mission.due_date,
-                     member_id: member.id
+                     member_id: member.id)
     end
 
     let(:expected_attributes) do
@@ -216,11 +213,11 @@ RSpec.describe 'admin/enrollments', type: :request do
     end
 
     let(:enrollment) do
-      create :enrollment,
+      create(:enrollment,
              start_time: mission.start_date,
              end_time: mission.due_date,
              member_id: member.id,
-             mission_id: mission.id
+             mission_id: mission.id)
     end
 
     it 'updates the enrollment' do
@@ -238,10 +235,10 @@ RSpec.describe 'admin/enrollments', type: :request do
 
     context "when the enrollment's datetimes are outside the mission's period" do
       let(:enrollment_params) do
-        attributes_for :enrollment,
+        attributes_for(:enrollment,
                        start_time: mission.start_date - 10.minutes,
                        end_time: mission.due_date,
-                       member_id: member.id
+                       member_id: member.id)
       end
 
       it 'displays an error message' do
@@ -253,10 +250,10 @@ RSpec.describe 'admin/enrollments', type: :request do
 
     context 'when the enrollment duration is negative' do
       let(:enrollment_params) do
-        attributes_for :enrollment,
+        attributes_for(:enrollment,
                        start_time: enrollment.end_time,
                        end_time: enrollment.start_time,
-                       member_id: member.id
+                       member_id: member.id)
       end
 
       it 'displays an error message' do
@@ -268,12 +265,12 @@ RSpec.describe 'admin/enrollments', type: :request do
 
     context "when the related mission is regulated and the enrollment's
              datetimes are not matching mission's time_slots" do
-      let(:mission) { create :mission, genre: 'regulated' }
+      let(:mission) { create(:mission, genre: 'regulated') }
       let(:enrollment_params) do
-        attributes_for :enrollment,
+        attributes_for(:enrollment,
                        start_time: (enrollment.start_time + 10.minutes),
                        end_time: enrollment.end_time,
-                       member_id: member.id
+                       member_id: member.id)
       end
 
       it 'displays an error message' do
@@ -285,20 +282,20 @@ RSpec.describe 'admin/enrollments', type: :request do
 
     context 'when the related mission is regulated and the :max_member_count
              is already reached for the new time slot' do
-      let(:mission) { create :mission, genre: 'regulated' }
+      let(:mission) { create(:mission, genre: 'regulated') }
 
       let(:enrollment) do
-        create :enrollment,
+        create(:enrollment,
                start_time: mission.start_date,
                end_time: mission.start_date + 90.minutes,
-               mission_id: mission.id
+               mission_id: mission.id)
       end
 
       let(:enrollment_params) do
-        attributes_for :enrollment,
+        attributes_for(:enrollment,
                        start_time: enrollment.start_time + 90.minutes,
                        end_time: enrollment.end_time + 90.minutes,
-                       member_id: member.id
+                       member_id: member.id)
       end
       let(:assign_other_members) do
         assign_members_to_this_mission(4,
@@ -318,18 +315,18 @@ RSpec.describe 'admin/enrollments', type: :request do
 
     context 'when the related mission is regulated and the member has an
              insufficient cash register proficiency for the new time slot' do
-      let(:mission) { create :mission, genre: 'regulated', cash_register_proficiency_requirement: 'proficient' }
+      let(:mission) { create(:mission, genre: 'regulated', cash_register_proficiency_requirement: 'proficient') }
       let(:enrollment) do
-        create :enrollment,
+        create(:enrollment,
                start_time: mission.start_date,
                end_time: mission.start_date + 90.minutes,
-               mission_id: mission.id
+               mission_id: mission.id)
       end
       let(:enrollment_params) do
-        attributes_for :enrollment,
+        attributes_for(:enrollment,
                        start_time: enrollment.start_time + 90.minutes,
                        end_time: enrollment.end_time + 90.minutes,
-                       member_id: member.id
+                       member_id: member.id)
       end
 
       i18n_key = <<~KEY.strip
