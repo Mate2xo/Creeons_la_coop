@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe DocumentsController, type: :controller do
+RSpec.describe DocumentsController do
   before { sign_in create(:member, :admin) }
 
   describe '#create' do
