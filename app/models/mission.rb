@@ -92,42 +92,6 @@ class Mission < ApplicationRecord
     max_member_count - occupied_slots_count
   end
 
-  # TODO: delete me if this is actually unused
-  def inside_period?(enrollment)
-    enrollment.start_time >= start_date &&
-      enrollment.start_time <= due_date &&
-      enrollment.end_time >= start_date &&
-      enrollment.end_time <= due_date
-  end
-
-  # TODO: delete me if this is actually unused
-  def match_a_time_slot?(enrollment)
-    current_time_slot = start_date
-    while current_time_slot < due_date
-      return true if current_time_slot == enrollment.start_time
-
-      current_time_slot += 90.minutes
-    end
-    false
-  end
-
-  # TODO: delete me if this is actually unused
-  def slot_available_for_given_cash_register_proficiency?(enrollment, cash_register_proficiency_level)
-    current_time_slot = enrollment.start_time
-    proficiency_level_of_mission = Mission.cash_register_proficiency_requirements[cash_register_proficiency_requirement]
-
-    while current_time_slot < enrollment.end_time
-      if available_slots_count_for_a_time_slot(current_time_slot) == 1 &&
-         (cash_register_proficiency_level < proficiency_level_of_mission)
-        return false
-      end
-
-      current_time_slot += 90.minutes
-    end
-
-    true
-  end
-
   private
 
   def time_slot_selectable?(current_time_slot, member)
