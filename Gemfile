@@ -30,7 +30,7 @@ gem 'redis', '~> 5.0'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'activeadmin', '~> 2.9.0' # NOTE: update-me to 2.11+ when upgrading to Rails 7
+gem 'activeadmin', '~> 2.14' # NOTE: update-me to 3.1+ when upgrading to Rails 7.1
 gem 'active_storage_validations', '~> 0.9' # NOTE: Update me to 1.1 when upgrading to Rails 7
 gem 'addressable', '~> 2.8.0' # URI manipulations
 gem 'appsignal', '~> 4.5'
