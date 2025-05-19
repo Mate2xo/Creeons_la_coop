@@ -1,7 +1,7 @@
 # https://docs.appsignal.com/ruby/configuration/options.html
 Appsignal.configure do |config|
   config.activate_if_environment('staging', 'production')
-  config.name = 'replace me'
+  config.name = Rails.application.credentials.appsignal[:name]
   # https://docs.appsignal.com/ruby/configuration/options.html#option-push_api_key
   config.push_api_key = Rails.application.credentials.appsignal[:push_api_key]
 
