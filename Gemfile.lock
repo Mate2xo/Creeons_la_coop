@@ -201,7 +201,7 @@ GEM
       htmlentities (~> 4.3.3)
       launchy (~> 2.1)
       mail (~> 2.7)
-    enumerize (2.4.0)
+    enumerize (2.8.1)
       activesupport (>= 3.2)
     erubi (1.13.1)
     execjs (2.9.1)
@@ -626,7 +626,7 @@ DEPENDENCIES
   draper
   dry-transaction (= 0.16.0)
   email_spec
-  enumerize
+  enumerize (~> 2.8)
   factory_bot_rails (~> 6.4)
   faker (~> 3.3)
   httparty
