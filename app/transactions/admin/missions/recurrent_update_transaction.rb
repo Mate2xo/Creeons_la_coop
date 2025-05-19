@@ -8,7 +8,7 @@ module Admin
 
       around :rollback_if_failure
 
-      tee :get_missions_to_update
+      step :get_missions_to_update
       step :update_all_missions
 
       private
