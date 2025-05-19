@@ -7,13 +7,12 @@ ruby '3.3.8'
 
 # Rails base gems
 gem 'bootstrap', '~> 4.3.1'
-gem 'concurrent-ruby', '1.3.4' # NOTE: Remove-me when upgrading to Rails 7
 gem 'image_processing', '~> 1.12'
 gem 'jbuilder', '~> 2.13'
 gem 'jquery-rails'
 gem 'pg', '>= 1.1.4', '< 2.0'
 gem 'puma', '~> 4.3'
-gem 'rails', '~> 6.1'
+gem 'rails', '~> 7.0'
 gem 'sass-rails', '~> 5.0'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'

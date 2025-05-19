@@ -20,6 +20,12 @@ module CreonsLaCoop
 
     config.i18n.available_locales = %i[en fr]
     config.i18n.default_locale = :fr
+    # config.time_zone = "Central Time (US & Canada)"
+    # config.eager_load_paths << Rails.root.join("extras")
     config.i18n.load_path += Dir[Rails.root.join('config/locales/**/*.{rb,yml}')]
+
+    # TODO: :vips is more performant. See
+    # https://guides.rubyonrails.org/upgrading_ruby_on_rails.html#active-storage-default-variant-processor-changed-to-vips
+    config.active_storage.variant_processor = :mini_magick
   end
 end
