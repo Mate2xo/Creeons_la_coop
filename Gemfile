@@ -7,6 +7,7 @@ ruby '3.3.8'
 
 # Rails base gems
 gem 'bootstrap', '~> 4.3.1'
+gem 'concurrent-ruby', '1.3.4'
 gem 'image_processing', '~> 1.12'
 gem 'jbuilder', '~> 2.13'
 gem 'jquery-rails'
