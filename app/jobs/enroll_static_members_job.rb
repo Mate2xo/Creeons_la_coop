@@ -10,6 +10,6 @@ class EnrollStaticMembersJob < ApplicationJob # rubocop:disable Style/Documentat
   end
 
   after_perform do
-    ActionCable.server.broadcast 'notifications', reports: @enrollment_service.reports
+    ActionCable.server.broadcast 'notifications', { reports: @enrollment_service.reports }
   end
 end
