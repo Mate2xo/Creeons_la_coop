@@ -61,27 +61,27 @@ end
 
 group :development do
   gem 'annotate', '~> 3.1'
-  gem 'letter_opener', '~> 1.8.0' # NOTE: Update me to 1.9 with Ruby3
+  gem 'letter_opener', '~> 1.10.0'
   gem 'solargraph', '~> 0.50' # LSP provinding app documention through IDE
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'listen', '~> 3.9' # NOTE: Update me to 3.3 with Ruby3
+  gem 'listen', '~> 3.9'
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'rubocop-performance', require: false
   gem 'web-console', '~> 3.3' # NOTE: Update me to V4 with Rails6
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring', '~> 3.1' # NOTE: Update me to v4 with Ruby3
+  gem 'spring', '4.2.1'
   gem 'spring-commands-rspec'
-  # gem 'spring-watcher-listen', '~> 2.0.0' # NOTE: Update me to 2.1 with spring 4 on Ruby3
+  gem 'spring-watcher-listen', '~> 2.1.0'
 end
 
 group :test do
   gem 'email_spec'
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '~> 3.39.0' # NOTE: Update me when upgrading to Ruby3
+  gem 'capybara', '~> 3.40.0'
   gem 'selenium-webdriver', '~> 4.32'
-  gem 'rails-controller-testing' # NOTE: the methods `render_template` and `assigns` must be replaced in order to remove this gem
-  gem 'shoulda-matchers', '~> 5.3' # NOTE: Update me when ugrading to Rails6 and Ruby3
   gem 'simplecov', require: false
+  gem 'rails-controller-testing' # NOTE: the methods `render_template` and `assigns` must be replaced in order to remove this gem
+  gem 'shoulda-matchers', '~> 5.3' # NOTE: Update me when ugrading to Rails6.1 and Ruby3
 end
