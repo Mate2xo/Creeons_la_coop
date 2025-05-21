@@ -49,25 +49,20 @@ RSpec.describe 'DocumentUploadsAtInfoSections' do
 
   context 'when an admin deletes a document' do
     subject(:submit_document_destruction) do
+      visit documents_path(anchor: 'documents')
+      click_on I18n.t('main_app.views.application.buttons.destroy')
+      page.driver.browser.switch_to.alert.accept
+    end
+
+    before do
       use_headless_javascript_browser
       sign_in create(:member, :admin)
       create(:document)
-      visit documents_path(anchor: 'documents')
-
-      click_on I18n.t('main_app.views.application.buttons.destroy')
-      page.driver.browser.switch_to.alert.accept
     end
 
     it 'deletes the document from documents/index#document view' do
       submit_document_destruction
       expect(page).to have_no_content 'erd.pdf'
-    end
-
-    context 'when javascript is enabled in the browser', :js do
-      it 'deletes the document from from the documents/index#document view' do
-        submit_document_destruction
-        expect(page).to have_no_content 'erd.pdf'
-      end
     end
   end
 end
