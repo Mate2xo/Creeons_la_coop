@@ -61,11 +61,6 @@ I personally recommend their app for their reliability and ease of use, as I've 
 
 If another, or none, error reporting service is needed, we could add a `Monitoring` adapter to offer configuration options for this feature.
 
-## Versions
-
-- Ruby => 2.7.8
-- Rails => 6.0.6
-
 ## Contributions / set up
 
 Any contributions would be very welcome. See projects tab if something interests you, or post an issue with a feature suggestion that you think would be useful considering the scope of this kind of app.
