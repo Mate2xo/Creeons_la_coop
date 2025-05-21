@@ -3,64 +3,75 @@
 require 'rails_helper'
 
 RSpec.describe 'Member count limit on missions :' do
-  let(:member) { create(:member) }
-  let(:mission) { create(:mission) }
-
   before do
     use_fast_non_js_browser
     sign_in member
   end
 
   describe 'member enrolling in a mission' do
-    context 'when the enrolled member count has NOT been reached,' do
-      before do
-        visit mission_path(mission.id)
-        click_button I18n.t('main_app.views.missions.show.button_enroll')
-        wait_flash(:success)
-      end
+    subject(:enroll) do
+      visit mission_path(mission.id)
+      click_button I18n.t('main_app.views.missions.show.button_enroll')
+    end
 
-      it 'subscribes the member to this Mission' do
-        expect(mission.reload.members).to include(member)
-      end
+    let(:member) { create(:member) }
+    let(:mission) { create(:mission) }
 
-      it 'shows a confirmation flash message' do
-        expect(page).to have_content(I18n.t('enrollments.create.confirm_enroll'))
-      end
+    it 'subscribes the member to this Mission' do
+      enroll
+      expect(page).to have_flash :notice
+
+      expect(mission.reload.members).to include(member)
+    end
+
+    it 'shows a confirmation flash message' do
+      enroll
+      expect(page).to have_flash :notice
+
+      expect(page).to have_content(I18n.t('enrollments.create.confirm_enroll'))
     end
 
     context 'when the enrolled Member count has been reached' do
-      before do
-        mission.max_member_count = 4
-        mission.members << create_list(:member, 4)
-        mission.save
-
-        visit mission_path(mission.id)
-        click_button I18n.t('main_app.views.missions.show.button_enroll')
+      let(:mission) do
+        create(:mission) do |mission|
+          mission.max_member_count = 4
+          mission.members << create_list(:member, 4)
+          mission.save
+        end
       end
 
       it 'does not subscribe the member to this Mission' do
+        enroll
         expect(mission.reload.members).not_to include(member)
       end
 
       it 'sets a feedback message to the user', :js do
+        enroll
         expect(page).to have_content(I18n.t('activerecord.errors.models.enrollment.full_mission'))
       end
     end
   end
 
   describe 'member disenrolling from a mission' do
-    before do
-      mission.members << member
+    subject(:disenroll) do
       visit mission_path(mission.id)
 
       click_link I18n.t('main_app.views.missions.show.button_disenroll')
-      wait_flash(:warning)
+      expect(page).to have_flash :alert
     end
 
+    let(:member) { create(:member) }
+    let(:mission) { create(:mission) { |m| m.members << member } }
+
     it 'unsubcribes the member from this mission' do
+      disenroll
+
       expect(mission.reload.members).not_to include(member)
     end
 
-    it { expect(page).to have_content(I18n.t('enrollments.destroy.disenroll')) }
+    it 'shows a confirmation message' do
+      disenroll
+      expect(page).to have_flash :alert, text: I18n.t('enrollments.destroy.disenroll')
+    end
   end
 end

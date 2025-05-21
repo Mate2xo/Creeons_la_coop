@@ -33,6 +33,7 @@ require 'rspec/rails'
 require 'email_spec'
 require 'email_spec/rspec'
 require 'support/helpers/system_browser'
+Rails.root.glob('spec/support/matchers/*.rb').each { |f| require f }
 
 Rails.application.eager_load! # see https://github.com/simplecov-ruby/simplecov?tab=readme-ov-file#want-to-use-spring-with-simplecov
 
