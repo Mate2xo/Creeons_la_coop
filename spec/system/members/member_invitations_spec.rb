@@ -17,7 +17,7 @@ RSpec.describe 'MemberInvitations' do
 
   let(:super_admin) { create(:member, :super_admin) }
 
-  it 'sends an invitation email' do
+  it 'sends an invitation email', :aggregate_failures do
     fill_email_and_submit
 
     expect(Devise.mailer.deliveries.count).to eq 1
