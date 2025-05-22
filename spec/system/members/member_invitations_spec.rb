@@ -1,25 +1,22 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'support/helpers/wait_for_flash_notice'
 
 RSpec.describe 'MemberInvitations' do
-  include WaitForFlashNotice
-
   subject(:fill_email_and_submit) do
     visit new_member_invitation_path
     fill_in Member.human_attribute_name(:email), with: 'test@test.com'
     click_button "Envoyer l'invitation"
-    wait_for_success_flash
+  end
+
+  before do
+    use_fast_non_js_browser
+    sign_in create(:member, :super_admin)
   end
 
   let(:super_admin) { create(:member, :super_admin) }
 
-  before do
-    sign_in create(:member, :super_admin)
-  end
-
-  it 'sends an invitation email' do
+  it 'sends an invitation email', :aggregate_failures do
     fill_email_and_submit
 
     expect(Devise.mailer.deliveries.count).to eq 1
@@ -64,7 +61,6 @@ RSpec.describe 'MemberInvitations' do
       fill_in Member.human_attribute_name(:email), with: 'test@test.com'
       click_button "Envoyer l'invitation"
       click_link 'Déconnexion'
-      wait_for_success_flash
     end
 
     it 'allows the user to finalize his account creation' do

@@ -3,10 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe 'Mission events color codes:' do
-  before { sign_in create(:member) }
+  before do
+    use_fast_non_js_browser
+    sign_in create(:member)
+  end
 
   context 'when a delivery is expected at the shop' do
-    it 'shows a truck icon on the mission event', :js do
+    it 'shows a truck icon on the mission event' do
       create(:mission, delivery_expected: true)
 
       visit missions_path
@@ -19,13 +22,15 @@ RSpec.describe 'Mission events color codes:' do
     let(:mission) { create(:mission, min_member_count: 3) }
 
     context 'with insufficient enrolled members', :js do
+      before { use_headless_javascript_browser }
+
       it 'shows the event colored in purple' do
         mission.members << create_list(:member, 2)
 
         visit missions_path
 
         expect(first("a[href='/missions/#{mission.id}']").native.style('background-color'))
-          .to eq 'rgba(128, 0, 128, 1)'
+          .to eq 'rgb(128, 0, 128)'
       end
 
       it 'shows the event in red if no member if enrolled' do
@@ -34,19 +39,20 @@ RSpec.describe 'Mission events color codes:' do
         visit missions_path
 
         expect(first("a[href='/missions/#{mission.id}']").native.style('background-color'))
-          .to eq 'rgba(255, 0, 0, 1)'
+          .to eq 'rgb(255, 0, 0)'
       end
     end
   end
 
   context 'when :event is set to true' do
     it 'shows the event colored in orange', :js do
+      use_headless_javascript_browser
       mission = create(:mission, genre: 'event')
 
       visit missions_path
 
       expect(first("a[href='/missions/#{mission.id}']").native.style('background-color'))
-        .to eq 'rgba(255, 165, 0, 1)'
+        .to eq 'rgb(255, 165, 0)'
     end
   end
 

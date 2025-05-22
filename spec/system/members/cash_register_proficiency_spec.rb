@@ -3,34 +3,41 @@
 require 'rails_helper'
 
 RSpec.describe 'Members cash register proficiency' do
-  let(:mission) { create(:mission) }
   let(:jack) { create(:member, cash_register_proficiency: :proficient) }
 
   before { sign_in jack }
 
-  context 'when on a mission details page' do
-    before do
-      mission.members << jack
-      visit mission_path(mission.id)
-    end
+  describe 'mission details page' do
+    subject(:mission_show) { visit mission_path(mission.id) }
+
+    before { use_fast_non_js_browser }
+
+    let(:mission) { create(:mission) { |m| m.members << jack } }
 
     it 'shows enrolled members proficiency' do
-      expect(page).to have_content(
-        I18n.t(jack.cash_register_proficiency,
-               scope: 'activerecord.attributes.member.cash_register_proficiencies')
-      )
+      mission_show
+
+      proficiency_level_translation =
+        I18n.t(jack.cash_register_proficiency, scope: 'activerecord.attributes.member.cash_register_proficiencies')
+      expect(page).to have_content(proficiency_level_translation)
     end
   end
 
-  context 'when on the mission index page' do
-    before do
-      mission.members << create_list(:member, 3, cash_register_proficiency: :untrained)
+  describe 'mission index page' do
+    subject(:mission_index) do
+      create(:mission, id: 1234) do |mission|
+        mission.members << create_list(:member, 3, cash_register_proficiency: :untrained)
+      end
       visit missions_path
     end
 
-    it 'shows missions without proficient members in purple', :js do
-      expect(first("a[href='/missions/#{mission.id}']").native.style('background-color'))
-        .to eq 'rgba(128, 0, 128, 1)'
+    before { use_headless_javascript_browser }
+
+    it 'shows missions without proficient members in purple' do
+      mission_index
+
+      expect(first("a[href='/missions/1234']").native.style('background-color'))
+        .to eq 'rgb(128, 0, 128)'
     end
   end
 end

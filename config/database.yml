@@ -83,6 +83,12 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
+staging:
+  <<: *default
+  database: creons_la_coop_staging
+  username: creons_la_coop
+  password: <%= ENV['CREONS_LA_COOP_DATABASE_PASSWORD'] %>
+
 production:
   <<: *default
   database: creons_la_coop_production

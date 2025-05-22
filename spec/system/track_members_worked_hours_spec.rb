@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Members worked hours tracking' do
+  before { use_fast_non_js_browser }
+
   let(:member) { create(:member) }
 
   context 'when a member goes on his/her profile page,' do

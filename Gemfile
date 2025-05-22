@@ -34,6 +34,7 @@ gem 'mini_magick', '~> 4.13' # Use ActiveStorage variant
 gem 'activeadmin', '~> 2.9.0' # NOTE: update-me to 2.11+ when upgrading to Rails 7
 gem 'active_storage_validations', '~> 0.9' # NOTE: Update me to 1.1 when upgrading to Rails 7
 gem 'addressable', '~> 2.8.0' # URI manipulations
+gem 'appsignal', '~> 4.5'
 gem 'aws-sdk-s3', '= 1.48', require: false # S3 file upload storage
 gem 'bootstrap4-datetime-picker-rails'
 gem 'cocoon', '~> 1.2', '>= 1.2.12' # Dynamic nested forms
