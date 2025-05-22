@@ -33,7 +33,7 @@ RSpec.describe 'Members cash register proficiency' do
 
     before { use_headless_javascript_browser }
 
-    it 'shows missions without proficient members in purple', :js do
+    it 'shows missions without proficient members in purple' do
       mission_index
 
       expect(first("a[href='/missions/1234']").native.style('background-color'))
