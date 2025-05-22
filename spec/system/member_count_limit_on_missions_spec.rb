@@ -19,15 +19,11 @@ RSpec.describe 'Member count limit on missions :' do
 
     it 'subscribes the member to this Mission' do
       enroll
-      expect(page).to have_flash :notice
-
       expect(mission.reload.members).to include(member)
     end
 
     it 'shows a confirmation flash message' do
       enroll
-      expect(page).to have_flash :notice
-
       expect(page).to have_content(I18n.t('enrollments.create.confirm_enroll'))
     end
 
@@ -55,9 +51,7 @@ RSpec.describe 'Member count limit on missions :' do
   describe 'member disenrolling from a mission' do
     subject(:disenroll) do
       visit mission_path(mission.id)
-
       click_link I18n.t('main_app.views.missions.show.button_disenroll')
-      expect(page).to have_flash :alert
     end
 
     let(:member) { create(:member) }

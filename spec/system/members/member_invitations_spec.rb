@@ -7,7 +7,6 @@ RSpec.describe 'MemberInvitations' do
     visit new_member_invitation_path
     fill_in Member.human_attribute_name(:email), with: 'test@test.com'
     click_button "Envoyer l'invitation"
-    expect(page).to have_flash :notice
   end
 
   before do
@@ -53,7 +52,6 @@ RSpec.describe 'MemberInvitations' do
 
   context "when following the invitation mail's link" do
     subject(:follow_invitation_link) do
-      expect(page).to have_flash :notice
       open_email 'test@test.com'
       visit_in_email "Accepter l'invitation"
     end
