@@ -29,10 +29,8 @@ RSpec.describe 'Member count limit on missions :' do
 
     context 'when the enrolled Member count has been reached' do
       let(:mission) do
-        create(:mission) do |mission|
-          mission.max_member_count = 4
+        create(:mission, max_member_count: 4) do |mission|
           mission.members << create_list(:member, 4)
-          mission.save
         end
       end
 
