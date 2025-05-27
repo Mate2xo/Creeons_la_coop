@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'support/helpers/assign_members_helpers'
 
-RSpec.describe 'A Missions admin request', type: :request do
+RSpec.describe 'admin/missions', type: :request do
   include AssignMembersHelpers
   let(:current_admin) { create(:member, :super_admin) }
 
@@ -12,7 +12,16 @@ RSpec.describe 'A Missions admin request', type: :request do
     allow(DateTime).to receive(:current).and_return DateTime.new(2020, 12, 10, 10)
   end
 
-  describe '#generate_schedule' do
+  describe 'GET /' do
+    subject(:index) { get admin_missions_path }
+
+    it 'has an :ok HTTP status' do
+      index
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
+  describe 'POST /generate_schedule' do
     subject(:post_generate_schedule) { post generate_schedule_admin_missions_path(3) }
 
     context 'when all schedules asked has been already generated' do
@@ -26,7 +35,7 @@ RSpec.describe 'A Missions admin request', type: :request do
     end
   end
 
-  describe 'POST' do
+  describe 'POST /' do
     subject(:post_mission) { post admin_missions_path, params: {mission: mission_params} }
 
     context 'when the :genre params is set to event' do
@@ -79,7 +88,7 @@ RSpec.describe 'A Missions admin request', type: :request do
     end
   end
 
-  describe 'PUT' do
+  describe 'PUT /:id' do
     subject(:put_mission) { put admin_mission_path(mission.id), params: {mission: mission_params} }
 
     let(:mission) { create(:mission, start_date: DateTime.current + 2.days) }

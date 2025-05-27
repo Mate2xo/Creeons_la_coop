@@ -2,28 +2,30 @@
 
 require 'rails_helper'
 
-RSpec.describe 'A StaticSlot request', type: :request do
+RSpec.describe 'admin/static_slots', type: :request do
   before { sign_in create :member, :super_admin }
 
   describe 'GET index' do
+    subject(:index) { get admin_static_slots_path }
+
     it 'has a successful response' do
       create_list :static_slot, 4
 
-      get admin_static_slots_path
+      index
 
       expect(response).to be_successful
     end
   end
 
-  describe 'GET show' do
-    subject(:get_show) { get admin_static_slot_path(static_slot.id) }
+  describe 'GET /:id' do
+    subject(:show) { get admin_static_slot_path(static_slot.id) }
 
     let(:static_slot) { create :static_slot }
 
     it 'has a successful response' do
       attribute_static_slot_to_n_members(static_slot, 4)
 
-      get_show
+      show
 
       expect(response).to be_successful
     end
@@ -31,14 +33,14 @@ RSpec.describe 'A StaticSlot request', type: :request do
     it 'displays a panel with members' do
       members = attribute_static_slot_to_n_members(static_slot, 4)
 
-      get_show
+      show
 
       expect(response.body).to include(members[0].first_name).and include(members[1].first_name)
         .and include(members[2].first_name)
     end
   end
 
-  describe 'GET new' do
+  describe 'GET /new' do
     it 'has a successful response' do
       get new_admin_static_slot_path
 
@@ -46,7 +48,7 @@ RSpec.describe 'A StaticSlot request', type: :request do
     end
   end
 
-  describe 'POST StaticSlot' do
+  describe 'POST /' do
     subject(:post_static_slot) do
       post admin_static_slots_path,
            params: { static_slot: static_slot_params }
@@ -54,25 +56,25 @@ RSpec.describe 'A StaticSlot request', type: :request do
 
     let(:static_slot_params) { attributes_for :static_slot }
 
-    it 'creates a static_slot with success' do
+    it 'creates a static_slot' do
       expect { post_static_slot }.to change(StaticSlot, :count).by(1)
     end
   end
 
-  describe 'GET edit' do
-    subject(:get_edit) { get admin_static_slot_path(static_slot.id) }
+  describe 'GET /:id/edit' do
+    subject(:edit) { get admin_static_slot_path(static_slot.id) }
 
     let(:static_slot) { create :static_slot }
 
     it 'has a successful response' do
-      get_edit
+      edit
 
       expect(response).to be_successful
     end
   end
 
-  describe 'PUT StaticSlot' do
-    subject(:put_static_slot) do
+  describe 'PUT /:id' do
+    subject(:update) do
       put admin_static_slot_path(static_slot.id),
           params: { static_slot: static_slot_params }
     end
@@ -80,27 +82,27 @@ RSpec.describe 'A StaticSlot request', type: :request do
     let(:static_slot_params) { attributes_for :static_slot, week_type: 'D' }
     let(:static_slot) { create :static_slot }
 
-    it 'updates a static_slot with success' do
-      put_static_slot
+    it 'updates the given StaticSlot' do
+      update
 
       expect(StaticSlot.find(static_slot.id).week_type).to eq 'D'
     end
   end
 
-  describe 'DELETE StaticSlot' do
+  describe 'DELETE /:id' do
     subject(:delete_static_slot) do
       delete admin_static_slot_path(static_slot.id), params: { static_slot: { id: static_slot.id } }
     end
 
     let(:static_slot) { create :static_slot }
 
-    it 'deletes' do
+    it 'deletes the given StaticSlot' do
       delete_static_slot
 
       expect(StaticSlot.find_by(id: static_slot.id)).to be_nil
     end
 
-    it 'removes association with related members' do
+    it 'removes the association with related members' do
       members = attribute_static_slot_to_n_members(static_slot, 4)
 
       delete_static_slot

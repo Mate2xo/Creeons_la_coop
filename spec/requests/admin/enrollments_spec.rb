@@ -10,20 +10,20 @@ RSpec.describe 'admin/enrollments', type: :request do
 
   before { sign_in current_admin }
 
-  describe 'GET' do
-    subject(:get_enrollment) do
+  describe 'GET /' do
+    subject(:index) do
       enrollment = create(:enrollment)
       get admin_mission_enrollments_path(enrollment.mission)
     end
 
     it 'renders with HTTP success' do
-      get_enrollment
+      index
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe 'POST' do
-    subject(:post_enrollment) do
+  describe 'POST /' do
+    subject(:create_enrollment) do
       post admin_mission_enrollments_path(mission.id),
            params: {enrollment: enrollment_params}
     end
@@ -37,11 +37,11 @@ RSpec.describe 'admin/enrollments', type: :request do
     end
 
     it 'creates the enrollment' do
-      expect { post_enrollment }.to change(Mission, :count).by(1)
+      expect { create_enrollment }.to change(Mission, :count).by(1)
     end
 
     it 'confirms the enrollment creation' do
-      post_enrollment
+      create_enrollment
       follow_redirect!
 
       expect(CGI.unescapeHTML(response.body)).to include(I18n.t('enrollments.create.confirm_enroll'))
@@ -51,7 +51,7 @@ RSpec.describe 'admin/enrollments', type: :request do
       let(:mission) { create(:mission, genre: 'regulated') }
 
       it 'confirms the enrollment creation' do
-        post_enrollment
+        create_enrollment
         follow_redirect!
 
         expect(CGI.unescapeHTML(response.body)).to include(I18n.t('enrollments.create.confirm_enroll'))
@@ -70,7 +70,7 @@ RSpec.describe 'admin/enrollments', type: :request do
       it 'displays an error message' do
         enroll_member
 
-        post_enrollment
+        create_enrollment
 
         expect(response.body).to include(I18n.t('activerecord.errors.models.enrollment.member_already_enrolled'))
       end
@@ -85,7 +85,7 @@ RSpec.describe 'admin/enrollments', type: :request do
       end
 
       it 'displays an error message' do
-        post_enrollment
+        create_enrollment
 
         expect(response.body).to include(I18n.t('activerecord.errors.models.enrollment.inconsistent_datetimes'))
       end
@@ -100,7 +100,7 @@ RSpec.describe 'admin/enrollments', type: :request do
       end
 
       it 'displays an error message' do
-        post_enrollment
+        create_enrollment
 
         expect(response.body).to include(I18n.t('activerecord.errors.models.enrollment.negative_duration'))
       end
@@ -117,7 +117,7 @@ RSpec.describe 'admin/enrollments', type: :request do
       end
 
       it 'displays an error message' do
-        post_enrollment
+        create_enrollment
 
         expect(response.body).to include(I18n.t('activerecord.errors.models.enrollment.time_slot_mismatch'))
       end
@@ -135,7 +135,7 @@ RSpec.describe 'admin/enrollments', type: :request do
       let(:i18n_scope) { %i[activerecord errors models enrollment] }
 
       it 'displays a related error message' do
-        post_enrollment
+        create_enrollment
 
         expect(CGI.unescapeHTML(response.body)).to include(I18n.t('duration_is_not_a_multiple_of_90_minutes',
                                                                   scope: i18n_scope))
@@ -148,7 +148,7 @@ RSpec.describe 'admin/enrollments', type: :request do
       it 'displays an error message' do
         assign_members_to_this_mission(4, mission)
 
-        post_enrollment
+        create_enrollment
 
         expect(response.body).to include(I18n.t('activerecord.errors.models.enrollment.full_mission'))
       end
@@ -161,7 +161,7 @@ RSpec.describe 'admin/enrollments', type: :request do
       it 'displays an error message' do
         assign_members_to_this_mission(4, mission)
 
-        post_enrollment
+        create_enrollment
 
         expect(response.body).to include(I18n.t('activerecord.errors.models.enrollment.slot_unavailability'))
       end
@@ -183,15 +183,15 @@ RSpec.describe 'admin/enrollments', type: :request do
       it 'displays an error' do
         assign_members_to_this_mission(3, mission)
 
-        post_enrollment
+        create_enrollment
 
         expect(CGI.unescapeHTML(response.body)).to include(I18n.t(i18n_key))
       end
     end
   end
 
-  describe 'PUT' do
-    subject(:put_enrollment) do
+  describe 'PUT /:id' do
+    subject(:update_enrollment) do
       put admin_mission_enrollment_path(mission.id, enrollment.id),
           params: {enrollment: enrollment_params}
     end
@@ -221,13 +221,13 @@ RSpec.describe 'admin/enrollments', type: :request do
     end
 
     it 'updates the enrollment' do
-      put_enrollment
+      update_enrollment
 
       expect(enrollment.reload.attributes).to include(expected_attributes)
     end
 
     it 'confirms the enrollment updates' do
-      put_enrollment
+      update_enrollment
       follow_redirect!
 
       expect(CGI.unescapeHTML(response.body)).to include(I18n.t('enrollments.update.confirm_update'))
@@ -242,7 +242,7 @@ RSpec.describe 'admin/enrollments', type: :request do
       end
 
       it 'displays an error message' do
-        put_enrollment
+        update_enrollment
 
         expect(response.body).to include(I18n.t('activerecord.errors.models.enrollment.inconsistent_datetimes'))
       end
@@ -257,7 +257,7 @@ RSpec.describe 'admin/enrollments', type: :request do
       end
 
       it 'displays an error message' do
-        put_enrollment
+        update_enrollment
 
         expect(response.body).to include(I18n.t('activerecord.errors.models.enrollment.negative_duration'))
       end
@@ -274,7 +274,7 @@ RSpec.describe 'admin/enrollments', type: :request do
       end
 
       it 'displays an error message' do
-        put_enrollment
+        update_enrollment
 
         expect(response.body).to include(I18n.t('activerecord.errors.models.enrollment.time_slot_mismatch'))
       end
@@ -307,7 +307,7 @@ RSpec.describe 'admin/enrollments', type: :request do
       it 'displays an error message' do
         assign_other_members
 
-        put_enrollment
+        update_enrollment
 
         expect(response.body).to include(I18n.t('activerecord.errors.models.enrollment.slot_unavailability'))
       end
@@ -337,7 +337,7 @@ RSpec.describe 'admin/enrollments', type: :request do
         assign_members_to_this_mission(2, mission)
         assign_members_to_this_mission(1, mission, mission.start_date + 90.minutes)
 
-        put_enrollment
+        update_enrollment
 
         expect(CGI.unescapeHTML(response.body)).to include(I18n.t(i18n_key))
       end
