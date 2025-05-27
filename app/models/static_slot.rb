@@ -18,8 +18,8 @@ class StaticSlot < ApplicationRecord
   has_many :member_static_slots, dependent: :destroy
   has_many :members, through: :member_static_slots
 
-  enum week_day: { Monday: 0, Tuesday: 1, Wednesday: 2, Thursday: 3, Friday: 4, Saturday: 5, Sunday: 6 }
-  enum week_type: { A: 0, B: 1, C: 2, D: 3 }
+  enum :week_day, {Monday: 0, Tuesday: 1, Wednesday: 2, Thursday: 3, Friday: 4, Saturday: 5, Sunday: 6}
+  enum :week_type, {A: 0, B: 1, C: 2, D: 3}
 
   validates :start_time, presence: true
   validates :week_day, presence: true

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'admin/members' do
@@ -127,7 +129,7 @@ RSpec.describe 'admin/members' do
 
   describe 'PUT /:id' do
     subject(:update) { put admin_member_path(member), params: params }
-    
+
     let(:member) { create(:member, first_name: 'patate') }
     let(:params) { {member: {first_name: 'potato'}} }
 

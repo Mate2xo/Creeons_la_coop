@@ -9,7 +9,7 @@ RSpec.describe 'admin/static_slots', type: :request do
     subject(:index) { get admin_static_slots_path }
 
     it 'has a successful response' do
-      create_list :static_slot, 4
+      create_list(:static_slot, 4)
 
       index
 
@@ -20,7 +20,7 @@ RSpec.describe 'admin/static_slots', type: :request do
   describe 'GET /:id' do
     subject(:show) { get admin_static_slot_path(static_slot.id) }
 
-    let(:static_slot) { create :static_slot }
+    let(:static_slot) { create(:static_slot) }
 
     it 'has a successful response' do
       attribute_static_slot_to_n_members(static_slot, 4)
@@ -51,10 +51,10 @@ RSpec.describe 'admin/static_slots', type: :request do
   describe 'POST /' do
     subject(:post_static_slot) do
       post admin_static_slots_path,
-           params: { static_slot: static_slot_params }
+           params: {static_slot: static_slot_params}
     end
 
-    let(:static_slot_params) { attributes_for :static_slot }
+    let(:static_slot_params) { attributes_for(:static_slot) }
 
     it 'creates a static_slot' do
       expect { post_static_slot }.to change(StaticSlot, :count).by(1)
@@ -64,7 +64,7 @@ RSpec.describe 'admin/static_slots', type: :request do
   describe 'GET /:id/edit' do
     subject(:edit) { get admin_static_slot_path(static_slot.id) }
 
-    let(:static_slot) { create :static_slot }
+    let(:static_slot) { create(:static_slot) }
 
     it 'has a successful response' do
       edit
@@ -76,11 +76,11 @@ RSpec.describe 'admin/static_slots', type: :request do
   describe 'PUT /:id' do
     subject(:update) do
       put admin_static_slot_path(static_slot.id),
-          params: { static_slot: static_slot_params }
+          params: {static_slot: static_slot_params}
     end
 
-    let(:static_slot_params) { attributes_for :static_slot, week_type: 'D' }
-    let(:static_slot) { create :static_slot }
+    let(:static_slot_params) { attributes_for(:static_slot, week_type: 'D') }
+    let(:static_slot) { create(:static_slot) }
 
     it 'updates the given StaticSlot' do
       update
@@ -91,10 +91,10 @@ RSpec.describe 'admin/static_slots', type: :request do
 
   describe 'DELETE /:id' do
     subject(:delete_static_slot) do
-      delete admin_static_slot_path(static_slot.id), params: { static_slot: { id: static_slot.id } }
+      delete admin_static_slot_path(static_slot.id), params: {static_slot: {id: static_slot.id}}
     end
 
-    let(:static_slot) { create :static_slot }
+    let(:static_slot) { create(:static_slot) }
 
     it 'deletes the given StaticSlot' do
       delete_static_slot
@@ -112,9 +112,9 @@ RSpec.describe 'admin/static_slots', type: :request do
   end
 
   def attribute_static_slot_to_n_members(static_slot, members_count = 4)
-    members = create_list :member, members_count
+    members = create_list(:member, members_count)
     members.each do |member|
-      create :member_static_slot, member: member, static_slot: static_slot
+      create(:member_static_slot, member: member, static_slot: static_slot)
     end
   end
 end

@@ -17,7 +17,7 @@
 class Info < ApplicationRecord
   extend Enumerize
 
-  belongs_to :author, class_name: "Member" # , foreign_key: "author_id"
+  belongs_to :author, class_name: 'Member' # , foreign_key: "author_id"
 
   enumerize :category, in: %i[news event management], default: :news
   validates :title, presence: true

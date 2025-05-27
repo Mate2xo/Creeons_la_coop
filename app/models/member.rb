@@ -68,12 +68,12 @@ class Member < ApplicationRecord
   has_many :history_of_static_slot_selections, dependent: :destroy
   validates :first_name, presence: true
   validates :last_name, presence: true
-  validates :display_name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 50 }
+  validates :display_name, presence: true, uniqueness: {case_sensitive: false}, length: {maximum: 50}
 
   before_validation :set_unique_display_name
 
-  enum role: { member: 0, admin: 1, super_admin: 2 }
-  enum cash_register_proficiency: { untrained: 0, beginner: 1, proficient: 2 }
+  enum :role, {member: 0, admin: 1, super_admin: 2}
+  enum :cash_register_proficiency, {untrained: 0, beginner: 1, proficient: 2}
 
   def thredded_admin?
     admin? || super_admin?
@@ -110,6 +110,6 @@ class Member < ApplicationRecord
     return enrollments if register_id.nil?
 
     Enrollment.joins(:member)
-              .where(members: { register_id: register_id })
+              .where(members: {register_id: register_id})
   end
 end
