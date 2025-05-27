@@ -130,6 +130,7 @@ class Member < ApplicationRecord
     self.display_name = display_name
   end
 
+  # TODO: this causes an N+1 on Admin::Members#index
   def family_enrollments
     return enrollments if register_id.nil?
 
