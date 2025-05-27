@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Member do
-  includes :groups, :enrollments, :group_members
+  includes :groups, :group_members
   permit_params :email,
                 :password,
                 :encrypted_password,
