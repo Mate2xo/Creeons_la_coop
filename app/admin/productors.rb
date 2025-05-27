@@ -9,9 +9,15 @@ ActiveAdmin.register Productor do
                 :website_url,
                 :avatar,
                 catalogs: [],
-                address_attributes: [:id, :postal_code, :city,
-                                     :street_name_1, :street_name_2,
-                                     :_destroy, coordinates: []]
+                address_attributes: [
+                  :_destroy,
+                  :city,
+                  :id,
+                  :postal_code,
+                  :street_name_1,
+                  :street_name_2,
+                  {coordinates: []}
+                ]
 
   menu if: proc { authorized? :index, %i[active_admin Productor] } # display menu according to ActiveAdmin::Policy
 
