@@ -12,7 +12,7 @@ ActiveAdmin.register StaticSlot do
     selectable_column
     column(:week_day) { |resource| StaticSlot.human_enum_name('week_day', resource.week_day) }
     column(:start_time) { |resource| resource.start_time.strftime('%Hh%M') }
-    column :week_type
+    column(:week_type) { |resource| status_tag resource.week_type }
     actions
   end
 
