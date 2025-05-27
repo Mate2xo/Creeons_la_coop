@@ -59,6 +59,9 @@ fr:
         name: Nom
         phone_number: Numéro de téléphone
         website_url: Site internet
+  attributes:
+    created_at: créé(e) le
+    updated_at: mise à jour le
 
   date:
     abbr_day_names:
