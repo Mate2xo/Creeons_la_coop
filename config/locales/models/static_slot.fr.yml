@@ -3,6 +3,7 @@ fr:
     attributes:
       static_slot:
         hour: heure
+        members: membres
         minute: minute
         start_time: horaire
         week_day: jour de la semaine
@@ -15,6 +16,11 @@ fr:
           Saturday: Samedi
           Sunday: Dimanche
         week_type: type de semaine
+        week_types:
+          A: A
+          B: B
+          C: C
+          D: D
     errors:
       models:
         static_slot:
