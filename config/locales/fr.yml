@@ -5,14 +5,10 @@ fr:
       messages:
         creation_fail: La création de %{model} a échoué
         destroy_fail: La suppression de %{model} a échoué
-        record_invalid: "La validation a échoué : %{errors}"
+        record_invalid: 'La validation a échoué : %{errors}'
         restrict_dependent_destroy:
-          has_one:
-            Vous ne pouvez pas supprimer l'enregistrement car un(e) %{record}
-            dépendant(e) existe
-          has_many:
-            Vous ne pouvez pas supprimer l'enregistrement parce que les %{record}
-            dépendants existent
+          has_one: Vous ne pouvez pas supprimer l'enregistrement car un(e) %{record} dépendant(e) existe
+          has_many: Vous ne pouvez pas supprimer l'enregistrement parce que les %{record} dépendants existent
         update_fail: La mise à jour à échoué.
     notices:
       messages:
@@ -96,10 +92,10 @@ fr:
       - vendredi
       - samedi
     formats:
-      default: "%d/%m/%Y"
-      long: "%e %B %Y"
-      short: "%e %b"
-      only_month: "%B"
+      default: '%d/%m/%Y'
+      long: '%e %B %Y'
+      short: '%e %b'
+      only_month: '%B'
     month_names:
       -
       - janvier
@@ -146,19 +142,19 @@ fr:
         other: plus de %{count} ans
       x_seconds:
         one: 1 seconde
-        other: "%{count} secondes"
+        other: '%{count} secondes'
       x_minutes:
         one: 1 minute
-        other: "%{count} minutes"
+        other: '%{count} minutes'
       x_days:
         one: 1 jour
-        other: "%{count} jours"
+        other: '%{count} jours'
       x_months:
         one: 1 mois
-        other: "%{count} mois"
+        other: '%{count} mois'
       x_years:
         one: 1 an
-        other: "%{count} ans"
+        other: '%{count} ans'
     prompts:
       second: Seconde
       minute: Minute
@@ -167,7 +163,7 @@ fr:
       month: Mois
       year: Année
   errors:
-    format: "%{attribute} %{message}"
+    format: '%{attribute} %{message}'
     messages:
       accepted: doit être accepté(e)
       blank: doit être rempli(e)
@@ -182,7 +178,7 @@ fr:
       invalid: n'est pas valide
       less_than: doit être inférieur à %{count}
       less_than_or_equal_to: doit être inférieur ou égal à %{count}
-      model_invalid: "Validation échouée : %{errors}"
+      model_invalid: 'Validation échouée : %{errors}'
       not_a_number: n'est pas un nombre
       not_an_integer: doit être un nombre entier
       odd: doit être impair
@@ -200,7 +196,7 @@ fr:
         one: ne fait pas la bonne longueur (doit comporter un seul caractère)
         other: ne fait pas la bonne longueur (doit comporter %{count} caractères)
     template:
-      body: "Veuillez vérifier les champs suivants : "
+      body: 'Veuillez vérifier les champs suivants : '
       header:
         one: "Impossible d'enregistrer ce(tte) %{model} : 1 erreur"
         other: "Impossible d'enregistrer ce(tte) %{model} : %{count} erreurs"
@@ -214,36 +210,36 @@ fr:
   number:
     currency:
       format:
-        delimiter: " "
-        format: "%n %u"
+        delimiter: ' '
+        format: '%n %u'
         precision: 2
-        separator: ","
+        separator: ','
         significant: false
         strip_insignificant_zeros: false
-        unit: "€"
+        unit: '€'
     format:
-      delimiter: " "
+      delimiter: ' '
       precision: 3
-      separator: ","
+      separator: ','
       significant: false
       strip_insignificant_zeros: false
     human:
       decimal_units:
-        format: "%n %u"
+        format: '%n %u'
         units:
           billion: milliard
           million: million
           quadrillion: million de milliards
           thousand: millier
           trillion: billion
-          unit: ""
+          unit: ''
       format:
-        delimiter: ""
+        delimiter: ''
         precision: 3
         significant: true
         strip_insignificant_zeros: true
       storage_units:
-        format: "%n %u"
+        format: '%n %u'
         units:
           byte:
             one: octet
@@ -256,21 +252,21 @@ fr:
           tb: To
     percentage:
       format:
-        delimiter: ""
-        format: "%n%"
+        delimiter: ''
+        format: '%n%'
     precision:
       format:
-        delimiter: ""
+        delimiter: ''
   support:
     array:
-      last_word_connector: " et "
-      two_words_connector: " et "
-      words_connector: ", "
+      last_word_connector: ' et '
+      two_words_connector: ' et '
+      words_connector: ', '
   time:
     am: am
     formats:
-      default: "%d %B %Y %Hh %Mmin %Ss"
-      long: "%A %d %B %Y %Hh%M"
-      only_month: "%B"
-      short: "%d %b %Hh%M"
+      default: '%d %B %Y %Hh %Mmin %Ss'
+      long: '%A %d %B %Y %Hh%M'
+      only_month: '%B'
+      short: '%d %b %Hh%M'
     pm: pm

@@ -19,11 +19,11 @@ en:
     errors:
       models:
         mission:
-          related_enrollment_invalidation: One or more related enrollment will become invalid with this update
           mismatch_between_time_slots_and_related_enrollments: There is a mismatch between the related enrollments and the availlable time slots
           recurrent_update_cancel: 'The recurrent update of the mission %{name} on %{date} has failed : %{failure}'
+          related_enrollment_invalidation: One or more related enrollment will become invalid with this update
           attributes:
             duration:
               maximum: must be less than or equal to 10 hours
               minimum: must be greater than 0 minute
-              multiple: must be a multiple of 90 minutes 
+              multiple: must be a multiple of 90 minutes
