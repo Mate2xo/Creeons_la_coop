@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop: disable Metrics/BlockLength
 ActiveAdmin.register Mission do
   permit_params :author_id,
                 :name,
@@ -146,4 +145,3 @@ ActiveAdmin.register Mission do
     redirect_to admin_missions_path, notice: feedback_message
   end
 end
-# rubocop: enable Metrics/BlockLength

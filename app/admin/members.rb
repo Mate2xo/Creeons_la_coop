@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop: disable Metrics/BlockLength
 ActiveAdmin.register Member do
   includes :groups, :enrollments, :group_members
   permit_params :email,
@@ -180,4 +179,3 @@ ActiveAdmin.register Member do
     end
   end
 end
-# rubocop: enable Metrics/BlockLength

@@ -30,7 +30,7 @@ Metrics/BlockLength:
     - 'test/**/*.rb'
     - 'Guardfile'
     - 'vendor/bundle'
-    # - "app/admin/**/*"
+    - 'app/admin/**/*'
     - 'config/environments/*.rb'
     # - "app/views/admin/**/*"
 

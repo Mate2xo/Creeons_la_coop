@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ActiveAdmin.register Info do # rubocop:disable Metrics/BlockLength
+ActiveAdmin.register Info do
   permit_params :title, :content, :category, :author_id, :published
 
   menu if: proc { authorized? :index, %i[active_admin Info] } # display menu according to ActiveAdmin::Policy
