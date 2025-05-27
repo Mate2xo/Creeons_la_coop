@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Mission do
+  menu if: proc { authorized? :index, %i[active_admin Mission] }
   permit_params :author_id,
                 :name,
                 :description,
@@ -12,8 +13,6 @@ ActiveAdmin.register Mission do
                 :due_date,
                 :cash_register_proficiency_requirement,
                 :recurrent_change
-
-  menu if: proc { authorized? :index, %i[active_admin Mission] } # display menu according to ActiveAdmin::Policy
 
   index do
     selectable_column
