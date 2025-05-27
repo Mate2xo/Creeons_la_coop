@@ -6,13 +6,14 @@ fr:
         other: Infos
     attributes:
       info:
-        title: Titre
-        content: Contenu
+        author: Auteur
         category: Catégorie
+        content: Contenu
+        published: Publié
+        title: Titre
   enumerize:
     info:
       category:
         event: Evénement
         management: Gestion
         news: Actualités
-

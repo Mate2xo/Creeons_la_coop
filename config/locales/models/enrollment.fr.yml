@@ -1,5 +1,10 @@
 fr:
   activerecord:
+    attributes:
+      enrollment:
+        member: membre
+        start_time: heure de début
+        end_time: heure de fin
     errors:
       models:
         enrollment:
