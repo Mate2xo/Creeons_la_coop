@@ -51,7 +51,7 @@ gem 'recurring_select', '~> 3.0' # Events recurrence rules set helper
 gem 'thredded', '~> 1.0.0' # TODO: update me to 1.1 once upgraded to Rails 6
 
 group :development, :test do
-  gem 'bullet', '~> 7.1'
+  gem 'bullet', '~> 7.1' # NOTE: Update-me to v7.2 with Rails 7.2, v8 with Rails 8.2
   gem 'factory_bot_rails', '~> 6.4'
   gem 'faker', '~> 3.3' # Generate fake data for the seed.rb and spec factories
   gem 'pry-byebug', '~> 3.10'
