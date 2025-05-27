@@ -12,12 +12,16 @@ en:
           event: Event
           regulated: Regulated
           standard: Standard
+        max_member_count: maximum member count
+        members: Participants
+        min_member_count: minimum member count
         recurrent_change: Recurrent change
     errors:
       models:
         mission:
           related_enrollment_invalidation: One or more related enrollment will become invalid with this update
           mismatch_between_time_slots_and_related_enrollments: There is a mismatch between the related enrollments and the availlable time slots
+          recurrent_update_cancel: 'The recurrent update of the mission %{name} on %{date} has failed : %{failure}'
           attributes:
             duration:
               maximum: must be less than or equal to 10 hours
