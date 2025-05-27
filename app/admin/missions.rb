@@ -128,7 +128,7 @@ ActiveAdmin.register Mission do
     private
 
     def update_transaction
-      input = { params: permitted_params[:mission], old_mission: resource }
+      input = {params: permitted_params[:mission], old_mission: resource}
       Admin::Missions::RecurrentUpdateTransaction.new.call(input)
     end
   end
@@ -144,7 +144,7 @@ ActiveAdmin.register Mission do
         item n,
              generate_schedule_admin_missions_path(months_count: n),
              method: :post,
-             data: { confirm: t('.confirm_generation_schedule') }
+             data: {confirm: t('.confirm_generation_schedule')}
       end
     end
   end
