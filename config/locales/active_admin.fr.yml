@@ -152,6 +152,8 @@ fr:
       'yes': 'Oui'
       'no': 'Non'
       'unset': 'Non'
+    table:
+      actions: Actions
     unsupported_browser:
       headline: "Veuillez noter que ActiveAdmin ne supporte plus les versions d'Internet Explorer 8 ou moins."
       recommendation: 'Nous vous recommandons de <a href="http://browsehappy.com/">mettre à jour votre navigateur</a> pour améliorer votre expérience.'

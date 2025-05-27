@@ -68,15 +68,17 @@ ActiveAdmin.register Mission do
       end
     end
 
-    panel 'Participants' do
-      table_for resource.enrollments do
+    panel Enrollment.model_name.human(count: 2) do
+      table_for resource.enrollments, i18n: Enrollment do
         column :member
         column(:start_time) { |enrollment| enrollment.start_time.strftime('%H:%M') }
         column(:end_time) { |enrollment| enrollment.end_time.strftime('%H:%M') }
-        column 'actions' do |enrollment|
-          link_to(t('active_admin.edit'), edit_admin_mission_enrollment_path(mission, enrollment)) +
-            ' ' +
-            link_to(t('active_admin.delete'), admin_mission_enrollment_path(mission, enrollment), method: :delete)
+        column t('active_admin.table.actions') do |enrollment|
+          table_actions do
+            item link_to(t('active_admin.edit'), edit_admin_mission_enrollment_path(mission, enrollment))
+            span ' | '
+            item link_to(t('active_admin.delete'), admin_mission_enrollment_path(mission, enrollment), method: :delete)
+          end
         end
       end
     end
