@@ -75,6 +75,30 @@ class Member < ApplicationRecord
   enum :role, {member: 0, admin: 1, super_admin: 2}
   enum :cash_register_proficiency, {untrained: 0, beginner: 1, proficient: 2}
 
+  def self.ransackable_attributes(auth_object = nil)
+    return [] unless auth_object
+
+    case auth_object.user.role.to_sym
+    when :super_admin, :admin
+      column_names -
+        %w[encrypted_password reset_password_token confirmation_token invitation_token] +
+        _ransackers.keys
+    else
+      []
+    end
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    return [] unless auth_object
+
+    case auth_object.user.role.to_sym
+    when :super_admin, :admin
+      %i[missions enrollments]
+    else
+      []
+    end
+  end
+
   def thredded_admin?
     admin? || super_admin?
   end

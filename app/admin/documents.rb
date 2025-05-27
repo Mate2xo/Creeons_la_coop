@@ -6,6 +6,11 @@ ActiveAdmin.register Document do
 
   menu if: proc { authorized? :index, %i[active_admin Document] } # display menu according to ActiveAdmin::Policy
 
+  filter :created_at
+  filter :updated_at
+  filter :published
+  filter :category
+
   index do
     selectable_column
     column(:filename) do |document|

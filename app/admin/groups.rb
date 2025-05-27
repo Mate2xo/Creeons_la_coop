@@ -17,6 +17,13 @@ ActiveAdmin.register Group do
     actions
   end
 
+  filter :name
+  filter :roles, as: :select, collection: Group.roles.options
+  filter :managers
+  filter :members
+  filter :created_at
+  filter :updated_at
+
   show do
     attributes_table_for resource do
       row :name

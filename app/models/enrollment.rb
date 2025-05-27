@@ -37,6 +37,19 @@ class Enrollment < ApplicationRecord
       .where.not(missions: {genre: 'event'})
   }
 
+  def self.ransackable_attributes(auth_object = nil)
+    return [] unless auth_object
+
+    case auth_object.user.role.to_sym
+    when :super_admin, :admin
+      column_names + _ransackers.keys
+    else
+      []
+    end
+  end
+
+  def self.ransackable_associations(_auth_object = nil) = []
+
   def duration
     return 0 if start_time.nil? || end_time.nil?
 

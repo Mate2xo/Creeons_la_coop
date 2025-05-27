@@ -28,6 +28,26 @@ ActiveAdmin.register Mission do
     actions
   end
 
+  filter :name
+  filter :description
+  filter :author
+  filter :members
+  filter :productors
+  filter :start_date
+  filter :due_date
+  filter :created_at
+  filter :updated_at
+  filter :recurrent
+  filter :min_member_count
+  filter :max_member_count
+  filter :delivery_expected
+  filter :genre, as: :select, collection: Mission.genres.keys.map { |key| Mission.human_enum_name(:genre, key) }
+  filter :cash_register_proficiency_requirement,
+         as: :select,
+         collection: Mission.cash_register_proficiency_requirements.keys.map { |key|
+           Mission.human_enum_name(:cash_register_proficiency_requirement, key)
+         }
+
   form do |f|
     f.inputs do
       f.input :author,

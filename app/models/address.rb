@@ -27,6 +27,19 @@ class Address < ApplicationRecord
 
   validates :city, :postal_code, presence: true
 
+  def self.ransackable_attributes(auth_object = nil)
+    return [] unless auth_object
+
+    case auth_object.user.role.to_sym
+    when :super_admin, :admin
+      column_names + _ransackers.keys
+    else
+      []
+    end
+  end
+
+  def self.ransackable_associations(_auth_object = nil) = %i[]
+
   def assign_coordinates
     response = fetch_coordinates
     return if response.nil? || response.code != 200

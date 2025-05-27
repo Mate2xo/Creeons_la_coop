@@ -34,6 +34,13 @@ ActiveAdmin.register Productor do
     actions
   end
 
+  filter :name
+  filter :description
+  filter :phone_number
+  filter :website_url
+  filter :local
+  filter :category, as: :select, collection: Productor.category.options
+
   form do |f|
     f.inputs :name, :description, :local, :phone_number, :website_url
     f.inputs do

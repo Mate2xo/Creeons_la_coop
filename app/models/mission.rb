@@ -55,6 +55,28 @@ class Mission < ApplicationRecord
 
   attr_accessor :recurrence_rule, :recurrence_end_date, :recurrent_change
 
+  def self.ransackable_attributes(auth_object = nil)
+    return [] unless auth_object
+
+    case auth_object.user.role.to_sym
+    when :super_admin, :admin
+      column_names + _ransackers.keys
+    else
+      []
+    end
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    return [] unless auth_object
+
+    case auth_object.user.role.to_sym
+    when :super_admin, :admin
+      %i[enrollments members productors addresses]
+    else
+      []
+    end
+  end
+
   def duration
     (due_date - start_date).round
   end

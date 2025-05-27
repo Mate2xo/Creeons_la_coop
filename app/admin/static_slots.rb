@@ -17,6 +17,17 @@ ActiveAdmin.register StaticSlot do
     actions
   end
 
+  filter :members
+  filter :start_time
+  filter :week_day,
+         as: :select,
+         collection: StaticSlot.week_days.keys.map { |key| StaticSlot.human_enum_name(:week_day, key) }
+  filter :week_type,
+         as: :select,
+         collection: StaticSlot.week_types.keys.map { |key| StaticSlot.human_enum_name(:week_type, key) }
+  filter :created_at
+  filter :updated_at
+
   show do
     attributes_table_for resource do
       row(:week_day) { |resource| StaticSlot.human_enum_name('week_day', resource.week_day) }

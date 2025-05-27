@@ -117,7 +117,6 @@ ActiveAdmin.register Member do
   filter :email
   filter :first_name
   filter :last_name
-  filter :email
   filter :role
   filter :group
   filter :cash_register_proficiency
