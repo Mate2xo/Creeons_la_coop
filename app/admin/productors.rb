@@ -30,7 +30,9 @@ ActiveAdmin.register Productor do
 
   form do |f|
     f.inputs :name, :description, :local, :phone_number, :website_url
-    f.input :category, as: :select, collection: Productor.category.options
+    f.inputs do
+      f.input :category, as: :select, collection: Productor.category.options
+    end
     f.inputs do
       f.has_many :address, allow_destroy: true do |address|
         address.input :street_name_1
