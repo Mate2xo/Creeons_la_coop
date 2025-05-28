@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Document do
+  menu if: proc { authorized? :index, Document }
   permit_params :published, :file, :category
   actions :all, except: [:show]
-
-  menu if: proc { authorized? :index, %i[active_admin Document] } # display menu according to ActiveAdmin::Policy
 
   filter :created_at
   filter :updated_at

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Member do
+  menu if: proc { authorized? :index, Member }
   includes :groups, :group_members
   permit_params :email,
                 :password,
@@ -18,8 +19,6 @@ ActiveAdmin.register Member do
                 group_ids: [],
                 group_members_attributes: [[%i[id assignment]]],
                 member_static_slots_attributes: %i[id static_slot_id member_id _destroy]
-
-  menu if: proc { authorized? :index, %i[active_admin Member] } # display menu according to ActiveAdmin::Policy
 
   decorate_with MemberDecorator
 

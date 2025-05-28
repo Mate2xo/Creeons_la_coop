@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Info do
+  menu if: proc { authorized? :index, Info }
   permit_params :title, :content, :category, :author_id, :published
   includes :author
-
-  menu if: proc { authorized? :index, %i[active_admin Info] } # display menu according to ActiveAdmin::Policy
 
   index do
     selectable_column

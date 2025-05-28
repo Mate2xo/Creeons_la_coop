@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Mission do
-  menu if: proc { authorized? :index, %i[active_admin Mission] }
+  menu if: proc { authorized? :index, Mission }
   permit_params :author_id,
                 :name,
                 :description,

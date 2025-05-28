@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Productor do
+  menu if: proc { authorized? :index, Productor }
   permit_params :name,
                 :description,
                 :category,
@@ -18,8 +19,6 @@ ActiveAdmin.register Productor do
                   :street_name_2,
                   {coordinates: []}
                 ]
-
-  menu if: proc { authorized? :index, %i[active_admin Productor] } # display menu according to ActiveAdmin::Policy
 
   index do
     selectable_column

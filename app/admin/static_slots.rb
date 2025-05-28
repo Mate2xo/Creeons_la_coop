@@ -3,11 +3,10 @@
 # A StaticSlot belongs to a Member, and allows a member to enroll automatically each month to the Mission that
 # this StaticSlot refers to
 ActiveAdmin.register StaticSlot do
+  menu if: proc { authorized? :index, StaticSlot }
   permit_params :week_day, :start_time, :hour, :minute, :week_type, static_slot_ids: []
 
   decorate_with StaticSlotDecorator
-
-  menu if: proc { authorized? :index, %i[active_admin StaticSlot] } # display menu according to ActiveAdmin::Policy
 
   index do
     selectable_column

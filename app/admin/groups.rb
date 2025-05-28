@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Group do
-  menu if: proc { authorized? :index, %i[active_admin Group] }
+  menu if: proc { authorized? :index, Group }
   permit_params :name, roles: [], manager_ids: []
   includes :managers
 

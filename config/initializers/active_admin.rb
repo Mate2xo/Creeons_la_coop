@@ -82,6 +82,7 @@ ActiveAdmin.setup do |config|
   # ensure that there is a user with proper rights. You can use
   # CanCanAdapter or make your own. Please refer to documentation.
   config.authorization_adapter = ActiveAdmin::PunditAdapter
+  config.pundit_policy_namespace = :active_admin
 
   # In case you prefer Pundit over other solutions you can here pass
   # the name of default policy class. This policy will be used in every
@@ -345,10 +346,6 @@ ActiveAdmin.setup do |config|
 end
 
 Rails.application.config.to_prepare do
-  ActiveAdmin::BaseController.class_eval do
-    include ActiveAdmin::SiteRestriction
-  end
-
   # TODO: Remove this and the associated file when upgrading to ActiveAdmin 4+
   ActiveAdmin.before_load do
     require Rails.root.join('lib/active_admin/resource_controller/data_access_monkey_patch')
