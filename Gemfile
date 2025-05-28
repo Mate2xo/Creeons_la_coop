@@ -61,9 +61,7 @@ end
 group :development do
   gem 'annotate', '~> 3.1'
   gem 'letter_opener', '~> 1.10.0'
-  gem 'solargraph', '~> 0.50' # LSP provinding app documention through IDE
-  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'listen', '~> 3.9'
+  gem 'listen', '~> 3.9' # Access an interactive console on exception pages or by calling 'console' anywhere in the code
   gem 'rubocop', require: false
   gem 'rubocop-capybara', require: false
   gem 'rubocop-factory_bot', require: false
@@ -71,6 +69,10 @@ group :development do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'rubocop-rspec_rails', require: false
+  gem 'solargraph', '~> 0.54', require: false # LSP provinding app documention through IDE
+  gem 'solargraph-rails', require: false
+  gem 'solargraph-reek', require: false
+  gem 'solargraph-rspec', require: false
   gem 'web-console', '~> 4.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '4.2.1'
