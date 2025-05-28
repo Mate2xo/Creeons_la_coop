@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe EnrollmentPolicy, type: :policy do
-  let(:user) { User.new }
-
   subject { described_class }
+
+  let(:user) { User.new }
 
   permissions '.scope' do
     subject(:scope) { described_class::Scope.new(nil, Enrollment).resolve }
@@ -17,7 +17,7 @@ RSpec.describe EnrollmentPolicy, type: :policy do
     end
   end
 
-  permissions :index?, :show?, :create?, :update?, :destroy? do
+  permissions :index?, :create?, :destroy?, :show?, :update? do
     it { is_expected.to permit }
   end
 end

@@ -24,6 +24,6 @@ class ProductorPolicy < ApplicationPolicy
   private
 
   def productor_manager?
-    user.role == "admin" && record.managers.include?(user)
+    user.role == 'admin' && record.managers.include?(user)
   end
 end

@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'support/helpers/assign_members_helpers'
 
-RSpec.describe 'admin/enrollments', type: :request do
+RSpec.describe 'admin/enrollments' do
   include AssignMembersHelpers
   let(:current_admin) { create(:member, :super_admin) }
   let(:member) { create(:member) }

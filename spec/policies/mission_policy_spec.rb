@@ -5,10 +5,10 @@ require 'rails_helper'
 RSpec.describe MissionPolicy, type: :policy do
   subject { described_class }
 
-  let(:member) { build_stubbed :member }
-  let(:admin) { build_stubbed :member, :admin }
-  let(:super_admin) { build_stubbed :member, :super_admin }
-  let(:any_mission) { build_stubbed :mission }
+  let(:member) { build_stubbed(:member) }
+  let(:admin) { build_stubbed(:member, :admin) }
+  let(:super_admin) { build_stubbed(:member, :super_admin) }
+  let(:any_mission) { build_stubbed(:mission) }
 
   permissions :new?, :create?, :show? do
     it { is_expected.to permit member }

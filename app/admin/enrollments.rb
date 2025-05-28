@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Enrollment do
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   permit_params :member_id, :start_time, :end_time
   belongs_to :mission
 
@@ -27,7 +25,7 @@ ActiveAdmin.register Enrollment do
     end
   end
 
-  controller do # rubocop:disable Metrics/BlockLength
+  controller do
     def create # rubocop:disable Metrics/AbcSize
       build_resource
 

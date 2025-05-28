@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe ActiveAdmin::DocumentPolicy, type: :policy do
   subject { described_class }
 
-  permissions :index?, :create?, :show?, :edit?, :update? do
+  permissions :index?, :create?, :edit?, :show?, :update? do
     it { is_expected.to permit build(:member, :super_admin) }
     it { is_expected.to permit build(:member, :admin) }
     it { is_expected.not_to permit build(:member) }

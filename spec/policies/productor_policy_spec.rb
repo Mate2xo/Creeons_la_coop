@@ -3,13 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe ProductorPolicy, type: :policy do
-  let(:member) { build(:member) }
-  let(:admin) { build :member, :admin }
-  let(:super_admin) { build :member, :super_admin }
-
   subject { described_class }
 
-  permissions ".scope" do
+  let(:member) { build(:member) }
+  let(:admin) { build(:member, :admin) }
+  let(:super_admin) { build(:member, :super_admin) }
+
+  permissions '.scope' do
     pending "add some examples to (or delete) #{__FILE__}"
   end
 
@@ -31,7 +31,7 @@ RSpec.describe ProductorPolicy, type: :policy do
     it { is_expected.not_to permit member }
     it { is_expected.not_to permit admin, productor }
 
-    it "allows access to the productor manager (admin)" do
+    it 'allows access to the productor manager (admin)' do
       productor.managers << admin
       expect(subject).to permit(admin, productor)
     end
