@@ -364,7 +364,7 @@ GEM
     public_suffix (5.0.5)
     puma (4.3.12)
       nio4r (~> 2.0)
-    pundit (2.0.1)
+    pundit (2.5.0)
       activesupport (>= 3.0.0)
     racc (1.8.1)
     rack (2.2.16)
@@ -650,7 +650,7 @@ DEPENDENCIES
   pg (>= 1.1.4, < 2.0)
   pry-byebug (~> 3.10)
   puma (~> 4.3)
-  pundit
+  pundit (~> 2.5)
   rails (~> 7.0)
   rails-controller-testing
   recurring_select (~> 3.0)

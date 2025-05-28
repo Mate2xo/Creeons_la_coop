@@ -21,7 +21,7 @@ class InfoPolicy < ApplicationPolicy
     super_admin? || redactor? || record.author == user
   end
 
-  class Scope < Scope
+  class Scope < ApplicationPolicy::Scope
     def resolve
       user ? scope.all : scope.where(published: true)
     end

@@ -21,12 +21,6 @@ class ProductorPolicy < ApplicationPolicy
     productor_manager? || super_admin?
   end
 
-  class Scope < Scope
-    def resolve
-      scope.all
-    end
-  end
-
   private
 
   def productor_manager?

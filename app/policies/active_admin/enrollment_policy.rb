@@ -25,11 +25,5 @@ module ActiveAdmin
     def destroy?
       admin? || super_admin?
     end
-
-    class Scope < Scope # rubocop:disable Style/Documentation
-      def resolve
-        scope.all
-      end
-    end
   end
 end
