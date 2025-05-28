@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Policy of group management
 class GroupPolicy < ApplicationPolicy
   def index?
     true

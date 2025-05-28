@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class StaticSlotPolicy < ApplicationPolicy # rubocop:disable Style/Documentation
+class StaticSlotPolicy < ApplicationPolicy
   def index?
     super_admin?
   end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ActiveAdmin
-  class EnrollmentPolicy < ApplicationPolicy # rubocop:disable Style/Documentation
+  class EnrollmentPolicy < ApplicationPolicy
     def index?
       admin? || super_admin?
     end

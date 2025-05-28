@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ActiveAdmin
-  class StaticSlotPolicy < ApplicationPolicy # rubocop:disable Style/Documentation
+  class StaticSlotPolicy < ApplicationPolicy
     def index?
       super_admin?
     end

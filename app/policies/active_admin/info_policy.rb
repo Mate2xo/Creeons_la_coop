@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ActiveAdmin
-  class InfoPolicy < ApplicationPolicy # rubocop:disable Style/Documentation
+  class InfoPolicy < ApplicationPolicy
     def index?
       super_admin? || admin? || redactor?
     end
