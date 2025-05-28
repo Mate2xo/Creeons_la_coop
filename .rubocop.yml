@@ -41,8 +41,6 @@ Metrics/MethodLength:
 Style/Documentation:
   Exclude:
     - 'app/controllers/**/*'
-  Include:
-    - 'app/controllers/concerns/**/*'
 Style/ExponentialNotation:
   Enabled: true
 Style/HashEachMethods:
