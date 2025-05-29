@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'pundit/rspec'
 
 # Visitor access is tested in matching controllers
 RSpec.describe InfoPolicy, type: :policy do

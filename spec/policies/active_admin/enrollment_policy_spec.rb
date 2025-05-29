@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'pundit/rspec'
 
 RSpec.describe ActiveAdmin::EnrollmentPolicy, type: :policy do
   subject { described_class }
