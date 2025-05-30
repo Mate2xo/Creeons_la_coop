@@ -15,9 +15,9 @@
           <h3 class="heading strong-600 mb-0 mb-0">
             <%= @productor.name %>
           </h3>
-          <br />
+          <br>
           <h3 class="heading heading-sm strong-300">
-            <%= @productor.phone_number if @productor.phone_number.present? %>
+            <%= @productor.phone_number.presence %>
           </h3>
 
           <% if @productor.address.present? %>
@@ -33,24 +33,27 @@
             </h3>
           <% else %>
             <h3 class="heading heading-light heading-sm strong-300">
-              <%= translate "main_app.views.productors.show.no_address" %>
+              <%= translate 'main_app.views.productors.show.no_address' %>
             </h3>
           <% end %>
-          <h3 class="heading heading-light heading-sm strong-300">
-            <%= link_to  @productor.website_url, 
-              @productor.website_url, 
-              class:"" if @productor.website_url.present? %>
-        </h3>
 
-        <% if super_admin? || admin? %> 
-          <%= link_to translate("main_app.views.application.buttons.edit"), 
-            edit_productor_path(@productor.id), 
-            class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %>
-          <%= link_to translate("main_app.views.application.buttons.destroy"), 
-            productor_path(@productor.id), 
-            method: :delete, 
-            class: "btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4" %> 
-        <% end %>
+          <% if @productor.website_url.present? %>
+            <h3 class="heading heading-light heading-sm strong-300">
+              <%= link_to @productor.website_url,
+                          @productor.website_url,
+                          class: '' %>
+            </h3>
+          <% end %>
+
+          <% if super_admin? || admin? %>
+            <%= link_to translate('main_app.views.application.buttons.edit'),
+                        edit_productor_path(@productor.id),
+                        class: 'btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4' %>
+            <%= link_to translate('main_app.views.application.buttons.destroy'),
+                        productor_path(@productor.id),
+                        method: :delete,
+                        class: 'btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4' %>
+          <% end %>
         </article>
 
       </section>
@@ -65,21 +68,21 @@
         <h2 class="mt-3">
           <%= Productor.human_attribute_name(:catalogs) %>
         </h2>
-        <% if @productor.catalogs.attached? %> 
-          <% @productor.catalogs.each { |catalog| %>
+        <% if @productor.catalogs.attached? %>
+          <% @productor.catalogs.each do |catalog| %>
             <i class="fas fa-file fa-3x"></i>
-            <%= link_to "#{catalog.filename}", 
-              rails_blob_path(catalog, disposision: 'attachment'), 
-              download: true %> 
-          <% } %>
+            <%= link_to catalog.filename.to_s,
+                        rails_blob_path(catalog, disposision: 'attachment'),
+                        download: true %>
+          <% end %>
         <% else %>
-          <%= translate "main_app.views.productors.show.no_catalogs" %>
+          <%= translate 'main_app.views.productors.show.no_catalogs' %>
         <% end %>
       </section>
 
     </main>
   </div>
-  <%= link_to translate("main_app.views.application.buttons.back"), 
-    productors_path, 
-    class: "fas fa-arrow-left link-retour d-block text-center mt-4 mr-4" %>
+  <%= link_to translate('main_app.views.application.buttons.back'),
+              productors_path,
+              class: 'fas fa-arrow-left link-retour d-block text-center mt-4 mr-4' %>
 </div>
