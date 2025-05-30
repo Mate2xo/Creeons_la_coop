@@ -16,13 +16,12 @@
 #     # policy.report_uri "/csp-violation-report-endpoint"
 #   end
 #
-#   # Generate session nonces for permitted importmap and inline scripts
+#   # Generate session nonces for permitted importmap, inline scripts, and inline styles.
 #   config.content_security_policy_nonce_generator = ->(request) { request.session.id.to_s }
-#   # Set the nonce only to specific directives
-#   config.content_security_policy_nonce_directives = %w(script-src)
+#   config.content_security_policy_nonce_directives = %w(script-src style-src)
 
 #   # If you are using UJS then enable automatic nonce generation
-#   Rails.application.config.content_security_policy_nonce_generator = -> request { SecureRandom.base64(16) }
+#   config.content_security_policy_nonce_generator = -> request { SecureRandom.base64(16) }
 #
 #   # Report violations without enforcing the policy.
 #   # For further information see the following documentation:

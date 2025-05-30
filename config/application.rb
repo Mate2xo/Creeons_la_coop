@@ -13,6 +13,12 @@ module CreonsLaCoop
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    config.autoload_lib(ignore: %w[active_admin assets tasks])
+    # config.eager_load_paths << Rails.root.join("extras")
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
@@ -20,9 +26,8 @@ module CreonsLaCoop
 
     config.i18n.available_locales = %i[en fr]
     config.i18n.default_locale = :fr
+    config.i18n.load_path += Rails.root.glob('config/locales/**/*.{rb,yml}')
     # config.time_zone = "Central Time (US & Canada)"
-    # config.eager_load_paths << Rails.root.join("extras")
-    config.i18n.load_path += Dir[Rails.root.join('config/locales/**/*.{rb,yml}')]
 
     # TODO: :vips is more performant. See
     # https://guides.rubyonrails.org/upgrading_ruby_on_rails.html#active-storage-default-variant-processor-changed-to-vips
