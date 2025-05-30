@@ -20,7 +20,7 @@ class Group < ApplicationRecord
   has_many :group_members, dependent: :destroy
   has_many :members, through: :group_members
 
-  serialize :roles, Array
+  serialize :roles, type: Array, coder: YAML
   enumerize :roles, in: %i[redactor], multiple: true
 
   validates :name, presence: true, uniqueness: {case_sensitive: false}
