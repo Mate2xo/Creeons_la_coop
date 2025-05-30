@@ -245,6 +245,8 @@ GEM
     faraday-net_http (3.4.0)
       net-http (>= 0.5.0)
     ffi (1.17.0)
+    font-awesome-sass (4.7.0)
+      sass (>= 3.2)
     formtastic (5.0.0)
       actionpack (>= 6.0.0)
     formtastic_i18n (0.7.0)
@@ -684,6 +686,7 @@ DEPENDENCIES
   enumerize (~> 2.8)
   factory_bot_rails (~> 6.4)
   faker (~> 3.3)
+  font-awesome-sass (~> 4.7)
   httparty
   ice_cube
   image_processing (~> 1.12)

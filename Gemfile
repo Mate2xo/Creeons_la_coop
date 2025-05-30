@@ -42,6 +42,7 @@ gem 'devise_invitable', '~> 2.0.10'
 gem 'draper' # decorators manager
 gem 'dry-transaction', '0.16.0'
 gem 'enumerize', '~> 2.8'
+gem 'font-awesome-sass', '~> 4.7'
 gem 'httparty' # Http requests
 gem 'ice_cube' # Calendar events recurrence (for Missions)
 gem 'js_cookie_rails' # Cookie manager for js

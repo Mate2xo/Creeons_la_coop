@@ -6,7 +6,7 @@
           <% if @productor.avatar.attached? %>
             <%= image_tag @productor.avatar %>
           <% else %>
-            <img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
+            <%= icon 'user-circle', class: 'fa-2x' %>
           <% end %>
         </div>
       </header>

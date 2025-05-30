@@ -9,7 +9,7 @@
                 <% if @member.avatar.attached? %>
                   <%= image_tag @member.avatar.variant(resize: '140x140').processed %>
                 <% else %>
-                  <img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
+                  <%= icon 'user-circle', class: 'fa-2x' %>
                 <% end %>
               </div>
             </div>
