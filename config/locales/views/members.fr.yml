@@ -16,4 +16,7 @@ fr:
       reset_static_slots: Réinitialiser les créneaux fixes
       this_month: Ce mois-ci
       title_enrollments: Vos participations
-      title_edit: Modifier votre profil
+    form:
+      add_static_slot: Ajouter un créneau fixe
+      static_slot_fields:
+        remove_static_slot: Supprimer

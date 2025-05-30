@@ -1,4 +1,4 @@
-<div class="card m-2 p-2 nested-fields">
+<div class="card mb-3 nested-fields">
   <div class="col-lg-12">
     <div class="field">
       <%= f.label :static_slot, t('activerecord.models.static_slot.one') %>
@@ -7,5 +7,5 @@
       <br>
     </div>
   </div>
-  <%= link_to_remove_association f, class: 'text-danger ml-auto' %>
+  <%= link_to_remove_association t('.remove_static_slot'), f, class: 'text-danger m-2 ml-auto' %>
 </div>
