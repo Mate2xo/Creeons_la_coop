@@ -1,20 +1,20 @@
 <div class="body-wrap">
-	<section class="slice sct-color-2">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-lg-8">
-					<div class="card form-card form-card--style-1">
-						<div class="form-header text-center">
-							<div class="profile-picture profile-picture--style-2">
-								<% if @member.avatar.attached? %>
-									<%= image_tag @member.avatar.variant(resize: '140x140').processed %>
-								<% else %>
-									<img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
-								<% end %>
-							</div>
-						</div>
+  <section class="slice sct-color-2">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card form-card form-card--style-1">
+            <div class="form-header text-center">
+              <div class="profile-picture profile-picture--style-2">
+                <% if @member.avatar.attached? %>
+                  <%= image_tag @member.avatar.variant(resize: '140x140').processed %>
+                <% else %>
+                  <img src="https://image.flaticon.com/icons/svg/0/93.svg" class="profil-img">
+                <% end %>
+              </div>
+            </div>
 
-						<div class="form-body">
+            <div class="form-body">
               <h2 class='text-center px-2 heading heading-2 strong-400 mb-0'>
                 <%= t '.title_enrollments' %>
               </h2>
@@ -30,7 +30,7 @@
                     <td><%= @member.monthly_worked_hours(1.month.ago) %> heures</td>
                   </tr>
                   <tr>
-                    <th scope="row"><%= l(2.month.ago, format: '%B').capitalize %></th>
+                    <th scope="row"><%= l(2.months.ago, format: '%B').capitalize %></th>
                     <td><%= @member.monthly_worked_hours(2.months.ago) %> heures</td>
                   </tr>
                 </tbody>
@@ -40,25 +40,24 @@
                 <%= t(".title_edit").humanize %>
               </h2>
 
-							<div class="form-default mt-4" >
-								<%= render partial: 'form', locals: { member:@member } %>
-							</div>
+              <div class="form-default mt-4">
+                <%= render partial: 'form', locals: {member: @member} %>
+              </div>
 
-							<%= link_to t(".change_password"),
+              <%= link_to t('.change_password'),
                           edit_member_registration_path,
-                          class: "btn-cancel btn btn-styled btn-lg btn-block btn-danger mt-4" %>
+                          class: 'btn-cancel btn btn-styled btn-lg btn-block btn-danger mt-4' %>
               <% if current_member == @member && current_member.static_slots.any? %>
                 <%= button_to t('.reset_static_slots'),
-                  member_static_slot_path(1),
-                  method: :delete,
-                  class: "btn-cancel btn btn-styled btn-lg btn-block btn-danger mt-4",
-                  data: { confirm: t('.confirm_static_slots_reset') } %>
+                              member_static_slot_path(1),
+                              method: :delete,
+                              class: 'btn-cancel btn btn-styled btn-lg btn-block btn-danger mt-4',
+                              data: {confirm: t('.confirm_static_slots_reset')} %>
               <% end %>
             </div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
-
