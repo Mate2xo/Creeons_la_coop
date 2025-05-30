@@ -42,6 +42,7 @@ Style/Documentation:
   Exclude:
     - 'app/controllers/**/*'
     - 'app/policies/**/*'
+    - 'config/application.rb'
 Style/ExponentialNotation:
   Enabled: true
 Style/HashEachMethods:
