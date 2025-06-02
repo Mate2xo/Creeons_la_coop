@@ -11,9 +11,10 @@ gem 'image_processing', '~> 1.12'
 gem 'jbuilder', '~> 2.13'
 gem 'jquery-rails'
 gem 'pg', '>= 1.1.4', '< 2.0'
-gem 'puma', '~> 4.3'
+gem 'puma', '< 7'
 gem 'rails', '~> 7.1.5'
-gem 'sass-rails', '~> 5.0'
+gem 'sassc-rails' # TODO: remove-me when migrating to import maps
+gem 'sass-rails', '~> 6.0'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
 
@@ -48,7 +49,7 @@ gem 'js_cookie_rails' # Cookie manager for js
 gem 'mailjet' # Production mailer API
 gem 'pundit', '~> 2.5' # Authorization management
 gem 'recurring_select', '4.0.0.rc1' # Events recurrence rules set helper
-gem 'thredded', '~> 1.0.0' # TODO: update me to 1.1 once upgraded to Rails 6
+gem 'thredded', '~> 1.2'
 
 group :development, :test do
   gem 'bullet', '~> 7.1' # NOTE: Update-me to v7.2 with Rails 7.2, v8 with Rails 8.2
