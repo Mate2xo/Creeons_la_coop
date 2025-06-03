@@ -582,7 +582,7 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    shoulda-matchers (5.3.0)
+    shoulda-matchers (6.5.0)
       activesupport (>= 5.2.0)
     simplecov (0.22.0)
       docile (~> 1.1)
@@ -745,7 +745,7 @@ DEPENDENCIES
   sass-rails (~> 6.0)
   sassc-rails
   selenium-webdriver (~> 4.32)
-  shoulda-matchers (~> 5.3)
+  shoulda-matchers (~> 6.5)
   simplecov
   solargraph (~> 0.54)
   solargraph-rails

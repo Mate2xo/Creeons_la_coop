@@ -87,6 +87,6 @@ group :test do
   gem 'capybara', '~> 3.40.0'
   gem 'rails-controller-testing' # NOTE: the methods `render_template` and `assigns` must be replaced in order to remove this gem
   gem 'selenium-webdriver', '~> 4.32'
-  gem 'shoulda-matchers', '~> 5.3' # NOTE: Update me when ugrading to Rails6.1 and Ruby3
+  gem 'shoulda-matchers', '~> 6.5'
   gem 'simplecov', require: false
 end
