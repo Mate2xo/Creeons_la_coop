@@ -1,5 +1,5 @@
 .thredded--messageboard--delete {
-  @extend .btn;
+  @extend .btn !optional;
   color: white;
 }
 
