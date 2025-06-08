@@ -17,11 +17,5 @@ module ActiveAdmin
     def destroy?
       super_admin?
     end
-
-    class Scope < Scope
-      def resolve
-        scope.all
-      end
-    end
   end
 end

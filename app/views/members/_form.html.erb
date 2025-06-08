@@ -1,79 +1,87 @@
 <%= form_with model: member, local: true do |form| %>
   <div class="col">
     <div class="col-lg-12">
+      <% if @member.static_slots.empty? && @member == current_member %>
+        <div class="links">
+          <%= link_to_add_association t('.add_static_slot'),
+                                      form,
+                                      :static_slots,
+                                      class: 'd-block text-center',
+                                      partial: 'members/form/static_slot_fields' %>
+        </div>
+        <br>
+      <% end %>
       <div class="field">
-        <%= form.label :email, Member.human_attribute_name(:email).humanize %><br />
-        <%= form.text_field :email, class: "form-control form-control-lg" %>
+        <%= form.label :email, Member.human_attribute_name(:email).humanize %><br>
+        <%= form.text_field :email, class: 'form-control form-control-lg' %>
       </div>
-      <br/>
+      <br>
 
       <div class="d-flex justify-content-between flex-wrap">
         <div class="field flex-fill">
           <%= form.label :first_name, Member.human_attribute_name(:first_name).humanize %>
-          <br />
-          <%= form.text_field :first_name, class: "form-control form-control-lg" %>
+          <br>
+          <%= form.text_field :first_name, class: 'form-control form-control-lg' %>
         </div>
 
         <div class="mx-2"></div>
 
         <div class="field flex-fill">
           <%= form.label :last_name, Member.human_attribute_name(:last_name).humanize %>
-          <br />
-          <%= form.text_field :last_name, class: "form-control form-control-lg" %>
+          <br>
+          <%= form.text_field :last_name, class: 'form-control form-control-lg' %>
         </div>
       </div>
       <br>
 
       <div class="field">
         <%= form.label :phone_number, Member.human_attribute_name(:phone_number).humanize %>
-        <br />
-        <%= form.text_field :phone_number, class: "form-control form-control-lg" %>
+        <br>
+        <%= form.text_field :phone_number, class: 'form-control form-control-lg' %>
       </div>
-      <br />
+      <br>
 
       <div class="field">
-        <%= form.label :avatar, Member.human_attribute_name(:avatar).humanize %><br />
-        <%= form.file_field(:avatar, key: "avatar", accept: 'image/gif, image/png, image/jpeg', class: "btn-base-1") %>
+        <%= form.label :avatar, Member.human_attribute_name(:avatar).humanize %>
+        <br>
+        <%= form.file_field :avatar,
+                            key: 'avatar',
+                            accept: 'image/gif, image/png, image/jpeg',
+                            class: 'btn-base-1' %>
       </div>
-      <br/>
+      <br>
 
       <div class="field">
         <%= form.label :biography, Member.human_attribute_name(:biography).humanize %>
-        <%= form.hidden_field :biography, class:'form-control' %>
+        <%= form.hidden_field :biography, class: 'form-control' %>
         <trix-editor input="member_biography"></trix-editor>
       </div>
       <br>
 
       <div class="field">
         <%= form.label :cash_register_proficiency,
-          Member.human_attribute_name(:cash_register_proficiency).humanize %>
+                       Member.human_attribute_name(:cash_register_proficiency).humanize %>
         <%= form.select :cash_register_proficiency,
-          Member.cash_register_proficiencies.keys.map { |level|
-            [
-              t(level, scope: "activerecord.attributes.member.cash_register_proficiencies"),
-              level
-            ]
-          },
-          {},
-          class:'form-control' %>
+                        Member.cash_register_proficiencies.keys.map { |level|
+                          [
+                            t(level, scope: 'activerecord.attributes.member.cash_register_proficiencies'),
+                            level
+                          ]
+                        },
+                        {},
+                        class: 'form-control' %>
       </div>
-
-      <% if @member.static_slots.empty? && @member == current_member %>
-        <div class="links">
-          <%= link_to_add_association form,
-            :static_slots,
-            partial: 'layouts/static_slot_fields' %>
-        </div>
-      <% end %>
     </div>
   </div>
-  <br />
+  <br>
 
   <%= form.fields_for :address, member.address do |address| %>
-    <%= render "layouts/address_fields", f: address %>
+    <%= render 'layouts/address_fields', f: address %>
   <% end %>
 
   <div class="actions">
-    <%= form.submit t("main_app.views.application.buttons.edit_submit"), class: "btn-update btn btn-styled btn-lg btn-block btn-base-1 mt-4" %>
-  </div><br />
+    <%= form.submit t('main_app.views.application.buttons.edit_submit'),
+                    class: 'btn-update btn btn-styled btn-lg btn-block btn-base-1 mt-4' %>
+  </div>
+  <br>
 <% end %>

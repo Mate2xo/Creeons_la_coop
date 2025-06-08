@@ -25,7 +25,7 @@ RSpec.describe 'DocumentUploadsAtInfoSections' do
 
   context 'when an admin uploads a document' do
     subject(:fill_in_upload_form) do
-      attach_file('document_file', Rails.root.join('spec/support/fixtures/erd.pdf'))
+      attach_file('document_file', Rails.root.join('spec/fixtures/files/erd.pdf'))
       click_button 'Ajouter'
     end
 

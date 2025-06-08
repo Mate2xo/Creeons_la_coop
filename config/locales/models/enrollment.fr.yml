@@ -1,5 +1,10 @@
 fr:
   activerecord:
+    attributes:
+      enrollment:
+        member: membre
+        start_time: heure de début
+        end_time: heure de fin
     errors:
       models:
         enrollment:
@@ -14,3 +19,7 @@ fr:
           negative_duration: La durée sélectionnée ne peut pas être négative
           slot_unavailability: Il n y a plus de place disponible pour ce créneaux
           time_slot_mismatch: La période indiquée ne correspond à aucun créneau de la mission
+    models:
+      enrollment:
+        one: Participation
+        other: Participations

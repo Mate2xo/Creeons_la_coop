@@ -11,9 +11,10 @@ gem 'image_processing', '~> 1.12'
 gem 'jbuilder', '~> 2.13'
 gem 'jquery-rails'
 gem 'pg', '>= 1.1.4', '< 2.0'
-gem 'puma', '~> 4.3'
-gem 'rails', '~> 6.0.6'
-gem 'sass-rails', '~> 5.0'
+gem 'puma', '< 7'
+gem 'rails', '~> 7.1.5'
+gem 'sassc-rails' # TODO: remove-me when migrating to import maps
+gem 'sass-rails', '~> 6.0'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
 
@@ -29,10 +30,8 @@ gem 'redis', '~> 5.0'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'mini_magick', '~> 4.13' # Use ActiveStorage variant
-
-gem 'activeadmin', '~> 2.9.0' # NOTE: update-me to 2.11+ when upgrading to Rails 7
-gem 'active_storage_validations', '~> 0.9' # NOTE: Update me to 1.1 when upgrading to Rails 7
+gem 'activeadmin', '~> 3.3'
+gem 'active_storage_validations', '~> 1.4'
 gem 'addressable', '~> 2.8.0' # URI manipulations
 gem 'appsignal', '~> 4.5'
 gem 'aws-sdk-s3', require: false # S3 file upload storage
@@ -42,35 +41,40 @@ gem 'devise', '~> 4.9' # Users login/registration management
 gem 'devise_invitable', '~> 2.0.10'
 gem 'draper' # decorators manager
 gem 'dry-transaction', '0.16.0'
-gem 'enumerize'
+gem 'enumerize', '~> 2.8'
+gem 'font-awesome-sass', '~> 4.7'
 gem 'httparty' # Http requests
 gem 'ice_cube' # Calendar events recurrence (for Missions)
 gem 'js_cookie_rails' # Cookie manager for js
 gem 'mailjet' # Production mailer API
-gem 'pundit' # Authorization management
-gem 'recurring_select', '~> 3.0' # Events recurrence rules set helper
-gem 'thredded', '~> 1.0.0' # TODO: update me to 1.1 once upgraded to Rails 6
-gem 'concurrent-ruby', '1.3.4' # NOTE: remove me when upgrading to Rails 7
+gem 'pundit', '~> 2.5' # Authorization management
+gem 'recurring_select', '4.0.0.rc1' # Events recurrence rules set helper
+gem 'thredded', '~> 1.2'
 
 group :development, :test do
-  gem 'bullet', '~> 7.1'
+  gem 'bullet', '~> 7.1' # NOTE: Update-me to v7.2 with Rails 7.2, v8 with Rails 8.2
   gem 'factory_bot_rails', '~> 6.4'
   gem 'faker', '~> 3.3' # Generate fake data for the seed.rb and spec factories
   gem 'pry-byebug', '~> 3.10'
-  gem 'rspec-rails', '~> 5.1'
+  gem 'rspec-rails', '~> 6.1'
 end
 
 group :development do
   gem 'annotate', '~> 3.1'
   gem 'letter_opener', '~> 1.10.0'
-  gem 'solargraph', '~> 0.50' # LSP provinding app documention through IDE
-  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'listen', '~> 3.9'
+  gem 'listen', '~> 3.9' # Access an interactive console on exception pages or by calling 'console' anywhere in the code
   gem 'rubocop', require: false
+  gem 'rubocop-capybara', require: false
+  gem 'rubocop-factory_bot', require: false
+  gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
-  gem 'rubocop-performance', require: false
-  gem 'web-console', '~> 3.3' # NOTE: Update me to V4 with Rails6
+  gem 'rubocop-rspec_rails', require: false
+  gem 'solargraph', '~> 0.54', require: false # LSP provinding app documention through IDE
+  gem 'solargraph-rails', require: false
+  gem 'solargraph-reek', require: false
+  gem 'solargraph-rspec', require: false
+  gem 'web-console', '~> 4.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '4.2.1'
   gem 'spring-commands-rspec'
@@ -81,8 +85,8 @@ group :test do
   gem 'email_spec'
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 3.40.0'
-  gem 'selenium-webdriver', '~> 4.32'
-  gem 'simplecov', require: false
   gem 'rails-controller-testing' # NOTE: the methods `render_template` and `assigns` must be replaced in order to remove this gem
-  gem 'shoulda-matchers', '~> 5.3' # NOTE: Update me when ugrading to Rails6.1 and Ruby3
+  gem 'selenium-webdriver', '~> 4.32'
+  gem 'shoulda-matchers', '~> 6.5'
+  gem 'simplecov', require: false
 end

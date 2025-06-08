@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# rubocop: disable Metrics/BlockLength
 ActiveAdmin.register Mission do
+  menu if: proc { authorized? :index, Mission }
   permit_params :author_id,
                 :name,
                 :description,
@@ -13,8 +13,6 @@ ActiveAdmin.register Mission do
                 :due_date,
                 :cash_register_proficiency_requirement,
                 :recurrent_change
-
-  menu if: proc { authorized? :index, %i[active_admin Mission] } # display menu according to ActiveAdmin::Policy
 
   index do
     selectable_column
@@ -29,6 +27,26 @@ ActiveAdmin.register Mission do
     end
     actions
   end
+
+  filter :name
+  filter :description
+  filter :author
+  filter :members
+  filter :productors
+  filter :start_date
+  filter :due_date
+  filter :created_at
+  filter :updated_at
+  filter :recurrent
+  filter :min_member_count
+  filter :max_member_count
+  filter :delivery_expected
+  filter :genre, as: :select, collection: Mission.genres.keys.map { |key| Mission.human_enum_name(:genre, key) }
+  filter :cash_register_proficiency_requirement,
+         as: :select,
+         collection: Mission.cash_register_proficiency_requirements.keys.map { |key|
+           Mission.human_enum_name(:cash_register_proficiency_requirement, key)
+         }
 
   form do |f|
     f.inputs do
@@ -68,15 +86,17 @@ ActiveAdmin.register Mission do
       end
     end
 
-    panel 'Participants' do
-      table_for resource.enrollments do
+    panel Enrollment.model_name.human(count: 2) do
+      table_for resource.enrollments, i18n: Enrollment do
         column :member
         column(:start_time) { |enrollment| enrollment.start_time.strftime('%H:%M') }
         column(:end_time) { |enrollment| enrollment.end_time.strftime('%H:%M') }
-        column 'actions' do |enrollment|
-          link_to(t('active_admin.edit'), edit_admin_mission_enrollment_path(mission, enrollment)) +
-            ' ' +
-            link_to(t('active_admin.delete'), admin_mission_enrollment_path(mission, enrollment), method: :delete)
+        column t('active_admin.table.actions') do |enrollment|
+          table_actions do
+            item link_to(t('active_admin.edit'), edit_admin_mission_enrollment_path(mission, enrollment))
+            span ' | '
+            item link_to(t('active_admin.delete'), admin_mission_enrollment_path(mission, enrollment), method: :delete)
+          end
         end
       end
     end
@@ -108,7 +128,7 @@ ActiveAdmin.register Mission do
     private
 
     def update_transaction
-      input = { params: permitted_params[:mission], old_mission: resource }
+      input = {params: permitted_params[:mission], old_mission: resource}
       Admin::Missions::RecurrentUpdateTransaction.new.call(input)
     end
   end
@@ -124,7 +144,7 @@ ActiveAdmin.register Mission do
         item n,
              generate_schedule_admin_missions_path(months_count: n),
              method: :post,
-             data: { confirm: t('.confirm_generation_schedule') }
+             data: {confirm: t('.confirm_generation_schedule')}
       end
     end
   end
@@ -144,4 +164,3 @@ ActiveAdmin.register Mission do
     redirect_to admin_missions_path, notice: feedback_message
   end
 end
-# rubocop: enable Metrics/BlockLength

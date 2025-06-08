@@ -12,9 +12,10 @@ fr:
     attributes:
       group:
         managers: Référents
+        members: Membres
         members_count: Nombre de membres
         name: Nom
-        role: Rôle
+        roles: Rôles
 
   enumerize:
     group:

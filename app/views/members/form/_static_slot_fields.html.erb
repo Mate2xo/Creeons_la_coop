@@ -1,0 +1,11 @@
+<div class="card mb-3 nested-fields">
+  <div class="col-lg-12">
+    <div class="field">
+      <%= f.label :static_slot, t('activerecord.models.static_slot.one') %>
+      <br>
+      <%= f.collection_select 'id', StaticSlot.all.decorate, :id, :full_display, {} %>
+      <br>
+    </div>
+  </div>
+  <%= link_to_remove_association t('.remove_static_slot'), f, class: 'text-danger m-2 ml-auto' %>
+</div>

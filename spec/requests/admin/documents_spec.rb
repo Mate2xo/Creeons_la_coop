@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe 'Admin::Documents' do
+RSpec.describe 'admin/documents' do
   before { sign_in build_stubbed(:member, :super_admin) }
 
-  describe 'GET /admin/documents' do
+  describe 'GET /' do
     subject(:index) do
       create(:document)
       create(:document, file: fixture_file_upload('test.txt'))
@@ -16,7 +18,7 @@ RSpec.describe 'Admin::Documents' do
     end
   end
 
-  describe 'GET /admin/documents/new' do
+  describe 'GET /new' do
     subject(:new) { get new_admin_document_path }
 
     it 'has an :ok HTTP status' do
@@ -25,7 +27,7 @@ RSpec.describe 'Admin::Documents' do
     end
   end
 
-  describe 'GET /admin/documents/:id/edit' do
+  describe 'GET /:id/edit' do
     subject(:edit) { get edit_admin_document_path(create(:document)) }
 
     it 'has an :ok HTTP status' do

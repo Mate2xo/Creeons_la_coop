@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# rubocop: disable Metrics/BlockLength
 ActiveAdmin.register Member do
-  includes :groups, :enrollments, :group_members
+  menu if: proc { authorized? :index, Member }
+  includes :groups, :group_members
   permit_params :email,
                 :password,
                 :encrypted_password,
@@ -19,8 +19,6 @@ ActiveAdmin.register Member do
                 group_ids: [],
                 group_members_attributes: [[%i[id assignment]]],
                 member_static_slots_attributes: %i[id static_slot_id member_id _destroy]
-
-  menu if: proc { authorized? :index, %i[active_admin Member] } # display menu according to ActiveAdmin::Policy
 
   decorate_with MemberDecorator
 
@@ -118,7 +116,6 @@ ActiveAdmin.register Member do
   filter :email
   filter :first_name
   filter :last_name
-  filter :email
   filter :role
   filter :group
   filter :cash_register_proficiency
@@ -180,4 +177,3 @@ ActiveAdmin.register Member do
     end
   end
 end
-# rubocop: enable Metrics/BlockLength

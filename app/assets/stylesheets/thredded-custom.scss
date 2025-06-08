@@ -1,11 +1,11 @@
 .thredded--messageboard--delete {
-  @extend .btn;
+  @extend .btn !optional;
   color: white;
 }
 
 #thredded--container {
   ul.thredded--form-list {
-    textarea[id*="_content"] {
+    textarea[id*='_content'] {
       height: 0px !important;
       opacity: 0;
       position: absolute;

@@ -49,11 +49,33 @@ class Mission < ApplicationRecord
   accepts_nested_attributes_for :addresses, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :enrollments, reject_if: :all_blank, allow_destroy: true
 
-  enum genre: {standard: 0, regulated: 1, event: 2}
+  enum :genre, {standard: 0, regulated: 1, event: 2}
 
-  enum cash_register_proficiency_requirement: {untrained: 0, beginner: 1, proficient: 2}
+  enum :cash_register_proficiency_requirement, {untrained: 0, beginner: 1, proficient: 2}
 
   attr_accessor :recurrence_rule, :recurrence_end_date, :recurrent_change
+
+  def self.ransackable_attributes(auth_object = nil)
+    return [] unless auth_object
+
+    case auth_object.user.role.to_sym
+    when :super_admin, :admin
+      column_names + _ransackers.keys
+    else
+      []
+    end
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    return [] unless auth_object
+
+    case auth_object.user.role.to_sym
+    when :super_admin, :admin
+      %i[enrollments members productors addresses]
+    else
+      []
+    end
+  end
 
   def duration
     (due_date - start_date).round
@@ -90,42 +112,6 @@ class Mission < ApplicationRecord
     occupied_slots_count = enrollments.where('start_time <= :time_slot AND :time_slot < end_time',
                                              time_slot: time_slot).count
     max_member_count - occupied_slots_count
-  end
-
-  # TODO: delete me if this is actually unused
-  def inside_period?(enrollment)
-    enrollment.start_time >= start_date &&
-      enrollment.start_time <= due_date &&
-      enrollment.end_time >= start_date &&
-      enrollment.end_time <= due_date
-  end
-
-  # TODO: delete me if this is actually unused
-  def match_a_time_slot?(enrollment)
-    current_time_slot = start_date
-    while current_time_slot < due_date
-      return true if current_time_slot == enrollment.start_time
-
-      current_time_slot += 90.minutes
-    end
-    false
-  end
-
-  # TODO: delete me if this is actually unused
-  def slot_available_for_given_cash_register_proficiency?(enrollment, cash_register_proficiency_level)
-    current_time_slot = enrollment.start_time
-    proficiency_level_of_mission = Mission.cash_register_proficiency_requirements[cash_register_proficiency_requirement]
-
-    while current_time_slot < enrollment.end_time
-      if available_slots_count_for_a_time_slot(current_time_slot) == 1 &&
-         (cash_register_proficiency_level < proficiency_level_of_mission)
-        return false
-      end
-
-      current_time_slot += 90.minutes
-    end
-
-    true
   end
 
   private

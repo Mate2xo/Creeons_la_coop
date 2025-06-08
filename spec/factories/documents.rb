@@ -11,12 +11,8 @@
 #  category   :string           default("weekly_orders")
 #
 
-# rubocop:disable Style/MixinUsage
-include ActionDispatch::TestProcess::FixtureFile
-# rubocop:enable Style/MixinUsage
-
 FactoryBot.define do
   factory :document do
-    file { fixture_file_upload(Rails.root.join('spec/support/fixtures/erd.pdf'), 'application/pdf') }
+    file { Rack::Test::UploadedFile.new('spec/fixtures/files/erd.pdf', 'application/pdf') }
   end
 end

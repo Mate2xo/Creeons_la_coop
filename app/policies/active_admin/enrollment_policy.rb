@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ActiveAdmin
-  class EnrollmentPolicy < ApplicationPolicy # rubocop:disable Style/Documentation
+  class EnrollmentPolicy < ApplicationPolicy
     def index?
       admin? || super_admin?
     end
@@ -24,12 +24,6 @@ module ActiveAdmin
 
     def destroy?
       admin? || super_admin?
-    end
-
-    class Scope < Scope # rubocop:disable Style/Documentation
-      def resolve
-        scope.all
-      end
     end
   end
 end

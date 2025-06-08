@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'pundit/rspec'
 
 RSpec.describe ActiveAdmin::MemberPolicy, type: :policy do
   subject { described_class }
 
   let(:member) { build(:member) }
   let(:other_member) { build(:member) }
-  let(:admin) { build :member, :admin }
-  let(:super_admin) { build :member, :super_admin }
+  let(:admin) { build(:member, :admin) }
+  let(:super_admin) { build(:member, :super_admin) }
 
-  # rubocop: disable RSpec/RepeatedExample
   permissions :show?, :index? do
     it { is_expected.not_to permit member, other_member }
     it { is_expected.to permit admin, other_member }
@@ -38,5 +38,4 @@ RSpec.describe ActiveAdmin::MemberPolicy, type: :policy do
     it { is_expected.not_to permit admin, other_member }
     it { is_expected.to permit super_admin }
   end
-  # rubocop: enable RSpec/RepeatedExample
 end

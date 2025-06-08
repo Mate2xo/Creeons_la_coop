@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'admin/members' do
@@ -13,11 +15,11 @@ RSpec.describe 'admin/members' do
       expect(response).to have_http_status(:ok)
     end
 
-    %i[first_name last_name email role cash_register_proficiency].each do |attribute|
-      it 'renders the expected columns' do
-        index
-        expect(response.body).to include(members.first.send(attribute))
-      end
+    it "renders the members' columns", :aggregate_failures do
+      index
+
+      expected_attributes = members.pick :first_name, :last_name, :email, :role, :cash_register_proficiency
+      expect(response.body).to include(*expected_attributes)
     end
 
     context 'with the .csv format' do
@@ -127,7 +129,7 @@ RSpec.describe 'admin/members' do
 
   describe 'PUT /:id' do
     subject(:update) { put admin_member_path(member), params: params }
-    
+
     let(:member) { create(:member, first_name: 'patate') }
     let(:params) { {member: {first_name: 'potato'}} }
 

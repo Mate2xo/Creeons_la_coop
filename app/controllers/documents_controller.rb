@@ -4,6 +4,7 @@
 class DocumentsController < ApplicationController
   def index
     @document = Document.new
+    # TODO: replace this with a PolicyScope
     @documents = if member_signed_in?
                    Document.with_attached_file
                  else

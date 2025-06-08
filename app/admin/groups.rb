@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Group do
+  menu if: proc { authorized? :index, Group }
   permit_params :name, roles: [], manager_ids: []
-
-  menu if: proc { authorized? :index, %i[active_admin Group] } # display menu according to ActiveAdmin::Policy
+  includes :managers
 
   index do
     selectable_column
@@ -16,6 +16,13 @@ ActiveAdmin.register Group do
     column(:roles) { |group| group.roles.texts.join(', ') }
     actions
   end
+
+  filter :name
+  filter :roles, as: :select, collection: Group.roles.options
+  filter :managers
+  filter :members
+  filter :created_at
+  filter :updated_at
 
   show do
     attributes_table_for resource do

@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Document do
+  menu if: proc { authorized? :index, Document }
   permit_params :published, :file, :category
   actions :all, except: [:show]
 
-  menu if: proc { authorized? :index, %i[active_admin Document] } # display menu according to ActiveAdmin::Policy
+  filter :created_at
+  filter :updated_at
+  filter :published
+  filter :category
 
   index do
     selectable_column
@@ -14,7 +18,7 @@ ActiveAdmin.register Document do
     end
     column(:preview) do |document|
       if document.file.previewable?
-        link_to(image_tag(document.file.preview(resize: '90x90')),
+        link_to(image_tag(document.file.preview(resize_to_limit: [90, 90])),
                 rails_blob_path(document.file, disposition: 'attachment'))
       end
     end

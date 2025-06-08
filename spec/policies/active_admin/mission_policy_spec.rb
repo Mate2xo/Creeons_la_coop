@@ -1,16 +1,17 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'pundit/rspec'
 
 RSpec.describe ActiveAdmin::MissionPolicy, type: :policy do
   subject { described_class }
 
-  let(:member) { build_stubbed :member }
-  let(:admin) { build_stubbed :member, :admin }
-  let(:super_admin) { build_stubbed :member, :super_admin }
-  let(:any_mission) { build_stubbed :mission }
+  let(:member) { build_stubbed(:member) }
+  let(:admin) { build_stubbed(:member, :admin) }
+  let(:super_admin) { build_stubbed(:member, :super_admin) }
+  let(:any_mission) { build_stubbed(:mission) }
 
-  permissions :new?, :create?, :show? do
+  permissions :index?, :create?, :show?, :update? do
     it { is_expected.not_to permit member }
     it { is_expected.to permit admin }
     it { is_expected.to permit super_admin }

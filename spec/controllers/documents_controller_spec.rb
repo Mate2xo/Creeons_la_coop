@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe DocumentsController, type: :controller do
+RSpec.describe DocumentsController do
   before { sign_in create(:member, :admin) }
 
   describe '#create' do
@@ -20,9 +20,7 @@ RSpec.describe DocumentsController, type: :controller do
     context 'when it is an invalid content type' do
       let(:params) do
         {
-          document: attributes_for(:document,
-                                   file: fixture_file_upload(Rails.root.join('spec/support/fixtures/fixture.json'),
-                                                             'application/json'))
+          document: attributes_for(:document, file: fixture_file_upload('fixture.json', 'application/json'))
         }
       end
 

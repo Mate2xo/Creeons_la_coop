@@ -3,19 +3,29 @@
 # A StaticSlot belongs to a Member, and allows a member to enroll automatically each month to the Mission that
 # this StaticSlot refers to
 ActiveAdmin.register StaticSlot do
+  menu if: proc { authorized? :index, StaticSlot }
   permit_params :week_day, :start_time, :hour, :minute, :week_type, static_slot_ids: []
 
   decorate_with StaticSlotDecorator
-
-  menu if: proc { authorized? :index, %i[active_admin StaticSlot] } # display menu according to ActiveAdmin::Policy
 
   index do
     selectable_column
     column(:week_day) { |resource| StaticSlot.human_enum_name('week_day', resource.week_day) }
     column(:start_time) { |resource| resource.start_time.strftime('%Hh%M') }
-    column :week_type
+    column(:week_type) { |resource| status_tag resource.week_type }
     actions
   end
+
+  filter :members
+  filter :start_time
+  filter :week_day,
+         as: :select,
+         collection: StaticSlot.week_days.keys.map { |key| StaticSlot.human_enum_name(:week_day, key) }
+  filter :week_type,
+         as: :select,
+         collection: StaticSlot.week_types.keys.map { |key| StaticSlot.human_enum_name(:week_type, key) }
+  filter :created_at
+  filter :updated_at
 
   show do
     attributes_table_for resource do
@@ -45,8 +55,8 @@ ActiveAdmin.register StaticSlot do
   controller do
     def create
       permitted_params = params.require(:static_slot).permit(:week_day, :week_type, :hour, :minute)
-      permitted_params.merge!({ start_time: DateTime.new(2020, 1, 1, permitted_params[:hour].to_i,
-                                                         permitted_params[:minute].to_i) })
+      permitted_params[:start_time] = DateTime.new(2020, 1, 1, permitted_params[:hour].to_i,
+                                                   permitted_params[:minute].to_i)
       @static_slot = StaticSlot.new(permitted_params)
       if @static_slot.save
         redirect_to admin_static_slot_path(@static_slot), notice: 'success'
@@ -59,8 +69,8 @@ ActiveAdmin.register StaticSlot do
     def update
       @static_slot = StaticSlot.find(permitted_params[:id])
       permitted_params = params.require(:static_slot).permit(:week_day, :week_type, :hour, :minute)
-      permitted_params.merge!({ start_time: DateTime.new(2020, 1, 1, permitted_params[:hour].to_i,
-                                                         permitted_params[:minute].to_i) })
+      permitted_params[:start_time] = DateTime.new(2020, 1, 1, permitted_params[:hour].to_i,
+                                                   permitted_params[:minute].to_i)
       if @static_slot.update(permitted_params)
         redirect_to admin_static_slot_path(@static_slot), notice: 'success'
       else

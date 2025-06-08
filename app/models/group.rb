@@ -20,8 +20,30 @@ class Group < ApplicationRecord
   has_many :group_members, dependent: :destroy
   has_many :members, through: :group_members
 
-  serialize :roles, Array
+  serialize :roles, type: Array, coder: YAML
   enumerize :roles, in: %i[redactor], multiple: true
 
   validates :name, presence: true, uniqueness: {case_sensitive: false}
+
+  def self.ransackable_attributes(auth_object = nil)
+    return [] unless auth_object
+
+    case auth_object.user.role.to_sym
+    when :super_admin, :admin
+      column_names + _ransackers.keys
+    else
+      []
+    end
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    return [] unless auth_object
+
+    case auth_object.user.role.to_sym
+    when :super_admin, :admin
+      %i[managers members]
+    else
+      []
+    end
+  end
 end

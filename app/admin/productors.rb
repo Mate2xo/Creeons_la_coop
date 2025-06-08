@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Productor do
+  menu if: proc { authorized? :index, Productor }
   permit_params :name,
                 :description,
                 :category,
@@ -9,11 +10,15 @@ ActiveAdmin.register Productor do
                 :website_url,
                 :avatar,
                 catalogs: [],
-                address_attributes: [:id, :postal_code, :city,
-                                     :street_name_1, :street_name_2,
-                                     :_destroy, coordinates: []]
-
-  menu if: proc { authorized? :index, %i[active_admin Productor] } # display menu according to ActiveAdmin::Policy
+                address_attributes: [
+                  :_destroy,
+                  :city,
+                  :id,
+                  :postal_code,
+                  :street_name_1,
+                  :street_name_2,
+                  {coordinates: []}
+                ]
 
   index do
     selectable_column
@@ -28,9 +33,18 @@ ActiveAdmin.register Productor do
     actions
   end
 
+  filter :name
+  filter :description
+  filter :phone_number
+  filter :website_url
+  filter :local
+  filter :category, as: :select, collection: Productor.category.options
+
   form do |f|
     f.inputs :name, :description, :local, :phone_number, :website_url
-    f.input :category, as: :select, collection: Productor.category.options
+    f.inputs do
+      f.input :category, as: :select, collection: Productor.category.options
+    end
     f.inputs do
       f.has_many :address, allow_destroy: true do |address|
         address.input :street_name_1

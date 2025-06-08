@@ -1,12 +1,13 @@
-require:
+plugins:
   - rubocop-rails
   - rubocop-rspec
+  - rubocop-rspec_rails
   - rubocop-factory_bot
   - rubocop-capybara
   - rubocop-performance
 
 inherit_gem:
-  # pundit: config/rubocop-rspec.yml
+  pundit: config/rubocop-rspec.yml
 
 AllCops:
   DisplayStyleGuide: true
@@ -21,8 +22,6 @@ Layout/LineLength:
   Max: 120
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
-Lint/RedundantCopDisableDirective:
-  Enabled: false
 
 Metrics/BlockLength:
   Exclude:
@@ -30,7 +29,7 @@ Metrics/BlockLength:
     - 'test/**/*.rb'
     - 'Guardfile'
     - 'vendor/bundle'
-    # - "app/admin/**/*"
+    - 'app/admin/**/*'
     - 'config/environments/*.rb'
     # - "app/views/admin/**/*"
 
@@ -42,8 +41,8 @@ Metrics/MethodLength:
 Style/Documentation:
   Exclude:
     - 'app/controllers/**/*'
-  Include:
-    - 'app/controllers/concerns/**/*'
+    - 'app/policies/**/*'
+    - 'config/application.rb'
 Style/ExponentialNotation:
   Enabled: true
 Style/HashEachMethods:

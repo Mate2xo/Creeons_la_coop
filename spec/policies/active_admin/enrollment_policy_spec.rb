@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'pundit/rspec'
 
 RSpec.describe ActiveAdmin::EnrollmentPolicy, type: :policy do
   subject { described_class }
 
   let(:member) { build(:member) }
-  let(:admin) { build :member, :admin }
-  let(:super_admin) { build :member, :super_admin }
+  let(:admin) { build(:member, :admin) }
+  let(:super_admin) { build(:member, :super_admin) }
 
-  permissions :index?, :show?, :new?, :create?, :edit?, :update?, :destroy? do
+  permissions :index?, :create?, :destroy?, :edit?, :new?, :show?, :update? do
     it { is_expected.not_to permit member }
     it { is_expected.to permit admin }
     it { is_expected.to permit super_admin }

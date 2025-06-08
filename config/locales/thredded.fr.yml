@@ -1,0 +1,8 @@
+---
+fr:
+  thredded:
+    messageboard:
+      form:
+        create_btn_submitting: Création...
+        delete: Supprimer la catégorie
+        update_btn_submitting: Mise à jour...

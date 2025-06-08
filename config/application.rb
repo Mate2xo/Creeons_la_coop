@@ -11,17 +11,26 @@ Bundler.require(*Rails.groups)
 module CreonsLaCoop
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.2
+    config.load_defaults 7.1
 
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration can go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded after loading
-    # the framework and any gems in your application.
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    config.autoload_lib(ignore: %w[active_admin assets tasks])
+    # config.eager_load_paths << Rails.root.join("extras")
+
+    # Configuration for the application, engines, and railties goes here.
+    #
+    # These settings can be overridden in specific environments using the files
+    # in config/environments, which are processed later.
 
     config.i18n.available_locales = %i[en fr]
     config.i18n.default_locale = :fr
-    config.i18n.load_path += Dir[Rails.root.join('config/locales/**/*.{rb,yml}')]
+    config.i18n.load_path += Rails.root.glob('config/locales/**/*.{rb,yml}')
+    # config.time_zone = "Central Time (US & Canada)"
 
-    config.autoloader = :zeitwerk
+    # TODO: :vips is more performant. See
+    # https://guides.rubyonrails.org/upgrading_ruby_on_rails.html#active-storage-default-variant-processor-changed-to-vips
+    config.active_storage.variant_processor = :mini_magick
   end
 end

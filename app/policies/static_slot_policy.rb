@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class StaticSlotPolicy < ApplicationPolicy # rubocop:disable Style/Documentation
+class StaticSlotPolicy < ApplicationPolicy
   def index?
     super_admin?
   end
@@ -19,11 +19,5 @@ class StaticSlotPolicy < ApplicationPolicy # rubocop:disable Style/Documentation
 
   def destroy?
     super_admin?
-  end
-
-  class Scope < Scope # rubocop:disable Style/Documentation
-    def resolve
-      scope.all
-    end
   end
 end

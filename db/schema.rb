@@ -2,16 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_09_13_110627) do
-
+ActiveRecord::Schema[7.1].define(version: 2025_05_19_103908) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,11 +21,11 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
     t.bigint "resource_id"
     t.string "author_type"
     t.bigint "author_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author"
     t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
-    t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
+    t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -34,7 +33,7 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -45,9 +44,16 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
     t.string "content_type"
     t.text "metadata"
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.string "checksum"
+    t.datetime "created_at", precision: nil, null: false
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "addresses", force: :cascade do |t|
@@ -55,8 +61,8 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
     t.string "city", null: false
     t.string "street_name_1"
     t.string "street_name_2"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.bigint "productor_id"
     t.bigint "member_id"
     t.float "coordinates", array: true
@@ -70,8 +76,8 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
   end
 
   create_table "documents", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "published", default: false
     t.string "category", default: "weekly_orders"
   end
@@ -81,8 +87,8 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
     t.bigint "mission_id", null: false
     t.time "old_start_time"
     t.time "old_end_time"
-    t.datetime "start_time"
-    t.datetime "end_time"
+    t.datetime "start_time", precision: nil
+    t.datetime "end_time", precision: nil
     t.index ["mission_id"], name: "index_enrollments_on_mission_id"
   end
 
@@ -91,7 +97,7 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
     t.integer "sluggable_id", null: false
     t.string "sluggable_type", limit: 50
     t.string "scope"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
@@ -101,8 +107,8 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
   create_table "group_managers", force: :cascade do |t|
     t.bigint "managed_group_id"
     t.bigint "manager_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["managed_group_id"], name: "index_group_managers_on_managed_group_id"
     t.index ["manager_id"], name: "index_group_managers_on_manager_id"
   end
@@ -110,8 +116,8 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
   create_table "group_members", force: :cascade do |t|
     t.bigint "group_id"
     t.bigint "member_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.text "assignment"
     t.index ["group_id"], name: "index_group_members_on_group_id"
     t.index ["member_id"], name: "index_group_members_on_member_id"
@@ -119,22 +125,22 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
 
   create_table "groups", force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "roles"
   end
 
   create_table "history_of_generated_schedules", force: :cascade do |t|
-    t.datetime "month_number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "month_number", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "history_of_static_slot_selections", force: :cascade do |t|
     t.bigint "member_id"
     t.bigint "static_slot_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["member_id"], name: "index_history_of_static_slot_selections_on_member_id"
     t.index ["static_slot_id"], name: "index_history_of_static_slot_selections_on_static_slot_id"
   end
@@ -142,8 +148,8 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
   create_table "infos", force: :cascade do |t|
     t.text "content"
     t.string "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.bigint "author_id"
     t.string "category"
     t.boolean "published", default: false
@@ -153,8 +159,8 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
   create_table "member_static_slots", force: :cascade do |t|
     t.bigint "static_slot_id"
     t.bigint "member_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["member_id"], name: "index_member_static_slots_on_member_id"
     t.index ["static_slot_id"], name: "index_member_static_slots_on_static_slot_id"
   end
@@ -163,23 +169,23 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
     t.string "first_name"
     t.string "last_name"
     t.text "biography"
     t.string "phone_number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "role", default: 0
     t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "confirmation_sent_at", precision: nil
     t.string "unconfirmed_email"
     t.string "invitation_token"
-    t.datetime "invitation_created_at"
-    t.datetime "invitation_sent_at"
-    t.datetime "invitation_accepted_at"
+    t.datetime "invitation_created_at", precision: nil
+    t.datetime "invitation_sent_at", precision: nil
+    t.datetime "invitation_accepted_at", precision: nil
     t.integer "invitation_limit"
     t.string "invited_by_type"
     t.bigint "invited_by_id"
@@ -206,11 +212,11 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
   create_table "missions", force: :cascade do |t|
     t.string "name", null: false
     t.text "description", null: false
-    t.datetime "due_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "due_date", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.bigint "author_id"
-    t.datetime "start_date"
+    t.datetime "start_date", precision: nil
     t.boolean "recurrent"
     t.integer "max_member_count"
     t.integer "min_member_count"
@@ -229,8 +235,8 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
     t.string "name"
     t.text "description"
     t.string "phone_number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "website_url"
     t.boolean "local", default: false
     t.string "category"
@@ -238,18 +244,18 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
 
   create_table "static_slots", force: :cascade do |t|
     t.integer "week_day", null: false
-    t.datetime "start_time", null: false
+    t.datetime "start_time", precision: nil, null: false
     t.integer "week_type", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "thredded_categories", force: :cascade do |t|
     t.bigint "messageboard_id", null: false
     t.text "name", null: false
     t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.text "slug", null: false
     t.index "lower(name) text_pattern_ops", name: "thredded_categories_name_ci"
     t.index ["messageboard_id", "slug"], name: "index_thredded_categories_on_messageboard_id_and_slug", unique: true
@@ -259,8 +265,8 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
   create_table "thredded_messageboard_groups", force: :cascade do |t|
     t.string "name"
     t.integer "position", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "thredded_messageboard_notifications_for_followed_topics", force: :cascade do |t|
@@ -274,7 +280,7 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
   create_table "thredded_messageboard_users", force: :cascade do |t|
     t.bigint "thredded_user_detail_id", null: false
     t.bigint "thredded_messageboard_id", null: false
-    t.datetime "last_seen_at", null: false
+    t.datetime "last_seen_at", precision: nil, null: false
     t.index ["thredded_messageboard_id", "last_seen_at"], name: "index_thredded_messageboard_users_for_recently_active"
     t.index ["thredded_messageboard_id", "thredded_user_detail_id"], name: "index_thredded_messageboard_users_primary", unique: true
   end
@@ -288,8 +294,8 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
     t.integer "position", null: false
     t.bigint "last_topic_id"
     t.bigint "messageboard_group_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "locked", default: false, null: false
     t.index ["messageboard_group_id"], name: "index_thredded_messageboards_on_messageboard_group_id"
     t.index ["slug"], name: "index_thredded_messageboards_on_slug", unique: true
@@ -318,7 +324,7 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
     t.bigint "moderator_id"
     t.integer "moderation_state", null: false
     t.integer "previous_moderation_state", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["messageboard_id", "created_at"], name: "index_thredded_moderation_records_for_display", order: { created_at: :desc }
   end
 
@@ -329,8 +335,8 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
     t.bigint "postable_id", null: false
     t.bigint "messageboard_id", null: false
     t.integer "moderation_state", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index "to_tsvector('english'::regconfig, content)", name: "thredded_posts_content_fts", using: :gist
     t.index ["messageboard_id"], name: "index_thredded_posts_on_messageboard_id"
     t.index ["moderation_state", "updated_at"], name: "index_thredded_posts_for_display"
@@ -343,8 +349,8 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
     t.bigint "user_id"
     t.text "content"
     t.bigint "postable_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["postable_id", "created_at"], name: "index_thredded_private_posts_on_postable_id_and_created_at"
   end
 
@@ -355,9 +361,9 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
     t.text "slug", null: false
     t.integer "posts_count", default: 0
     t.string "hash_id", limit: 20, null: false
-    t.datetime "last_post_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "last_post_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["hash_id"], name: "index_thredded_private_topics_on_hash_id"
     t.index ["last_post_at"], name: "index_thredded_private_topics_on_last_post_at"
     t.index ["slug"], name: "index_thredded_private_topics_on_slug", unique: true
@@ -366,8 +372,8 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
   create_table "thredded_private_users", force: :cascade do |t|
     t.bigint "private_topic_id"
     t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["private_topic_id"], name: "index_thredded_private_users_on_private_topic_id"
     t.index ["user_id"], name: "index_thredded_private_users_on_user_id"
   end
@@ -390,9 +396,9 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
     t.boolean "locked", default: false, null: false
     t.string "hash_id", limit: 20, null: false
     t.integer "moderation_state", null: false
-    t.datetime "last_post_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "last_post_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index "to_tsvector('english'::regconfig, title)", name: "thredded_topics_title_fts", using: :gist
     t.index ["hash_id"], name: "index_thredded_topics_on_hash_id"
     t.index ["last_post_at"], name: "index_thredded_topics_on_last_post_at"
@@ -404,14 +410,14 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
 
   create_table "thredded_user_details", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.datetime "latest_activity_at"
+    t.datetime "latest_activity_at", precision: nil
     t.integer "posts_count", default: 0
     t.integer "topics_count", default: 0
-    t.datetime "last_seen_at"
+    t.datetime "last_seen_at", precision: nil
     t.integer "moderation_state", default: 0, null: false
-    t.datetime "moderation_state_changed_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "moderation_state_changed_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["latest_activity_at"], name: "index_thredded_user_details_on_latest_activity_at"
     t.index ["moderation_state", "moderation_state_changed_at"], name: "index_thredded_user_details_for_moderations", order: { moderation_state_changed_at: :desc }
     t.index ["user_id"], name: "index_thredded_user_details_on_user_id", unique: true
@@ -422,15 +428,15 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
     t.bigint "messageboard_id", null: false
     t.boolean "follow_topics_on_mention", default: true, null: false
     t.boolean "auto_follow_topics", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["user_id", "messageboard_id"], name: "thredded_user_messageboard_preferences_user_id_messageboard_id", unique: true
   end
 
   create_table "thredded_user_post_notifications", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "post_id", null: false
-    t.datetime "notified_at", null: false
+    t.datetime "notified_at", precision: nil, null: false
     t.index ["post_id"], name: "index_thredded_user_post_notifications_on_post_id"
     t.index ["user_id", "post_id"], name: "index_thredded_user_post_notifications_on_user_id_and_post_id", unique: true
   end
@@ -439,8 +445,8 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
     t.bigint "user_id", null: false
     t.boolean "follow_topics_on_mention", default: true, null: false
     t.boolean "auto_follow_topics", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["user_id"], name: "index_thredded_user_preferences_on_user_id", unique: true
   end
 
@@ -450,14 +456,14 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
     t.integer "unread_posts_count", default: 0, null: false
     t.integer "read_posts_count", default: 0, null: false
     t.integer "integer", default: 0, null: false
-    t.datetime "read_at", null: false
+    t.datetime "read_at", precision: nil, null: false
     t.index ["user_id", "postable_id"], name: "thredded_user_private_topic_read_states_user_postable", unique: true
   end
 
   create_table "thredded_user_topic_follows", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "topic_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.integer "reason", limit: 2
     t.index ["user_id", "topic_id"], name: "thredded_user_topic_follows_user_topic", unique: true
   end
@@ -469,13 +475,14 @@ ActiveRecord::Schema.define(version: 2024_09_13_110627) do
     t.integer "unread_posts_count", default: 0, null: false
     t.integer "read_posts_count", default: 0, null: false
     t.integer "integer", default: 0, null: false
-    t.datetime "read_at", null: false
+    t.datetime "read_at", precision: nil, null: false
     t.index ["messageboard_id"], name: "index_thredded_user_topic_read_states_on_messageboard_id"
     t.index ["user_id", "messageboard_id"], name: "thredded_user_topic_read_states_user_messageboard"
     t.index ["user_id", "postable_id"], name: "thredded_user_topic_read_states_user_postable", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "addresses", "members"
   add_foreign_key "addresses", "productors"
   add_foreign_key "group_managers", "groups", column: "managed_group_id"
