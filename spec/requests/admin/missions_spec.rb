@@ -288,7 +288,7 @@ RSpec.describe 'admin/missions', type: :request do
       let!(:expected_start_dates) { all_missions.map(&:start_date) }
       let!(:expected_due_dates) { all_missions.map(&:due_date) }
 
-      it 'updates futures missions that match the same week day, hour, and genre' do # rubocop:disable Layout/LineLength
+      it 'updates futures missions that match the same week day, hour, and genre' do
         other_missions = create_future_matching_missions(mission)
 
         put_mission
@@ -298,7 +298,7 @@ RSpec.describe 'admin/missions', type: :request do
         end
       end
 
-      it "doesn't update pasts missions that match the same week day, hour, and genre" do # rubocop:disable Layout/LineLength
+      it "doesn't update pasts missions that match the same week day, hour, and genre" do
         other_mission = create(:mission, start_date: mission.start_date - 2.days)
 
         put_mission

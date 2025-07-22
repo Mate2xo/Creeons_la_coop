@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe '/missions', type: :request do
+RSpec.describe '/missions' do
   before { sign_in create :member }
 
   describe 'GET / (HTML)' do

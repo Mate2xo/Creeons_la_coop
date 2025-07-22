@@ -13,11 +13,11 @@ module Admin
 
       private
 
-      def rollback_if_failure(input, &block)
+      def rollback_if_failure(input)
         result = nil
 
         Mission.transaction do
-          result = block.call(Success(input))
+          result = yield(Success(input))
           raise ActiveRecord::Rollback if result.failure?
 
           result
@@ -28,7 +28,7 @@ module Admin
       def get_missions_to_update(input)
         old_mission, params = input.values_at(:old_mission, :params)
 
-        input.merge!({ all_missions: missions_to_change(old_mission, params) })
+        input.merge!({all_missions: missions_to_change(old_mission, params)})
         Success(input)
       end
 
