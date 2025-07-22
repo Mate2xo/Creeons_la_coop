@@ -122,7 +122,7 @@ class MissionsController < ApplicationController
   end
 
   def set_authorized_mission
-    @mission = authorize Mission.find(params[:id])
+    @mission = authorize Mission.includes(enrollments: :member).find(params[:id])
   end
 
   def date_filtering_params
