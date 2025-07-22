@@ -110,7 +110,7 @@ class MissionsController < ApplicationController
     enrollment_params = params.require(:mission)
                               .permit(enrollments_attributes: [
                                         :id, :_destroy, :member_id,
-                                        { time_slots: [] }
+                                        {time_slots: []}
                                       ])
     base_params.merge(enrollment_params)
   end
@@ -131,7 +131,7 @@ class MissionsController < ApplicationController
     start_date = Date.parse(params[:start])
     end_date = Date.parse(params[:end])
 
-    { from: start_date, to: end_date }
+    {from: start_date, to: end_date}
   rescue ArgumentError => _e
     nil
   end
