@@ -617,7 +617,7 @@ GEM
       solargraph (~> 0.38)
     solargraph-rspec (0.5.1)
       solargraph (~> 0.52, >= 0.52.0)
-    spring (4.2.1)
+    spring (4.3.0)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
     spring-watcher-listen (2.1.0)
@@ -751,7 +751,7 @@ DEPENDENCIES
   solargraph-rails
   solargraph-reek
   solargraph-rspec
-  spring (= 4.2.1)
+  spring (= 4.3.0)
   spring-commands-rspec
   spring-watcher-listen (~> 2.1.0)
   thredded (~> 1.2)
