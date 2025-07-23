@@ -44,7 +44,7 @@ gem 'dry-transaction', '0.16.0'
 gem 'enumerize', '~> 2.8'
 gem 'font-awesome-sass', '~> 4.7'
 gem 'httparty' # Http requests
-gem 'ice_cube' # Calendar events recurrence (for Missions)
+gem 'ice_cube', '~> 0.17' # Calendar events recurrence (for Missions)
 gem 'js_cookie_rails' # Cookie manager for js
 gem 'mailjet' # Production mailer API
 gem 'pundit', '~> 2.5' # Authorization management
