@@ -2,7 +2,7 @@
 //= require moment/fr.js
 //= require tempusdominus-bootstrap-4
 //= require recurring_select
-//= require recurring_select/fr
+//= require lib/recurring_select/fr
 
 $(document).on('turbolinks:load', () => {
   const missionStartDate = document.getElementById('mission_start_date');
