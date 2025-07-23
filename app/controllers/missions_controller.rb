@@ -37,11 +37,10 @@ class MissionsController < ApplicationController
   def update
     if update_transaction.success?
       flash[:notice] = translate 'activerecord.notices.messages.update_success'
-      render :show
+      redirect_to mission_path(@mission)
     else
       flash[:error] = update_transaction.failure
-      # TODO: change this to #render, and properly translate error messages
-      redirect_to edit_mission_path(@mission)
+      render :edit
     end
   end
 
