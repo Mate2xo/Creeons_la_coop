@@ -28,6 +28,7 @@ module CreonsLaCoop
     config.i18n.default_locale = :fr
     config.i18n.load_path += Rails.root.glob('config/locales/**/*.{rb,yml}')
     # config.time_zone = "Central Time (US & Canada)"
+    config.active_model.i18n_customize_full_message = true
 
     # TODO: :vips is more performant. See
     # https://guides.rubyonrails.org/upgrading_ruby_on_rails.html#active-storage-default-variant-processor-changed-to-vips
