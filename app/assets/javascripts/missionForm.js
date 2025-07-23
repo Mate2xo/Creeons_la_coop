@@ -52,7 +52,9 @@ $(document).on('turbolinks:load', () => {
     });
   }
 
-  $('#mission_recurrent').on('change', () => {
+  const recurrenceCheckbox = document.getElementById('mission_recurrent');
+  if (recurrenceCheckbox.checked) $('#recurrence-selector').show();
+  recurrenceCheckbox.addEventListener('change', function (_e) {
     $('#recurrence-selector').toggle(150);
   });
 });
