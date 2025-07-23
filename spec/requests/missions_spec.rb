@@ -159,6 +159,93 @@ RSpec.describe '/missions' do
           .to include(I18n.t('activerecord.errors.models.mission.attributes.duration.multiple'))
       end
     end
+
+    context 'with a recurrent mission' do
+      subject(:create_recurrent_mission) { post missions_path, params: {mission: mission_params} }
+
+      let(:mission_params) do
+        attributes_for(:mission,
+                       start_date: DateTime.now,
+                       due_date: 3.hours.from_now,
+                       recurrent: true,
+                       recurrence_rule: '{"interval":1, "until":null, "count":null, "validations":{ "day":[2,3,5,6] }, "rule_type":"IceCube::WeeklyRule", "week_start":1 }',
+                       recurrence_end_date: 1.week.from_now)
+      end
+
+      it 'sets the maximum recurrence_end_date to the end of next month' do
+        mission_params['recurrence_end_date'] = 6.months.from_now.to_s
+        create_recurrent_mission
+        expect(Mission.last.due_date).to be < 2.months.from_now.beginning_of_month
+      end
+
+      it 'creates a mission instance for each occurence' do
+        create_recurrent_mission
+        expect(Mission.count).to be_within(1).of(4) # depends on the day on which the test is run
+      end
+
+      it 'redirects to /missions when finished creating all occurrences' do
+        create_recurrent_mission
+        expect(response).to redirect_to missions_path
+      end
+
+      context 'when no recurrence_rule are given' do
+        let(:mission_params) do
+          attributes_for(:mission,
+                         start_date: DateTime.now,
+                         due_date: 3.hours.from_now,
+                         recurrent: true,
+                         recurrence_rule: '',
+                         recurrence_end_date: 1.week.from_now)
+        end
+
+        it 'does not create missions' do
+          create_recurrent_mission
+          expect(Mission.count).to eq 0
+        end
+
+        it 'redirects to :new form' do
+          create_recurrent_mission
+          expect(response).to render_template(:new)
+        end
+      end
+
+      context 'when no recurrence_end_date is given' do
+        let(:mission_params) do
+          attributes_for(:mission,
+                         start_date: DateTime.now,
+                         due_date: 3.hours.from_now,
+                         recurrent: true,
+                         recurrence_rule: '{"interval":1, "until":null, "count":null, "validations":{ "day":[2,3,5,6] }, "rule_type":"IceCube::WeeklyRule", "week_start":1 }',
+                         recurrence_end_date: '')
+        end
+
+        it 'does not create missions' do
+          create_recurrent_mission
+          expect(Mission.count).to eq 0
+        end
+
+        it 'redirects to :new form' do
+          create_recurrent_mission
+          expect(response).to render_template(:new)
+        end
+      end
+
+      context 'when recurrence_end_date is prior to present day' do
+        before do
+          mission_params['recurrence_end_date'] = 1.month.ago
+        end
+
+        it 'does not create missions' do
+          create_recurrent_mission
+          expect(Mission.count).to eq 0
+        end
+
+        it 'redirects to :new form' do
+          create_recurrent_mission
+          expect(response).to render_template(:new)
+        end
+      end
+    end
   end
 
   describe 'GET /:id/edit' do
@@ -330,6 +417,23 @@ RSpec.describe '/missions' do
 
         expect(mission.members).not_to include(member_other_than_the_currently_logged_in_user)
       end
+    end
+  end
+
+  describe 'DELETE /:id' do
+    subject(:destroy) { delete mission_path(mission) }
+
+    before { sign_in create :member, :super_admin }
+
+    let!(:mission) { create(:mission) }
+
+    it 'destroys the given record' do
+      expect { destroy }.to change(Mission, :count).by(-1)
+    end
+
+    it 'sets a translated flash message' do
+      destroy
+      expect(controller.flash[:notice]).not_to include(/translation missing/i)
     end
   end
 end
