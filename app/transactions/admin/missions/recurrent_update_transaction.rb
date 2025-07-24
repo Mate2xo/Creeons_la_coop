@@ -56,13 +56,6 @@ module Admin
           current_mission.start_date.strftime('%R%u') == old_mission.start_date.strftime('%R%u')
         end
       end
-
-      def determine_failure_message(failure, mission)
-        I18n.t('activerecord.errors.models.mission.recurrent_update_cancel',
-               name: mission.name,
-               start_date: mission.start_date,
-               failure: failure)
-      end
     end
   end
 end
