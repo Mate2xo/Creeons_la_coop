@@ -256,8 +256,6 @@ RSpec.describe 'admin/missions', type: :request do
                     mission_id: mission.id)
       end
 
-      let(:i18n_key) { 'activerecord.errors.models.mission.mismatch_between_time_slots_and_related_enrollments' }
-
       it 'renders a successful response' do
         assign_members_to_this_mission(3, mission, mission.start_date, mission.start_date + 90.minutes)
 
