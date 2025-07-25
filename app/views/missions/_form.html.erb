@@ -62,11 +62,12 @@
         <div class="field">
           <%= f.label :due_date, Mission.human_attribute_name(:due_date) %><br>
           <%= f.text_field :due_date,
-                           lass: 'form-control form-control-lg datetimepicker-input',
+                           class: 'form-control form-control-lg datetimepicker-input',
                            data: {
                              toggle: 'datetimepicker',
                              target: '#mission_due_date'
                            },
+                           value: mission.due_date,
                            required: true %>
         </div>
       </div>
