@@ -1,3 +1,9 @@
+<% content_for :head_tags do %>
+  <%= javascript_include_tag 'missions/_standard_quick_enrollment_form',
+                             'data-turbolinks-track': 'reload',
+                             defer: true %>
+<% end %>
+
 <%= form_with scope: 'enrollment', url: mission_enrollments_path(@mission.id), local: true do |f| %>
   <h4 class="d-block text-center mx-auto">
     <%= translate '.quick_enroll' %>
@@ -5,18 +11,20 @@
   <div class="d-flex align-items-center justify-content-around">
     <%= translate 'main_app.views.missions.show.from' %>
     <%= f.text_field :start_time,
+                     id: :enrollmentStartTime,
                      class: 'form-control datetimepicker-input m-2 w-25',
                      data: {
                        toggle: 'datetimepicker',
-                       target: '#enrollment_start_time'
+                       target: '#enrollmentStartTime'
                      },
                      value: @mission.start_date.strftime('%T') %>
     <%= translate 'main_app.views.missions.show.to' %>
     <%= f.text_field :end_time,
+                     id: :enrollmentEndTime,
                      class: 'form-control datetimepicker-input m-2 w-25',
                      data: {
                        toggle: 'datetimepicker',
-                       target: '#enrollment_end_time'
+                       target: '#enrollmentEndTime'
                      },
                      value: @mission.due_date.strftime('%T') %>
     <%= f.hidden_field :member_id, value: current_member.id %>

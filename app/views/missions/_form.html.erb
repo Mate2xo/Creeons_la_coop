@@ -1,5 +1,5 @@
-<% provide :head_tags do %>
-  <%= javascript_include_tag 'missionForm', 'data-turbolinks-track': 'reload' %>
+<% content_for :head_tags do %>
+  <%= javascript_include_tag 'missions/_form', 'data-turbolinks-track': 'reload', defer: true %>
 <% end %>
 
 <div class="form-default mt-4">
@@ -50,10 +50,11 @@
         <div class="field mr-auto">
           <%= f.label :start_date, Mission.human_attribute_name(:start_date) %>
           <%= f.text_field :start_date,
+                           id: :missionStartDate,
                            class: 'form-control form-control-lg datetimepicker-input',
                            data: {
                              toggle: 'datetimepicker',
-                             target: '#mission_start_date'
+                             target: '#missionStartDate'
                            },
                            value: mission.start_date,
                            required: true %>
@@ -62,10 +63,11 @@
         <div class="field">
           <%= f.label :due_date, Mission.human_attribute_name(:due_date) %><br>
           <%= f.text_field :due_date,
+                           id: :missionDueDate,
                            class: 'form-control form-control-lg datetimepicker-input',
                            data: {
                              toggle: 'datetimepicker',
-                             target: '#mission_due_date'
+                             target: '#missionDueDate'
                            },
                            value: mission.due_date,
                            required: true %>
@@ -75,7 +77,7 @@
       <div class="d-flex mb-4">
         <div class="field mr-4">
           <%= f.label :recurrent, Mission.human_attribute_name(:recurrent) %>
-          <%= f.check_box :recurrent %>
+          <%= f.check_box :recurrent, id: :missionRecurrentCheckbox %>
         </div>
 
         <div id="recurrence-selector">
