@@ -1,7 +1,7 @@
 <div class="card m-2 p-2 nested-fields">
   <div class="d-flex flex-wrap justify-content-around">
     <div class="field m-1">
-      <%= f.label :member_id, Member.human_attribute_name(:member).humanize %><br />
+      <%= f.label :member_id, Member.model_name.human %><br>
       <%= f.select :member_id,
                    Member.all.map { |m| ["#{m.first_name} #{m.last_name}", m.id] }.sort,
                    {},
