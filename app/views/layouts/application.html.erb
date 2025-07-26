@@ -24,13 +24,19 @@
 
     <div id="flash_messages">
       <% if flash[:notice] %>
-        <div class="alert alert-success text-center" id="flash_notice"><%= flash[:notice]%></div>
+        <div class="alert alert-success text-center" id="flash_notice">
+          <%= flash[:notice] %>
+        </div>
       <% end %>
       <% if flash[:alert] %>
-        <div class="alert alert-warning text-center" id="flash_alert"><%= flash[:alert]%></div>
+        <div class="alert alert-warning text-center" id="flash_alert">
+          <%= flash[:alert] %>
+        </div>
       <% end %>
       <% if flash[:error] %>
-        <div class="alert alert-danger text-center" id="flash_error"><%= flash[:error]%></div>
+        <div class="alert alert-danger text-center" id="flash_error">
+          <%= flash[:error] %>
+        </div>
       <% end %>
     </div>
 
