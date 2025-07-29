@@ -30,7 +30,7 @@
 # Slots count for a time slot is equal to :max_member_count
 require 'rails_helper'
 
-RSpec.describe Mission, type: :model do
+RSpec.describe Mission do
   let(:mission) { build(:mission) }
 
   describe 'Model instanciation' do
