@@ -33,26 +33,18 @@ require 'rails_helper'
 RSpec.describe Mission do
   let(:mission) { build(:mission) }
 
-  describe 'Model instanciation' do
-    subject { described_class.new }
+  it { is_expected.to accept_nested_attributes_for(:addresses).allow_destroy(true) }
+  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_presence_of(:description) }
+  it { is_expected.to validate_presence_of(:min_member_count) }
+  it { is_expected.to validate_presence_of(:genre) }
+  it { is_expected.to validate_numericality_of(:min_member_count).only_integer }
+  it { is_expected.to validate_numericality_of(:max_member_count).only_integer.allow_nil }
 
-    describe 'validations' do
-      it { is_expected.to accept_nested_attributes_for(:addresses).allow_destroy(true) }
-      it { is_expected.to validate_presence_of(:name) }
-      it { is_expected.to validate_presence_of(:description) }
-      it { is_expected.to validate_presence_of(:min_member_count) }
-      it { is_expected.to validate_presence_of(:genre) }
-      it { is_expected.to validate_numericality_of(:min_member_count).only_integer }
-      it { is_expected.to validate_numericality_of(:max_member_count).only_integer.allow_nil }
-    end
-
-    describe 'associations' do
-      it { is_expected.to belong_to(:author).class_name('Member').inverse_of('created_missions').optional }
-      it { is_expected.to have_many(:members).through(:enrollments) }
-      it { is_expected.to have_and_belong_to_many(:productors) }
-      it { is_expected.to have_and_belong_to_many(:addresses) }
-    end
-  end
+  it { is_expected.to belong_to(:author).class_name('Member').inverse_of('created_missions').optional }
+  it { is_expected.to have_many(:members).through(:enrollments) }
+  it { is_expected.to have_and_belong_to_many(:productors) }
+  it { is_expected.to have_and_belong_to_many(:addresses) }
 
   describe '#selectable_time_slots' do
     subject(:selectable_time_slots) { mission.selectable_time_slots }
