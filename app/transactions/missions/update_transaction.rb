@@ -22,11 +22,7 @@ module Missions
       if mission.update(params)
         Success(params)
       else
-        failure_message = <<-MESSAGE
-          "#{I18n.t('activerecord.errors.messages.update_fail')}
-          #{mission.errors.full_messages.join(', ')}"
-        MESSAGE
-        Failure(failure_message)
+        Failure(mission.errors.full_messages.to_sentence)
       end
     end
 
