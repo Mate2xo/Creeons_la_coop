@@ -26,6 +26,8 @@ fr:
         start_date: Date et heure de début
         recurrent: Créneau récurrent
         recurrent_change: Changement récurrent
+      mission/enrollments:
+        member: le(la) participant(e)
     errors:
       models:
         mission:

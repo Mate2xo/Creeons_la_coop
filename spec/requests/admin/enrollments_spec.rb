@@ -72,7 +72,8 @@ RSpec.describe 'admin/enrollments' do
 
         create_enrollment
 
-        expect(response.body).to include(I18n.t('activerecord.errors.models.enrollment.member_already_enrolled'))
+        flash = enroll_member.errors.generate_message(:member, :already_enrolled, name: enroll_member.member.full_name)
+        expect(response.body).to include(flash)
       end
     end
 
@@ -150,7 +151,8 @@ RSpec.describe 'admin/enrollments' do
 
         create_enrollment
 
-        expect(response.body).to include(I18n.t('activerecord.errors.models.enrollment.full_mission'))
+        expected_flash = CGI.escape_html I18n.t('activerecord.errors.models.enrollment.full_mission')
+        expect(response.body).to include(expected_flash)
       end
     end
 
@@ -163,7 +165,8 @@ RSpec.describe 'admin/enrollments' do
 
         create_enrollment
 
-        expect(response.body).to include(I18n.t('activerecord.errors.models.enrollment.slot_unavailability'))
+        expected_flash = CGI.escape_html I18n.t('activerecord.errors.models.enrollment.slot_unavailability')
+        expect(response.body).to include(expected_flash)
       end
     end
 
@@ -309,7 +312,8 @@ RSpec.describe 'admin/enrollments' do
 
         update_enrollment
 
-        expect(response.body).to include(I18n.t('activerecord.errors.models.enrollment.slot_unavailability'))
+        expected_flash = CGI.escape_html I18n.t('activerecord.errors.models.enrollment.slot_unavailability')
+        expect(response.body).to include(expected_flash)
       end
     end
 

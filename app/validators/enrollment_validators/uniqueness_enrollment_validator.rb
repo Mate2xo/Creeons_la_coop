@@ -6,8 +6,7 @@ module EnrollmentValidators
     def validate(enrollment)
       return unless enrollment.mission.members.include?(enrollment.member)
 
-      failure_message = I18n.t('activerecord.errors.models.enrollment.member_already_enrolled')
-      enrollment.errors.add :base, failure_message
+      enrollment.errors.add :member, :already_enrolled, name: enrollment.member.full_name
     end
   end
 end

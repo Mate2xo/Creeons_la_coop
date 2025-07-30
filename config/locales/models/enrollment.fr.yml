@@ -10,7 +10,9 @@ fr:
         enrollment:
           attributes:
             member:
-              required: Le membre doit exister
+              format: Le membre %{message}
+              required: doit exister
+              already_enrolled: '%{name} est déjâ inscrit à cette tâche'
           duration_is_not_a_multiple_of_90_minutes: La durée n'est pas un multiple de 90 minutes
           full_mission: Il n'y a plus de place disponible pour cette mission
           inconsistent_datetimes: Les dates sélectionnées sont situées hors de la période de la mission

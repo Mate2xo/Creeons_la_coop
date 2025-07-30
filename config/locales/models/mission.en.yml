@@ -16,6 +16,8 @@ en:
         members: Participants
         min_member_count: minimum member count
         recurrent_change: Recurrent change
+      mission/enrollments:
+        member: participant
     errors:
       models:
         mission:
