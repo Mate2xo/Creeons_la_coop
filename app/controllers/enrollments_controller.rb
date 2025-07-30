@@ -14,11 +14,10 @@ class EnrollmentsController < ApplicationController
 
     if create_transaction.success?
       flash[:notice] = translate '.confirm_enroll'
-      redirect_to mission_path(params[:mission_id])
     else
       flash[:alert] = create_transaction.failure
-      render 'missions/index'
     end
+    redirect_to mission_path(params[:mission_id])
   end
 
   def destroy
