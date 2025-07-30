@@ -36,3 +36,6 @@ en:
   time:
     formats:
       only_month: '%B'
+  helpers:
+    submit:
+      sending: Submitting...
