@@ -29,10 +29,10 @@ class EnrollmentsController < ApplicationController
   private
 
   def permitted_params
-    if @mission.genre != 'regulated'
-      params.require(:enrollment).permit(:member_id, :mission_id, :start_time, :end_time)
-    else
+    if @mission.genre == 'regulated'
       params.require(:enrollment).permit(:member_id, :mission_id, time_slots: [])
+    else
+      params.require(:enrollment).permit(:member_id, :mission_id, :start_time, :end_time)
     end
   end
 
