@@ -35,5 +35,13 @@ FactoryBot.define do
     end
     due_date { start_date + 3.hours }
     association :author, factory: :member
+
+    transient do
+      with_enrollments { 0 }
+    end
+
+    enrollments do
+      Array.new(with_enrollments) { association :enrollment, mission: instance }
+    end
   end
 end

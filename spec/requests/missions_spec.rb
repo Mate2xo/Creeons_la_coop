@@ -92,7 +92,7 @@ RSpec.describe '/missions' do
 
     before { sign_in create :member, :super_admin }
 
-    let(:mission_params) { attributes_for(:mission) }
+    let(:mission_params) { attributes_for(:mission).except(:enrollments) }
 
     it 'creates the mission' do
       create_mission
@@ -103,7 +103,7 @@ RSpec.describe '/missions' do
     end
 
     context 'when the genre is set to event' do
-      let(:mission_params) { attributes_for(:mission, genre: 'event') }
+      let(:mission_params) { attributes_for(:mission, genre: 'event').except(:enrollments) }
 
       it 'creates the mission with the specified params' do
         create_mission

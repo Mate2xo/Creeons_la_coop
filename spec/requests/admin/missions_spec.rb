@@ -140,7 +140,7 @@ RSpec.describe 'admin/missions', type: :request do
         put_mission
         follow_redirect!
 
-        expect(mission.reload.attributes).to include(mission_params.stringify_keys)
+        expect(mission.reload.attributes).to include(mission_params.except(:enrollments).stringify_keys)
       end
     end
 
