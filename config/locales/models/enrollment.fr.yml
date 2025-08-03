@@ -13,8 +13,10 @@ fr:
               format: Le membre %{message}
               required: doit exister
               already_enrolled: '%{name} est déjâ inscrit à cette tâche'
+            mission:
+              format: '%{message}'
+              full: Il n'y a plus de place disponible pour cette mission
           duration_is_not_a_multiple_of_90_minutes: La durée n'est pas un multiple de 90 minutes
-          full_mission: Il n'y a plus de place disponible pour cette mission
           inconsistent_datetimes: Les dates sélectionnées sont situées hors de la période de la mission
           insufficient_cash_register_proficiency: Le membre sélectionné n'a pas une maîtrise suffisante de la caisse
           member_already_enrolled: Le membre sélectionné est déjâ inscrit à cette mission

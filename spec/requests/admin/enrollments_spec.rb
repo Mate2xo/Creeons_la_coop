@@ -151,7 +151,7 @@ RSpec.describe 'admin/enrollments' do
 
         create_enrollment
 
-        expected_flash = CGI.escape_html I18n.t('activerecord.errors.models.enrollment.full_mission')
+        expected_flash = CGI.escape_html I18n.t('activerecord.errors.models.enrollment.attributes.mission.full')
         expect(response.body).to include(expected_flash)
       end
     end

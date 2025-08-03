@@ -8,8 +8,7 @@ module Enrollments
       return unless mission.standard? && mission.max_member_count && mission.persisted?
       return unless mission.max_member_count == mission.members.count
 
-      failure_message = I18n.t('activerecord.errors.models.enrollment.full_mission')
-      enrollment.errors.add :members, :full, failure_message
+      enrollment.errors.add :mission, :full
     end
   end
 end

@@ -41,7 +41,7 @@ RSpec.describe 'Member count limit on missions :' do
 
       it 'sets a feedback message to the user', :js do
         enroll
-        expect(page).to have_content(I18n.t('activerecord.errors.models.enrollment.full_mission'))
+        expect(page).to have_content(I18n.t('activerecord.errors.models.enrollment.attributes.mission.full'))
       end
     end
   end
