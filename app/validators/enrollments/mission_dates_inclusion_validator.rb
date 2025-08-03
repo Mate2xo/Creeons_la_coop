@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module EnrollmentValidators
-  # check_if_datetimes_of_enrollment_are_inside_the_mission_s_period
-  class DatetimesInclusionValidator < ActiveModel::Validator
+module Enrollments
+  # Checks if enrollment datetimes are within the mission's dates.
+  class MissionDatesInclusionValidator < ActiveModel::Validator
     def validate(enrollment)
       unless inside_period?(enrollment)
         failure_message = I18n.t('activerecord.errors.models.enrollment.inconsistent_datetimes')

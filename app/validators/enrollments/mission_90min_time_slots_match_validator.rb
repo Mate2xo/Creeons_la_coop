@@ -1,7 +1,15 @@
 # frozen_string_literal: true
 
-module EnrollmentValidators
-  class MatchingMissionTimeSlotsValidator < ActiveModel::Validator # rubocop:disable Style/Documentation
+module Enrollments
+  # Checks if the given :start_time matches with the associated regulated Mission's 90 time slots.
+  # E.g.:
+  # - a given regulated Mission starts at 10 AM and ends at 1 PM
+  # - time slots are 90 minutes long, so there are 2 in this mission:
+  #   > one starting at 10 AM
+  #   > the other starting at 11:30 AM
+  # - an enrollment would be invalid if it starts at 10:15 AM.
+  #   It should start at 10 AM or 11:30 AM
+  class Mission90minTimeSlotsMatchValidator < ActiveModel::Validator
     def validate(enrollment)
       return unless enrollment.mission.genre == 'regulated'
       return if match_a_mission_time_slot?(enrollment)

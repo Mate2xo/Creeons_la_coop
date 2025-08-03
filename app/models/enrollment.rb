@@ -21,13 +21,13 @@ class Enrollment < ApplicationRecord
   before_validation :set_defaults
   before_validation :synchronise_date_info_with_parent_mission
 
-  validates_with EnrollmentValidators::CashRegisterProficiencyValidator
-  validates_with EnrollmentValidators::DatetimesInclusionValidator
-  validates_with EnrollmentValidators::UniquenessEnrollmentValidator, on: :create
-  validates_with EnrollmentValidators::AvailabilityPlaceValidator
-  validates_with EnrollmentValidators::AvailabilitySlotValidator
-  validates_with EnrollmentValidators::DurationValidator
-  validates_with EnrollmentValidators::MatchingMissionTimeSlotsValidator
+  validates_with Enrollments::CashRegisterProficiencyValidator
+  validates_with Enrollments::DurationValidator
+  validates_with Enrollments::MemberUniquenessValidator, on: :create
+  validates_with Enrollments::Mission90minTimeSlotsMatchValidator # regulated missions
+  validates_with Enrollments::MissionDatesInclusionValidator
+  validates_with Enrollments::PlaceAvailabilityValidator
+  validates_with Enrollments::TimeSlotAvailabilityValidator # regulated missions
 
   scope :has_worked_this_month, lambda { |date|
     joins(:mission)

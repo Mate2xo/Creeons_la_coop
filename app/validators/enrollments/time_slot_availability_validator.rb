@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module EnrollmentValidators
-  # This validator check if the mission have a slot available for the new enrollment
-  class AvailabilitySlotValidator < ActiveModel::Validator
+module Enrollments
+  # Checks if the given 'regulated' mission has an available time slot available for a new enrollment
+  class TimeSlotAvailabilityValidator < ActiveModel::Validator
     def validate(enrollment)
       return if enrollment.mission.max_member_count.nil?
       return unless enrollment.mission.genre == 'regulated'
