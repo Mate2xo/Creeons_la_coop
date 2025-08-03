@@ -27,8 +27,10 @@ document.addEventListener('turbolinks:load', function () {
   }
 
   const recurrenceCheckbox = document.getElementById('missionRecurrentCheckbox');
-  if (recurrenceCheckbox.checked) $('#recurrence-selector').show();
-  recurrenceCheckbox.addEventListener('change', function (_e) {
-    $('#recurrence-selector').toggle(150);
-  });
+  if (recurrenceCheckbox) {
+    if (recurrenceCheckbox.checked) $('#recurrence-selector').show();
+    recurrenceCheckbox.addEventListener('change', function (_e) {
+      $('#recurrence-selector').toggle(150);
+    });
+  }
 });

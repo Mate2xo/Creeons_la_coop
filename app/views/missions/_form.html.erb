@@ -74,29 +74,31 @@
         </div>
       </div>
 
-      <div class="d-flex mb-4">
-        <div class="field mr-4">
-          <%= f.label :recurrent, Mission.human_attribute_name(:recurrent) %>
-          <%= f.check_box :recurrent, id: :missionRecurrentCheckbox %>
-        </div>
-
-        <div id="recurrence-selector">
-          <div class="field mb-2">
-            <%= f.label 'recurrence_rule', t('main_app.views.missions._form.recurrence_type') %>
-            <%= f.select_recurring :recurrence_rule,
-                                   nil,
-                                   {allow_blank: true},
-                                   {class: 'form-control'} %>
+      <% if mission.new_record? %>
+        <div class="d-flex mb-4">
+          <div class="field mr-4">
+            <%= f.label :recurrent, Mission.human_attribute_name(:recurrent) %>
+            <%= f.check_box :recurrent, id: :missionRecurrentCheckbox %>
           </div>
 
-          <div class="field">
-            <%= f.label :recurrence_end_date,
-                        t('main_app.views.missions._form.recurrence_end_date') %>
-            <br>
-            <%= f.date_field :recurrence_end_date, class: 'form-control form-control-lg' %>
+          <div id="recurrence-selector">
+            <div class="field mb-2">
+              <%= f.label 'recurrence_rule', t('main_app.views.missions._form.recurrence_type') %>
+              <%= f.select_recurring :recurrence_rule,
+                                     nil,
+                                     {allow_blank: true},
+                                     {class: 'form-control'} %>
+            </div>
+
+            <div class="field">
+              <%= f.label :recurrence_end_date,
+                          t('main_app.views.missions._form.recurrence_end_date') %>
+              <br>
+              <%= f.date_field :recurrence_end_date, class: 'form-control form-control-lg' %>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
 
       <h4><%= translate '.enrolled_members' %></h4>
       <div class="d-flex mb-4">
