@@ -10,6 +10,9 @@ module Enrollments
   # - an enrollment would be invalid if it starts at 10:15 AM.
   #   It should start at 10 AM or 11:30 AM
   class Mission90minTimeSlotsMatchValidator < ActiveModel::Validator
+    ##
+    # Validates that an enrollment's start time matches one of the regulated mission's 90-minute time slots.
+    # Adds a base error to the enrollment if the start time does not align with any valid slot.
     def validate(enrollment)
       return unless enrollment.mission.genre == 'regulated'
       return if match_a_mission_time_slot?(enrollment)

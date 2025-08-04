@@ -18,6 +18,11 @@ module Missions
       Success(params)
     end
 
+    ##
+    # Attempts to update the mission with the provided parameters.
+    # @param params [Hash] The parameters to update the mission with.
+    # @param mission [Mission] The mission object to be updated.
+    # @return [Dry::Monads::Result] Success with params if the update succeeds; Failure with error messages if it fails.
     def update(params, mission:)
       if mission.update(params)
         Success(params)
