@@ -38,7 +38,7 @@ fr:
               multiple: doit être un multiple de 90 minutes
             enrollments:
               format: '%{message}'
-              invalid: Au moins une inscription est invalidée par la mise à jour demandée
+              invalid: au moins une inscription est invalidée par la mise à jour demandée
     models:
       mission:
         one: Mission
