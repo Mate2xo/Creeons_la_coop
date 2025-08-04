@@ -39,8 +39,8 @@ class Mission < ApplicationRecord
   validates :description, presence: true
   validates :start_date, presence: true
   validates :due_date, presence: true
-  validates :min_member_count, numericality: {only_integer: true}, presence: true
-  validates :max_member_count, numericality: {only_integer: true}, allow_nil: true
+  validates :min_member_count, numericality: {only_integer: true, greater_than_or_equal_to: 0}, presence: true
+  validates :max_member_count, numericality: {only_integer: true, greater_than_or_equal_to: 0}, allow_nil: true
   validates :genre, presence: true
   validates_with MissionValidators::DurationValidator
   validates_associated :enrollments
@@ -106,7 +106,7 @@ class Mission < ApplicationRecord
   def available_slots_count_for_a_time_slot(time_slot)
     occupied_slots_count = enrollments.where('start_time <= :time_slot AND :time_slot < end_time',
                                              time_slot: time_slot).count
-    max_member_count - occupied_slots_count
+    (max_member_count.to_i - occupied_slots_count).clamp(0, nil)
   end
 
   private
