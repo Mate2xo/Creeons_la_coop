@@ -165,11 +165,11 @@ RSpec.describe '/missions' do
 
       let(:mission_params) do
         attributes_for(:mission,
-                       start_date: DateTime.now,
-                       due_date: 3.hours.from_now,
+                       start_date: DateTime.current.beginning_of_week,
+                       due_date: DateTime.current.beginning_of_week + 3.hours,
                        recurrent: true,
                        recurrence_rule: '{"interval":1, "until":null, "count":null, "validations":{ "day":[2,3,5,6] }, "rule_type":"IceCube::WeeklyRule", "week_start":1 }',
-                       recurrence_end_date: 1.week.from_now)
+                       recurrence_end_date: DateTime.now.beginning_of_week + 1.week)
       end
 
       it 'sets the maximum recurrence_end_date to the end of next month' do
@@ -180,7 +180,7 @@ RSpec.describe '/missions' do
 
       it 'creates a mission instance for each occurence' do
         create_recurrent_mission
-        expect(Mission.count).to be_within(1).of(4) # depends on the day on which the test is run
+        expect(Mission.count).to eq(4) # Tue, Wed, Fri, Sat
       end
 
       it 'redirects to /missions when finished creating all occurrences' do
