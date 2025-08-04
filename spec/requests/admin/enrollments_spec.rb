@@ -165,8 +165,8 @@ RSpec.describe 'admin/enrollments' do
 
         create_enrollment
 
-        expected_flash = CGI.escape_html I18n.t('activerecord.errors.models.enrollment.slot_unavailability')
-        expect(response.body).to include(expected_flash)
+        msg = CGI.escape_html I18n.t('activerecord.errors.models.enrollment.attributes.mission.no_slots_available')
+        expect(response.body).to include(msg)
       end
     end
 
@@ -312,8 +312,8 @@ RSpec.describe 'admin/enrollments' do
 
         update_enrollment
 
-        expected_flash = CGI.escape_html I18n.t('activerecord.errors.models.enrollment.slot_unavailability')
-        expect(response.body).to include(expected_flash)
+        msg = CGI.escape_html I18n.t('activerecord.errors.models.enrollment.attributes.mission.no_slots_available')
+        expect(response.body).to include(msg)
       end
     end
 

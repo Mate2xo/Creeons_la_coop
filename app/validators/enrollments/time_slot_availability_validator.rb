@@ -4,15 +4,16 @@ module Enrollments
   # Checks if the given 'regulated' mission has an available time slot available for a new enrollment
   class TimeSlotAvailabilityValidator < ActiveModel::Validator
     def validate(enrollment)
-      return if enrollment.mission.max_member_count.nil?
-      return unless enrollment.mission.genre == 'regulated'
-      return if all_timeslots_covered_by_enrollment_available?(enrollment)
+      mission = enrollment.mission
+      return unless mission.regulated? && mission.max_member_count && mission.persisted?
+      return if all_timeslots_covered_by_enrollment_are_available?(enrollment)
 
-      failure_message = I18n.t('activerecord.errors.models.enrollment.slot_unavailability')
-      enrollment.errors.add :base, failure_message
+      enrollment.errors.add :mission, :no_slots_available
     end
 
-    def all_timeslots_covered_by_enrollment_available?(enrollment)
+    private
+
+    def all_timeslots_covered_by_enrollment_are_available?(enrollment)
       current_time_slot = enrollment.start_time
       while current_time_slot < enrollment.end_time
         return false if enrollment.mission.available_slots_count_for_a_time_slot(current_time_slot).zero?
