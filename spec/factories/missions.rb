@@ -34,7 +34,11 @@ FactoryBot.define do
                  .to_datetime
     end
     due_date { start_date + 3.hours }
-    association :author, factory: :member
+    author factory: :member
+
+    trait :regulated do
+      genre { :regulated }
+    end
 
     transient do
       with_enrollments { 0 }

@@ -16,11 +16,20 @@ module Enrollments
     def all_timeslots_covered_by_enrollment_are_available?(enrollment)
       current_time_slot = enrollment.start_time
       while current_time_slot < enrollment.end_time
-        return false if enrollment.mission.available_slots_count_for_a_time_slot(current_time_slot).zero?
+        return false if available_slots_count_for(current_time_slot, enrollment).zero?
 
         current_time_slot += 90.minutes
       end
       true
+    end
+
+    def available_slots_count_for(time_slot, enrollment)
+      mission = enrollment.mission
+      occupied_slots_count =
+        mission.enrollments.where.not(id: enrollment)
+               .where('start_time <= :time_slot AND :time_slot < end_time', time_slot: time_slot)
+               .count
+      mission.max_member_count - occupied_slots_count
     end
   end
 end
