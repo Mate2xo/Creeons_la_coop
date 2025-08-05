@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-module EnrollmentValidators
-  # This validator check the CashRegisterProficiencyValidator of the member when there is only one slot on a time slot
+module Enrollments
+  # If there is only one slot left on a regulated time slot,
+  # checks if the enrolled Member's proficiency on the cash register
+  # matches the minimum level required for the associated Mission
   class CashRegisterProficiencyValidator < ActiveModel::Validator
     def slot_available_for_a_given_cash_register_proficiency_level?(mission, time_slot, proficiency_level)
       required_proficiency_level =

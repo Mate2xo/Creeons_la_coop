@@ -37,11 +37,10 @@ class MissionsController < ApplicationController
   def update
     if update_transaction.success?
       flash[:notice] = translate 'activerecord.notices.messages.update_success'
-      render :show
+      redirect_to mission_path(@mission)
     else
       flash[:error] = update_transaction.failure
-      # TODO: change this to #render, and properly translate error messages
-      redirect_to edit_mission_path(@mission)
+      render :edit
     end
   end
 
@@ -81,7 +80,7 @@ class MissionsController < ApplicationController
   end
 
   def update_transaction
-    @update_transaction ||=
+    @_update_transaction ||=
       Missions::UpdateTransaction.new.with_step_args(
         transform_time_slots_in_time_params_for_enrollment: [regulated: @mission.regulated?],
         update: [mission: @mission]
@@ -110,7 +109,7 @@ class MissionsController < ApplicationController
     enrollment_params = params.require(:mission)
                               .permit(enrollments_attributes: [
                                         :id, :_destroy, :member_id,
-                                        { time_slots: [] }
+                                        {time_slots: []}
                                       ])
     base_params.merge(enrollment_params)
   end
@@ -122,7 +121,7 @@ class MissionsController < ApplicationController
   end
 
   def set_authorized_mission
-    @mission = authorize Mission.find(params[:id])
+    @mission = authorize Mission.includes(enrollments: :member).find(params[:id])
   end
 
   def date_filtering_params
@@ -131,7 +130,7 @@ class MissionsController < ApplicationController
     start_date = Date.parse(params[:start])
     end_date = Date.parse(params[:end])
 
-    { from: start_date, to: end_date }
+    {from: start_date, to: end_date}
   rescue ArgumentError => _e
     nil
   end

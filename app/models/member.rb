@@ -118,6 +118,8 @@ class Member < ApplicationRecord
     false
   end
 
+  def full_name = "#{first_name} #{last_name}"
+
   private
 
   def set_unique_display_name

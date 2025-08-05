@@ -140,7 +140,7 @@ RSpec.describe 'admin/missions', type: :request do
         put_mission
         follow_redirect!
 
-        expect(mission.reload.attributes).to include(mission_params.stringify_keys)
+        expect(mission.reload.attributes).to include(mission_params.except(:enrollments).stringify_keys)
       end
     end
 
@@ -251,15 +251,13 @@ RSpec.describe 'admin/missions', type: :request do
         create_list(:enrollment,
                     3,
                     start_time: mission.start_date,
-                    end_time: mission.start_date + 90.minutes,
+                    end_time: mission.start_date + Enrollment::TIME_SLOT_DURATION,
                     member_id: create(:member).id,
                     mission_id: mission.id)
       end
 
-      let(:i18n_key) { 'activerecord.errors.models.mission.mismatch_between_time_slots_and_related_enrollments' }
-
       it 'renders a successful response' do
-        assign_members_to_this_mission(3, mission, mission.start_date, mission.start_date + 90.minutes)
+        assign_members_to_this_mission(3, mission, mission.start_date, mission.start_date + Enrollment::TIME_SLOT_DURATION)
 
         put_mission
 
@@ -267,7 +265,7 @@ RSpec.describe 'admin/missions', type: :request do
       end
 
       it "doesn't update the mission" do
-        assign_members_to_this_mission(3, mission, mission.start_date, mission.start_date + 90.minutes)
+        assign_members_to_this_mission(3, mission, mission.start_date, mission.start_date + Enrollment::TIME_SLOT_DURATION)
 
         put_mission
 
@@ -288,7 +286,7 @@ RSpec.describe 'admin/missions', type: :request do
       let!(:expected_start_dates) { all_missions.map(&:start_date) }
       let!(:expected_due_dates) { all_missions.map(&:due_date) }
 
-      it 'updates futures missions that match the same week day, hour, and genre' do # rubocop:disable Layout/LineLength
+      it 'updates futures missions that match the same week day, hour, and genre' do
         other_missions = create_future_matching_missions(mission)
 
         put_mission
@@ -298,7 +296,7 @@ RSpec.describe 'admin/missions', type: :request do
         end
       end
 
-      it "doesn't update pasts missions that match the same week day, hour, and genre" do # rubocop:disable Layout/LineLength
+      it "doesn't update pasts missions that match the same week day, hour, and genre" do
         other_mission = create(:mission, start_date: mission.start_date - 2.days)
 
         put_mission

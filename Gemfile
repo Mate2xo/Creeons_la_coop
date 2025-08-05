@@ -44,7 +44,7 @@ gem 'dry-transaction', '0.16.0'
 gem 'enumerize', '~> 2.8'
 gem 'font-awesome-sass', '~> 4.7'
 gem 'httparty' # Http requests
-gem 'ice_cube' # Calendar events recurrence (for Missions)
+gem 'ice_cube', '~> 0.17' # Calendar events recurrence (for Missions)
 gem 'js_cookie_rails' # Cookie manager for js
 gem 'mailjet' # Production mailer API
 gem 'pundit', '~> 2.5' # Authorization management
@@ -76,7 +76,7 @@ group :development do
   gem 'solargraph-rspec', require: false
   gem 'web-console', '~> 4.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring', '4.2.1'
+  gem 'spring', '4.3.0'
   gem 'spring-commands-rspec'
   gem 'spring-watcher-listen', '~> 2.1.0'
 end

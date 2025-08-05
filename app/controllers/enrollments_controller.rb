@@ -14,11 +14,10 @@ class EnrollmentsController < ApplicationController
 
     if create_transaction.success?
       flash[:notice] = translate '.confirm_enroll'
-      redirect_to mission_path(params[:mission_id])
     else
       flash[:alert] = create_transaction.failure
-      render 'missions/index'
     end
+    redirect_to mission_path(params[:mission_id])
   end
 
   def destroy
@@ -30,10 +29,10 @@ class EnrollmentsController < ApplicationController
   private
 
   def permitted_params
-    if @mission.genre != 'regulated'
-      params.require(:enrollment).permit(:member_id, :mission_id, :start_time, :end_time)
-    else
+    if @mission.genre == 'regulated'
       params.require(:enrollment).permit(:member_id, :mission_id, time_slots: [])
+    else
+      params.require(:enrollment).permit(:member_id, :mission_id, :start_time, :end_time)
     end
   end
 

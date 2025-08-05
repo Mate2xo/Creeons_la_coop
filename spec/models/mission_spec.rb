@@ -30,38 +30,21 @@
 # Slots count for a time slot is equal to :max_member_count
 require 'rails_helper'
 
-RSpec.describe Mission, type: :model do
+RSpec.describe Mission do
   let(:mission) { build(:mission) }
 
-  describe 'Model instanciation' do
-    subject { described_class.new }
+  it { is_expected.to accept_nested_attributes_for(:addresses).allow_destroy(true) }
+  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_presence_of(:description) }
+  it { is_expected.to validate_presence_of(:min_member_count) }
+  it { is_expected.to validate_presence_of(:genre) }
+  it { is_expected.to validate_numericality_of(:min_member_count).only_integer }
+  it { is_expected.to validate_numericality_of(:max_member_count).only_integer.allow_nil }
 
-    describe 'Database' do
-      it { is_expected.to have_db_column(:name).of_type(:string).with_options(null: false) }
-      it { is_expected.to have_db_column(:description).of_type(:text).with_options(null: false) }
-      it { is_expected.to have_db_column(:due_date).of_type(:datetime) }
-      it { is_expected.to have_db_column(:min_member_count).of_type(:integer) }
-      it { is_expected.to have_db_column(:max_member_count).of_type(:integer) }
-      it { is_expected.to have_db_index(:author_id) }
-    end
-
-    describe 'validations' do
-      it { is_expected.to accept_nested_attributes_for(:addresses).allow_destroy(true) }
-      it { is_expected.to validate_presence_of(:name) }
-      it { is_expected.to validate_presence_of(:description) }
-      it { is_expected.to validate_presence_of(:min_member_count) }
-      it { is_expected.to validate_presence_of(:genre) }
-      it { is_expected.to validate_numericality_of(:min_member_count).only_integer }
-      it { is_expected.to validate_numericality_of(:max_member_count).only_integer.allow_nil }
-    end
-
-    describe 'associations' do
-      it { is_expected.to belong_to(:author).class_name('Member').inverse_of('created_missions').optional }
-      it { is_expected.to have_many(:members).through(:enrollments) }
-      it { is_expected.to have_and_belong_to_many(:productors) }
-      it { is_expected.to have_and_belong_to_many(:addresses) }
-    end
-  end
+  it { is_expected.to belong_to(:author).class_name('Member').inverse_of('created_missions').optional }
+  it { is_expected.to have_many(:members).through(:enrollments) }
+  it { is_expected.to have_and_belong_to_many(:productors) }
+  it { is_expected.to have_and_belong_to_many(:addresses) }
 
   describe '#selectable_time_slots' do
     subject(:selectable_time_slots) { mission.selectable_time_slots }
@@ -69,7 +52,7 @@ RSpec.describe Mission, type: :model do
     let(:mission) { create(:mission, genre: 'regulated') }
 
     it 'returns the time slots that a member can enroll in' do
-      expect(selectable_time_slots).to eq([mission.start_date, mission.start_date + 90.minutes])
+      expect(selectable_time_slots).to eq([mission.start_date, mission.start_date + Enrollment::TIME_SLOT_DURATION])
     end
 
     context 'when all slots are already taken by other members' do

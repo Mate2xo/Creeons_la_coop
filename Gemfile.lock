@@ -278,7 +278,7 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
-    ice_cube (0.16.3)
+    ice_cube (0.17.0)
     image_processing (1.12.2)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
@@ -617,7 +617,7 @@ GEM
       solargraph (~> 0.38)
     solargraph-rspec (0.5.1)
       solargraph (~> 0.52, >= 0.52.0)
-    spring (4.2.1)
+    spring (4.3.0)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
     spring-watcher-listen (2.1.0)
@@ -717,7 +717,7 @@ DEPENDENCIES
   faker (~> 3.3)
   font-awesome-sass (~> 4.7)
   httparty
-  ice_cube
+  ice_cube (~> 0.17)
   image_processing (~> 1.12)
   jbuilder (~> 2.13)
   jquery-rails
@@ -751,7 +751,7 @@ DEPENDENCIES
   solargraph-rails
   solargraph-reek
   solargraph-rspec
-  spring (= 4.2.1)
+  spring (= 4.3.0)
   spring-commands-rspec
   spring-watcher-listen (~> 2.1.0)
   thredded (~> 1.2)

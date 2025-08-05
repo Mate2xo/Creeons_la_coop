@@ -1,0 +1,6 @@
+en:
+  services:
+    recurrent_missions:
+      impossible_recurrence: The selected recurrence type is impossible
+      recurrence_end_must_not_be_past: The recurrence end date cannot be set in the past
+      select_recurrence_type_and_end: Please fill in the recurrence type and recurrence end date

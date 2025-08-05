@@ -7,8 +7,8 @@ class RecurrentMissions
 
     schedule.all_occurrences.each do |o|
       mission_to_create = mission_template.attributes
-      mission_to_create["start_date"] = o
-      mission_to_create["due_date"] = o + mission_duration
+      mission_to_create['start_date'] = o
+      mission_to_create['due_date'] = o + mission_duration
       Mission.create!(mission_to_create)
     end
   end
@@ -17,9 +17,9 @@ class RecurrentMissions
     recurrence_rule = mission_template.recurrence_rule
     recurrence_end = mission_template.recurrence_end_date.to_date
 
-    return "Veuillez renseigner le type de récurrence, ainsi que sa date de fin" if recurrence_rule.empty? || recurrence_end.nil?
-    return "La date de fin de récurrence ne peut être établie sur une date passée" if recurrence_end < Date.today
-    return "Le type de récurrence sélectionné est impossible" unless RecurringSelect.is_valid_rule? recurrence_rule
+    return t(:select_recurrence_type_and_end) if recurrence_rule.empty? || recurrence_end.nil?
+    return t(:recurrence_end_must_not_be_past) if recurrence_end < Date.today
+    return t(:impossible_recurrence) unless RecurringSelect.is_valid_rule? recurrence_rule
 
     true
   end
@@ -44,4 +44,6 @@ class RecurrentMissions
 
     recurrence_end
   end
+
+  def self.t(key) = I18n.t(key, scope: %i[services recurrent_missions])
 end

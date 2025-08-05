@@ -39,12 +39,11 @@ class Mission < ApplicationRecord
   validates :description, presence: true
   validates :start_date, presence: true
   validates :due_date, presence: true
-  validates :min_member_count, numericality: {only_integer: true}, presence: true
-  validates :max_member_count, numericality: {only_integer: true}, allow_nil: true
+  validates :min_member_count, numericality: {only_integer: true, greater_than_or_equal_to: 0}, presence: true
+  validates :max_member_count, numericality: {only_integer: true, greater_than_or_equal_to: 0}, allow_nil: true
   validates :genre, presence: true
   validates_with MissionValidators::DurationValidator
-  validates_associated :enrollments,
-                       message: I18n.t('activerecord.errors.models.mission.related_enrollment_invalidation')
+  validates_associated :enrollments
 
   accepts_nested_attributes_for :addresses, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :enrollments, reject_if: :all_blank, allow_destroy: true
@@ -81,10 +80,6 @@ class Mission < ApplicationRecord
     (due_date - start_date).round
   end
 
-  def regulated?
-    (genre == 'regulated')
-  end
-
   # @return [Array<DateTime>, nil]
   def selectable_time_slots(member = nil)
     return nil unless genre == 'regulated'
@@ -93,7 +88,7 @@ class Mission < ApplicationRecord
     current_time_slot = start_date
     while current_time_slot < due_date
       time_slots << current_time_slot if time_slot_selectable?(current_time_slot, member)
-      current_time_slot += 90.minutes
+      current_time_slot += Enrollment::TIME_SLOT_DURATION
     end
     time_slots
   end
@@ -111,7 +106,7 @@ class Mission < ApplicationRecord
   def available_slots_count_for_a_time_slot(time_slot)
     occupied_slots_count = enrollments.where('start_time <= :time_slot AND :time_slot < end_time',
                                              time_slot: time_slot).count
-    max_member_count - occupied_slots_count
+    (max_member_count.to_i - occupied_slots_count).clamp(0, nil)
   end
 
   private

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-module EnrollmentValidators
-  # This validator check if the duration of the enrollment is positve
+module Enrollments
+  # This validator checks that the duration of the enrollment is positive.
+  # For a regulated Mission, checks that it has a 90 min duration.
   class DurationValidator < ActiveModel::Validator
     def validate(enrollment)
       check_if_the_duration_is_positive(enrollment)

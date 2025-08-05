@@ -1,151 +1,156 @@
-<% provide :head_tags do %>
-  <%= javascript_include_tag 'missionForm', 'data-turbolinks-track': 'reload' %>
+<% content_for :head_tags do %>
+  <%= javascript_include_tag 'missions/_form', 'data-turbolinks-track': 'reload', defer: true %>
 <% end %>
 
 <div class="form-default mt-4">
   <%= form_with model: mission, local: true do |f| %>
     <section class="col-lg-12">
       <div class="field">
-        <%= f.label :name, Mission.human_attribute_name(:name) %><br />
-        <%= f.text_field :name, class: "form-control form-control-lg", required: true %>
-      </div><br />
+        <%= f.label :name, Mission.human_attribute_name(:name) %><br>
+        <%= f.text_field :name, class: 'form-control form-control-lg', required: true %>
+      </div><br>
 
       <div class="field">
-        <%= f.label :genre, t('.genre')%>
+        <%= f.label :genre, t('.genre') %>
         <%= f.select :genre,
-          Mission.genres.keys.map{|genre|
-          [ Mission.human_enum_name(:genre, genre), genre ]
-        },
-        {},
-        class: 'form-control' %>
-      </div><br />
+                     Mission.genres.keys.map { |genre|
+                       [Mission.human_enum_name(:genre, genre), genre]
+                     },
+                     {},
+                     class: 'form-control' %>
+      </div><br>
 
       <div class="field">
-        <%= f.label :description, Mission.human_attribute_name(:description) %><br />
+        <%= f.label :description, Mission.human_attribute_name(:description) %><br>
         <small>(champs obligatoire)</small>
         <%= f.hidden_field :description, required: true %>
         <trix-editor input="mission_description"></trix-editor>
-      </div><br />
+      </div><br>
 
       <div class="field">
         <%= f.label :cash_register_proficiency_requirement,
-          Mission.human_attribute_name(:cash_register_proficiency_requirement) %><br />
+                    Mission.human_attribute_name(:cash_register_proficiency_requirement) %><br>
         <%= f.select :cash_register_proficiency_requirement,
-          Mission.cash_register_proficiency_requirements.keys.map { |level|
-            [
-              t(level, scope: "activerecord.attributes.mission.cash_register_proficiency_requirements"),
-              level
-            ]
-          },
-          {},
-          class:'form-control' %>
-      </div><br />
+                     Mission.cash_register_proficiency_requirements.keys.map { |level|
+                       [
+                         t(level, scope: 'activerecord.attributes.mission.cash_register_proficiency_requirements'),
+                         level
+                       ]
+                     },
+                     {},
+                     class: 'form-control' %>
+      </div><br>
 
       <div class="field">
-        <%= f.label :delivery_expected, t('main_app.views.missions._form.delivery_expected')%>
+        <%= f.label :delivery_expected, t('main_app.views.missions._form.delivery_expected') %>
         <%= f.check_box :delivery_expected %>
-      </div><br />
+      </div><br>
 
       <div class="d-flex flex-wrap mb-4">
         <div class="field mr-auto">
           <%= f.label :start_date, Mission.human_attribute_name(:start_date) %>
           <%= f.text_field :start_date,
-            class: "form-control form-control-lg datetimepicker-input",
-            data: { toggle: "datetimepicker", target: "#mission_start_date" },
-            value: mission.start_date,
-            required: true
-          %>
+                           id: :missionStartDate,
+                           class: 'form-control form-control-lg datetimepicker-input',
+                           data: {
+                             toggle: 'datetimepicker',
+                             target: '#missionStartDate'
+                           },
+                           value: mission.start_date,
+                           required: true %>
         </div>
 
         <div class="field">
-          <%= f.label :due_date, Mission.human_attribute_name(:due_date) %><br />
+          <%= f.label :due_date, Mission.human_attribute_name(:due_date) %><br>
           <%= f.text_field :due_date,
-            class: "form-control form-control-lg datetimepicker-input",
-            data: { toggle: "datetimepicker", target: "#mission_due_date" },
-            required: true
-          %>
+                           id: :missionDueDate,
+                           class: 'form-control form-control-lg datetimepicker-input',
+                           data: {
+                             toggle: 'datetimepicker',
+                             target: '#missionDueDate'
+                           },
+                           value: mission.due_date,
+                           required: true %>
         </div>
       </div>
 
-      <div class="d-flex mb-4">
-        <div class="field mr-4">
-          <%= f.label :recurrent, Mission.human_attribute_name(:recurrent) %>
-          <%= f.check_box :recurrent %>
-        </div>
-
-        <div id="recurrence-selector">
-          <div class="field mb-2">
-            <%= f.label "recurrence_rule",
-                        t("main_app.views.missions._form.recurrence_type") %>
-            <%= f.select_recurring :recurrence_rule,
-                                   nil,
-                                   {:allow_blank => true},
-                                   {:class => "form-control"} %>
+      <% if mission.new_record? %>
+        <div class="d-flex mb-4">
+          <div class="field mr-4">
+            <%= f.label :recurrent, Mission.human_attribute_name(:recurrent) %>
+            <%= f.check_box :recurrent, id: :missionRecurrentCheckbox %>
           </div>
 
-          <div class="field">
-            <%= f.label :recurrence_end_date,
-                        t("main_app.views.missions._form.recurrence_end_date")%>
-            <br />
-            <%= f.date_field :recurrence_end_date,
-                             class: "form-control form-control-lg" %>
+          <div id="recurrence-selector">
+            <div class="field mb-2">
+              <%= f.label 'recurrence_rule', t('main_app.views.missions._form.recurrence_type') %>
+              <%= f.select_recurring :recurrence_rule,
+                                     nil,
+                                     {allow_blank: true},
+                                     {class: 'form-control'} %>
+            </div>
+
+            <div class="field">
+              <%= f.label :recurrence_end_date,
+                          t('main_app.views.missions._form.recurrence_end_date') %>
+              <br>
+              <%= f.date_field :recurrence_end_date, class: 'form-control form-control-lg' %>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
 
-      <h4><%= translate ".enrolled_members" %></h4>
+      <h4><%= translate '.enrolled_members' %></h4>
       <div class="d-flex mb-4">
         <div class="field mr-auto pr-3">
-          <%= f.label :min_member_count,
-                      Mission.human_attribute_name(:min_member_count) %>
-          <br />
+          <%= f.label :min_member_count, Mission.human_attribute_name(:min_member_count) %>
+          <br>
           <%= f.number_field :min_member_count,
-                             class: "form-control form-control-lg",
+                             class: 'form-control form-control-lg',
                              required: true %>
-        </div><br />
+        </div><br>
 
         <div class="field">
-          <%= f.label :max_member_count,
-                      Mission.human_attribute_name(:max_member_count) %>
-          <br />
+          <%= f.label :max_member_count, Mission.human_attribute_name(:max_member_count) %>
+          <br>
           <%= f.number_field :max_member_count,
-                             class: "form-control form-control-lg",
+                             class: 'form-control form-control-lg',
                              required: true %>
-        </div><br />
+        </div><br>
 
       </div>
       <% unless mission.new_record? %>
         <% if mission.genre == 'regulated' %>
           <%= render 'enrollments_form',
-            f: f,
-            mission: mission,
-            cocoon_fields_name: 'enrollment_with_time_slots_fields' %>
+                     f: f,
+                     mission: mission,
+                     cocoon_fields_name: 'enrollment_with_time_slots_fields' %>
         <% else %>
           <%= render 'enrollments_form',
-            f: f,
-            mission: mission,
-            cocoon_fields_name: 'enrollment_fields' %>
+                     f: f,
+                     mission: mission,
+                     cocoon_fields_name: 'enrollment_fields' %>
         <% end %>
       <% end %>
     </section>
 
-    <br />
-    <h4><%= translate "main_app.views.missions._form.address_fields" %></h4>
+    <br>
+    <h4><%= translate 'main_app.views.missions._form.address_fields' %></h4>
     <div id="addresses">
       <%= f.fields_for :addresses, mission.addresses do |address| %>
         <%= render 'layouts/address_fields', f: address %>
       <% end %>
       <div class="links">
-        <%= link_to_add_association t("main_app.views.application.buttons.add_address"),
+        <%= link_to_add_association t('main_app.views.application.buttons.add_address'),
                                     f,
                                     :addresses,
                                     partial: 'layouts/address_fields' %>
-        </div>
+      </div>
     </div>
 
     <div class="actions">
-      <%= f.submit translate("main_app.views.application.buttons.submit"),
-                   class: "btn-update btn btn-styled btn-lg btn-block btn-base-1 mt-4" %>
+      <%= f.submit t('main_app.views.application.buttons.submit'),
+                   class: 'btn-update btn btn-styled btn-lg btn-block btn-base-1 mt-4' %>
     </div>
   <% end %>
 </div>
