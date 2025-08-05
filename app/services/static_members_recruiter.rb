@@ -4,6 +4,7 @@
 # on a given StaticSlot start_time
 class StaticMembersRecruiter # rubocop:disable Metrics/ClassLength
   attr_reader :reports
+
   def initialize
     @reports = []
     @static_slots = StaticSlot.all
@@ -53,7 +54,7 @@ class StaticMembersRecruiter # rubocop:disable Metrics/ClassLength
                                            end_time: enrollments.last.end_time,
                                            mission_id: enrollments.first.mission_id,
                                            member_id: enrollments.first.member_id)
-    enrollments.where('id != ?', enrollment_created.id).destroy_all if enrollment_created
+    enrollments.where.not(id: enrollment_created.id).destroy_all if enrollment_created
   end
 
   def enrollments_for_one_static_slot(member, static_slot)

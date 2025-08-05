@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Enrollments', type: :request do
-  let(:mission) { create :mission }
+  let(:mission) { create(:mission) }
 
   it 'redirects unlogged users' do
     post mission_enrollments_path(mission)
@@ -15,16 +15,16 @@ RSpec.describe 'Enrollments', type: :request do
 
     before { sign_in current_member }
 
-    let(:current_member) { create :member }
+    let(:current_member) { create(:member) }
     let(:enrollment) do
-      enrollment = attributes_for :enrollment,
+      enrollment = attributes_for(:enrollment,
                                   start_time: Time.zone.parse(mission.start_date.to_s),
-                                  end_time: Time.zone.parse(mission.due_date.to_s)
+                                  end_time: Time.zone.parse(mission.due_date.to_s))
       enrollment[:member_id] = current_member.id
       enrollment[:mission_id] = mission.id
       enrollment
     end
-    let(:params) { { enrollment: enrollment } }
+    let(:params) { {enrollment: enrollment} }
 
     it 'creates an enrollment on the given mission' do
       post_enrollment
@@ -32,20 +32,20 @@ RSpec.describe 'Enrollments', type: :request do
     end
 
     context 'when the mission is regulated' do
-      let(:mission) { create :mission, genre: 'regulated' }
-      let(:current_member) { create :member }
+      let(:mission) { create(:mission, genre: 'regulated') }
+      let(:current_member) { create(:member) }
       let(:time_slots) { [mission.start_date, mission.start_date + Enrollment::TIME_SLOT_DURATION] }
       let(:enrollment) do
-        enrollment = attributes_for :enrollment,
+        enrollment = attributes_for(:enrollment,
                                     time_slots: time_slots,
                                     genre: 'regulated',
                                     start_time: mission.start_date,
-                                    end_time: mission.start_date + 3.hours
+                                    end_time: mission.start_date + 3.hours)
         enrollment[:member_id] = current_member.id
         enrollment[:mission_id] = mission.id
         enrollment
       end
-      let(:params) { { enrollment: enrollment } }
+      let(:params) { {enrollment: enrollment} }
 
       it 'creates an enrollment on the given mission' do
         post_enrollment
@@ -61,7 +61,7 @@ RSpec.describe 'Enrollments', type: :request do
     end
 
     context 'with a given member field' do
-      let(:other_member) { create :member }
+      let(:other_member) { create(:member) }
 
       it 'enrolls the given member to the mission' do
         enrollment.merge!(member_id: other_member.id)
@@ -73,7 +73,7 @@ RSpec.describe 'Enrollments', type: :request do
     end
 
     context 'with invalid params' do
-      let(:params) { { enrollment: { member_id: 0, mission_id: (create :mission).id } } }
+      let(:params) { {enrollment: {member_id: 0, mission_id: create(:mission).id}} }
       let(:i18n_key) { 'activerecord.errors.models.enrollment.attributes.member.required' }
 
       it 'displays an error message' do
@@ -89,9 +89,9 @@ RSpec.describe 'Enrollments', type: :request do
 
     before { sign_in current_member }
 
-    let(:current_member) { create :member }
-    let(:mission) { create :mission }
-    let(:enrollment) { create :enrollment, mission: mission, member: current_member }
+    let(:current_member) { create(:member) }
+    let(:mission) { create(:mission) }
+    let(:enrollment) { create(:enrollment, mission: mission, member: current_member) }
 
     it "deletes the current members' enrollment" do
       disenroll
