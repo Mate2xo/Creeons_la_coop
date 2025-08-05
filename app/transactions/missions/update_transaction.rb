@@ -43,7 +43,7 @@ module Missions
       params['enrollments_attributes'].each do |_key, enrollment| # this loop unpermit the params
         next if enrollment['time_slots'].nil?
 
-        enrollment['end_time'] = enrollment['time_slots'].max.to_datetime + 90.minutes
+        enrollment['end_time'] = enrollment['time_slots'].max.to_datetime + Enrollment::TIME_SLOT_DURATION
         enrollment['start_time'] = enrollment['time_slots'].min
       end
       auth_params(params)                                         # this helpers correct the unpermitted params

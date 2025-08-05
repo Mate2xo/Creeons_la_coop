@@ -52,7 +52,7 @@ RSpec.describe Mission do
     let(:mission) { create(:mission, genre: 'regulated') }
 
     it 'returns the time slots that a member can enroll in' do
-      expect(selectable_time_slots).to eq([mission.start_date, mission.start_date + 90.minutes])
+      expect(selectable_time_slots).to eq([mission.start_date, mission.start_date + Enrollment::TIME_SLOT_DURATION])
     end
 
     context 'when all slots are already taken by other members' do

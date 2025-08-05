@@ -24,7 +24,7 @@ module Enrollments
       while current_time_slot < enrollment.mission.due_date
         return true if current_time_slot == enrollment.start_time
 
-        current_time_slot += 90.minutes
+        current_time_slot += Enrollment::TIME_SLOT_DURATION
       end
     end
   end

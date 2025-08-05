@@ -318,7 +318,7 @@ RSpec.describe '/missions' do
 
       let(:enrollment_params) do
         {member_id: member_other_than_the_currently_logged_in_user.id,
-         time_slots: [mission.start_date, mission.start_date + 90.minutes]}
+         time_slots: [mission.start_date, mission.start_date + Enrollment::TIME_SLOT_DURATION]}
       end
       let(:mission_params) do
         {name: 'updated_mission', genre: 'regulated', enrollments_attributes: {'1234': enrollment_params}}
@@ -337,7 +337,7 @@ RSpec.describe '/missions' do
       let(:enrollment_expected_params) do
         {member_id: member_other_than_the_currently_logged_in_user.id,
          start_time: mission.start_date,
-         end_time: mission.start_date + 90.minutes}
+         end_time: mission.start_date + Enrollment::TIME_SLOT_DURATION}
       end
 
       let(:enrollment_params) do
@@ -379,7 +379,7 @@ RSpec.describe '/missions' do
 
       let(:enrollment_params) do
         {member_id: member_other_than_the_currently_logged_in_user.id,
-         time_slots: [mission.start_date, mission.start_date + 90.minutes]}
+         time_slots: [mission.start_date, mission.start_date + Enrollment::TIME_SLOT_DURATION]}
       end
 
       let(:mission_params) do

@@ -62,7 +62,7 @@ RSpec.describe 'admin/enrollments' do
       let(:enroll_member) do
         create(:enrollment,
                start_time: mission.start_date,
-               end_time: (mission.start_date + 90.minutes),
+               end_time: (mission.start_date + Enrollment::TIME_SLOT_DURATION),
                member_id: member.id,
                mission_id: mission.id)
       end
@@ -290,21 +290,21 @@ RSpec.describe 'admin/enrollments' do
       let(:enrollment) do
         create(:enrollment,
                start_time: mission.start_date,
-               end_time: mission.start_date + 90.minutes,
+               end_time: mission.start_date + Enrollment::TIME_SLOT_DURATION,
                mission_id: mission.id)
       end
 
       let(:enrollment_params) do
         attributes_for(:enrollment,
-                       start_time: enrollment.start_time + 90.minutes,
-                       end_time: enrollment.end_time + 90.minutes,
+                       start_time: enrollment.start_time + Enrollment::TIME_SLOT_DURATION,
+                       end_time: enrollment.end_time + Enrollment::TIME_SLOT_DURATION,
                        member_id: member.id)
       end
       let(:assign_other_members) do
         assign_members_to_this_mission(4,
                                        mission,
-                                       enrollment.start_time + 90.minutes,
-                                       enrollment.end_time + 90.minutes)
+                                       enrollment.start_time + Enrollment::TIME_SLOT_DURATION,
+                                       enrollment.end_time + Enrollment::TIME_SLOT_DURATION)
       end
 
       it 'displays an error message' do
@@ -323,13 +323,13 @@ RSpec.describe 'admin/enrollments' do
       let(:enrollment) do
         create(:enrollment,
                start_time: mission.start_date,
-               end_time: mission.start_date + 90.minutes,
+               end_time: mission.start_date + Enrollment::TIME_SLOT_DURATION,
                mission_id: mission.id)
       end
       let(:enrollment_params) do
         attributes_for(:enrollment,
-                       start_time: enrollment.start_time + 90.minutes,
-                       end_time: enrollment.end_time + 90.minutes,
+                       start_time: enrollment.start_time + Enrollment::TIME_SLOT_DURATION,
+                       end_time: enrollment.end_time + Enrollment::TIME_SLOT_DURATION,
                        member_id: member.id)
       end
 
@@ -339,7 +339,7 @@ RSpec.describe 'admin/enrollments' do
 
       it 'displays an error message' do
         assign_members_to_this_mission(2, mission)
-        assign_members_to_this_mission(1, mission, mission.start_date + 90.minutes)
+        assign_members_to_this_mission(1, mission, mission.start_date + Enrollment::TIME_SLOT_DURATION)
 
         update_enrollment
 

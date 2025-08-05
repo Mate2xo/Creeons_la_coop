@@ -15,6 +15,8 @@
 
 # Represents a member enrolling to a given Mission
 class Enrollment < ApplicationRecord
+  TIME_SLOT_DURATION = 90.minutes
+
   belongs_to :member
   belongs_to :mission
 

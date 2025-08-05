@@ -18,7 +18,7 @@ module Enrollments
       while current_time_slot < enrollment.end_time
         return false if available_slots_count_for(current_time_slot, enrollment).zero?
 
-        current_time_slot += 90.minutes
+        current_time_slot += Enrollment::TIME_SLOT_DURATION
       end
       true
     end
