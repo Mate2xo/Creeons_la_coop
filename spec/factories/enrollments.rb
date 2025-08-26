@@ -25,13 +25,13 @@ FactoryBot.define do
     trait :on_first_time_slot do
       mission factory: %i[mission regulated]
       start_time { mission.start_date.to_datetime }
-      end_time { start_time + 90.minutes }
+      end_time { start_time + Enrollment::TIME_SLOT_DURATION }
     end
 
     trait :on_last_time_slot do
       mission factory: %i[mission regulated]
       end_time { mission.due_date.to_datetime }
-      start_time { end_time - 90.minutes }
+      start_time { end_time - Enrollment::TIME_SLOT_DURATION }
     end
   end
 end

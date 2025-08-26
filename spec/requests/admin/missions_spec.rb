@@ -251,13 +251,13 @@ RSpec.describe 'admin/missions', type: :request do
         create_list(:enrollment,
                     3,
                     start_time: mission.start_date,
-                    end_time: mission.start_date + 90.minutes,
+                    end_time: mission.start_date + Enrollment::TIME_SLOT_DURATION,
                     member_id: create(:member).id,
                     mission_id: mission.id)
       end
 
       it 'renders a successful response' do
-        assign_members_to_this_mission(3, mission, mission.start_date, mission.start_date + 90.minutes)
+        assign_members_to_this_mission(3, mission, mission.start_date, mission.start_date + Enrollment::TIME_SLOT_DURATION)
 
         put_mission
 
@@ -265,7 +265,7 @@ RSpec.describe 'admin/missions', type: :request do
       end
 
       it "doesn't update the mission" do
-        assign_members_to_this_mission(3, mission, mission.start_date, mission.start_date + 90.minutes)
+        assign_members_to_this_mission(3, mission, mission.start_date, mission.start_date + Enrollment::TIME_SLOT_DURATION)
 
         put_mission
 

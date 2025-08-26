@@ -7,7 +7,7 @@ module Enrollments
       mission = enrollment.mission
       return unless mission.standard? && mission.max_member_count && mission.persisted?
       return if mission.members.include?(enrollment.member)
-      return unless mission.max_member_count == mission.members.count
+      return unless mission.max_member_count <= mission.members.count
 
       enrollment.errors.add :mission, :full
     end

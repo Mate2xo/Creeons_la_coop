@@ -91,7 +91,7 @@ class Mission < ApplicationRecord
     current_time_slot = start_date
     while current_time_slot < due_date
       time_slots << current_time_slot if time_slot_selectable?(current_time_slot, member)
-      current_time_slot += 90.minutes
+      current_time_slot += Enrollment::TIME_SLOT_DURATION
     end
     time_slots
   end

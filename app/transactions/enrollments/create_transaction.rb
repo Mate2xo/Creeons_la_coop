@@ -23,7 +23,7 @@ module Enrollments
 
       time_slots = time_slots.sort
       permitted_params['start_time'] = time_slots.first
-      permitted_params['end_time'] = time_slots.last.to_datetime + 90.minutes
+      permitted_params['end_time'] = time_slots.last.to_datetime + Enrollment::TIME_SLOT_DURATION
       permitted_params.delete(:time_slots)
 
       Success(permitted_params)

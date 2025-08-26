@@ -16,7 +16,7 @@
                         nil %>
         <%= f.label t('.slot_details',
                       start_time: time_slot.strftime('%Hh%M'),
-                      end_time: (time_slot + 90.minutes).strftime('%Hh%M')),
+                      end_time: (time_slot + Enrollment::TIME_SLOT_DURATION).strftime('%Hh%M')),
                     {class: 'mr-1'} %>
         <%= f.hidden_field :member_id, value: current_member.id %>
         <%= f.hidden_field :mission_id, value: @mission.id %>
