@@ -25,10 +25,6 @@ module Admin
         result
       end
 
-      ##
-      # Determines the set of missions to update based on the original mission and parameters, adds them to the input, and returns a success result.
-      # @param [Hash] input The input containing at least :old_mission and :params.
-      # @return [Dry::Monads::Result] Success with the updated input including :all_missions.
       def get_missions_to_update(input)
         old_mission, params = input.values_at(:old_mission, :params)
 
@@ -48,7 +44,6 @@ module Admin
         Success(input)
       end
 
-      # Determines the set of missions to update based on recurrence parameters.
       # If `:recurrent_change` is not set in the parameters, returns only the original mission.
       # Otherwise returns all missions with the same genre
       # and a start date on or after the original mission's start date,
