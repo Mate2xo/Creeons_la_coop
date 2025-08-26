@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# A Mission is an activity that has to be done for the Supermaket Team to function properly.
-# Every member can create a mission
-# Available methods other than attributes: #addresses, #members
 class MissionsController < ApplicationController
   before_action :authenticate_member!
   before_action :set_authorized_mission, only: %i[show edit update destroy]
@@ -57,6 +54,9 @@ class MissionsController < ApplicationController
 
   private
 
+  # Handles the creation of a mission, supporting both recurrent and single missions:
+  # - for recurrent missions, validates and generates multiple records
+  # - for single missions, attempts to save and renders the result.
   def generate(mission)
     if mission.recurrent
       validation_msg = RecurrentMissions.validate mission
@@ -79,6 +79,7 @@ class MissionsController < ApplicationController
     end
   end
 
+  # @return [Dry::Monads::Result] The result of the update transaction.
   def update_transaction
     @_update_transaction ||=
       Missions::UpdateTransaction.new.with_step_args(
@@ -105,6 +106,7 @@ class MissionsController < ApplicationController
     )
   end
 
+  # @return [ActionController::Parameters]
   def regulated_mission_params
     enrollment_params = params.require(:mission)
                               .permit(enrollments_attributes: [
@@ -114,6 +116,7 @@ class MissionsController < ApplicationController
     base_params.merge(enrollment_params)
   end
 
+  # @return [ActionController::Parameters]
   def standard_mission_params
     enrollment_params = params.require(:mission)
                               .permit(enrollments_attributes: %i[id _destroy member_id start_time end_time])
@@ -124,6 +127,8 @@ class MissionsController < ApplicationController
     @mission = authorize Mission.includes(enrollments: :member).find(params[:id])
   end
 
+  # Parses and returns a hash of start and end dates from params to filter missions.
+  # @return [Hash, nil] A hash with :from and :to keys containing Date objects, or nil if parsing fails.
   def date_filtering_params
     return unless params[:start].present? && params[:end].present?
 

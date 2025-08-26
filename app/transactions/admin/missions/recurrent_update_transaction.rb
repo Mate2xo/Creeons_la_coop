@@ -2,7 +2,7 @@
 
 module Admin
   module Missions
-    # update mission and update recurrently if the recurrent change params is given
+    # Updates mission and update recurrently if the recurrent change params is given
     class RecurrentUpdateTransaction
       include Dry::Transaction
 
@@ -44,8 +44,13 @@ module Admin
         Success(input)
       end
 
-      # helpers
-
+      # If `:recurrent_change` is not set in the parameters, returns only the original mission.
+      # Otherwise returns all missions with the same genre
+      # and a start date on or after the original mission's start date,
+      # further filtered to those matching the original mission's start time and weekday.
+      # @param old_mission [Mission] The original mission to update.
+      # @param params [Hash] Parameters that may include the `:recurrent_change` flag.
+      # @return [Array<Mission>] The missions to be updated.
       def missions_to_change(old_mission, params)
         return [old_mission] unless params[:recurrent_change]
 

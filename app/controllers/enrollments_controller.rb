@@ -7,7 +7,7 @@ class EnrollmentsController < ApplicationController
 
   def create
     create_transaction = Enrollments::CreateTransaction.new.with_step_args(
-      include_mission_date_in_enrollment_datetimes: [mission: @mission],  #todo change include mission in inputs
+      include_mission_date_in_enrollment_datetimes: [mission: @mission], # TODO: change include mission in inputs
       transform_time_slots_in_time_params_for_enrollment: [regulated: @mission.regulated?,
                                                            time_slots: permitted_params['time_slots']]
     ).call(permitted_params)
@@ -28,6 +28,7 @@ class EnrollmentsController < ApplicationController
 
   private
 
+  # @return [ActionController::Parameters] The filtered parameters for enrollment.
   def permitted_params
     if @mission.genre == 'regulated'
       params.require(:enrollment).permit(:member_id, :mission_id, time_slots: [])

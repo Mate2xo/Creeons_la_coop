@@ -5,6 +5,13 @@ module Enrollments
   # checks if the enrolled Member's proficiency on the cash register
   # matches the minimum level required for the associated Mission
   class CashRegisterProficiencyValidator < ActiveModel::Validator
+    # Returns false if only one slot remains for the given time slot
+    # and the member's proficiency is below the mission's required level.
+    #
+    # @param [Mission] mission The mission for which the slot availability is checked.
+    # @param [DateTime] time_slot Time at which availability is checked.
+    # @param proficiency_level The member's cash register proficiency level.
+    # @return [Boolean]
     def slot_available_for_a_given_cash_register_proficiency_level?(mission, time_slot, proficiency_level)
       required_proficiency_level =
         Mission.cash_register_proficiency_requirements[mission.cash_register_proficiency_requirement]

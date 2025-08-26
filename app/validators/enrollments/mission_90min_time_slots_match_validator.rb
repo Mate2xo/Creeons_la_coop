@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Enrollments
-  # Checks if the given :start_time matches with the associated regulated Mission's 90 time slots.
+  # Checks if the given :start_time matches with the associated regulated Mission's 90-minutes time slots.
   # E.g.:
   # - a given regulated Mission starts at 10 AM and ends at 1 PM
   # - time slots are 90 minutes long, so there are 2 in this mission:

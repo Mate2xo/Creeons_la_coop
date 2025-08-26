@@ -111,6 +111,7 @@ class Member < ApplicationRecord
                       .reduce(0.0) { |sum, enrollment| sum + enrollment.duration }
   end
 
+  # Returns true if the member belongs to *any* group with the 'redactor' role.
   def redactor?
     groups.each do |group|
       return true if group.roles.include?('redactor')
@@ -118,10 +119,13 @@ class Member < ApplicationRecord
     false
   end
 
+  # @return [String] The combined first & last name of the member.
   def full_name = "#{first_name} #{last_name}"
 
   private
 
+  # Sets a unique display name for the member based on their first and last name.
+  # If a duplicate exists, appends an incrementing number to ensure uniqueness.
   def set_unique_display_name
     return unless display_name.nil? || changed.any?('first_name') || changed.any?('last_name')
 
