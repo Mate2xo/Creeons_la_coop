@@ -3,11 +3,6 @@
 module Enrollments
   # Checks if enrollment datetimes are within the mission's dates.
   class MissionDatesInclusionValidator < ActiveModel::Validator
-    ##
-    # Validates that the enrollment's start and end times are within the mission's date range.
-    # Adds an error to the enrollment if the times are outside the mission period.
-    # @param enrollment The enrollment object to validate.
-    # @return [Boolean] true if the enrollment's datetimes are within the mission's dates, false otherwise.
     def validate(enrollment)
       unless inside_period?(enrollment)
         failure_message = I18n.t('activerecord.errors.models.enrollment.inconsistent_datetimes')

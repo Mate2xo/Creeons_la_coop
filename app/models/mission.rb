@@ -76,16 +76,13 @@ class Mission < ApplicationRecord
     end
   end
 
-  ##
-  # Returns the duration of the mission in seconds, rounded to the nearest integer.
   # @return [Integer] The duration between due_date and start_date in seconds.
   def duration
     (due_date - start_date).round
   end
 
-  ##
-  # Returns an array of selectable 90-minute time slots for a regulated mission, filtered for the given member.
-  # @param [Member, nil] member The member for whom to determine selectable time slots. If nil, returns all available slots.
+  # Returns an array of selectable 90-minute time slots for a regulated mission.
+  # @param [Member, nil] member If present, also returns enrolled time slots of this member.
   # @return [Array<DateTime>, nil] An array of selectable time slot start times, or nil if the mission is not regulated.
   def selectable_time_slots(member = nil)
     return nil unless genre == 'regulated'
@@ -109,7 +106,6 @@ class Mission < ApplicationRecord
     member_enrollment.contain_this_time_slot?(current_time_slot)
   end
 
-  ##
   # Returns the number of available enrollment slots for a given time slot, ensuring the result is not negative.
   # @param [Time] time_slot - The time slot to check for availability.
   # @return [Integer] The number of available slots for the specified time slot.

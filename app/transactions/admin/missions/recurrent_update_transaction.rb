@@ -2,7 +2,7 @@
 
 module Admin
   module Missions
-    # update mission and update recurrently if the recurrent change params is given
+    # Updates mission and update recurrently if the recurrent change params is given
     class RecurrentUpdateTransaction
       include Dry::Transaction
 
@@ -13,10 +13,6 @@ module Admin
 
       private
 
-      ##
-      # Executes the transaction steps within a database transaction and rolls back if any step fails.
-      # @param input The initial input to the transaction.
-      # @return The result of the transaction steps, with all changes rolled back if a failure occurs.
       def rollback_if_failure(input)
         result = nil
 
@@ -52,14 +48,14 @@ module Admin
         Success(input)
       end
 
-      ##
       # Determines the set of missions to update based on recurrence parameters.
       # If `:recurrent_change` is not set in the parameters, returns only the original mission.
-      # If `:recurrent_change` is set, returns all missions with the same genre and a start date on or after the original mission's start date, further filtered to those matching the original mission's start time and weekday.
+      # Otherwise returns all missions with the same genre
+      # and a start date on or after the original mission's start date,
+      # further filtered to those matching the original mission's start time and weekday.
       # @param old_mission [Mission] The original mission to update.
       # @param params [Hash] Parameters that may include the `:recurrent_change` flag.
       # @return [Array<Mission>] The missions to be updated.
-
       def missions_to_change(old_mission, params)
         return [old_mission] unless params[:recurrent_change]
 
