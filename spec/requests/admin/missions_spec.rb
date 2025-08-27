@@ -35,6 +35,17 @@ RSpec.describe 'admin/missions', type: :request do
     end
   end
 
+  describe 'GET /new' do
+    subject(:new) { get new_admin_mission_path }
+
+    before { sign_in create :member, :super_admin }
+
+    it 'has a successful HTTP response' do
+      new
+      expect(response).to have_http_status :success
+    end
+  end
+
   describe 'POST /' do
     subject(:post_mission) { post admin_missions_path, params: {mission: mission_params} }
 
@@ -85,6 +96,19 @@ RSpec.describe 'admin/missions', type: :request do
 
         expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.multiple'))
       end
+    end
+  end
+
+  describe 'GET /:id/edit' do
+    subject(:edit) { get edit_admin_mission_path(mission.id) }
+
+    let(:mission) { create(:mission) }
+
+    before { sign_in create :member, :super_admin }
+
+    it 'has a successful HTTP response' do
+      edit
+      expect(response).to have_http_status :success
     end
   end
 
