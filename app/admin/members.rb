@@ -32,7 +32,9 @@ ActiveAdmin.register Member do
       safe_join group_links, ', '
     end
     column(t('.worked_hours'), &:hours_worked_in_the_last_three_months)
-    column :cash_register_proficiency
+    column :cash_register_proficiency do |resource|
+      Member.human_enum_name(:cash_register_proficiency, resource.cash_register_proficiency)
+    end
     column :register_id
     column :email
     actions
