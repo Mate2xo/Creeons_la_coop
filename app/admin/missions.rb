@@ -87,7 +87,7 @@ ActiveAdmin.register Mission do
     end
 
     panel Enrollment.model_name.human(count: 2) do
-      table_for resource.enrollments, i18n: Enrollment do
+      table_for resource.enrollments.includes(:member), i18n: Enrollment do
         column :member
         column(:start_time) { |enrollment| enrollment.start_time.strftime('%H:%M') }
         column(:end_time) { |enrollment| enrollment.end_time.strftime('%H:%M') }
