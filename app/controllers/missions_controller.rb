@@ -60,7 +60,10 @@ class MissionsController < ApplicationController
   def generate(mission)
     if mission.recurrent
       validation_msg = RecurrentMissions.validate mission
-      return render :new, alert: validation_msg unless validation_msg == true
+      unless validation_msg == true
+        flash[:alert] = validation_msg
+        return render :new
+      end
 
       RecurrentMissions.new.generate(mission)
       flash[:notice] = translate 'activerecord.notices.messages.records_created',

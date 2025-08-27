@@ -40,7 +40,7 @@ class RecurrentMissions
 
   def limit_recurrence_end_date(mission_template)
     recurrence_end = mission_template.recurrence_end_date.to_date
-    recurrence_end = 1.month.from_now.end_of_month if recurrence_end > 1.month.from_now.end_of_month
+    recurrence_end = 12.months.from_now.end_of_month if recurrence_end > 12.months.from_now.end_of_month
 
     recurrence_end
   end

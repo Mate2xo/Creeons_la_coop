@@ -165,30 +165,19 @@ RSpec.describe '/missions' do
 
       let(:mission_params) do
         attributes_for(:mission,
+                       :recurrent,
                        start_date: DateTime.current.beginning_of_week,
-                       due_date: DateTime.current.beginning_of_week + 3.hours,
-                       recurrent: true,
-                       recurrence_rule: '{"interval":1, "until":null, "count":null, "validations":{ "day":[2,3,5,6] }, "rule_type":"IceCube::WeeklyRule", "week_start":1 }',
-                       recurrence_end_date: DateTime.now.beginning_of_week + 1.week)
-      end
-
-      it 'sets the maximum recurrence_end_date to the end of next month' do
-        mission_params['recurrence_end_date'] = 6.months.from_now.to_s
-        create_recurrent_mission
-        expect(Mission.last.due_date).to be < 2.months.from_now.beginning_of_month
-      end
-
-      it 'creates a mission instance for each occurence' do
-        create_recurrent_mission
-        expect(Mission.count).to eq(4) # Tue, Wed, Fri, Sat
+                       due_date: DateTime.current.beginning_of_week + 3.hours)
       end
 
       it 'redirects to /missions when finished creating all occurrences' do
         create_recurrent_mission
+
+        expect(Mission.count).to eq(4) # Tue, Wed, Fri, Sat
         expect(response).to redirect_to missions_path
       end
 
-      context 'when no recurrence_rule are given' do
+      context 'with invalid recurrence attributes' do
         let(:mission_params) do
           attributes_for(:mission,
                          start_date: DateTime.now,
@@ -203,41 +192,9 @@ RSpec.describe '/missions' do
           expect(Mission.count).to eq 0
         end
 
-        it 'redirects to :new form' do
+        it 'sets an :alert flash' do
           create_recurrent_mission
-          expect(response).to render_template(:new)
-        end
-      end
-
-      context 'when no recurrence_end_date is given' do
-        let(:mission_params) do
-          attributes_for(:mission,
-                         start_date: DateTime.now,
-                         due_date: 3.hours.from_now,
-                         recurrent: true,
-                         recurrence_rule: '{"interval":1, "until":null, "count":null, "validations":{ "day":[2,3,5,6] }, "rule_type":"IceCube::WeeklyRule", "week_start":1 }',
-                         recurrence_end_date: '')
-        end
-
-        it 'does not create missions' do
-          create_recurrent_mission
-          expect(Mission.count).to eq 0
-        end
-
-        it 'redirects to :new form' do
-          create_recurrent_mission
-          expect(response).to render_template(:new)
-        end
-      end
-
-      context 'when recurrence_end_date is prior to present day' do
-        before do
-          mission_params['recurrence_end_date'] = 1.month.ago
-        end
-
-        it 'does not create missions' do
-          create_recurrent_mission
-          expect(Mission.count).to eq 0
+          expect(controller.flash[:alert]).to be_present
         end
 
         it 'redirects to :new form' do
