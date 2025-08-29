@@ -11,11 +11,10 @@ module Enrollments
   #   It should start at 10 AM or 11:30 AM
   class Mission90minTimeSlotsMatchValidator < ActiveModel::Validator
     def validate(enrollment)
-      return unless enrollment.mission.genre == 'regulated'
+      return unless enrollment.mission.regulated?
       return if match_a_mission_time_slot?(enrollment)
 
-      failure_message = I18n.t('activerecord.errors.models.enrollment.time_slot_mismatch')
-      enrollment.errors.add :base, failure_message
+      enrollment.errors.add :mission, :time_slot_mismatch
     end
 
     def match_a_mission_time_slot?(enrollment)

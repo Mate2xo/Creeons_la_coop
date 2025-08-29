@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require Rails.root.join('spec/support/shared_examples')
 
 RSpec.describe Enrollments::PlaceAvailabilityValidator do
   context 'with a mission having 1 enrollment slot left' do
@@ -42,6 +43,10 @@ RSpec.describe Enrollments::PlaceAvailabilityValidator do
     it 'sets a :full error on the :mission attribute' do
       enrollment.valid?
       expect(enrollment.errors).to be_of_kind :mission, :full
+    end
+
+    it_behaves_like 'a model without missing validation error translations' do
+      let(:resource) { enrollment }
     end
   end
 end
