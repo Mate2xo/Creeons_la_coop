@@ -12,9 +12,15 @@ module Missions
 
     def transform_time_slots_in_time_params_for_enrollment(params, regulated:)
       return Success(params) unless regulated
-      return Success(params) if params['enrollments_attributes'].blank?
+      return Success(params) if params[:enrollments_attributes].blank?
 
-      params = transform_enroll_params(params)
+      params[:enrollments_attributes].each do |_key, enrollment|
+        next if enrollment[:time_slots].nil?
+
+        time_slots = enrollment.delete :time_slots
+        enrollment[:end_time] = time_slots.max.to_datetime + Enrollment::TIME_SLOT_DURATION
+        enrollment[:start_time] = time_slots.min
+      end
       Success(params)
     end
 
@@ -24,29 +30,6 @@ module Missions
       else
         Failure(mission.errors.full_messages.to_sentence)
       end
-    end
-
-    # helpers
-
-    # this helper corrects the unpermitted params made by transform_enroll_params
-    def auth_params(params)
-      params.permit(
-        :name, :description, :event, :delivery_expected,
-        :recurrent, :recurrence_rule, :recurrence_end_date,
-        :max_member_count, :min_member_count,
-        :due_date, :start_date, :genre,
-        enrollments_attributes: %i[id _destroy member_id start_time end_time]
-      )
-    end
-
-    def transform_enroll_params(params)
-      params['enrollments_attributes'].each do |_key, enrollment| # this loop unpermit the params
-        next if enrollment['time_slots'].nil?
-
-        enrollment['end_time'] = enrollment['time_slots'].max.to_datetime + Enrollment::TIME_SLOT_DURATION
-        enrollment['start_time'] = enrollment['time_slots'].min
-      end
-      auth_params(params)                                         # this helpers correct the unpermitted params
     end
   end
 end

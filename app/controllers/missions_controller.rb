@@ -93,37 +93,41 @@ class MissionsController < ApplicationController
 
   def permitted_params
     if params['mission']['genre'] == 'regulated'
-      regulated_mission_params
+      params.require(:mission).permit(base_params + regulated_mission_params)
     else
-      standard_mission_params
+      params.require(:mission).permit(base_params + standard_mission_params)
     end
   end
 
   def base_params
-    params.require(:mission).permit(
-      :name, :description, :event, :delivery_expected,
-      :recurrent, :recurrence_rule, :recurrence_end_date,
-      :max_member_count, :min_member_count,
-      :cash_register_proficiency_requirement,
-      :due_date, :start_date, :genre
-    )
+    [
+      :cash_register_close_out_required,
+      :delivery_expected,
+      :description,
+      :due_date,
+      :event,
+      :genre,
+      :max_member_count,
+      :min_member_count,
+      :name,
+      :recurrence_end_date,
+      :recurrence_rule,
+      :recurrent,
+      :start_date,
+      {addresses_attributes: %i[street_name_1 street_name_2 postal_code city _destroy id]}
+    ]
   end
 
-  # @return [ActionController::Parameters]
   def regulated_mission_params
-    enrollment_params = params.require(:mission)
-                              .permit(enrollments_attributes: [
-                                        :id, :_destroy, :member_id,
-                                        {time_slots: []}
-                                      ])
-    base_params.merge(enrollment_params)
+    [
+      enrollments_attributes: [:id, :_destroy, :member_id, {time_slots: []}]
+    ]
   end
 
-  # @return [ActionController::Parameters]
   def standard_mission_params
-    enrollment_params = params.require(:mission)
-                              .permit(enrollments_attributes: %i[id _destroy member_id start_time end_time])
-    base_params.merge(enrollment_params)
+    [
+      enrollments_attributes: %i[id _destroy member_id start_time end_time]
+    ]
   end
 
   def set_authorized_mission
