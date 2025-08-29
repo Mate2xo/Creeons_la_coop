@@ -11,6 +11,7 @@ en:
         cash_register_proficiency: Cash register proficiency
         cash_register_proficiencies:
           beginner: Beginner
+          close_out: Proficient and can close up
           newcomer: Newcomer
           proficient: Proficient
           untrained: Untrained

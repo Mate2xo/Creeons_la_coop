@@ -46,6 +46,32 @@ RSpec.describe Enrollments::CashRegisterProficiencyValidator do
 
       it { is_expected.to be_valid }
     end
+
+    context 'with a mission that requires closing out the cash registry' do
+      let(:mission) do
+        create(:mission, max_member_count: 4, cash_register_close_out_required: true) do |mission|
+          mission.enrollments = create_list(:enrollment, 3, mission:)
+        end
+      end
+
+      context 'when enrolling a :proficient member' do
+        subject(:enrollment) do
+          member = create(:member, cash_register_proficiency: :proficient)
+          build(:enrollment, mission:, member:)
+        end
+
+        it { is_expected.not_to be_valid }
+      end
+
+      context 'when enrolling a :close_out member' do
+        subject(:enrollment) do
+          member = create(:member, cash_register_proficiency: :close_out)
+          build(:enrollment, mission:, member:)
+        end
+
+        it { is_expected.to be_valid }
+      end
+    end
   end
 
   context 'with an enrollment not associated with a member' do

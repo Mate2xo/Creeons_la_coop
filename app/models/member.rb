@@ -74,7 +74,7 @@ class Member < ApplicationRecord
 
   enum :role, {member: 0, admin: 1, super_admin: 2}
   attribute :cash_register_proficiency, :integer # TODO: remove-me with Rails 7.2. See https://github.com/rails/rails/issues/49717
-  enum :cash_register_proficiency, {untrained: 0, beginner: 1, proficient: 2}
+  enum :cash_register_proficiency, {newcomer: -1, untrained: 0, beginner: 1, proficient: 2, close_out: 3}
 
   def self.ransackable_attributes(auth_object = nil)
     return [] unless auth_object

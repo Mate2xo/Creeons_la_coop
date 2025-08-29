@@ -11,6 +11,7 @@ fr:
         cash_register_proficiency: Formation à la caisse
         cash_register_proficiencies:
           beginner: Débutant
+          close_out: Formé et clôture
           newcomer: Nouvel arrivant
           proficient: Formé
           untrained: Non formé
