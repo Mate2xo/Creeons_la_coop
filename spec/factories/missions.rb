@@ -17,7 +17,6 @@
 #  min_member_count                      :integer
 #  delivery_expected                     :boolean          default(FALSE)
 #  genre                                 :integer          default("standard")
-#  cash_register_proficiency_requirement :integer          default("untrained")
 #
 
 FactoryBot.define do
@@ -60,7 +59,9 @@ FactoryBot.define do
     end
 
     enrollments do
-      Array.new(with_enrollments) { association :enrollment, mission: instance }
+      Array.new(with_enrollments) do
+        association :enrollment, mission: instance, member: build(:member, :trained)
+      end
     end
   end
 end

@@ -17,7 +17,6 @@
 #  min_member_count                      :integer
 #  delivery_expected                     :boolean          default(FALSE)
 #  genre                                 :integer          default("standard")
-#  cash_register_proficiency_requirement :integer          default("untrained")
 #
 
 # A Mission is an activity that has to be done for the Supermaket Team to function properly.
@@ -56,21 +55,9 @@ RSpec.describe Mission do
     end
 
     context 'when all slots are already taken by other members' do
-      let(:mission) do
-        create(:mission, genre: 'regulated') do |mission|
-          create_list(:member, 4).each do |member|
-            create(:enrollment,
-                   member: member,
-                   mission: mission,
-                   start_time: mission.start_date,
-                   end_time: mission.start_date + 3.hours)
-          end
-        end
-      end
+      let(:mission) { create(:mission, :regulated, with_enrollments: 4) }
 
-      it 'returns no time slots' do
-        expect(selectable_time_slots).to be_empty
-      end
+      it { is_expected.to be_empty }
     end
 
     context 'with a non-regulated mission' do

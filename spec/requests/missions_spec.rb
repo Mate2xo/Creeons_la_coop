@@ -87,6 +87,17 @@ RSpec.describe '/missions' do
     end
   end
 
+  describe 'GET /new' do
+    subject(:new) { get new_mission_path }
+
+    before { sign_in create :member, :super_admin }
+
+    it 'has a successful HTTP response' do
+      new
+      expect(response).to have_http_status :success
+    end
+  end
+
   describe 'POST /' do
     subject(:create_mission) { post missions_path, params: {mission: mission_params} }
 

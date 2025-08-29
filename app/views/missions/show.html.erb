@@ -60,11 +60,10 @@
       <% if @mission.genre == 'regulated' %>
         <div class="progress-wrapper mt-4">
           <h3 class="progress-label text-capitalize text-md strong-600">
-            <%= translate 'activerecord.attributes.mission.cash_register_proficiency_requirement' %> :
+            <%= translate 'activerecord.attributes.mission.cash_register_close_out_required' %> :
           </h3>
           <h4>
-            <%= Mission.human_enum_name('cash_register_proficiency_requirement',
-                                        @mission.cash_register_proficiency_requirement) %>
+            <%= t @mission.cash_register_close_out_required %>
           </h4>
         </div>
       <% end %>

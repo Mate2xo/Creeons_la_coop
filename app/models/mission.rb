@@ -17,7 +17,6 @@
 #  min_member_count                      :integer
 #  delivery_expected                     :boolean          default(FALSE)
 #  genre                                 :integer          default("standard")
-#  cash_register_proficiency_requirement :integer          default("untrained")
 #
 
 # A Mission is an activity that has to be done for the Supermaket Team to function properly.
@@ -49,8 +48,6 @@ class Mission < ApplicationRecord
   accepts_nested_attributes_for :enrollments, reject_if: :all_blank, allow_destroy: true
 
   enum :genre, {standard: 0, regulated: 1, event: 2}
-
-  enum :cash_register_proficiency_requirement, {untrained: 0, beginner: 1, proficient: 2}
 
   attr_accessor :recurrence_rule, :recurrence_end_date, :recurrent_change
 

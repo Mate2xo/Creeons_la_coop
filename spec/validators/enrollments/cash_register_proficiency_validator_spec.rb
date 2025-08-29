@@ -48,6 +48,12 @@ RSpec.describe Enrollments::CashRegisterProficiencyValidator do
     end
   end
 
+  context 'with an enrollment not associated with a member' do
+    subject(:enrollment) { build(:enrollment, :on_first_time_slot, member: nil) }
+
+    it { is_expected.to be_invalid }
+  end
+
   context 'when filling all available enrollment slots of a mission at once' do
     subject(:enrollment) do
       mission = create(:mission, max_member_count: 4, with_enrollments: 4)

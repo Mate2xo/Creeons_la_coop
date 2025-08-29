@@ -15,10 +15,10 @@ RSpec.describe 'admin/members' do
       expect(response).to have_http_status(:ok)
     end
 
-    it "renders the members' columns", :aggregate_failures do
+    it "renders the members' columns" do
       index
 
-      expected_attributes = members.pick :first_name, :last_name, :email, :role, :cash_register_proficiency
+      expected_attributes = members.pick :first_name, :last_name, :email, :role
       expect(response.body).to include(*expected_attributes)
     end
 

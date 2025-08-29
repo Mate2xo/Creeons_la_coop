@@ -18,7 +18,7 @@ RSpec.describe 'Cash register proficiency checking :' do
     let(:expected_message) do
       I18n.t('activerecord.errors.models.enrollment.insufficient_cash_register_proficiency')
     end
-    let(:mission) { create(:mission, genre: 'regulated', cash_register_proficiency_requirement: 'proficient') }
+    let(:mission) { create(:mission, genre: :regulated) }
 
     it "doesn't enroll the current user", :js do
       enroll_members_on_mission(3, mission)

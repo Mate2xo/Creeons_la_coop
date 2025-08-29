@@ -11,7 +11,7 @@ ActiveAdmin.register Mission do
                 :min_member_count,
                 :start_date,
                 :due_date,
-                :cash_register_proficiency_requirement,
+                :cash_register_close_out_required,
                 :recurrent_change
 
   index do
@@ -22,9 +22,7 @@ ActiveAdmin.register Mission do
     column(:genre) { |mission| status_tag Mission.human_enum_name(:genre, mission.genre) }
     column :due_date
     column :author
-    column :cash_register_proficiency_requirement do |mission|
-      Mission.human_enum_name('cash_register_proficiency_requirement', mission.cash_register_proficiency_requirement)
-    end
+    column :cash_register_close_out_required
     actions
   end
 
@@ -42,11 +40,7 @@ ActiveAdmin.register Mission do
   filter :max_member_count
   filter :delivery_expected
   filter :genre, as: :select, collection: Mission.genres.keys.map { |key| Mission.human_enum_name(:genre, key) }
-  filter :cash_register_proficiency_requirement,
-         as: :select,
-         collection: Mission.cash_register_proficiency_requirements.keys.map { |key|
-           Mission.human_enum_name(:cash_register_proficiency_requirement, key)
-         }
+  filter :cash_register_close_out_required
 
   form do |f|
     f.inputs do
@@ -56,16 +50,14 @@ ActiveAdmin.register Mission do
               selected: Member.pluck(:email, :id).find { |_mail, id| id == f.object.author_id }
       f.input :name
       f.input :description
-      f.input :delivery_expected
       f.input :genre
       f.input :max_member_count
       f.input :min_member_count
       f.input :start_date
       f.input :due_date
-      f.input :cash_register_proficiency_requirement,
-              :as => :select,
-              collection => Mission.cash_register_proficiency_requirements
+      f.input :cash_register_close_out_required
       f.input :recurrent_change, as: :boolean if f.object.persisted?
+      f.input :delivery_expected
     end
 
     actions
@@ -81,9 +73,7 @@ ActiveAdmin.register Mission do
       row :max_member_count
       row :delivery_expected
       row(:genre) { |mission| Mission.human_enum_name(:genre, mission.genre) }
-      row(:cash_register_proficiency_requirement) do |resource|
-        Mission.human_enum_name('cash_register_proficiency_requirement', resource.cash_register_proficiency_requirement)
-      end
+      row(:cash_register_close_out_required)
     end
 
     panel Enrollment.model_name.human(count: 2) do

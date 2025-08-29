@@ -40,6 +40,8 @@ fr:
     created_at: créé(e) le
     updated_at: mise à jour le
 
+  'false': Non
+  'true': Oui
   date:
     abbr_day_names:
       - dim
