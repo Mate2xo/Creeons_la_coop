@@ -19,7 +19,7 @@ ActiveAdmin.register Mission do
     column :name
     column :description
     column :delivery_expected
-    column(:genre) { |mission| Mission.human_enum_name(:genre, mission.genre) }
+    column(:genre) { |mission| status_tag Mission.human_enum_name(:genre, mission.genre) }
     column :due_date
     column :author
     column :cash_register_proficiency_requirement do |mission|
