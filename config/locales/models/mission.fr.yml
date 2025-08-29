@@ -3,11 +3,7 @@ fr:
     attributes:
       mission:
         author: Auteur
-        cash_register_proficiency_requirement: Maîtrise de la caisse requise
-        cash_register_proficiency_requirements:
-          untrained: non formé à la caisse
-          beginner: débutant à la caisse
-          proficient: formé à la caisse
+        cash_register_close_out_required: Clôture nécessaire
         delivery_expected: Livraison attendue
         description: Description
         due_date: Date et heure limite
