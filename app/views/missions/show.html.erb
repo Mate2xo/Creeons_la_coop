@@ -17,7 +17,7 @@
 
       <section class="px-inline-only-2">
         <h2 class="heading heading-3 strong-500">
-          <%= t "main_app.views.missions.show.attendees" %> : <%= @mission.members.length %>
+          <%= t 'main_app.views.missions.show.attendees' %> : <%= @mission.members.length %>
           <hr class="mt-0 mb-0">
         </h2>
 
@@ -30,8 +30,7 @@
           </p>
           <p>
             <%= Mission.human_attribute_name(:max_member_count) %> :
-            <%= @mission.max_member_count.nil? ?
-                  t("main_app.views.application.messages.undefined") : @mission.max_member_count %>
+            <%= @mission.max_member_count.nil? ? t('main_app.views.application.messages.undefined') : @mission.max_member_count %>
           </p>
         </div>
       </section>
@@ -41,16 +40,16 @@
       <% if @mission.start_date %>
         <div class="progress-wrapper mt-4">
           <h3 class="progress-label text-capitalize text-md strong-600">
-            <%= translate "activerecord.attributes.mission.start_date" %> :
+            <%= translate 'activerecord.attributes.mission.start_date' %> :
           </h3>
-          <h4> <%=  time_tag(@mission.start_date) %> </h4>
+          <h4> <%= time_tag(@mission.start_date) %> </h4>
         </div>
       <% end %>
 
       <% if @mission.due_date %>
         <div class="progress-wrapper mt-4">
           <h3 class="progress-label text-capitalize text-md strong-600">
-            <%= translate "activerecord.attributes.mission.due_date" %> :
+            <%= translate 'activerecord.attributes.mission.due_date' %> :
           </h3>
           <h4>
             <%= time_tag(@mission.due_date) %>
@@ -61,17 +60,18 @@
       <% if @mission.genre == 'regulated' %>
         <div class="progress-wrapper mt-4">
           <h3 class="progress-label text-capitalize text-md strong-600">
-            <%= translate "activerecord.attributes.mission.cash_register_proficiency_requirement" %> :
+            <%= translate 'activerecord.attributes.mission.cash_register_proficiency_requirement' %> :
           </h3>
           <h4>
-            <%= Mission.human_enum_name('cash_register_proficiency_requirement', @mission.cash_register_proficiency_requirement) %>
+            <%= Mission.human_enum_name('cash_register_proficiency_requirement',
+                                        @mission.cash_register_proficiency_requirement) %>
           </h4>
         </div>
       <% end %>
 
       <div class="progress-wrapper mt-4">
         <h3 class="progress-label text-capitalize text-md strong-600">
-          <%= t "main_app.views.missions.show.addresses" unless @mission.addresses.empty? %>
+          <%= t 'main_app.views.missions.show.addresses' unless @mission.addresses.empty? %>
         </h3>
         <% @mission.addresses.each do |address| %>
           <p class="heading-5">
@@ -92,26 +92,26 @@
       <% end %>
 
       <div class="progress-wrapper mt-4 d-flex justify-content-between">
-        <% if super_admin? || admin? || current_member.id == @mission.author_id  %>
-          <%= link_to t("main_app.views.application.buttons.destroy"),
+        <% if super_admin? || admin? || current_member.id == @mission.author_id %>
+          <%= link_to t('main_app.views.application.buttons.destroy'),
                       mission_path(@mission.id),
-                      data: { confirm: t("main_app.views.application.buttons.destroy_confirm",
-                                         model: Mission.model_name.human) },
+                      data: {confirm: t('main_app.views.application.buttons.destroy_confirm',
+                                        model: Mission.model_name.human)},
                       method: :delete,
-                      class: "text-danger px-4 mb-4 mt-4" %>
+                      class: 'text-danger px-4 mb-4 mt-4' %>
         <% end %>
         <% if policy(@mission).edit? %>
-          <%= link_to translate("main_app.views.application.buttons.edit"),
+          <%= link_to translate('main_app.views.application.buttons.edit'),
                       edit_mission_path(@mission.id),
-                      class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4" %>
+                      class: 'btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mt-4' %>
         <% end %>
       </div>
     </aside>
   </div>
 
   <div class="d-flex justify-content-center mr-4 mt-4">
-    <%= link_to translate("main_app.views.application.buttons.back"),
-      missions_path,
-      class: "fas fa-arrow-left link-retour" %>
+    <%= link_to translate('main_app.views.application.buttons.back'),
+                missions_path,
+                class: 'fas fa-arrow-left link-retour' %>
   </div>
 </div>
