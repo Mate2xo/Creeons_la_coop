@@ -1,78 +1,92 @@
 <div class="container">
-	<div class="widget mt-4">
-
-		<div class="row-wrapper">
-			<ul class="nav nav-tabs justify-content-center mb-5" role="tablist">
-				<li class="nav-item">
+  <div class="widget mt-4">
+    <div class="row-wrapper">
+      <ul class="nav nav-tabs justify-content-center mb-5" role="tablist">
+        <li class="nav-item">
           <a class="nav-link active" data-toggle="tab" href="#locals">
             <%= translate "main_app.views.productors.index.tabs.locals" %>
           </a>
-				</li>
-				<li class="nav-item">
+        </li>
+        <li class="nav-item">
           <a class="nav-link" data-toggle="tab" href="#suppliers">
             <%= translate "main_app.views.productors.index.tabs.suppliers" %>
           </a>
-				</li>
-			</ul>
-		</div>
+        </li>
+      </ul>
+    </div>
 
-		<div class="row-wrapper">
-			<div class="tab-content" id="myTabContent">
-				<div class="tab-pane fade show active" id="locals" role="tabpanel" aria-labelledby="locals-tab">
-					<% if super_admin? || admin? %>
-						<div class="d-flex">
-              <%= link_to  "Ajouter un producteur",
-                new_productor_path,
-                class: "btn btn-base-1 btn-shadow btn-circle px-4 mx-auto mb-4" %>
-						</div>
-					<% end %>
+    <div class="row-wrapper">
+      <div class="tab-content" id="myTabContent">
+        <div
+          class="tab-pane fade show active"
+          id="locals"
+          role="tabpanel"
+          aria-labelledby="locals-tab"
+        >
+          <% if super_admin? || admin? %>
+            <div class="d-flex">
+              <%= link_to 'Ajouter un producteur',
+                          new_productor_path,
+                          class: 'btn btn-base-1 btn-shadow btn-circle px-4 mx-auto mb-4' %>
+            </div>
+          <% end %>
 
-					<div class="row cols-md-space cols-sm-space cols-xs-space">
-            <%= render partial: "productors",
-              locals: { productors: @productors.select {|productor|
-                          productor.local == true 
-                      }} %>
-					</div>
-				</div>
+          <div class="row cols-md-space cols-sm-space cols-xs-space">
+            <%= render partial: 'productors',
+                       locals: {
+                         productors: @productors.select { |productor| productor.local == true },
+                       } %>
+          </div>
+        </div>
 
-				<div class="tab-pane fade" id="suppliers" role="tabpanel" aria-labelledby="suppliers-tab">
+        <div
+          class="tab-pane fade"
+          id="suppliers"
+          role="tabpanel"
+          aria-labelledby="suppliers-tab"
+        >
           <p>
-            Nos fournisseurs proposent toujours de nouveaux produits, les tarifs baissent ou augmentent...
+            Nos fournisseurs proposent toujours de nouveaux produits, les
+            tarifs baissent ou augmentent...
             <br>
             <br>
-            La liste de fournisseurs  présentée ci-dessous est en perpétuel mouvement.
+            La liste de fournisseurs présentée ci-dessous est en perpétuel
+            mouvement.
             <br>
             <br>
-            Notre travail de recherches et de comparaisons est constant au gré de vos demandes pour la satisfaction de tous.
+            Notre travail de recherches et de comparaisons est constant au gré
+            de vos demandes pour la satisfaction de tous.
             <br>
-            Nous sélectionnons les meilleurs qualité/prix. 
-            Rappelons que les meilleures qualités ne sont pas obligatoirement plus chères que les autres 
-            car de nombreux paramètres jouent  dans la composition du prix d’un produit. 
-            Azade sera parmi nous après la crise sanitaire et nous expliquera tout cela.
+            Nous sélectionnons les meilleurs qualité/prix. Rappelons que les
+            meilleures qualités ne sont pas obligatoirement plus chères que les
+            autres car de nombreux paramètres jouent dans la composition du
+            prix d’un produit. Azade sera parmi nous après la crise sanitaire
+            et nous expliquera tout cela.
             <br>
             <br>
-            Au fil du temps, apparaîtront sur nos étiquettes les renseignements suivants avec ce codage :
-            O : origine, E : équitable, S : solidaire, P/T : producteur/ transformateur, D : Demeter ( biodynamie)
+            Au fil du temps, apparaîtront sur nos étiquettes les renseignements
+            suivants avec ce codage : O : origine, E : équitable, S :
+            solidaire, P/T : producteur/ transformateur, D : Demeter (
+            biodynamie)
           </p>
-		
-					<% if super_admin? || admin? %>
-						<div class="d-flex">
-              <%= link_to  "ajouter un fournisseur",
-                new_productor_path,
-                class: "btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mx-auto" %>
-						</div>
-					<% end %>
 
-					<div class="row cols-md-space cols-sm-space cols-xs-space">
-            <%= render partial: "suppliers",
-              locals: { suppliers: @productors.select {|productor|
-                          productor.local == false
-                      }} %>
-					</div>
-				</div>
-			</div>
+          <% if super_admin? || admin? %>
+            <div class="d-flex">
+              <%= link_to 'ajouter un fournisseur',
+                          new_productor_path,
+                          class: 'btn btn-base-1 btn-shadow btn-circle px-4 mb-4 mx-auto' %>
+            </div>
+          <% end %>
 
-		</div>
+          <div class="row cols-md-space cols-sm-space cols-xs-space">
+            <%= render partial: 'suppliers',
+                       locals: {
+                         suppliers: @productors.select { |productor| productor.local == false }
+                       } %>
+          </div>
+        </div>
+      </div>
+    </div>
 
-	</div>
+  </div>
 </div>
