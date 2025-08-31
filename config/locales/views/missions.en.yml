@@ -1,0 +1,60 @@
+en:
+  admin:
+    missions:
+      generate_schedule:
+        schedule_already_generated: All requested schedules have already been generated.
+        schedule_generation_in_progress: Schedule generation in progress. Please wait a few minutes.
+  missions:
+    edit:
+      title: Edit mission
+    enrollments_form:
+      enroll_another_member: Add another participant
+    enrollments_with_time_slots_form:
+      enroll_another_member: Add another participant
+    enrollment_fields:
+      delete_button: Unenroll this participant
+    enrollment_with_time_slots_fields:
+      delete_button: Unenroll this participant
+      slot_details: From %{start_time} to %{end_time}
+    form:
+      address_fields: Address fields
+      delivery_expected: Delivery expected on this time slot?
+      enrolled_members: Participants
+      genre: genre
+      recurrence_end_date: Recurrence end date
+      recurrence_type: Recurrence type
+    index:
+      create: Add a time slot
+      instructions_html: "<p><i class='fas fa-truck bg-dark rounded p-1' style='color: yellow;'></i> : delivery expected during this slot</p>
+      <p><em class='rounded bg-red p-1'>red</em> : no member registered for this slot<br></p>
+      <p><em class='rounded bg-purple p-1'>purple</em> : slot to be filled, or still needs someone who can handle the cash register.<br> </p>
+      <p><em class='rounded bg-green p-1'>green</em> : slot ok, and still open for registration.<br> </p>
+      <p><em class='rounded bg-orange p-1'>orange</em> : organized event.  </p>
+      <p><em class='rounded btn-secondary p-1'>grey</em> : slot full</p>"
+      welcome: Sign up for shifts and events
+      orders: For orders from producers, please register here
+    new:
+      title: Create a mission
+    regulated_quick_enrollment_form:
+      button_disenroll: Unregister from this slot
+      button_enroll: Register for this slot
+      button_enroll_to_slots: Update enrollment
+      no_time_slot_available: There are no more available time slots for this mission
+      quick_enroll: Quick enrollment
+      slot_details: From %{start_time} to %{end_time}
+    show:
+      addresses: Locations
+      attendees: Participants
+      button_enroll: Register for this slot
+      button_disenroll: Unregister from this slot
+      enroll: Registration
+      from: from
+      to: to
+    standard_quick_enrollment_form:
+      button_disenroll: Unregister from this slot
+      button_enroll: Register for this slot
+      from: from
+      quick_enroll: Quick registration
+      to: to
+    update:
+      time_slot_requirement: At least one time slot must be specified

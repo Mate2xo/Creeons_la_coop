@@ -17,7 +17,7 @@
 
       <section class="px-inline-only-2">
         <h2 class="heading heading-3 strong-500">
-          <%= t 'main_app.views.missions.show.attendees' %> : <%= @mission.members.length %>
+          <%= t '.attendees' %> : <%= @mission.members.length %>
           <hr class="mt-0 mb-0">
         </h2>
 
@@ -70,7 +70,7 @@
 
       <div class="progress-wrapper mt-4">
         <h3 class="progress-label text-capitalize text-md strong-600">
-          <%= t 'main_app.views.missions.show.addresses' unless @mission.addresses.empty? %>
+          <%= t '.addresses' unless @mission.addresses.empty? %>
         </h3>
         <% @mission.addresses.each do |address| %>
           <p class="heading-5">

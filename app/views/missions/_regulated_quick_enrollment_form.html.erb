@@ -23,13 +23,13 @@
       </div>
     <% end %>
     <% if @mission.members.select { |m| m.id == current_member.id }.present? %>
-      <%= link_to translate('main_app.views.missions.show.button_disenroll'),
+      <%= link_to translate('.button_disenroll'),
                   mission_enrollments_path(@mission.id),
                   method: 'DELETE',
                   class: 'd-block text-center btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4',
                   data: {disable_with: t('helpers.submit.sending')} %>
     <% else %>
-      <%= f.submit translate('main_app.views.missions.show.button_enroll'),
+      <%= f.submit translate('.button_enroll'),
                    class: 'd-block text-center btn btn-base-1 btn-shadow btn-circle px-4 mx-auto mt-2',
                    data: {disable_with: t('helpers.submit.sending')} %>
     <% end %>

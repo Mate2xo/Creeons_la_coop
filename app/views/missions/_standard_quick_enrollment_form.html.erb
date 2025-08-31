@@ -9,7 +9,7 @@
     <%= translate '.quick_enroll' %>
   </h4>
   <div class="d-flex align-items-center justify-content-around">
-    <%= translate 'main_app.views.missions.show.from' %>
+    <%= translate '.from' %>
     <%= f.text_field :start_time,
                      id: :enrollmentStartTime,
                      class: 'form-control datetimepicker-input m-2 w-25',
@@ -18,7 +18,7 @@
                        target: '#enrollmentStartTime'
                      },
                      value: @mission.start_date.strftime('%T') %>
-    <%= translate 'main_app.views.missions.show.to' %>
+    <%= translate '.to' %>
     <%= f.text_field :end_time,
                      id: :enrollmentEndTime,
                      class: 'form-control datetimepicker-input m-2 w-25',
@@ -31,13 +31,13 @@
     <%= f.hidden_field :mission_id, value: @mission.id %>
   </div>
   <% if @mission.members.select { |m| m.id == current_member.id }.present? %>
-    <%= link_to translate('main_app.views.missions.show.button_disenroll'),
+    <%= link_to translate('.button_disenroll'),
                 mission_enrollments_path(@mission.id),
                 method: 'DELETE',
                 class: 'd-block text-center btn btn-danger btn-shadow btn-circle px-4 mb-4 mt-4',
                 data: {disable_with: t('helpers.submit.sending')} %>
   <% else %>
-    <%= f.submit translate('main_app.views.missions.show.button_enroll'),
+    <%= f.submit translate('.button_enroll'),
                  class: 'd-block text-center btn btn-base-1 btn-shadow btn-circle px-4 mx-auto mt-2',
                  data: {disable_with: t('helpers.submit.sending')} %>
   <% end %>

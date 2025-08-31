@@ -5,6 +5,8 @@ fr:
         schedule_already_generated: Tous les plannings demandés ont déjà été générés.
         schedule_generation_in_progress: Génération du planning en cours. Veuillez attendre quelques minutes.
   missions:
+    edit:
+      title: Modifier un créneau
     enrollments_form:
       enroll_another_member: Ajouter un participant
     enrollments_with_time_slots_form:
@@ -15,14 +17,40 @@ fr:
       delete_button: Désinscrire ce participant
       slot_details: De %{start_time} à %{end_time}
     form:
+      address_fields: Addresses optionnelles
+      delivery_expected: Livraison prévue sur ce créneau ?
       enrolled_members: Participants
       genre: genre
+      recurrence_end_date: Date de fin de récurrence
+      recurrence_type: Type de récurrence
+    index:
+      create: Ajouter un créneau
+      instructions_html: "<p><i class='fas fa-truck bg-dark rounded p-1' style='color: yellow;'></i> : livraison attendue sur ce créneau</p>
+      <p><em class='rounded bg-red p-1'>rouge</em> : aucun membre inscrit sur ce créneau<br></p>
+      <p><em class='rounded bg-purple p-1'>violet</em> : créneau à remplir, ou nécessitant encore quelqu'un sachant manipuler la caisse.<br> </p>
+      <p><em class='rounded bg-green p-1'>vert</em> : créneau ok, et encore ouvert aux inscriptions.<br> </p>
+      <p><em class='rounded bg-orange p-1'>orange</em> : évènement organisé.  </p>
+      <p><em class='rounded btn-secondary p-1'>gris</em> : créneau plein </p>"
+      welcome: Inscrivez-vous aux permanences et évènements
+      orders: Pour les commandes aux producteurs, veuillez vous inscrire ici
+    new:
+      title: Créer un créneau
     regulated_quick_enrollment_form:
+      button_disenroll: Se désinscrire de ce créneau
+      button_enroll: S'inscrire sur ce créneau
       button_enroll_to_slots: Mettre à jour l'inscription
       no_time_slot_available: Il n'y a plus de créneau disponible pour cette mission
       quick_enroll: Inscription rapide
       slot_details: De %{start_time} à %{end_time}
+    show:
+      addresses: Lieux
+      attendees: Participants
+      enroll: Inscription
     standard_quick_enrollment_form:
+      button_disenroll: Se désinscrire de ce créneau
+      button_enroll: S'inscrire sur ce créneau
+      from: de
       quick_enroll: Inscription rapide
+      to: à
     update:
       time_slot_requirement: Au moins une tranche horaire doit être indiquée
