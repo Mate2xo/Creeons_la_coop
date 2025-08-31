@@ -57,7 +57,13 @@ RSpec.describe Enrollments::DurationValidator do
     end
 
     context 'with a duration of 90 minutes' do
-      subject(:enrollment) { build(:enrollment, mission: create(:mission, :regulated)) }
+      subject(:enrollment) do
+        mission = create(:mission, :regulated)
+        build(:enrollment,
+              mission:,
+              start_time: mission.start_date,
+              end_time: mission.start_date + Enrollment::TIME_SLOT_DURATION)
+      end
 
       it { is_expected.to be_valid }
     end
