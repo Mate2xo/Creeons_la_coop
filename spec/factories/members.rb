@@ -56,7 +56,7 @@ FactoryBot.define do
     trait :super_admin do
       role { 'super_admin' }
     end
-    trait :trained do
+    trait :beginner do
       cash_register_proficiency { :beginner }
     end
 

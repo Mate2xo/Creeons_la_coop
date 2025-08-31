@@ -60,7 +60,7 @@ FactoryBot.define do
 
     enrollments do
       Array.new(with_enrollments) do
-        association :enrollment, mission: instance, member: build(:member, :trained)
+        association :enrollment, mission: instance, member: build(:member, :beginner)
       end
     end
   end

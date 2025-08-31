@@ -16,7 +16,7 @@ RSpec.describe Enrollments::TimeSlotAvailabilityValidator do
   context 'with a mission having only one time slot left' do
     let(:mission) do
       create(:mission, :regulated, max_member_count: 1) do |mission|
-        member = create(:member, :trained)
+        member = create(:member, :beginner)
         create(:enrollment, :on_first_time_slot, mission:, member:)
       end
     end
