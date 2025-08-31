@@ -2,14 +2,25 @@ en:
   main_app:
     views:
       navbar:
+        about_us: About us
+        admin_section: Admin
         blog_management: Blog management
+        faq: Faq
+        member_access: Member access
+        profile: Profile
+        schedule: Planning
+        sign_out: Sign out
       address:
         delete_button: Delete this address
       application:
         buttons:
+          add_address: Add address
           back: Back
           edit: Edit
           edit_submit: Save changes
+          destroy: Delete
+          destroy_confirm: Delete this %{model}?
+          submit: Submit
       members:
         edit:
           title: modify profile

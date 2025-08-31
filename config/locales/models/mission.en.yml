@@ -2,8 +2,14 @@ en:
   activerecord:
     attributes:
       mission:
+        author: Author
         cash_register_close_out_required: Cash register close out required
+        delivery_expected: Deliery expected
+        description: Description
+        due_date: Due date
         duration: duration
+        enrollments: Enrollments
+        event: Event
         genres:
           event: Event
           regulated: Regulated
@@ -11,6 +17,10 @@ en:
         max_member_count: maximum member count
         members: Participants
         min_member_count: minimum member count
+        name: Name
+        productors: Productors
+        start_date: Start date
+        recurrent: Recurrent slot
         recurrent_change: Recurrent change
       mission/enrollments:
         member: participant

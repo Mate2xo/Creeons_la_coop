@@ -6,7 +6,7 @@ fr:
       application:
         buttons:
           add_address: Ajouter une addresse
-          back: " Retour"
+          back: ' Retour'
           edit: Modifier
           edit_submit: Sauvegarder les changements
           destroy: Supprimer

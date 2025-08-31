@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.shared_examples 'a view without missing translations' do
-  I18n.available_locales do |locale|
-    it "has no missing keys for the #{locale} locale" do
+  I18n.available_locales.each do |locale|
+    it "has no missing keys for the :#{locale} locale" do
       I18n.with_locale(locale) { expect { render }.not_to raise_error }
     end
   end
