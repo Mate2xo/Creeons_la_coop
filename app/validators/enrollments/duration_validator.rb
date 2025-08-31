@@ -6,7 +6,7 @@ module Enrollments
   class DurationValidator < ActiveModel::Validator
     def validate(enrollment)
       check_if_the_duration_is_positive(enrollment)
-      check_if_duration_is_multiple_of_90_minutes(enrollment) if enrollment.mission.regulated?
+      check_if_duration_is_multiple_of_90_minutes(enrollment) if enrollment.mission&.regulated?
     end
 
     def check_if_duration_is_multiple_of_90_minutes(enrollment)
