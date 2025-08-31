@@ -7,7 +7,8 @@ RSpec.describe Enrollments::CashRegisterProficiencyValidator do
   context 'when enrolling an untrained member on an empty mission' do
     subject(:enrollment) do
       mission = create(:mission, :regulated)
-      build(:enrollment, mission:)
+      member = create(:member, cash_register_proficiency: :untrained)
+      build(:enrollment, mission:, member:)
     end
 
     it { is_expected.to be_valid }
@@ -16,7 +17,8 @@ RSpec.describe Enrollments::CashRegisterProficiencyValidator do
   context 'with a mission having untrained members, and only 1 enrollment slot left' do
     let(:mission) do
       create(:mission, max_member_count: 4) do |mission|
-        mission.enrollments = create_list(:enrollment, 3, mission:)
+        members = create_list(:member, 3, cash_register_proficiency: :untrained)
+        mission.enrollments = members.map { |member| create(:enrollment, member:, mission:) }
       end
     end
 
@@ -50,7 +52,8 @@ RSpec.describe Enrollments::CashRegisterProficiencyValidator do
     context 'with a mission that requires closing out the cash registry' do
       let(:mission) do
         create(:mission, max_member_count: 4, cash_register_close_out_required: true) do |mission|
-          mission.enrollments = create_list(:enrollment, 3, mission:)
+          members = create_list(:member, 3, cash_register_proficiency: :proficient)
+          mission.enrollments = members.map { |member| create(:enrollment, member:, mission:) }
         end
       end
 
