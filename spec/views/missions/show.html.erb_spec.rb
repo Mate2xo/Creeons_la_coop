@@ -47,7 +47,6 @@ RSpec.describe 'missions/show' do
     policy = Pundit.policy(member, mission)
     allow(view).to receive(:policy) { policy }
 
-    render
     expect { render }.not_to raise_error
   end
 
