@@ -14,7 +14,7 @@ RSpec.describe Enrollments::MissionDatesInclusionValidator do
             end_time: (mission.due_date + 3.minutes))
     end
 
-    it { is_expected.to be_invalid }
+    it { is_expected.not_to be_valid }
 
     it 'sets an :inconsistent_datetimes error on the record' do
       enrollment.valid?
@@ -27,7 +27,7 @@ RSpec.describe Enrollments::MissionDatesInclusionValidator do
   end
 
   context "when the datetimes of the enrollment are within the mission's period" do
-    subject(:enrollment) { build :enrollment }
+    subject(:enrollment) { build(:enrollment) }
 
     it { is_expected.to be_valid }
   end
