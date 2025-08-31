@@ -17,12 +17,12 @@ RSpec.describe RecurrentMissions do
       expect { generate }.to change(Mission, :count).by 4
     end
 
-    context 'with a recurrent_end_date being more than 12 months later' do
+    context 'with a recurrent_end_date more than 12 months later' do
       let(:mission) do
         build(:mission, :recurrent, recurrence_end_date: 14.months.from_now)
       end
 
-      it 'sets the maximum recurrence_end_date to the end of next month' do
+      it 'caps the maximum recurrence_end_date to 12 months from now' do
         generate
         expect(Mission.last.due_date).to be < 13.months.from_now.beginning_of_month
       end
