@@ -11,9 +11,7 @@ class ChangeCashRegisterProficiencyRequirementEnumToBooleanOnMission < ActiveRec
         Mission.reset_column_information
 
         Mission.where(cash_register_proficiency_requirement: requirements[:proficient])
-               .find_each do |mission|
-          mission.update! cash_register_close_out_required: true
-        end
+               .update_all cash_register_close_out_required: true
 
         remove_column :missions, :cash_register_proficiency_requirement, :integer, default: 0
       end
@@ -23,9 +21,7 @@ class ChangeCashRegisterProficiencyRequirementEnumToBooleanOnMission < ActiveRec
         Mission.reset_column_information
 
         Mission.where(cash_register_close_out_required: true)
-               .find_each do |mission|
-          mission.update! cash_register_proficiency_requirement: requirements[:proficient]
-        end
+               .update_all cash_register_proficiency_requirement: requirements[:proficient]
 
         remove_column :missions, :cash_register_close_out_required, :boolean, default: false, null: false
       end
