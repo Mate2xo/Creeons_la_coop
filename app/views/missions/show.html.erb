@@ -91,7 +91,7 @@
       <% end %>
 
       <div class="progress-wrapper mt-4 d-flex justify-content-between">
-        <% if super_admin? || admin? || current_member.id == @mission.author_id %>
+        <% if policy(@mission).destroy? %>
           <%= link_to t('main_app.views.application.buttons.destroy'),
                       mission_path(@mission.id),
                       data: {confirm: t('main_app.views.application.buttons.destroy_confirm',
