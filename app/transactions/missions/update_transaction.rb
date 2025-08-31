@@ -14,12 +14,11 @@ module Missions
       return Success(params) unless regulated
       return Success(params) if params[:enrollments_attributes].blank?
 
-      params[:enrollments_attributes].each do |_key, enrollment|
-        next if enrollment[:time_slots].nil?
+      params[:enrollments_attributes].each_value do |enrollment|
+        next if (time_slots = enrollment.delete(:time_slots)).blank?
 
-        time_slots = enrollment.delete :time_slots
         enrollment[:end_time] = time_slots.max.to_datetime + Enrollment::TIME_SLOT_DURATION
-        enrollment[:start_time] = time_slots.min
+        enrollment[:start_time] = time_slots.min.to_datetime
       end
       Success(params)
     end
