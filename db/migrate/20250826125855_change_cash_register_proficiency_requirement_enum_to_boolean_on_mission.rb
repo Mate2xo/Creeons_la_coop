@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # :cash_register_proficiency_requirement enum is not needed anymore on Missions.
 # We replace it with a Boolean to simplify related logic
 class ChangeCashRegisterProficiencyRequirementEnumToBooleanOnMission < ActiveRecord::Migration[7.1]
