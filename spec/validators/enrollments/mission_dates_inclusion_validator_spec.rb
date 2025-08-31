@@ -9,6 +9,7 @@ RSpec.describe Enrollments::MissionDatesInclusionValidator do
     subject(:enrollment) do
       mission = create(:mission)
       build(:enrollment,
+            mission:,
             start_time: mission.start_date,
             end_time: (mission.due_date + 3.minutes))
     end
