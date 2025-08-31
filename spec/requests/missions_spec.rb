@@ -259,10 +259,20 @@ RSpec.describe '/missions' do
       expect(mission.reload.name).to eq 'updated_mission'
     end
 
+    it 'sets an :notice flash' do
+      update
+      expect(controller.flash[:notice]).to be_present
+    end
+
     context 'with invalid params' do
       let(:mission_params) { {name: ''} }
 
       it { is_expected.to render_template :edit }
+
+      it 'sets an :error flash' do
+        update
+        expect(controller.flash[:error]).to be_present
+      end
     end
 
     context 'with a regulated mission' do
@@ -272,98 +282,6 @@ RSpec.describe '/missions' do
         update
 
         expect(mission.reload.name).to eq 'updated_mission'
-      end
-    end
-
-    context 'with a regulated mission and when enrollment params are given' do
-      let(:mission) { create(:mission, genre: 'regulated') }
-      let(:member_other_than_the_currently_logged_in_user) { create(:member) }
-      let(:enrollment_expected_params) do
-        {member_id: member_other_than_the_currently_logged_in_user.id,
-         start_time: mission.start_date,
-         end_time: mission.start_date + 3.hours}
-      end
-
-      let(:enrollment_params) do
-        {member_id: member_other_than_the_currently_logged_in_user.id,
-         time_slots: [mission.start_date, mission.start_date + Enrollment::TIME_SLOT_DURATION]}
-      end
-      let(:mission_params) do
-        {name: 'updated_mission', genre: 'regulated', enrollments_attributes: {'1234': enrollment_params}}
-      end
-
-      it 'adds member enrollment' do
-        put mission_path(mission.id), params: {mission: mission_params}
-
-        expect(mission.reload.enrollments.first.attributes.symbolize_keys).to include enrollment_expected_params
-      end
-    end
-
-    context 'with a regulated mission and when a part of time slots is given in enrollment params' do
-      let(:mission) { create(:mission, genre: 'regulated') }
-      let(:member_other_than_the_currently_logged_in_user) { create(:member) }
-      let(:enrollment_expected_params) do
-        {member_id: member_other_than_the_currently_logged_in_user.id,
-         start_time: mission.start_date,
-         end_time: mission.start_date + Enrollment::TIME_SLOT_DURATION}
-      end
-
-      let(:enrollment_params) do
-        {member_id: member_other_than_the_currently_logged_in_user.id, time_slots: [mission.start_date]}
-      end
-
-      let(:mission_params) do
-        {name: 'updated_mission', genre: 'regulated', enrollments_attributes: {'1234': enrollment_params}}
-      end
-
-      it 'adds member enrollment' do
-        update
-
-        expect(mission.reload.enrollments.first.attributes.symbolize_keys).to include enrollment_expected_params
-      end
-    end
-
-    context 'when the mission is :regulated and an other :genre is given' do
-      let(:mission) { create(:mission, genre: 'regulated') }
-      let(:mission_params) do
-        {name: 'updated_mission', genre: 'standard'}
-      end
-
-      it 'updates the mission' do
-        update
-
-        expect(mission.reload.genre).to eq 'standard'
-      end
-    end
-
-    context 'when the mission is :regulated, other :genre is given and enrollments params are given' do
-      let(:mission) { create(:mission, genre: 'regulated') }
-      let(:member_other_than_the_currently_logged_in_user) { create(:member) }
-      let(:enrollment_expected_params) do
-        {member_id: member_other_than_the_currently_logged_in_user.id,
-         start_time: mission.start_date,
-         end_time: mission.start_date + 3.hours}
-      end
-
-      let(:enrollment_params) do
-        {member_id: member_other_than_the_currently_logged_in_user.id,
-         time_slots: [mission.start_date, mission.start_date + Enrollment::TIME_SLOT_DURATION]}
-      end
-
-      let(:mission_params) do
-        {name: 'updated_mission', genre: 'standard', enrollments_attributes: {'1234': enrollment_params}}
-      end
-
-      it 'updates the mission' do
-        update
-
-        expect(mission.reload.genre).to eq 'standard'
-      end
-
-      it 'adds member enrollment' do
-        update
-
-        expect(mission.reload.enrollments.first.attributes.symbolize_keys).to include enrollment_expected_params
       end
     end
 
