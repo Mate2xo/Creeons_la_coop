@@ -63,7 +63,7 @@
             <%= translate 'activerecord.attributes.mission.cash_register_close_out_required' %> :
           </h3>
           <h4>
-            <%= t @mission.cash_register_close_out_required %>
+            <%= t @mission.cash_register_close_out_required? %>
           </h4>
         </div>
       <% end %>
@@ -84,7 +84,7 @@
 
       <hr class="mt-0">
 
-      <% if @mission.genre == 'regulated' %>
+      <% if @mission.regulated? %>
         <%= render partial: 'regulated_quick_enrollment_form' %>
       <% else %>
         <%= render partial: 'standard_quick_enrollment_form' %>
