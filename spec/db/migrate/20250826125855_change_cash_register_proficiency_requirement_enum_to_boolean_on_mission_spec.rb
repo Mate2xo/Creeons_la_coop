@@ -76,7 +76,7 @@ RSpec.describe ChangeCashRegisterProficiencyRequirementEnumToBooleanOnMission do
     end
 
     context 'with a Mission having a truthy :cash_register_close_out_required' do
-      it 'migrates it to a true boolean' do
+      it 'migrates it to a :proficient cash_register_proficiency_requirement' do
         mission = create(:mission, cash_register_close_out_required: true)
         down.migrate
         expect(mission.reload.cash_register_proficiency_requirement).to eq 2
