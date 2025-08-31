@@ -56,6 +56,9 @@ FactoryBot.define do
     trait :super_admin do
       role { 'super_admin' }
     end
+    trait :beginner do
+      cash_register_proficiency { :beginner }
+    end
 
     after :create do |member, options|
       if options.redactor?

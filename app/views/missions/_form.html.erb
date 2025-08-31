@@ -28,21 +28,12 @@
       </div><br>
 
       <div class="field">
-        <%= f.label :cash_register_proficiency_requirement,
-                    Mission.human_attribute_name(:cash_register_proficiency_requirement) %><br>
-        <%= f.select :cash_register_proficiency_requirement,
-                     Mission.cash_register_proficiency_requirements.keys.map { |level|
-                       [
-                         t(level, scope: 'activerecord.attributes.mission.cash_register_proficiency_requirements'),
-                         level
-                       ]
-                     },
-                     {},
-                     class: 'form-control' %>
+        <%= f.label :cash_register_close_out_required %>
+        <%= f.check_box :cash_register_close_out_required %>
       </div><br>
 
       <div class="field">
-        <%= f.label :delivery_expected, t('main_app.views.missions._form.delivery_expected') %>
+        <%= f.label :delivery_expected, t('.delivery_expected') %>
         <%= f.check_box :delivery_expected %>
       </div><br>
 
@@ -83,7 +74,7 @@
 
           <div id="recurrence-selector">
             <div class="field mb-2">
-              <%= f.label 'recurrence_rule', t('main_app.views.missions._form.recurrence_type') %>
+              <%= f.label 'recurrence_rule', t('.recurrence_type') %>
               <%= f.select_recurring :recurrence_rule,
                                      nil,
                                      {allow_blank: true},
@@ -92,7 +83,7 @@
 
             <div class="field">
               <%= f.label :recurrence_end_date,
-                          t('main_app.views.missions._form.recurrence_end_date') %>
+                          t('.recurrence_end_date') %>
               <br>
               <%= f.date_field :recurrence_end_date, class: 'form-control form-control-lg' %>
             </div>
@@ -120,7 +111,7 @@
 
       </div>
       <% unless mission.new_record? %>
-        <% if mission.genre == 'regulated' %>
+        <% if mission.regulated? %>
           <%= render 'enrollments_form',
                      f: f,
                      mission: mission,
@@ -135,7 +126,7 @@
     </section>
 
     <br>
-    <h4><%= translate 'main_app.views.missions._form.address_fields' %></h4>
+    <h4><%= translate '.address_fields' %></h4>
     <div id="addresses">
       <%= f.fields_for :addresses, mission.addresses do |address| %>
         <%= render 'layouts/address_fields', f: address %>

@@ -11,7 +11,7 @@ RSpec.describe 'Member count limit on missions :' do
   describe 'member enrolling in a mission' do
     subject(:enroll) do
       visit mission_path(mission.id)
-      click_button I18n.t('main_app.views.missions.show.button_enroll')
+      click_button I18n.t('missions.standard_quick_enrollment_form.button_enroll')
     end
 
     let(:member) { create(:member) }
@@ -28,11 +28,7 @@ RSpec.describe 'Member count limit on missions :' do
     end
 
     context 'when the enrolled Member count has been reached' do
-      let(:mission) do
-        create(:mission, max_member_count: 4) do |mission|
-          mission.members << create_list(:member, 4)
-        end
-      end
+      let(:mission) { create(:mission, max_member_count: 4, with_enrollments: 4) }
 
       it 'does not subscribe the member to this Mission' do
         enroll
@@ -49,7 +45,7 @@ RSpec.describe 'Member count limit on missions :' do
   describe 'member disenrolling from a mission' do
     subject(:disenroll) do
       visit mission_path(mission.id)
-      click_link I18n.t('main_app.views.missions.show.button_disenroll')
+      click_link I18n.t('missions.standard_quick_enrollment_form.button_disenroll')
     end
 
     let(:member) { create(:member) }

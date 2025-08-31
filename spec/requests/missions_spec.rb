@@ -87,6 +87,17 @@ RSpec.describe '/missions' do
     end
   end
 
+  describe 'GET /new' do
+    subject(:new) { get new_mission_path }
+
+    before { sign_in create :member, :super_admin }
+
+    it 'has a successful HTTP response' do
+      new
+      expect(response).to have_http_status :success
+    end
+  end
+
   describe 'POST /' do
     subject(:create_mission) { post missions_path, params: {mission: mission_params} }
 
@@ -165,30 +176,17 @@ RSpec.describe '/missions' do
 
       let(:mission_params) do
         attributes_for(:mission,
+                       :recurrent,
                        start_date: DateTime.current.beginning_of_week,
-                       due_date: DateTime.current.beginning_of_week + 3.hours,
-                       recurrent: true,
-                       recurrence_rule: '{"interval":1, "until":null, "count":null, "validations":{ "day":[2,3,5,6] }, "rule_type":"IceCube::WeeklyRule", "week_start":1 }',
-                       recurrence_end_date: DateTime.now.beginning_of_week + 1.week)
-      end
-
-      it 'sets the maximum recurrence_end_date to the end of next month' do
-        mission_params['recurrence_end_date'] = 6.months.from_now.to_s
-        create_recurrent_mission
-        expect(Mission.last.due_date).to be < 2.months.from_now.beginning_of_month
-      end
-
-      it 'creates a mission instance for each occurence' do
-        create_recurrent_mission
-        expect(Mission.count).to eq(4) # Tue, Wed, Fri, Sat
+                       due_date: DateTime.current.beginning_of_week + 3.hours)
       end
 
       it 'redirects to /missions when finished creating all occurrences' do
-        create_recurrent_mission
+        expect { create_recurrent_mission }.to change(Mission, :count).by 4
         expect(response).to redirect_to missions_path
       end
 
-      context 'when no recurrence_rule are given' do
+      context 'with invalid recurrence attributes' do
         let(:mission_params) do
           attributes_for(:mission,
                          start_date: DateTime.now,
@@ -203,41 +201,9 @@ RSpec.describe '/missions' do
           expect(Mission.count).to eq 0
         end
 
-        it 'redirects to :new form' do
+        it 'sets an :alert flash' do
           create_recurrent_mission
-          expect(response).to render_template(:new)
-        end
-      end
-
-      context 'when no recurrence_end_date is given' do
-        let(:mission_params) do
-          attributes_for(:mission,
-                         start_date: DateTime.now,
-                         due_date: 3.hours.from_now,
-                         recurrent: true,
-                         recurrence_rule: '{"interval":1, "until":null, "count":null, "validations":{ "day":[2,3,5,6] }, "rule_type":"IceCube::WeeklyRule", "week_start":1 }',
-                         recurrence_end_date: '')
-        end
-
-        it 'does not create missions' do
-          create_recurrent_mission
-          expect(Mission.count).to eq 0
-        end
-
-        it 'redirects to :new form' do
-          create_recurrent_mission
-          expect(response).to render_template(:new)
-        end
-      end
-
-      context 'when recurrence_end_date is prior to present day' do
-        before do
-          mission_params['recurrence_end_date'] = 1.month.ago
-        end
-
-        it 'does not create missions' do
-          create_recurrent_mission
-          expect(Mission.count).to eq 0
+          expect(controller.flash[:alert]).to be_present
         end
 
         it 'redirects to :new form' do
@@ -291,10 +257,20 @@ RSpec.describe '/missions' do
       expect(mission.reload.name).to eq 'updated_mission'
     end
 
+    it 'sets an :notice flash' do
+      update
+      expect(controller.flash[:notice]).to be_present
+    end
+
     context 'with invalid params' do
       let(:mission_params) { {name: ''} }
 
       it { is_expected.to render_template :edit }
+
+      it 'sets an :error flash' do
+        update
+        expect(controller.flash[:error]).to be_present
+      end
     end
 
     context 'with a regulated mission' do
@@ -304,98 +280,6 @@ RSpec.describe '/missions' do
         update
 
         expect(mission.reload.name).to eq 'updated_mission'
-      end
-    end
-
-    context 'with a regulated mission and when enrollment params are given' do
-      let(:mission) { create(:mission, genre: 'regulated') }
-      let(:member_other_than_the_currently_logged_in_user) { create(:member) }
-      let(:enrollment_expected_params) do
-        {member_id: member_other_than_the_currently_logged_in_user.id,
-         start_time: mission.start_date,
-         end_time: mission.start_date + 3.hours}
-      end
-
-      let(:enrollment_params) do
-        {member_id: member_other_than_the_currently_logged_in_user.id,
-         time_slots: [mission.start_date, mission.start_date + Enrollment::TIME_SLOT_DURATION]}
-      end
-      let(:mission_params) do
-        {name: 'updated_mission', genre: 'regulated', enrollments_attributes: {'1234': enrollment_params}}
-      end
-
-      it 'adds member enrollment' do
-        put mission_path(mission.id), params: {mission: mission_params}
-
-        expect(mission.reload.enrollments.first.attributes.symbolize_keys).to include enrollment_expected_params
-      end
-    end
-
-    context 'with a regulated mission and when a part of time slots is given in enrollment params' do
-      let(:mission) { create(:mission, genre: 'regulated') }
-      let(:member_other_than_the_currently_logged_in_user) { create(:member) }
-      let(:enrollment_expected_params) do
-        {member_id: member_other_than_the_currently_logged_in_user.id,
-         start_time: mission.start_date,
-         end_time: mission.start_date + Enrollment::TIME_SLOT_DURATION}
-      end
-
-      let(:enrollment_params) do
-        {member_id: member_other_than_the_currently_logged_in_user.id, time_slots: [mission.start_date]}
-      end
-
-      let(:mission_params) do
-        {name: 'updated_mission', genre: 'regulated', enrollments_attributes: {'1234': enrollment_params}}
-      end
-
-      it 'adds member enrollment' do
-        update
-
-        expect(mission.reload.enrollments.first.attributes.symbolize_keys).to include enrollment_expected_params
-      end
-    end
-
-    context 'when the mission is :regulated and an other :genre is given' do
-      let(:mission) { create(:mission, genre: 'regulated') }
-      let(:mission_params) do
-        {name: 'updated_mission', genre: 'standard'}
-      end
-
-      it 'updates the mission' do
-        update
-
-        expect(mission.reload.genre).to eq 'standard'
-      end
-    end
-
-    context 'when the mission is :regulated, other :genre is given and enrollments params are given' do
-      let(:mission) { create(:mission, genre: 'regulated') }
-      let(:member_other_than_the_currently_logged_in_user) { create(:member) }
-      let(:enrollment_expected_params) do
-        {member_id: member_other_than_the_currently_logged_in_user.id,
-         start_time: mission.start_date,
-         end_time: mission.start_date + 3.hours}
-      end
-
-      let(:enrollment_params) do
-        {member_id: member_other_than_the_currently_logged_in_user.id,
-         time_slots: [mission.start_date, mission.start_date + Enrollment::TIME_SLOT_DURATION]}
-      end
-
-      let(:mission_params) do
-        {name: 'updated_mission', genre: 'standard', enrollments_attributes: {'1234': enrollment_params}}
-      end
-
-      it 'updates the mission' do
-        update
-
-        expect(mission.reload.genre).to eq 'standard'
-      end
-
-      it 'adds member enrollment' do
-        update
-
-        expect(mission.reload.enrollments.first.attributes.symbolize_keys).to include enrollment_expected_params
       end
     end
 

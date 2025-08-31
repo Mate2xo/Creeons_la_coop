@@ -1,0 +1,29 @@
+en:
+  activerecord:
+    models:
+      member:
+        one: Member
+        other: Members
+    attributes:
+      member:
+        avatar: Avatar
+        biography: Biography
+        cash_register_proficiency: Cash register proficiency
+        cash_register_proficiencies:
+          beginner: Beginner
+          close_out: Proficient and can close up
+          newcomer: Newcomer
+          proficient: Proficient
+          untrained: Untrained
+        email: E-mail
+        end_subscription: Subscription end date
+        register_id: Register id
+        first_name: First name
+        group: Group
+        last_name: Last name
+        moderator: Moderator (forum)
+        phone_number: Phone number
+        roles:
+          member: Member
+          admin: Admin
+          super_admin: Super admin

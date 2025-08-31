@@ -6,22 +6,23 @@ module Enrollments
   class DurationValidator < ActiveModel::Validator
     def validate(enrollment)
       check_if_the_duration_is_positive(enrollment)
-      check_if_duration_is_multiple_of_90_minutes(enrollment) if enrollment.mission.genre == 'regulated'
+      check_if_duration_is_multiple_of_90_minutes(enrollment) if enrollment.mission&.regulated?
     end
 
     def check_if_duration_is_multiple_of_90_minutes(enrollment)
       start_time, end_time = enrollment.attributes.values_at('start_time', 'end_time')
+      return if start_time.blank? || end_time.blank?
       return if ((end_time.to_i - start_time.to_i) % (60 * 90)).zero?
 
-      failure_message = I18n.t('activerecord.errors.models.enrollment.duration_is_not_a_multiple_of_90_minutes')
-      enrollment.errors.add :base, failure_message
+      enrollment.errors.add :base, :duration_is_not_a_multiple_of_90_minutes
     end
 
     def check_if_the_duration_is_positive(enrollment)
+      start_time, end_time = enrollment.attributes.values_at('start_time', 'end_time')
+      return if start_time.blank? || end_time.blank?
       return if enrollment.start_time < enrollment.end_time
 
-      failure_message = I18n.t('activerecord.errors.models.enrollment.negative_duration')
-      enrollment.errors.add :base, failure_message
+      enrollment.errors.add :base, :negative_duration
     end
   end
 end

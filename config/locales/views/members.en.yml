@@ -1,0 +1,22 @@
+en:
+  admin:
+    members:
+      enroll_static_members:
+        enroll_in_progress: Enrolling static members.
+      js:
+        end_of_auto_enrollment: Automatic enrollment is done
+  members:
+    group_members:
+      no_assignment: No assignment
+    edit:
+      change_password: Change password
+      confirm_static_slots_reset: This will reinitialize static slots. Are you sure?
+      hours_count: Hours count
+      month: Month
+      reset_static_slots: Reset static slots
+      this_month: This month
+      title_enrollments: Your enrollments
+    form:
+      add_static_slot: Add static slot
+      static_slot_fields:
+        remove_static_slot: Delete

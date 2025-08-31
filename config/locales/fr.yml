@@ -20,9 +20,6 @@ fr:
       address:
         one: Addresse
         other: Addresses
-      member:
-        one: Membre
-        other: Membres
       productor:
         one: Producteur
         other: Producteurs
@@ -32,26 +29,6 @@ fr:
         postal_code: code postal
         street_name_1: Numéro et nom de voie
         street_name_2: Complément d'addresse
-      member:
-        avatar: Photo de profil
-        biography: Présentation
-        cash_register_proficiency: Formation à la caisse
-        cash_register_proficiencies:
-          untrained: non formé à la caisse
-          beginner: débutant à la caisse
-          proficient: formé à la caisse
-        email: E-mail
-        end_subscription: Date de fin d'abonnement
-        register_id: Numéro de caisse
-        first_name: Prénom
-        group: Groupe
-        last_name: Nom
-        moderator: Modérateur (forum)
-        phone_number: Numéro de téléphone
-        roles:
-          member: Membre
-          admin: Administrateur
-          super_admin: Administrateur général
       productor:
         avatar: Photo de profil
         catalogs: Catalogues
@@ -63,6 +40,8 @@ fr:
     created_at: créé(e) le
     updated_at: mise à jour le
 
+  'false': Non
+  'true': Oui
   date:
     abbr_day_names:
       - dim

@@ -124,7 +124,7 @@ class StaticMembersRecruiter # rubocop:disable Metrics/ClassLength
   end
 
   def find_adequate_mission_or_send_error_report(member, missions, time_slot)
-    finded_mission = missions.find { |mission| adequate_cash_register_requirement?(member, mission) }
+    finded_mission = missions.find { |mission| Enrollment.new(member:, mission:).valid? }
 
     return finded_mission if finded_mission.present?
 
@@ -133,16 +133,5 @@ class StaticMembersRecruiter # rubocop:disable Metrics/ClassLength
                        last_name: member.last_name,
                        time_slot: time_slot.strftime('%D %Hh%M'))
     nil
-  end
-
-  def adequate_cash_register_requirement?(member, mission)
-    cash_register_proficiency_level_of_member =
-      Member.cash_register_proficiencies[member.cash_register_proficiency]
-
-    cash_register_proficiency_level_of_mission =
-      Mission.cash_register_proficiency_requirements[mission.cash_register_proficiency_requirement]
-
-    mission.max_member_count - mission.members.count >= 2 ||
-      cash_register_proficiency_level_of_member >= cash_register_proficiency_level_of_mission
   end
 end

@@ -1,4 +1,20 @@
 en:
   productors:
+    edit:
+      title: Edit %{model}
     form:
       category: category
+      type:
+        label: '%{model} type'
+        local: Local
+        supplier: Supplier
+    index:
+      add_productor: Add productor
+      tabs:
+        locals: Local
+        suppliers: Suppliers
+    new:
+      title: Add a %{model}
+    show:
+      no_address: No address
+      no_catalogs: No available catalog. Contact an admin to check this supplier's prices

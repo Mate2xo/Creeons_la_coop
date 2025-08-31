@@ -17,7 +17,6 @@
 #  min_member_count                      :integer
 #  delivery_expected                     :boolean          default(FALSE)
 #  genre                                 :integer          default("standard")
-#  cash_register_proficiency_requirement :integer          default("untrained")
 #
 
 FactoryBot.define do
@@ -40,12 +39,29 @@ FactoryBot.define do
       genre { :regulated }
     end
 
+    trait :recurrent do
+      recurrent { true }
+      recurrence_rule do
+        {
+          interval: 1,
+          until: nil,
+          count: nil,
+          validations: {day: [2, 3, 5, 6]},
+          rule_type: IceCube::WeeklyRule,
+          week_start: 1
+        }.to_json
+      end
+      recurrence_end_date { DateTime.now.beginning_of_week + 1.week }
+    end
+
     transient do
       with_enrollments { 0 }
     end
 
     enrollments do
-      Array.new(with_enrollments) { association :enrollment, mission: instance }
+      Array.new(with_enrollments) do
+        association :enrollment, mission: instance, member: build(:member, :beginner)
+      end
     end
   end
 end

@@ -17,7 +17,6 @@
 #  min_member_count                      :integer
 #  delivery_expected                     :boolean          default(FALSE)
 #  genre                                 :integer          default("standard")
-#  cash_register_proficiency_requirement :integer          default("untrained")
 #
 
 # A Mission is an activity that has to be done for the Supermaket Team to function properly.
@@ -49,7 +48,7 @@ RSpec.describe Mission do
   describe '#selectable_time_slots' do
     subject(:selectable_time_slots) { mission.selectable_time_slots }
 
-    let(:mission) { create(:mission, genre: 'regulated') }
+    let(:mission) { create(:mission, :regulated) }
 
     it 'returns the time slots that a member can enroll in' do
       expect(selectable_time_slots).to eq([mission.start_date, mission.start_date + Enrollment::TIME_SLOT_DURATION])
@@ -57,20 +56,18 @@ RSpec.describe Mission do
 
     context 'when all slots are already taken by other members' do
       let(:mission) do
-        create(:mission, genre: 'regulated') do |mission|
-          create_list(:member, 4).each do |member|
-            create(:enrollment,
-                   member: member,
-                   mission: mission,
-                   start_time: mission.start_date,
-                   end_time: mission.start_date + 3.hours)
+        create(:mission, :regulated, max_member_count: 2) do |mission|
+          # Fill both 90-min slots with 2 members each
+          mission.selectable_time_slots.each do |slot_start|
+            2.times do
+              member = create(:member, :beginner)
+              create(:enrollment, mission:, member:, start_time: slot_start, end_time: slot_start + Enrollment::TIME_SLOT_DURATION)
+            end
           end
         end
       end
 
-      it 'returns no time slots' do
-        expect(selectable_time_slots).to be_empty
-      end
+      it { is_expected.to be_empty }
     end
 
     context 'with a non-regulated mission' do

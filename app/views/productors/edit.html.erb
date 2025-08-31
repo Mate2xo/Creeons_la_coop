@@ -14,13 +14,11 @@
       <main class="form-body">
         <div class="text-center px-2">
           <h2 class="heading strong-400 mb-0">
-            <%= t 'main_app.views.productors.edit.title',
-                  model: Productor.model_name.human %>
+            <%= t '.title', model: Productor.model_name.human %>
           </h2>
         </div>
 
-      <%= render partial: 'form', locals: {productor: @productor} %>
-
+        <%= render partial: 'form', locals: {productor: @productor} %>
       </main>
     </section>
   </div>

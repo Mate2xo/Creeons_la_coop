@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require Rails.root.join('spec/support/shared_examples')
 
 RSpec.describe Enrollments::TimeSlotAvailabilityValidator do
   context 'with a mission having 1 enrollment slot left' do
@@ -13,25 +14,45 @@ RSpec.describe Enrollments::TimeSlotAvailabilityValidator do
   end
 
   context 'with a mission having only one time slot left' do
-    subject(:mission) do
+    let(:mission) do
       create(:mission, :regulated, max_member_count: 1) do |mission|
-        create(:enrollment, :on_first_time_slot, mission:) and mission.reload
+        member = create(:member, :beginner)
+        create(:enrollment, :on_first_time_slot, mission:, member:)
       end
     end
 
-    it 'is valid when taking the last time slot available' do
-      enrollment = build(:enrollment, :on_last_time_slot, mission:)
-      expect(enrollment).to be_valid
+    context 'when taking the last time slot available' do
+      subject(:enrollment) { build(:enrollment, :on_last_time_slot, mission:) }
+
+      it { is_expected.to be_valid }
     end
 
-    it 'is invalid when taking an occupied time slot' do
-      enrollment = build(:enrollment, :on_first_time_slot, mission:)
-      expect(enrollment).not_to be_valid
+    context 'when taking an occupied time slot' do
+      subject(:enrollment) { build(:enrollment, :on_first_time_slot, mission:) }
+
+      it { is_expected.to be_invalid }
+
+      it 'sets a :no_slots_available error on the :mission' do
+        enrollment.valid?
+        expect(enrollment.errors).to be_of_kind :mission, :no_slots_available
+      end
+
+      it_behaves_like 'a model without missing validation error translations' do
+        let(:resource) { enrollment }
+      end
     end
 
-    it 'is invalid when taking both occupied and available time slots' do
-      enrollment = build(:enrollment, mission:, start_time: mission.start_date, end_time: mission.due_date)
-      expect(enrollment).not_to be_valid
+    context 'when taking both occupied and available time slots' do
+      subject(:enrollment) do
+        build(:enrollment, mission:, start_time: mission.start_date, end_time: mission.due_date)
+      end
+
+      it { is_expected.to be_invalid }
+
+      it 'sets a :no_slots_available error on the :mission' do
+        enrollment.valid?
+        expect(enrollment.errors).to be_of_kind :mission, :no_slots_available
+      end
     end
   end
 
@@ -65,6 +86,10 @@ RSpec.describe Enrollments::TimeSlotAvailabilityValidator do
     it 'sets a :no_slots_available error on the :mission attribute' do
       enrollment.valid?
       expect(enrollment.errors).to be_of_kind :mission, :no_slots_available
+    end
+
+    it_behaves_like 'a model without missing validation error translations' do
+      let(:resource) { enrollment }
     end
   end
 end

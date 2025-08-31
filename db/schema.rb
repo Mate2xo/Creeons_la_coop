@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_19_103908) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_26_125855) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -222,7 +222,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_19_103908) do
     t.integer "min_member_count"
     t.boolean "delivery_expected", default: false
     t.integer "genre", default: 0
-    t.integer "cash_register_proficiency_requirement", default: 0
+    t.boolean "cash_register_close_out_required", default: false, null: false
     t.index ["author_id"], name: "index_missions_on_author_id"
   end
 

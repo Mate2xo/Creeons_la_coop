@@ -39,3 +39,6 @@ en:
   helpers:
     submit:
       sending: Submitting...
+
+  'false': No
+  'true': Yes
