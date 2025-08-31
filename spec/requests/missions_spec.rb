@@ -182,9 +182,7 @@ RSpec.describe '/missions' do
       end
 
       it 'redirects to /missions when finished creating all occurrences' do
-        create_recurrent_mission
-
-        expect(Mission.count).to eq(4) # Tue, Wed, Fri, Sat
+        expect { create_recurrent_mission }.to change(Mission, :count).by 4
         expect(response).to redirect_to missions_path
       end
 

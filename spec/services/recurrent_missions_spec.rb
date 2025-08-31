@@ -13,9 +13,8 @@ RSpec.describe RecurrentMissions do
             due_date: DateTime.current.beginning_of_week + 3.hours)
     end
 
-    it 'creates a mission instance for each required occurence' do
-      generate
-      expect(Mission.count).to eq(4) # Tue, Wed, Fri, Sat
+    it 'creates a mission instance for each required occurrence' do
+      expect { generate }.to change(Mission, :count).by 4
     end
 
     context 'with a recurrent_end_date being more than 12 months later' do
