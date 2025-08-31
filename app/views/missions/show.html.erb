@@ -70,7 +70,7 @@
 
       <div class="progress-wrapper mt-4">
         <h3 class="progress-label text-capitalize text-md strong-600">
-          <%= t '.addresses' unless @mission.addresses.empty? %>
+          <%= t '.addresses' if @mission.addresses.any? %>
         </h3>
         <% @mission.addresses.each do |address| %>
           <p class="heading-5">
