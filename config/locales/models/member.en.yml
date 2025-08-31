@@ -16,7 +16,7 @@ en:
           proficient: Proficient
           untrained: Untrained
         email: E-mail
-        end_subscription: End subscription
+        end_subscription: Subscription end date
         register_id: Register id
         first_name: First name
         group: Group
