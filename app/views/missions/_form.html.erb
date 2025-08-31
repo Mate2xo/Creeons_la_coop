@@ -111,7 +111,7 @@
 
       </div>
       <% unless mission.new_record? %>
-        <% if mission.genre == 'regulated' %>
+        <% if mission.regulated? %>
           <%= render 'enrollments_form',
                      f: f,
                      mission: mission,
