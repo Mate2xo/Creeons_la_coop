@@ -2,3 +2,9 @@ en:
   productors:
     form:
       category: category
+      type:
+        label: "%{model} type"
+        local: Local
+        supplier: Supplier
+    new:
+      title: Add a %{model}

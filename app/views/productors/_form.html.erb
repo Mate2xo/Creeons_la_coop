@@ -15,13 +15,12 @@
       </div>
 
       <div class="field mt-4">
-        <%= label_tag translate("main_app.views.productors.edit.type.label",
-                               model: Productor.model_name.human) %>
+        <%= label_tag translate('.type.label', model: Productor.model_name.human) %>
         <br>
         <div class="px-3">
-          <%= f.label :local, t("main_app.views.productors.edit.type.local")%>
-          <%= f.radio_button :local, true %><br />
-          <%= f.label :local, t("main_app.views.productors.edit.type.supplier")%>
+          <%= f.label :local, t('.type.local') %>
+          <%= f.radio_button :local, true %><br>
+          <%= f.label :local, t('.type.supplier') %>
           <%= f.radio_button :local, false %><br><br>
         </div>
       </div>
