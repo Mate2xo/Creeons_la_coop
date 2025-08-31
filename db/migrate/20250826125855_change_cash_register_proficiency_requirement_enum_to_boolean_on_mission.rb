@@ -13,7 +13,7 @@ class ChangeCashRegisterProficiencyRequirementEnumToBooleanOnMission < ActiveRec
         Mission.where(cash_register_proficiency_requirement: requirements[:proficient])
                .update_all cash_register_close_out_required: true
 
-        remove_column :missions, :cash_register_proficiency_requirement, :integer, default: 0
+        remove_column :missions, :cash_register_proficiency_requirement, :integer, default: 0, null: false
       end
 
       dir.down do |_dir|
