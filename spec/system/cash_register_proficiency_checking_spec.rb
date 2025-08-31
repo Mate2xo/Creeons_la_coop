@@ -20,7 +20,7 @@ RSpec.describe 'Cash register proficiency checking :' do
     end
     let(:mission) { create(:mission, genre: :regulated) }
 
-    it "doesn't enroll the current user", :js do
+    it "doesn't enroll the current user" do
       enroll_members_on_mission(3, mission)
 
       enroll_current_user
