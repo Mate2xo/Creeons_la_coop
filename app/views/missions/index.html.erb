@@ -1,29 +1,38 @@
 <% provide :head_tags do %>
-  <%= stylesheet_link_tag    'missions' %>
-  <%= javascript_include_tag 'fullCalendar', "data-turbolinks-track" => "reload" %>
-  <%= stylesheet_link_tag    'fullCalendar', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag 'missions' %>
+  <%= javascript_include_tag 'fullCalendar', 'data-turbolinks-track' => 'reload' %>
+  <%= stylesheet_link_tag 'fullCalendar', media: 'all', 'data-turbolinks-track': 'reload' %>
 <% end %>
 
 <div class="container">
   <main class="main-content">
     <header class="page-title">
-      <h1 class="heading-missions heading heading-2 text-uppercase border-bottom border-dark strong-800 mt-5 mb-2">
-        <%= translate "main_app.views.navbar.schedule" %>
+      <h1
+        class="
+          heading-missions heading heading-2 text-uppercase border-bottom border-dark
+          strong-800 mt-5 mb-2
+        "
+      >
+        <%= translate 'main_app.views.navbar.schedule' %>
       </h1>
       <h2 class='text-center h5 mb-4'><%= t 'main_app.views.missions.index.welcome' %></h2>
       <h3 class='text-center h6 mb-4'>
-        <%= t 'main_app.views.missions.index.orders' %> :
-        <%= link_to "commandes", Rails.application.credentials[:common_spreadsheet], target: '_blank' %>
+        <%= t 'main_app.views.missions.index.orders' %>
+        :
+        <%= link_to 'commandes',
+                    Rails.application.credentials[:common_spreadsheet],
+                    target: :_blank,
+                    rel: :noopener %>
       </h3>
     </header>
 
-    <!--Events are fed into the calendar via fullCalendar.js-->
+    <%# Events are fed into the calendar via fullCalendar.js %>
     <div id="calendar"></div>
 
-    <%= link_to translate("main_app.views.missions.index.create"),
+    <%= link_to t('main_app.views.missions.index.create'),
                 new_mission_path,
-                class: "btn btn-block btn-base-1 btn-shadow btn-circle px-4 my-4" %>
+                class: 'btn btn-block btn-base-1 btn-shadow btn-circle px-4 my-4' %>
 
-    <div class=""><%= translate "main_app.views.missions.index.instructions_html" %></div>
+    <div class=''><%= translate 'main_app.views.missions.index.instructions_html' %></div>
   </main>
 </div>

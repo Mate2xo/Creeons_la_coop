@@ -34,7 +34,7 @@
           <div class="row cols-md-space cols-sm-space cols-xs-space">
             <%= render partial: 'productors',
                        locals: {
-                         productors: @productors.select { |productor| productor.local == true },
+                         productors: @productors.select { |productor| productor.local == true }
                        } %>
           </div>
         </div>
