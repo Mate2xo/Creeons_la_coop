@@ -93,7 +93,7 @@ RSpec.describe Enrollment, type: :model do
         create(:enrollment, start_time: mission.start_date, end_time: mission.start_date + 1.5.hours, mission: mission)
       end
 
-      it 'rounds off the dureation to one decimal' do
+      it 'rounds off the duration to one decimal' do
         enrollment = create_enrollment
 
         expect(enrollment.duration).to eq 1.5
