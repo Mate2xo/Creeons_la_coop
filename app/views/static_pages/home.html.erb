@@ -1,5 +1,5 @@
-<!-- Force turbolinks reload to load the banner properly on navigation -->
-<% provide :head_tags do %>
+<% content_for :head_tags do %>
+  <%# Force turbolinks reload to load the banner properly on navigation %>
   <meta name="turbolinks-visit-control" content="reload">
 <% end %>
 
