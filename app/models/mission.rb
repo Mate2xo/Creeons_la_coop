@@ -47,7 +47,7 @@ class Mission < ApplicationRecord
   accepts_nested_attributes_for :addresses, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :enrollments, reject_if: :all_blank, allow_destroy: true
 
-  enum :genre, {standard: 0, regulated: 1, event: 2}
+  enum :genre, {standard: 0, regulated: 1, event: 2, shipping: 3}
 
   attr_accessor :recurrence_rule, :recurrence_end_date, :recurrent_change
 

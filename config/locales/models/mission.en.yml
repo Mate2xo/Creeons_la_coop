@@ -13,6 +13,7 @@ en:
         genres:
           event: Event
           regulated: Regulated
+          shipping: Shipping
           standard: Standard
         max_member_count: maximum member count
         members: Participants
