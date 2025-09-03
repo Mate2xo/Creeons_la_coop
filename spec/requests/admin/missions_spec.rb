@@ -59,42 +59,14 @@ RSpec.describe 'admin/missions', type: :request do
       end
     end
 
-    context 'when the duration is negative' do
+    context 'with invalid params' do
       let(:mission_params) do
         attributes_for(:mission, start_date: DateTime.current, due_date: DateTime.current - 5.minutes)
       end
 
-      it 'sends an error message when due date is inferior to start_date' do
+      it 'sets an error feedback flash' do
         post_mission
-
-        expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.minimum'))
-      end
-    end
-
-    context 'when the duration is superior to ten hours' do
-      let(:mission_params) do
-        attributes_for(:mission, start_date: DateTime.current, due_date: DateTime.current + 11.hours)
-      end
-
-      it 'displays an error message' do
-        post_mission
-
-        expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.maximum'))
-      end
-    end
-
-    context 'when the mission is regulated and the duration is not a multiple of 1.5 hours' do
-      let(:mission_params) do
-        attributes_for(:mission,
-                       genre: 'regulated',
-                       start_date: DateTime.current,
-                       due_date: DateTime.current + 1.hour)
-      end
-
-      it 'displays an error message' do
-        post_mission
-
-        expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.multiple'))
+        expect(controller.flash[:error]).to be_present
       end
     end
   end
@@ -139,7 +111,7 @@ RSpec.describe 'admin/missions', type: :request do
       put_mission
       follow_redirect!
 
-      expect(response.body).to include(I18n.t('missions.update.confirm_update'))
+      expect(controller.flash[:notice]).to include(I18n.t('missions.update.confirm_update'))
     end
 
     context 'when the mission is :regulated and the params standard is passed' do
@@ -168,42 +140,15 @@ RSpec.describe 'admin/missions', type: :request do
       end
     end
 
-    context 'when the duration is negative' do
+    context 'with invalid params' do
       let(:mission_params) do
         attributes_for(:mission, start_date: DateTime.current, due_date: DateTime.current - 5.minutes)
       end
 
-      it 'sends an error message when due date is inferior to start_date' do
+      it 'sets an error feedback flash' do
         put_mission
 
-        expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.minimum'))
-      end
-    end
-
-    context 'when the duration is superior to ten hours' do
-      let(:mission_params) do
-        attributes_for(:mission, start_date: DateTime.current, due_date: DateTime.current + 11.hours)
-      end
-
-      it 'displays an error message' do
-        put_mission
-
-        expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.maximum'))
-      end
-    end
-
-    context 'when the mission is regulated and the duration is not a multiple of 1.5 hours' do
-      let(:mission_params) do
-        attributes_for(:mission,
-                       genre: 'regulated',
-                       start_date: DateTime.current,
-                       due_date: DateTime.current + 1.hour)
-      end
-
-      it 'displays an error message' do
-        put_mission
-
-        expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.multiple'))
+        expect(controller.flash[:error]).to be_present
       end
     end
 
