@@ -25,9 +25,9 @@
         >
           <% if super_admin? || admin? %>
             <div class="d-flex">
-              <%= link_to t '.add_productor',
-                            new_productor_path,
-                            class: 'btn btn-base-1 btn-shadow btn-circle px-4 mx-auto mb-4' %>
+              <%= link_to t('.add_productor'),
+                          new_productor_path,
+                          class: 'btn btn-base-1 btn-shadow btn-circle px-4 mx-auto mb-4' %>
             </div>
           <% end %>
 
