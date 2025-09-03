@@ -11,8 +11,8 @@ document.addEventListener('turbolinks:load', () => {
     plugins: ['dayGrid', 'timeGrid', 'bootstrap'],
     themeSystem: 'bootstrap',
     height: 'auto',
-    defaultView: 'timeGridWeek',
-    defaultDate: Cookies.get('positionInPlanning'), // The displayed date when the calendar is loaded
+    defaultView: Cookies.get('planningViewType'),
+    defaultDate: Cookies.get('planningCurrentStart'),
     allDaySlot: false,
     firstDay: 1,
     locale: 'fr',
@@ -47,7 +47,8 @@ document.addEventListener('turbolinks:load', () => {
         return weekTypes[weekCountBetweenReferenceAndCurrentHour % 4];
       };
 
-      Cookies.set('positionInPlanning', info.view.currentStart);
+      Cookies.set('planningCurrentStart', info.view.currentStart);
+      Cookies.set('planningViewType', info.view.type);
 
       if (info.view.type === 'timeGridWeek') {
         const currentStart = new Date(info.view.currentStart);
@@ -82,4 +83,5 @@ document.addEventListener('turbolinks:load', () => {
   });
 
   calendar.render();
+  calendar.changeView(Cookies.get('planningViewType'), Cookies.get('planningCurrentStart'));
 });
