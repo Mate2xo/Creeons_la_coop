@@ -26,7 +26,7 @@ module MissionValidators
     end
 
     def duration_multiple(mission)
-      return true if mission.genre != 'regulated'
+      return true unless mission.regulated?
       return true if ((mission.duration / 60).round % 90).zero?
 
       mission.errors.add :duration, I18n.t('activerecord.errors.models.mission.attributes.duration.multiple')

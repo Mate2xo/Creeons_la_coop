@@ -82,7 +82,7 @@ class Mission < ApplicationRecord
   # @param [Member, nil] member If present, also returns enrolled time slots of this member.
   # @return [Array<DateTime>, nil] An array of selectable time slot start times, or nil if the mission is not regulated.
   def selectable_time_slots(member = nil)
-    return nil unless genre == 'regulated'
+    return nil unless regulated?
 
     time_slots = []
     current_time_slot = start_date

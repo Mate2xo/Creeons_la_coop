@@ -30,7 +30,7 @@ class EnrollmentsController < ApplicationController
 
   # @return [ActionController::Parameters] The filtered parameters for enrollment.
   def permitted_params
-    if @mission.genre == 'regulated'
+    if @mission.regulated?
       params.require(:enrollment).permit(:member_id, :mission_id, time_slots: [])
     else
       params.require(:enrollment).permit(:member_id, :mission_id, :start_time, :end_time)
