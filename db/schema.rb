@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_26_125855) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_03_150943) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -128,12 +128,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_26_125855) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "roles"
-  end
-
-  create_table "history_of_generated_schedules", force: :cascade do |t|
-    t.datetime "month_number", precision: nil
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "history_of_static_slot_selections", force: :cascade do |t|

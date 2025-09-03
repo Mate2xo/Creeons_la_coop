@@ -21,20 +21,6 @@ RSpec.describe 'admin/missions', type: :request do
     end
   end
 
-  describe 'POST /generate_schedule' do
-    subject(:post_generate_schedule) { post generate_schedule_admin_missions_path(3) }
-
-    context 'when all schedules asked has been already generated' do
-      it 'notices that the schedule has already been generated' do
-        create_history_of_generated_schedule_for_n_months(3)
-        post_generate_schedule
-        follow_redirect!
-
-        expect(response.body).to include(I18n.t('admin.missions.generate_schedule.schedule_already_generated'))
-      end
-    end
-  end
-
   describe 'GET /new' do
     subject(:new) { get new_admin_mission_path }
 

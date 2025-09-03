@@ -1,9 +1,4 @@
 en:
-  admin:
-    missions:
-      generate_schedule:
-        schedule_already_generated: All requested schedules have already been generated.
-        schedule_generation_in_progress: Schedule generation in progress. Please wait a few minutes.
   missions:
     edit:
       title: Edit mission
