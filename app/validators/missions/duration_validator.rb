@@ -10,14 +10,14 @@ module Missions
       return if mission.start_date.nil? || mission.due_date.nil?
 
       positive mission
-      less_than_10_hours mission unless mission.event?
+      less_than_16_hours mission unless mission.event?
       multiple_of_time_slot mission if mission.regulated?
     end
 
     private
 
-    def less_than_10_hours(mission)
-      return true if mission.duration / 60 / 60 <= 10
+    def less_than_16_hours(mission)
+      return true if mission.duration / 60 / 60 <= 16
 
       mission.errors.add :duration, :maximum
     end

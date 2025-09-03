@@ -30,9 +30,9 @@ RSpec.describe Missions::DurationValidator do
       it { is_expected.to be_valid }
     end
 
-    context 'with a duration greater than 10 hours' do
+    context 'with a duration greater than 16 hours' do
       let(:start_date) { DateTime.new 2025, 9, 3, 16, 30 }
-      let(:due_date) { start_date + 11.hours }
+      let(:due_date) { start_date + 17.hours }
 
       it { is_expected.not_to be_valid }
 
@@ -73,9 +73,9 @@ RSpec.describe Missions::DurationValidator do
       it { is_expected.to be_valid }
     end
 
-    context 'with a duration greater than 10 hours' do
+    context 'with a duration greater than 16 hours' do
       let(:start_date) { DateTime.new 2025, 9, 3, 16, 30 }
-      let(:due_date) { start_date + 11.hours }
+      let(:due_date) { start_date + 17.hours }
 
       it { is_expected.not_to be_valid }
 
@@ -116,7 +116,7 @@ RSpec.describe Missions::DurationValidator do
       it { is_expected.to be_valid }
     end
 
-    context 'with a duration greater than 10 hours' do
+    context 'with a duration greater than 16 hours' do
       let(:start_date) { DateTime.new 2025, 9, 3, 16, 30 }
       let(:due_date) { start_date + 36.hours }
 
@@ -143,9 +143,9 @@ RSpec.describe Missions::DurationValidator do
       end
     end
 
-    context 'with a duration greater than 10 hours' do
+    context 'with a duration greater than 16 hours' do
       let(:start_date) { DateTime.new 2025, 9, 3, 16, 30 }
-      let(:due_date) { start_date + 11.hours }
+      let(:due_date) { start_date + 17.hours }
 
       it { is_expected.not_to be_valid }
 
