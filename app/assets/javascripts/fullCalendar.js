@@ -17,7 +17,7 @@ document.addEventListener('turbolinks:load', () => {
     firstDay: 1,
     locale: 'fr',
     timeZone: 'UTC', // override browser default (since the shop is local)
-    minTime: '08:00:00',
+    minTime: '06:00:00',
     maxTime: '23:00:00',
     buttonText: {
       today: "Aujourd'hui",
