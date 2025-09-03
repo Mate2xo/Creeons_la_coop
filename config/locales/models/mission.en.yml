@@ -4,7 +4,7 @@ en:
       mission:
         author: Author
         cash_register_close_out_required: Cash register close out required
-        delivery_expected: Deliery expected
+        delivery_expected: Delivery expected
         description: Description
         due_date: Due date
         duration: duration
@@ -13,6 +13,7 @@ en:
         genres:
           event: Event
           regulated: Regulated
+          shipping: Shipping
           standard: Standard
         max_member_count: maximum member count
         members: Participants

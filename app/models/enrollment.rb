@@ -23,7 +23,8 @@ class Enrollment < ApplicationRecord
   before_validation :set_defaults
   before_validation :synchronise_date_info_with_parent_mission
 
-  validates_with Enrollments::CashRegisterProficiencyValidator
+  validates_with Enrollments::CashRegisterProficiencyValidator,
+                 if: proc { mission.standard? || mission.regulated? }
   validates_with Enrollments::DurationValidator
   validates_with Enrollments::MemberUniquenessValidator, on: :create
   validates_with Enrollments::Mission90minTimeSlotsMatchValidator # regulated missions
@@ -36,7 +37,7 @@ class Enrollment < ApplicationRecord
       .where(missions: {
                start_date: (date.beginning_of_month)..(date.end_of_month)
              })
-      .where.not(missions: {genre: 'event'})
+      .where.not(missions: {genre: :event})
   }
 
   def self.ransackable_attributes(auth_object = nil)

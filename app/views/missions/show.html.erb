@@ -57,7 +57,7 @@
         </div>
       <% end %>
 
-      <% if @mission.genre == 'regulated' %>
+      <% if @mission.regulated? %>
         <div class="progress-wrapper mt-4">
           <h3 class="progress-label text-capitalize text-md strong-600">
             <%= translate 'activerecord.attributes.mission.cash_register_close_out_required' %> :

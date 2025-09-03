@@ -47,7 +47,7 @@ class Mission < ApplicationRecord
   accepts_nested_attributes_for :addresses, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :enrollments, reject_if: :all_blank, allow_destroy: true
 
-  enum :genre, {standard: 0, regulated: 1, event: 2}
+  enum :genre, {standard: 0, regulated: 1, event: 2, shipping: 3}
 
   attr_accessor :recurrence_rule, :recurrence_end_date, :recurrent_change
 
@@ -82,7 +82,7 @@ class Mission < ApplicationRecord
   # @param [Member, nil] member If present, also returns enrolled time slots of this member.
   # @return [Array<DateTime>, nil] An array of selectable time slot start times, or nil if the mission is not regulated.
   def selectable_time_slots(member = nil)
-    return nil unless genre == 'regulated'
+    return nil unless regulated?
 
     time_slots = []
     current_time_slot = start_date

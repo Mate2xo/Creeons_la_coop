@@ -4,7 +4,7 @@ module MissionValidators
   class DurationValidator < ActiveModel::Validator # rubocop:disable Style/Documentation
     def validate(mission)
       return false if mission.start_date.nil? || mission.due_date.nil?
-      return true if mission.genre == 'event'
+      return true if mission.event?
 
       duration_valid?(mission)
     end
@@ -26,7 +26,7 @@ module MissionValidators
     end
 
     def duration_multiple(mission)
-      return true if mission.genre != 'regulated'
+      return true unless mission.regulated?
       return true if ((mission.duration / 60).round % 90).zero?
 
       mission.errors.add :duration, I18n.t('activerecord.errors.models.mission.attributes.duration.multiple')

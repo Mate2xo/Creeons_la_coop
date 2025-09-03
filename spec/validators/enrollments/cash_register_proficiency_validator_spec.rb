@@ -38,10 +38,32 @@ RSpec.describe Enrollments::CashRegisterProficiencyValidator do
       it_behaves_like 'a model without missing validation error translations' do
         let(:resource) { enrollment }
       end
+
+      context 'with an :event mission' do
+        let(:mission) do
+          create(:mission, genre: :event, max_member_count: 4) do |mission|
+            members = create_list(:member, 3, cash_register_proficiency: :untrained)
+            mission.enrollments = members.map { |member| create(:enrollment, member:, mission:) }
+          end
+        end
+
+        it { is_expected.to be_valid }
+      end
+
+      context 'with a :shipping mission' do
+        let(:mission) do
+          create(:mission, genre: :shipping, max_member_count: 4) do |mission|
+            members = create_list(:member, 3, cash_register_proficiency: :untrained)
+            mission.enrollments = members.map { |member| create(:enrollment, member:, mission:) }
+          end
+        end
+
+        it { is_expected.to be_valid }
+      end
     end
 
     context 'with a new enrollment of a trained member' do
-      subject(:enroll) do
+      subject(:enrollment) do
         member = create(:member, cash_register_proficiency: :beginner)
         build(:enrollment, mission:, member:)
       end
@@ -80,7 +102,7 @@ RSpec.describe Enrollments::CashRegisterProficiencyValidator do
   context 'with an enrollment not associated with a member' do
     subject(:enrollment) { build(:enrollment, :on_first_time_slot, member: nil) }
 
-    it { is_expected.to be_invalid }
+    it { is_expected.not_to be_valid }
   end
 
   context 'when filling all available enrollment slots of a mission at once' do

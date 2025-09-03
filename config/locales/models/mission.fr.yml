@@ -11,8 +11,9 @@ fr:
         enrollments: Participations
         event: Évènement
         genres:
-          event: Événement
+          event: Évènement
           regulated: Régulée
+          shipping: Livraison
           standard: Standard
         max_member_count: Nombre maximum de participants
         members: Participants
