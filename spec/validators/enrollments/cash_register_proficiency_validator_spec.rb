@@ -63,7 +63,7 @@ RSpec.describe Enrollments::CashRegisterProficiencyValidator do
     end
 
     context 'with a new enrollment of a trained member' do
-      subject(:enroll) do
+      subject(:enrollment) do
         member = create(:member, cash_register_proficiency: :beginner)
         build(:enrollment, mission:, member:)
       end
