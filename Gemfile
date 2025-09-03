@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.3.8'
 
 # Rails base gems
-gem 'bootstrap', '~> 4.3.1'
+gem 'bootstrap', '~> 4.6'
 gem 'image_processing', '~> 1.12'
 gem 'jbuilder', '~> 2.13'
 gem 'jquery-rails'

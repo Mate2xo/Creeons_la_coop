@@ -142,10 +142,9 @@ GEM
     bindex (0.8.1)
     bootsnap (1.18.3)
       msgpack (~> 1.2)
-    bootstrap (4.3.1)
+    bootstrap (4.6.2.1)
       autoprefixer-rails (>= 9.1.0)
-      popper_js (>= 1.14.3, < 2)
-      sassc-rails (>= 2.0.0)
+      popper_js (>= 1.16.1, < 2)
     bootstrap4-datetime-picker-rails (0.3.1)
       jquery-rails (~> 4.2, >= 4.2.0)
       moment-timezone-rails (~> 1.0)
@@ -395,7 +394,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.9)
-    popper_js (1.14.5)
+    popper_js (1.16.1)
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
@@ -702,7 +701,7 @@ DEPENDENCIES
   appsignal (~> 4.5)
   aws-sdk-s3
   bootsnap (~> 1.18.0)
-  bootstrap (~> 4.3.1)
+  bootstrap (~> 4.6)
   bootstrap4-datetime-picker-rails
   bullet (~> 7.1)
   capybara (~> 3.40.0)
