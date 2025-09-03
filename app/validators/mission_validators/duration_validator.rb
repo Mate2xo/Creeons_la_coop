@@ -4,7 +4,7 @@ module MissionValidators
   class DurationValidator < ActiveModel::Validator # rubocop:disable Style/Documentation
     def validate(mission)
       return false if mission.start_date.nil? || mission.due_date.nil?
-      return true if mission.genre == 'event'
+      return true if mission.event?
 
       duration_valid?(mission)
     end
