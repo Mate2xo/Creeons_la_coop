@@ -50,9 +50,6 @@ RSpec.describe Enrollment, type: :model do
         expect(has_worked_this_month.count).to eq 0
       end
     end
-
-    it 'returns' do
-    end
   end
 
   describe 'instanciation' do
