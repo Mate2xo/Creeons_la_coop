@@ -38,6 +38,11 @@ class RecurrentMissions
     schedule
   end
 
+  ##
+  # Ensures the template's recurrence end date is a Date not later than the cap (12 months from now, end of that month).
+  # Converts mission_template.recurrence_end_date to a Date and, if it is after the cap, returns the cap instead.
+  # @param mission_template - Object responding to `recurrence_end_date` (a date/time).
+  # @return [Date] The recurrence end date clamped to at most 12 months from now (end of that month).
   def limit_recurrence_end_date(mission_template)
     recurrence_end = mission_template.recurrence_end_date.to_date
     cap = 12.months.from_now.end_of_month.to_date

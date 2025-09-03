@@ -117,12 +117,25 @@ class StaticMembersRecruiter # rubocop:disable Metrics/ClassLength
     (rank_of_static_slot_week - rank_of_current_week) % 4
   end
 
+  ##
+  # Computes how many days from @current_time until the next calendar day that matches the static_slot's weekday.
+  # The result is in the range 0..6 (0 means the same day).
+  # @param [StaticSlot] static_slot - static slot whose `week_day` is used to determine the target weekday.
+  # @return [Integer] Number of days to add to @current_time to reach the next day with the same weekday as the static slot.
   def interval_in_day_between_current_time_and_next_day_of_same_type(static_slot)
     rank_of_static_slot_day = StaticSlot.week_days[static_slot.week_day] + 1
     rank_of_current_day = @current_time.strftime('%u').to_i
     (rank_of_static_slot_day - rank_of_current_day) % 7
   end
 
+  ##
+  # Selects the first mission from a list that would produce a valid Enrollment for the given member and time slot.
+  #
+  # If no such mission exists, adds a localized "mission_unavailability" entry to @reports (including the member's first/last name and the formatted time_slot) and returns nil.
+  # @param [Member] member - Member to be enrolled (used to validate Enrollment).
+  # @param [Array<Mission>] missions - Candidate missions to test for a valid Enrollment.
+  # @param [DateTime] time_slot - The desired time slot (used only for reporting when no mission is found).
+  # @return [Mission, nil] The first mission that yields a valid Enrollment for the member, or nil if none found.
   def find_adequate_mission_or_send_error_report(member, missions, time_slot)
     finded_mission = missions.find { |mission| Enrollment.new(member:, mission:).valid? }
 

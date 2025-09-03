@@ -10,6 +10,18 @@ module Missions
 
     private
 
+    ##
+    # Transform enrollment nested `:time_slots` into explicit `:start_time` and `:end_time` values when `regulated` is truthy.
+    #
+    # For each enrollment in `params[:enrollments_attributes]`:
+    # - If `:time_slots` is present and non-blank, it is removed from the enrollment.
+    # - `:start_time` is set to the minimum time slot converted with `to_datetime`.
+    # - `:end_time` is set to the maximum time slot converted with `to_datetime` plus `Enrollment::TIME_SLOT_DURATION`.
+    #
+    # The method mutates the provided `params` hash in place and always returns Success(params).
+    # @param [Hash] params - A params-like hash containing `:enrollments_attributes` (a hash of enrollment attribute hashes). Each enrollment may include `:time_slots` (an array of time-like values).
+    # @param [Boolean] regulated - If falsey, no transformation is performed and `params` is returned unchanged.
+    # @return [Dry::Monads::Result] Success containing the (possibly mutated) `params`.
     def transform_time_slots_in_time_params_for_enrollment(params, regulated:)
       return Success(params) unless regulated
       return Success(params) if params[:enrollments_attributes].blank?
@@ -23,6 +35,11 @@ module Missions
       Success(params)
     end
 
+    ##
+    # Persists the given attributes to the mission, returning a Dry::Monads result.
+    # @param [Hash] params - Attributes to update on the mission.
+    # @param [Mission] mission - The mission record to update.
+    # @return [Dry::Monads::Result] Success(params) if the update succeeds; Failure(String) with `mission.errors.full_messages.to_sentence` otherwise.
     def update(params, mission:)
       if mission.update(params)
         Success(params)

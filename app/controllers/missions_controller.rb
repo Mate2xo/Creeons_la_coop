@@ -56,7 +56,23 @@ class MissionsController < ApplicationController
 
   # Handles the creation of a mission, supporting both recurrent and single missions:
   # - for recurrent missions, validates and generates multiple records
-  # - for single missions, attempts to save and renders the result.
+  ##
+  # Generate records for a mission, handling both recurrent and single missions.
+  #
+  # For recurrent missions:
+  # - Validates with RecurrentMissions.validate; if validation returns a non-true value,
+  #   sets flash[:alert] to that message and renders :new.
+  # - If valid, generates the recurring records via RecurrentMissions.new.generate,
+  #   sets a creation notice and redirects to the missions index.
+  #
+  # For non-recurrent (single) missions:
+  # - Attempts to save the given mission.
+  # - On success: sets a creation notice and renders :show.
+  # - On failure: sets flash[:error] to a creation failure message augmented with the
+  #   mission's full error messages and redirects to new_mission_path.
+  #
+  # Side effects: may call render or redirect, and sets flash messages.
+  # @param [Mission] mission The Mission instance to create (single) or expand (recurrent).
   def generate(mission)
     if mission.recurrent
       validation_msg = RecurrentMissions.validate mission
@@ -91,6 +107,15 @@ class MissionsController < ApplicationController
       ).call(permitted_params)
   end
 
+  ##
+  # Build and return the strong-parameters hash for Mission from params.
+  #
+  # Chooses the permitted attribute set based on the incoming mission genre:
+  # - If params['mission']['genre'] == 'regulated', permits base attributes plus regulated enrollment attributes.
+  # - Otherwise, permits base attributes plus standard enrollment attributes.
+  #
+  # The method calls params.require(:mission).permit(...) and returns the resulting permitted Parameters object.
+  # @return [ActionController::Parameters] The permitted mission parameters ready for assignment.
   def permitted_params
     if params['mission']['genre'] == 'regulated'
       params.require(:mission).permit(base_params + regulated_mission_params)
@@ -99,6 +124,10 @@ class MissionsController < ApplicationController
     end
   end
 
+  ##
+  # Returns the list of permitted top-level mission attributes used for strong parameters.
+  # Includes scalar mission fields and the nested `addresses_attributes` allowed keys.
+  # @return [Array<Symbol, Hash>] An array of permitted attribute names and a hash describing permitted nested address keys.
   def base_params
     [
       :cash_register_close_out_required,
@@ -118,18 +147,32 @@ class MissionsController < ApplicationController
     ]
   end
 
+  ##
+  # Permitted strong-parameter specification for regulated missions' nested enrollments.
+  # Returns an array describing that `enrollments_attributes` may include `:id`, `:_destroy`,
+  # `:member_id` and a nested `time_slots` array (used when building the overall params permit list).
+  # @return [Array<Hash>] Array suitable for passing to `params.require(:mission).permit(...)`.
   def regulated_mission_params
     [
       enrollments_attributes: [:id, :_destroy, :member_id, {time_slots: []}]
     ]
   end
 
+  ##
+  # Returns the nested enrollment attributes allowed for standard (non-regulated) missions.
+  # This is used by `permitted_params` when permitting `enrollments_attributes` that include
+  # an enrollment `id`, `_destroy` flag, `member_id`, and `start_time`/`end_time`.
+  # @return [Array<Hash>] An array suitable for `ActionController::Parameters#permit`, e.g.
+  #   `[enrollments_attributes: %i[id _destroy member_id start_time end_time]]`.
   def standard_mission_params
     [
       enrollments_attributes: %i[id _destroy member_id start_time end_time]
     ]
   end
 
+  ##
+  # Loads the Mission identified by params[:id], eager-loads its enrollments and their members,
+  # authorizes the record, and assigns it to @mission for use by the controller action.
   def set_authorized_mission
     @mission = authorize Mission.includes(enrollments: :member).find(params[:id])
   end
