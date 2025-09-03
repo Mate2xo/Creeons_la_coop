@@ -4,7 +4,7 @@ en:
       mission:
         author: Author
         cash_register_close_out_required: Cash register close out required
-        delivery_expected: Deliery expected
+        delivery_expected: Delivery expected
         description: Description
         due_date: Due date
         duration: duration
