@@ -37,7 +37,7 @@ class Enrollment < ApplicationRecord
       .where(missions: {
                start_date: (date.beginning_of_month)..(date.end_of_month)
              })
-      .where.not(missions: {genre: 'event'})
+      .where.not(missions: {genre: :event})
   }
 
   def self.ransackable_attributes(auth_object = nil)
