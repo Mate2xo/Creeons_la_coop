@@ -8,7 +8,7 @@ document.addEventListener('turbolinks:load', () => {
   }
 
   let viewType = Cookies.get('planningViewType') || 'timeGridWeek';
-  let currentStart = Cookies.get('planningCurrentStart') || new Date(Date.now).toISOString();
+  let currentStart = Cookies.get('planningCurrentStart') || new Date().toISOString();
   const calendar = new FullCalendar.Calendar(calendarEl, {
     plugins: ['dayGrid', 'timeGrid', 'bootstrap'],
     themeSystem: 'bootstrap',
