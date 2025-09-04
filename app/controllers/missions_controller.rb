@@ -73,7 +73,7 @@ class MissionsController < ApplicationController
     elsif mission.save
       flash[:notice] = translate 'activerecord.notices.messages.record_created',
                                  model: Mission.model_name.human
-      render :show
+      redirect_to mission_path(mission)
     else
       flash.now[:error] = translate 'activerecord.errors.messages.creation_fail',
                                 model: Mission.model_name.human
