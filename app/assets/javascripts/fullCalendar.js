@@ -40,11 +40,12 @@ document.addEventListener('turbolinks:load', () => {
       const weekType = (currentStart) => {
         const reference = new Date(2020, 8, 7);
         const weekInMiliSeconds = 60 * 60 * 24 * 7 * 1000;
-        let weekCountBetweenReferenceAndCurrentHour =
-          (currentStart.getTime() - reference.getTime()) / weekInMiliSeconds;
-        weekCountBetweenReferenceAndCurrentHour = Math.trunc(weekCountBetweenReferenceAndCurrentHour);
+        let weeksCountBetweenReferenceAndCurrentStart = Math.trunc(
+          (currentStart.getTime() - reference.getTime()) / weekInMiliSeconds,
+        );
         const weekTypes = ['D', 'A', 'B', 'C'];
-        return weekTypes[weekCountBetweenReferenceAndCurrentHour % 4];
+        const positiveIdxFromReference = ((weeksCountBetweenReferenceAndCurrentStart % 4) + 4) % 4;
+        return weekTypes[positiveIdxFromReference];
       };
 
       Cookies.set('planningCurrentStart', info.view.currentStart);
