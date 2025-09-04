@@ -15,10 +15,10 @@ class RecurrentMissions
 
   def self.validate(mission_template)
     recurrence_rule = mission_template.recurrence_rule
-    recurrence_end = mission_template.recurrence_end_date.to_date
+    recurrence_end = mission_template.recurrence_end_date&.to_date
 
-    return t(:select_recurrence_type_and_end) if recurrence_rule.empty? || recurrence_end.nil?
-    return t(:recurrence_end_must_not_be_past) if recurrence_end < Date.today
+    return t(:select_recurrence_type_and_end) if recurrence_rule.blank? || recurrence_end.blank?
+    return t(:recurrence_end_must_not_be_past) if recurrence_end < Date.current
     return t(:impossible_recurrence) unless RecurringSelect.is_valid_rule? recurrence_rule
 
     true

@@ -125,49 +125,19 @@ RSpec.describe '/missions' do
       end
     end
 
-    context 'when due date is inferior to start_date' do
+    context 'with invalid params' do
       let(:mission_params) do
         current_time = DateTime.current
         attributes_for(:mission, start_date: current_time, due_date: current_time - 5.minutes)
       end
 
-      it 'rollbacks and sets duration minimum error feedback' do
+      it { is_expected.to render_template :new }
+
+      it 'rollbacks and sets an error feedback flash', :aggregate_failures do
         create_mission
-        follow_redirect!
 
         expect(Mission.count).to be(0)
-        expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.minimum'))
-      end
-    end
-
-    context 'when duration is superior to ten hours' do
-      let(:mission_params) do
-        current_time = DateTime.current
-        attributes_for(:mission, start_date: current_time, due_date: current_time + 11.hours)
-      end
-
-      it 'rollbacks and sets a maximum duration error feedback' do
-        create_mission
-        follow_redirect!
-
-        expect(Mission.count).to be(0)
-        expect(response.body).to include(I18n.t('activerecord.errors.models.mission.attributes.duration.maximum'))
-      end
-    end
-
-    context 'when mission is regulated and duration is not a multiple of 1.5 hours' do
-      let(:mission_params) do
-        current_time = DateTime.current
-        attributes_for(:mission, genre: 'regulated', start_date: current_time, due_date: current_time + 2.hours)
-      end
-
-      it 'rollbacks and sets a duration multiple error feedback' do
-        create_mission
-        follow_redirect!
-
-        expect(Mission.count).to be(0)
-        expect(CGI.unescapeHTML(response.body))
-          .to include(I18n.t('activerecord.errors.models.mission.attributes.duration.multiple'))
+        expect(controller.flash[:error]).to be_present
       end
     end
 

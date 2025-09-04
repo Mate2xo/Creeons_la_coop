@@ -61,7 +61,7 @@ class MissionsController < ApplicationController
     if mission.recurrent
       validation_msg = RecurrentMissions.validate mission
       unless validation_msg == true
-        flash[:alert] = validation_msg
+        flash.now[:alert] = validation_msg
         return render :new
       end
 
@@ -73,12 +73,12 @@ class MissionsController < ApplicationController
     elsif mission.save
       flash[:notice] = translate 'activerecord.notices.messages.record_created',
                                  model: Mission.model_name.human
-      render :show
+      redirect_to mission_path(mission)
     else
-      flash[:error] = translate 'activerecord.errors.messages.creation_fail',
+      flash.now[:error] = translate 'activerecord.errors.messages.creation_fail',
                                 model: Mission.model_name.human
-      flash[:error] << " #{mission.errors.full_messages.join(', ')}"
-      redirect_to new_mission_path
+      flash.now[:error] << " #{mission.errors.full_messages.join(', ')}"
+      render :new
     end
   end
 

@@ -3,80 +3,88 @@
 
 document.addEventListener('turbolinks:load', () => {
   const calendarEl = document.getElementById('calendar');
-  if (calendarEl) {
-    const calendar = new FullCalendar.Calendar(calendarEl, {
-      plugins: ['dayGrid', 'timeGrid', 'bootstrap'],
-      themeSystem: 'bootstrap',
-      height: 'auto',
-      defaultView: 'timeGridWeek',
-      defaultDate: Cookies.get('positionInPlanning'), // The displayed date when the calendar is loaded
-      allDaySlot: false,
-      firstDay: 1,
-      locale: 'fr',
-      timeZone: 'UTC', // override browser default (since the shop is local)
-      minTime: '08:00:00',
-      maxTime: '23:00:00',
-      buttonText: {
-        today: "Aujourd'hui",
-        day: 'Jour',
-        month: 'Mois',
-        week: 'Semaine',
-      },
-      header: {
-        left: 'dayGridMonth,timeGridWeek,timeGridDay',
-        center: 'title',
-        right: 'prev,next',
-      },
-      events: '/missions.json',
+  if (!calendarEl) {
+    return;
+  }
 
-      eventClick(info) {
-        $.get(info.event.show_url);
-      },
+  let viewType = Cookies.get('planningViewType') || 'timeGridWeek';
+  let currentStart = Cookies.get('planningCurrentStart') || new Date().toISOString();
+  const calendar = new FullCalendar.Calendar(calendarEl, {
+    plugins: ['dayGrid', 'timeGrid', 'bootstrap'],
+    themeSystem: 'bootstrap',
+    height: 'auto',
+    defaultView: viewType,
+    defaultDate: currentStart,
+    allDaySlot: false,
+    firstDay: 1,
+    locale: 'fr',
+    timeZone: 'UTC', // override browser default (since the shop is local)
+    minTime: '06:00:00',
+    maxTime: '23:00:00',
+    buttonText: {
+      today: "Aujourd'hui",
+      day: 'Jour',
+      month: 'Mois',
+      week: 'Semaine',
+    },
+    header: {
+      left: 'dayGridMonth,timeGridWeek,timeGridDay',
+      center: 'title',
+      right: 'prev,next',
+    },
+    events: '/missions.json',
 
-      datesRender(info) {
-        const weekType = (currentStart) => {
-          const reference = new Date(2020, 8, 7);
-          const weekInMiliSeconds = (60 * 60 * 24 * 7 * 1000);
-          let weekCountBetweenReferenceAndCurrentHour = (currentStart.getTime() - reference.getTime()) / weekInMiliSeconds;
-          weekCountBetweenReferenceAndCurrentHour = Math.trunc(weekCountBetweenReferenceAndCurrentHour)
-          const weekTypes = ['D', 'A', 'B', 'C'];
-          return weekTypes[weekCountBetweenReferenceAndCurrentHour % 4];
-        };
+    eventClick(info) {
+      $.get(info.event.show_url);
+    },
 
-        Cookies.set('positionInPlanning', info.view.currentStart);
+    datesRender(info) {
+      const weekType = (currentStart) => {
+        const reference = new Date(2020, 8, 7);
+        const weekInMiliSeconds = 60 * 60 * 24 * 7 * 1000;
+        let weeksCountBetweenReferenceAndCurrentStart = Math.trunc(
+          (currentStart.getTime() - reference.getTime()) / weekInMiliSeconds,
+        );
+        const weekTypes = ['D', 'A', 'B', 'C'];
+        const positiveIdxFromReference = ((weeksCountBetweenReferenceAndCurrentStart % 4) + 4) % 4;
+        return weekTypes[positiveIdxFromReference];
+      };
 
-        if (info.view.type === 'timeGridWeek') {
-          const currentStart = new Date(info.view.currentStart);
-          document.getElementsByClassName('fc-center')[0].firstChild.textContent += ` ${weekType(currentStart)}`;
-        }
-      },
+      Cookies.set('planningCurrentStart', info.view.currentStart.toISOString());
+      Cookies.set('planningViewType', info.view.type);
 
-      eventRender(info) {
-        const eventEl = info.el.querySelector('.fc-content');
+      if (info.view.type === 'timeGridWeek') {
+        const currentStart = new Date(info.view.currentStart);
+        document.getElementsByClassName('fc-center')[0].firstChild.textContent += ` ${weekType(currentStart)}`;
+      }
+    },
 
-        // Add a truck icon if delivery_expected
+    eventRender(info) {
+      const eventEl = info.el.querySelector('.fc-content');
+
+      // Add a truck icon if delivery_expected
+      if (info.event.extendedProps.delivery_expected) {
         const icon = document.createElement('i');
         icon.classList.add('fas', 'fa-truck');
         icon.style.color = 'yellow';
-        if (info.event.extendedProps.delivery_expected) {
-          eventEl.insertBefore(icon, eventEl.firstChild);
-        }
+        eventEl.insertBefore(icon, eventEl.firstChild);
+      }
 
-        // Show enrolled members
-        const memberCount = document.createTextNode(`${info.event.extendedProps.members.length} inscrit(s)`);
-        eventEl.appendChild(memberCount)
+      // Show enrolled members
+      const memberCount = document.createTextNode(`${info.event.extendedProps.members.length} inscrit(s)`);
+      eventEl.appendChild(memberCount);
 
-        const memberList = document.createElement('ul');
-        memberList.classList.add('memberList');
-        info.event.extendedProps.members.forEach(member => {
-          let first_name = document.createElement('li');
-          first_name.textContent = member.first_name
-          memberList.appendChild(first_name)
-        })
-        eventEl.appendChild(memberList);
-      },
-    });
+      const memberList = document.createElement('ul');
+      memberList.classList.add('memberList');
+      info.event.extendedProps.members.forEach((member) => {
+        let first_name = document.createElement('li');
+        first_name.textContent = member.first_name;
+        memberList.appendChild(first_name);
+      });
+      eventEl.appendChild(memberList);
+    },
+  });
 
-    calendar.render();
-  }
+  calendar.render();
+  calendar.changeView(viewType, currentStart);
 });
