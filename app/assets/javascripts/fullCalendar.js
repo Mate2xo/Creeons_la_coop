@@ -48,7 +48,7 @@ document.addEventListener('turbolinks:load', () => {
         return weekTypes[positiveIdxFromReference];
       };
 
-      Cookies.set('planningCurrentStart', info.view.currentStart);
+      Cookies.set('planningCurrentStart', info.view.currentStart.toISOString());
       Cookies.set('planningViewType', info.view.type);
 
       if (info.view.type === 'timeGridWeek') {
