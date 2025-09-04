@@ -61,10 +61,10 @@ document.addEventListener('turbolinks:load', () => {
       const eventEl = info.el.querySelector('.fc-content');
 
       // Add a truck icon if delivery_expected
-      const icon = document.createElement('i');
-      icon.classList.add('fas', 'fa-truck');
-      icon.style.color = 'yellow';
       if (info.event.extendedProps.delivery_expected) {
+        const icon = document.createElement('i');
+        icon.classList.add('fas', 'fa-truck');
+        icon.style.color = 'yellow';
         eventEl.insertBefore(icon, eventEl.firstChild);
       }
 
