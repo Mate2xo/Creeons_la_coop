@@ -29,7 +29,7 @@ module Missions
     end
 
     def multiple_of_time_slot(mission)
-      return if ((mission.duration / 60).round % 90).zero?
+      return if (mission.duration % Enrollment::TIME_SLOT_DURATION).zero?
 
       mission.errors.add :duration, :multiple
     end
