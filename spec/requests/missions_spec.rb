@@ -131,6 +131,8 @@ RSpec.describe '/missions' do
         attributes_for(:mission, start_date: current_time, due_date: current_time - 5.minutes)
       end
 
+      it { is_expected.to render_template :new }
+
       it 'rollbacks and sets an error feedback flash', :aggregate_failures do
         create_mission
 
