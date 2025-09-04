@@ -7,12 +7,14 @@ document.addEventListener('turbolinks:load', () => {
     return;
   }
 
+  let viewType = Cookies.get('planningViewType') || 'timeGridWeek';
+  let currentStart = Cookies.get('planningCurrentStart') || new Date(Date.now).toISOString();
   const calendar = new FullCalendar.Calendar(calendarEl, {
     plugins: ['dayGrid', 'timeGrid', 'bootstrap'],
     themeSystem: 'bootstrap',
     height: 'auto',
-    defaultView: Cookies.get('planningViewType'),
-    defaultDate: Cookies.get('planningCurrentStart'),
+    defaultView: viewType,
+    defaultDate: currentStart,
     allDaySlot: false,
     firstDay: 1,
     locale: 'fr',
@@ -84,5 +86,5 @@ document.addEventListener('turbolinks:load', () => {
   });
 
   calendar.render();
-  calendar.changeView(Cookies.get('planningViewType'), Cookies.get('planningCurrentStart'));
+  calendar.changeView(viewType, currentStart);
 });
