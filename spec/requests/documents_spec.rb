@@ -38,4 +38,17 @@ RSpec.describe 'Document request' do
       end
     end
   end
+
+  describe 'DELETE /:id' do
+    subject(:destroy) { delete document_path(document) }
+
+    before { sign_in create :member, :admin }
+
+    let!(:document) { create(:document) }
+
+    it 'destroys the given document' do
+      document
+      expect { destroy }.to change(Document, :count).by(-1)
+    end
+  end
 end
