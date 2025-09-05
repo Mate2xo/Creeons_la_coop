@@ -1,0 +1,6 @@
+fr:
+  documents:
+    index:
+      title: Documents
+      name: Nom du document
+      download: Télécharger

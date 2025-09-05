@@ -1,0 +1,6 @@
+en:
+  documents:
+    index:
+      title: Documents
+      name: Document name
+      download: Download
