@@ -11,6 +11,7 @@
 #  category   :string           default("weekly_orders")
 #
 
+# Various uploaded files, that any member can access
 class Document < ApplicationRecord
   extend Enumerize
   extend ActiveModel::Naming
@@ -28,6 +29,7 @@ class Document < ApplicationRecord
                               recipes],
                        default: :weekly_orders
 
+  validates :date, :name, presence: true
   validates :file, attached: true, size: {less_than: 20.megabytes}, content_type: [
     'application/pdf',
     'application/msword', # .doc

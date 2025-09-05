@@ -3,8 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe Document do
+  subject(:document) { build(:document) }
+
+  it { is_expected.to validate_presence_of :name }
+  it { is_expected.to validate_presence_of :date }
+
   context 'with a file of a whitelisted content_type' do
-    subject { described_class.new(file: fixture_file_upload('test.txt')) }
+    subject(:document) { build(:document, file: fixture_file_upload('test.txt')) }
 
     it { is_expected.to be_valid }
   end
@@ -16,7 +21,7 @@ RSpec.describe Document do
   end
 
   context 'without any attached file' do
-    subject { described_class.new(file: nil) }
+    subject(:document) { build(:document, file: nil) }
 
     it { is_expected.not_to be_valid }
   end

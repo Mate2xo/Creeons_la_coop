@@ -1,7 +1,9 @@
 <tr>
   <td scope="row">
-    <%= link_to document.file.filename.to_s,
-                rails_blob_path(document.file, disposition: 'attachment') %>
+    <%= link_to document.name, rails_blob_path(document.file, disposition: 'attachment') %>
+  </td>
+  <td scope="row">
+    <%= l document.date if document.date %>
   </td>
   <td scope="row">
     <% if document.file.previewable? %>
