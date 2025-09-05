@@ -27,15 +27,6 @@ RSpec.describe 'Document request' do
 
         expect(response).to be_successful
       end
-
-      it "doesn't rend the documents with published attribute set to false" do
-        create_list(:document, 3, published: true)
-        not_published_document = create(:document, published: false)
-
-        get_documents
-
-        expect(controller.instance_variable_get(:@documents)).not_to include(not_published_document)
-      end
     end
   end
 

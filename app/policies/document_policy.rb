@@ -8,4 +8,14 @@ class DocumentPolicy < ApplicationPolicy
   def destroy?
     admin? || super_admin?
   end
+
+  class Scope < ApplicationPolicy::Scope
+    def resolve
+      if user
+        scope.all
+      else
+        scope.where(published: true)
+      end
+    end
+  end
 end

@@ -3,12 +3,7 @@
 # Document management
 class DocumentsController < ApplicationController
   def index
-    # TODO: replace this with a PolicyScope
-    @documents = if member_signed_in?
-                   Document.with_attached_file
-                 else
-                   Document.where(published: true).with_attached_file
-                 end
+    @documents = policy_scope(Document).with_attached_file
   end
 
   def destroy
