@@ -1,20 +1,20 @@
 <div class="form-default mt-3">
-  <%= form_for @document, { remote: true, url: documents_url, method: 'POST' }  do |form|%>
+  <%= form_for @document, {remote: true, url: documents_url, method: :post}  do |form| %>
   <div class="col">
     <div class="col-lg-12">
 
       <div class="field">
-        <%= form.label :file, "Ajouter un document" %><br/>
+        <%= form.label :file, 'Ajouter un document' %><br>
         <%= form.select :category, Document.category.options, class: 'form-control' %>
-        <%= form.file_field(:file,
-                            accept: 'application/pdf, application/msword, 
-                                    application/vnd.openxmlformats-officedocument.wordprocessingml.document, 
+        <%= form.file_field :file,
+                            accept: 'application/pdf, application/msword,
+                                    application/vnd.openxmlformats-officedocument.wordprocessingml.document,
                                     application/vnd.oasis.opendocument.text,
                                     application/vnd.ms-excel,
                                     application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                            class: "btn-base-1 m-2",
-                            required: true) %>
-            <%= form.submit value: "Ajouter", class: "btn-base-1 m-2" %>
+                            class: 'btn-base-1 m-2',
+                            required: true %>
+            <%= form.submit value: 'Ajouter', class: 'btn-base-1 m-2' %>
       </div>
     </div>
   </div>
