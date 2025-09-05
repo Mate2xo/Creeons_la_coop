@@ -8,7 +8,7 @@
       <%= link_to image_tag(document.file.preview(resize_to_limit: [90, 90])),
                   rails_blob_path(document.file, disposition: 'attachment') %>
     <% else %>
-      <%= link_to document.file.filename,
+      <%= link_to tag.i(class: 'fa fa-download pl-4', aria_hidden: true),
                   rails_blob_path(document.file, disposition: 'attachment') %>
     <% end %>
   </td>
