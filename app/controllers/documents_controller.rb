@@ -3,7 +3,7 @@
 # Document management
 class DocumentsController < ApplicationController
   def index
-    @documents = policy_scope(Document).with_attached_file
+    @documents = policy_scope(Document).order(date: :desc).with_attached_file
   end
 
   def destroy
