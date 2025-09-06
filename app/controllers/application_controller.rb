@@ -30,12 +30,16 @@ class ApplicationController < ActionController::Base
     current_member
   end
 
-  # This method is used in initializers/active_admin
   def user_not_authorized(exception)
     policy_name = exception.policy.class.to_s.underscore
 
     flash[:error] = t "#{policy_name}.#{exception.query}", scope: 'pundit', default: :default
     redirect_to root_path
+  end
+
+  def admin_not_authorized(exception, &block)
+    flash[:error] = t 'active_admin.access_denied.message'
+    redirect_to admin_members_path
   end
 
   private

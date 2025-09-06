@@ -97,7 +97,7 @@ ActiveAdmin.setup do |config|
   # because, by default, user gets redirected to Dashboard. If user
   # doesn't have access to Dashboard, he'll end up in a redirect loop.
   # Method provided here should be defined in application_controller.rb.
-  config.on_unauthorized_access = :user_not_authorized
+  config.on_unauthorized_access = :admin_not_authorized
 
   # == Current User
   #
