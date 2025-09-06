@@ -2,9 +2,9 @@
 
 ActiveAdmin.register Document do
   menu if: proc { authorized? :index, Document }
-  permit_params :published, :file, :category, :name, :date
+  permit_params :published, :file, :category_id, :name, :date
   actions :all, except: [:show]
-  includes file_attachment: :blob
+  includes :category, file_attachment: :blob
 
   filter :created_at
   filter :updated_at

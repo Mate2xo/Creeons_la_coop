@@ -7,6 +7,7 @@ RSpec.describe Document do
 
   it { is_expected.to validate_presence_of :name }
   it { is_expected.to validate_presence_of :date }
+  it { is_expected.to belong_to(:category) }
 
   context 'with a file of a whitelisted content_type' do
     subject(:document) { build(:document, file: fixture_file_upload('test.txt')) }

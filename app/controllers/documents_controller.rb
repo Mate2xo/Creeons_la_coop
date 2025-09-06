@@ -3,7 +3,11 @@
 # Document management
 class DocumentsController < ApplicationController
   def index
-    @documents = policy_scope(Document).order(date: :desc).with_attached_file
+    scope = policy_scope(Document)
+    @documents_by_category = authorize(scope).order(date: :desc)
+                                             .includes(:category)
+                                             .with_attached_file
+                                             .group_by(&:category)
   end
 
   def destroy

@@ -17,17 +17,7 @@ class Document < ApplicationRecord
   extend ActiveModel::Naming
 
   has_one_attached :file
-
-  enumerize :category, in: %i[weekly_orders
-                              newsletters
-                              official_documents
-                              financial_documents
-                              communications
-                              reports
-                              procedures
-                              questionnaires
-                              recipes],
-                       default: :weekly_orders
+  belongs_to :category, class_name: 'Documents::Category'
 
   validates :date, :name, presence: true
   validates :file, attached: true, size: {less_than: 20.megabytes}, content_type: [

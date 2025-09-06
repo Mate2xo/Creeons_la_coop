@@ -17,14 +17,14 @@
         <div class="widget mt-4">
           <section class="row-wrapper">
             <ul class="nav nav-tabs justify-content-center mb-5" role="tablist">
-              <% Document.category.values.each_with_index do |category, index| %>
+              <% @documents_by_category.each_with_index do |(category, _docs), index| %>
                 <li class="nav-item">
                   <a
                     class="nav-link <%= 'active' if index.zero? %>"
                     data-toggle="tab"
-                    href="#<%= category %>"
+                    href="#<%= category.name.parameterize %>"
                   >
-                    <%= t "enumerize.document.category.#{category}" %>
+                    <%= category.name %>
                   </a>
                 </li>
               <% end %>
@@ -32,14 +32,14 @@
           </section>
           <section class="row-wrapper">
             <div class="tab-content" id="myTabContent">
-              <% Document.category.values.each_with_index do |category, index| %>
+              <% @documents_by_category.each_with_index do |(category, docs), index| %>
                 <div
                   class="
                     tab-pane fade show <%= 'active' if index.zero? %>
                   "
-                  id="<%= category %>"
+                  id="<%= category.name.parameterize %>"
                   role="tabpanel"
-                  aria-labelledby="<%= category %>-tab"
+                  aria-labelledby="<%= category.name %>-tab"
                 >
                   <div class="row cols-md-space cols-sm-space cols-xs-space">
                     <table id="documents" class="table table-sm table-hover">
@@ -52,8 +52,7 @@
                       </thead>
 
                       <tbody>
-                        <%= render partial: 'documents/document',
-                                   collection: @documents.select { |document| document.category == category } %>
+                        <%= render partial: 'documents/document', collection: docs %>
                       </tbody>
                     </table>
                   </div>

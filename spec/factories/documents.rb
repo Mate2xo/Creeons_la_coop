@@ -13,6 +13,7 @@
 
 FactoryBot.define do
   factory :document do
+    category factory: :documents_category
     date { Date.current }
     name { Faker::Game.title }
     file { Rack::Test::UploadedFile.new('spec/fixtures/files/erd.pdf', 'application/pdf') }

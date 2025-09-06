@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class DocumentPolicy < ApplicationPolicy
+  def index? = true
+
   def create?
     admin? || super_admin?
   end
