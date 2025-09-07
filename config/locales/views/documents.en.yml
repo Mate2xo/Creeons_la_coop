@@ -2,6 +2,6 @@ en:
   documents:
     index:
       title: Documents
-      name: Document name
+      all_categories: All categories
+      search: Search
       download: Download
-      date: Date

@@ -33,11 +33,11 @@ class Document < ApplicationRecord
   def self.ransackable_attributes(auth_object = nil)
     return [] unless auth_object
 
-    case auth_object.user.role.to_sym
+    case auth_object.user&.role&.to_sym
     when :super_admin, :admin
       column_names + _ransackers.keys
     else
-      []
+      %i[name category_id]
     end
   end
 

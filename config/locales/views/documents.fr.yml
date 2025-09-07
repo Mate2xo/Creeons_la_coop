@@ -2,6 +2,6 @@ fr:
   documents:
     index:
       title: Documents
-      name: Nom du document
+      all_categories: Toutes les categories
+      search: Rechercher
       download: Télécharger
-      date: Date

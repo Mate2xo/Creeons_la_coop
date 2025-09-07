@@ -1,6 +1,6 @@
 <tr>
   <td scope="row">
-    <%= link_to document.name, rails_blob_path(document.file, disposition: 'attachment') %>
+    <%= highlight document.name, params.dig(:q, :name_cont) %>
   </td>
   <td scope="row">
     <%= l document.date if document.date %>
