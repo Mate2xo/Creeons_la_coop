@@ -20,7 +20,7 @@ module Documents
     def self.ransackable_associations(auth_object = nil)
       return [] unless auth_object
 
-      case auth_object.user.role.to_sym
+      case auth_object.user&.role&.to_sym
       when :super_admin, :admin
         [:documents]
       else
