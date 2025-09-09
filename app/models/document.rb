@@ -37,7 +37,7 @@ class Document < ApplicationRecord
     when :super_admin, :admin
       column_names + _ransackers.keys
     else
-      %i[name category_id]
+      %i[date name category_id]
     end
   end
 
