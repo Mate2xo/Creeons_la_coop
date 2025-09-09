@@ -37,9 +37,9 @@ class ApplicationController < ActionController::Base
     redirect_to root_path
   end
 
-  def admin_not_authorized(exception, &block)
+  def admin_not_authorized(_exception)
     flash[:error] = t 'active_admin.access_denied.message'
-    redirect_to admin_members_path
+    redirect_to admin_members_path, fallback_location: root_path
   end
 
   private
