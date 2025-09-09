@@ -15,8 +15,8 @@ gem 'puma', '< 7'
 gem 'rails', '~> 7.1.5'
 gem 'sassc-rails' # TODO: remove-me when migrating to import maps
 gem 'sass-rails', '~> 6.0'
+gem 'terser', '~> 1.2'
 gem 'turbolinks', '~> 5'
-gem 'uglifier', '>= 1.3.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '~> 1.18.0', require: false
