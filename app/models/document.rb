@@ -4,11 +4,14 @@
 #
 # Table name: documents
 #
-#  id         :bigint           not null, primary key
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  published  :boolean          default(FALSE)
-#  category   :string           default("weekly_orders")
+#  id          :bigint           not null, primary key
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  published   :boolean          default(FALSE)
+#  category    :string           default("weekly_orders")
+#  name        :string
+#  date        :date
+#  category_id :bigint
 #
 
 # Various uploaded files, that any member can access
