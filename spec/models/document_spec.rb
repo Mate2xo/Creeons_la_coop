@@ -16,7 +16,7 @@ RSpec.describe Document do
   end
 
   context 'with a file of a non-whitelisted content_type' do
-    subject { described_class.new(file: fixture_file_upload('fixture.json')) }
+    subject(:document) { build(:document, file: fixture_file_upload('fixture.json')) }
 
     it { is_expected.not_to be_valid }
   end
