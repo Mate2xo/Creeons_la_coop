@@ -2,11 +2,13 @@
 
 # Document management
 class DocumentsController < ApplicationController
+  include Pagy::Backend
+
   def index
     scope = authorize policy_scope(Document)
     @q = scope.ransack params[:q], auth_object: policy(Document)
     @q.sorts = 'date desc' if @q.sorts.empty?
-    @documents = @q.result.includes(file_attachment: :blob)
+    @pagy, @documents = pagy @q.result.includes(file_attachment: :blob)
   end
 
   def destroy

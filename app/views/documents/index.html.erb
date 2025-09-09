@@ -48,6 +48,13 @@
           </section>
         </div>
       </div>
+      <div class="d-flex justify-content-center">
+        <%== pagy_bootstrap_nav_js @pagy %>
+      </div>
     </article>
   </main>
 </div>
+
+<% content_for :head_tags do %>
+  <%= javascript_include_tag 'documents/index' %>
+<% end %>

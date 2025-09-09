@@ -4,3 +4,4 @@
 //
 //= link missions/_form.js
 //= link missions/_standard_quick_enrollment_form.js
+//= link documents/index.js

@@ -47,6 +47,7 @@ gem 'httparty' # Http requests
 gem 'ice_cube', '~> 0.17' # Calendar events recurrence (for Missions)
 gem 'js_cookie_rails' # Cookie manager for js
 gem 'mailjet' # Production mailer API
+gem 'pagy', '~> 9.3'
 gem 'pundit', '~> 2.5' # Authorization management
 gem 'recurring_select', '4.0.0.rc1' # Events recurrence rules set helper
 gem 'thredded', '~> 1.2'
