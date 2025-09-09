@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Documents::Category do
-  menu if: proc { authorized? :index, Documents::Category }
+  menu if: proc { authorized? :index, Documents::Category }, parent: :documents
   permit_params :name
-  menu parent: :documents
 
   show do
     panel t 'active_admin.details', model: resource.model_name.human do
