@@ -15,7 +15,7 @@ class DocumentsController < ApplicationController
     @document = authorize Document.find(params[:id])
     @document.destroy
     flash[:notice] = t('activerecord.notices.messages.record_destroyed',
-                       model: @document.model_name.singular)
+                       model: @document.model_name.human)
 
     respond_to do |format|
       format.html { redirect_to documents_path(anchor: 'documents') }
