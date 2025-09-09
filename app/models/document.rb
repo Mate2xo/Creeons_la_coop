@@ -16,7 +16,6 @@
 
 # Various uploaded files, that any member can access
 class Document < ApplicationRecord
-  extend Enumerize
   extend ActiveModel::Naming
 
   has_one_attached :file
