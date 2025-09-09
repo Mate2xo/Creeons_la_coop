@@ -16,7 +16,7 @@
       <%= f.label :name_cont, class: 'sr-only' %>
       <%= f.search_field :name_cont, class: 'form-control mx-sm-2', placeholder: t('.placeholder.name') %>
 
-      <%= f.label :category, class: 'sr-only' %>
+      <%= f.label :category_id_eq, class: 'sr-only' %>
       <%= f.select :category_id_eq,
                    Documents::Category.pluck(:name, :id),
                    {include_blank: t('.all_categories')},
