@@ -3,5 +3,7 @@ fr:
     index:
       title: Documents
       all_categories: Toutes les categories
+      placeholder:
+        name: Nom
       search: Rechercher
       download: Télécharger

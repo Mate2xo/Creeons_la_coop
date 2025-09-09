@@ -14,7 +14,7 @@
 
     <%= search_form_for @q, class: 'text-center form-inline justify-content-center' do |f| %>
       <%= f.label :name_cont, class: 'sr-only' %>
-      <%= f.search_field :name_cont, class: 'form-control mx-sm-2', placeholder: 'nom' %>
+      <%= f.search_field :name_cont, class: 'form-control mx-sm-2', placeholder: t('.placeholder.name') %>
 
       <%= f.label :category, class: 'sr-only' %>
       <%= f.select :category_id_eq,
