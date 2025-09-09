@@ -87,9 +87,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_05_190024) do
   end
 
   create_table "documents_categories", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_documents_categories_on_name", unique: true
   end
 
   create_table "enrollments", force: :cascade do |t|

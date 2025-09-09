@@ -4,7 +4,7 @@ module Documents
   class Category < ApplicationRecord # rubocop:disable Style/Documentation
     has_many :documents, dependent: :nullify
 
-    validates :name, presence: true
+    validates :name, presence: true, uniqueness: true
 
     def self.ransackable_attributes(auth_object = nil)
       return [] unless auth_object

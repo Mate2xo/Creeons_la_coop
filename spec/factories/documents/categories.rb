@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :documents_category, class: 'Documents::Category' do
-    name { 'MyString' }
+    sequence(:name) { |i| "Category nª#{i}" }
   end
 end
