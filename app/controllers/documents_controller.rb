@@ -2,31 +2,20 @@
 
 # Document management
 class DocumentsController < ApplicationController
+  include Pagy::Backend
+
   def index
-    @document = Document.new
-    # TODO: replace this with a PolicyScope
-    @documents = if member_signed_in?
-                   Document.with_attached_file
-                 else
-                   Document.where(published: true).with_attached_file
-                 end
-  end
-
-  def create
-    @document = authorize Document.new(permitted_params)
-    @document.save
-
-    flash.merge! user_feedback_on_create(@document)
-    respond_to do |format|
-      format.html { redirect_to documents_path(anchor: 'documents') }
-    end
+    scope = policy_scope(Document)
+    @q = scope.ransack params[:q], auth_object: policy(Document)
+    @q.sorts = 'date desc' if @q.sorts.empty?
+    @pagy, @documents = pagy @q.result.includes(file_attachment: :blob)
   end
 
   def destroy
     @document = authorize Document.find(params[:id])
     @document.destroy
     flash[:notice] = t('activerecord.notices.messages.record_destroyed',
-                       model: @document.model_name.singular)
+                       model: @document.model_name.human)
 
     respond_to do |format|
       format.html { redirect_to documents_path(anchor: 'documents') }
@@ -37,20 +26,5 @@ class DocumentsController < ApplicationController
 
   def permitted_params
     params.require(:document).permit(:category, :file)
-  end
-
-  def user_feedback_on_create(record)
-    if record.persisted?
-      message = t('activerecord.notices.messages.record_created',
-                  model: @document.model_name.singular)
-      {notice: message}
-    elsif record.invalid?
-      message = record.errors.full_messages.join(', ')
-      {alert: message}
-    else
-      message = t('activerecord.errors.messages.creation_fail',
-                  model: @document.model_name.singular)
-      {error: message}
-    end
   end
 end

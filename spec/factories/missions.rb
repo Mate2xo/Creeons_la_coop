@@ -4,19 +4,20 @@
 #
 # Table name: missions
 #
-#  id                                    :bigint           not null, primary key
-#  name                                  :string           not null
-#  description                           :text             not null
-#  due_date                              :datetime
-#  created_at                            :datetime         not null
-#  updated_at                            :datetime         not null
-#  author_id                             :bigint
-#  start_date                            :datetime
-#  recurrent                             :boolean
-#  max_member_count                      :integer
-#  min_member_count                      :integer
-#  delivery_expected                     :boolean          default(FALSE)
-#  genre                                 :integer          default("standard")
+#  id                               :bigint           not null, primary key
+#  name                             :string           not null
+#  description                      :text             not null
+#  due_date                         :datetime
+#  created_at                       :datetime         not null
+#  updated_at                       :datetime         not null
+#  author_id                        :bigint
+#  start_date                       :datetime
+#  recurrent                        :boolean
+#  max_member_count                 :integer
+#  min_member_count                 :integer
+#  delivery_expected                :boolean          default(FALSE)
+#  genre                            :integer          default("standard")
+#  cash_register_close_out_required :boolean          default(FALSE), not null
 #
 
 FactoryBot.define do

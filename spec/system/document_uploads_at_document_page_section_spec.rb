@@ -23,30 +23,6 @@ RSpec.describe 'DocumentUploadsAtInfoSections' do
     end
   end
 
-  context 'when an admin uploads a document' do
-    subject(:fill_in_upload_form) do
-      attach_file('document_file', Rails.root.join('spec/fixtures/files/erd.pdf'))
-      click_button 'Ajouter'
-    end
-
-    before do
-      sign_in create(:member, :admin)
-      visit documents_path(anchor: 'documents')
-    end
-
-    it 'shows the uploaded document on the documents/index#document view' do
-      fill_in_upload_form
-      expect(page).to have_content 'erd.pdf'
-    end
-
-    context 'when javascript is enabled in the browser', :js do
-      it 'show the uploaded document on the documents/index#document view' do
-        fill_in_upload_form
-        expect(page).to have_content 'erd.pdf'
-      end
-    end
-  end
-
   context 'when an admin deletes a document' do
     subject(:submit_document_destruction) do
       visit documents_path(anchor: 'documents')

@@ -27,15 +27,19 @@ RSpec.describe 'Document request' do
 
         expect(response).to be_successful
       end
+    end
+  end
 
-      it "doesn't rend the documents with published attribute set to false" do
-        create_list(:document, 3, published: true)
-        not_published_document = create(:document, published: false)
+  describe 'DELETE /:id' do
+    subject(:destroy) { delete document_path(document) }
 
-        get_documents
+    before { sign_in create :member, :admin }
 
-        expect(controller.instance_variable_get(:@documents)).not_to include(not_published_document)
-      end
+    let!(:document) { create(:document) }
+
+    it 'destroys the given document' do
+      document
+      expect { destroy }.to change(Document, :count).by(-1)
     end
   end
 end

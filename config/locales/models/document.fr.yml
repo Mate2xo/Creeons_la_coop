@@ -3,7 +3,9 @@ fr:
     attributes:
       document:
         category: Categorie
-        filename: Nom de fichier
+        date: Date
+        file: Fichier
+        name: Nom
         preview: Aperçu
         published: Publié
   enumerize:

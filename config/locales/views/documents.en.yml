@@ -1,0 +1,9 @@
+en:
+  documents:
+    index:
+      title: Documents
+      all_categories: All categories
+      placeholder:
+        name: Name
+      search: Search
+      download: Download

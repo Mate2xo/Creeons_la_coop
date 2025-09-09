@@ -4,30 +4,24 @@
 #
 # Table name: documents
 #
-#  id         :bigint           not null, primary key
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  published  :boolean          default(FALSE)
-#  category   :string           default("weekly_orders")
+#  id          :bigint           not null, primary key
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  published   :boolean          default(FALSE)
+#  category    :string           default("weekly_orders")
+#  name        :string
+#  date        :date
+#  category_id :bigint
 #
 
+# Various uploaded files, that any member can access
 class Document < ApplicationRecord
-  extend Enumerize
   extend ActiveModel::Naming
 
   has_one_attached :file
+  belongs_to :category, class_name: 'Documents::Category'
 
-  enumerize :category, in: %i[weekly_orders
-                              newsletters
-                              official_documents
-                              financial_documents
-                              communications
-                              reports
-                              procedures
-                              questionnaires
-                              recipes],
-                       default: :weekly_orders
-
+  validates :date, :name, presence: true
   validates :file, attached: true, size: {less_than: 20.megabytes}, content_type: [
     'application/pdf',
     'application/msword', # .doc
@@ -41,11 +35,11 @@ class Document < ApplicationRecord
   def self.ransackable_attributes(auth_object = nil)
     return [] unless auth_object
 
-    case auth_object.user.role.to_sym
+    case auth_object.user&.role&.to_sym
     when :super_admin, :admin
       column_names + _ransackers.keys
     else
-      []
+      %i[date name category_id]
     end
   end
 

@@ -1,17 +1,60 @@
 <div class="container mb-4">
-  <div class="main-content">
+  <main class="main-content">
 
-    <div class="page-title">
-      <h2 class="heading-infos heading heading-2 text-uppercase border-bottom border-dark strong-800 mt-5 mb-5">
-        Documents
+    <header class="page-title">
+      <h2
+        class="
+          heading-infos heading heading-2 text-uppercase border-bottom border-dark
+          strong-800 mt-5 mb-5
+        "
+      >
+        <%= t '.title' %>
       </h2>
-    </div>
+    </header>
 
-    <div class="" id="documents">
-      <%= render partial: "documents/new",
-                 locals: {document: @document} if policy(Document).create? %>
-      <%= render partial: "documents/index", locals: {documents: @documents} %>
-    </div>
-  </div>
+    <%= search_form_for @q, class: 'text-center form-inline justify-content-center' do |f| %>
+      <%= f.label :name_cont, class: 'sr-only' %>
+      <%= f.search_field :name_cont, class: 'form-control mx-sm-2', placeholder: t('.placeholder.name') %>
+
+      <%= f.label :category_id_eq, class: 'sr-only' %>
+      <%= f.select :category_id_eq,
+                   Documents::Category.pluck(:name, :id),
+                   {include_blank: t('.all_categories')},
+                   {class: 'custom-select mx-sm-2'} %>
+
+      <%= f.submit t('.search'), class: 'btn btn-success' %>
+    <% end %>
+
+    <article class="" id="documents">
+      <div class="card no-border">
+        <div class="widget mt-4">
+          <hr>
+          <section class="row-wrapper">
+            <div class="row cols-md-space cols-sm-space cols-xs-space">
+              <table id="documents" class="table table-sm table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col"><%= sort_link @q, :name %></th>
+                    <th scope="col"><%= sort_link @q, :date %></th>
+                    <th scope="col"><%= t '.download' %></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <%= render partial: 'documents/document', collection: @documents %>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <%== pagy_bootstrap_nav_js @pagy %>
+      </div>
+    </article>
+  </main>
 </div>
 
+<% content_for :head_tags do %>
+  <%= javascript_include_tag 'documents/index' %>
+<% end %>

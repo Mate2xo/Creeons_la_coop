@@ -1,0 +1,9 @@
+fr:
+  activerecord:
+    attributes:
+      documents/category:
+        name: Nom
+    models:
+      documents/category:
+        one: Categorie
+        other: Categories
