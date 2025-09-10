@@ -138,32 +138,6 @@ RSpec.describe 'admin/missions' do
       end
     end
 
-    context "when the mission have several enrollments and the datetimes of the related enrollments are outside
-    of the new mission's period" do
-      let(:mission_params) do
-        attributes_for(:mission,
-                       name: 'updated_mission',
-                       start_date: mission.start_date + 3.hours,
-                       due_date: mission.due_date + 3.hours)
-      end
-
-      let(:expected_params) { {start_date: mission_params['start_date'], due_date: mission_params['due_date']} }
-      let(:i18n_scope) { %i[activerecord errors models mission] }
-
-      it "doesn't update the mission" do
-        assign_members_to_this_mission(3, mission)
-        put_mission
-
-        expect(mission.reload.name).not_to eq('updated_mission')
-      end
-
-      it 'renders a successful response' do
-        assign_members_to_this_mission(3, mission)
-        put_mission
-        expect(response).to be_successful
-      end
-    end
-
     context "when the :regulate type is passed in params and the datetimes of the related enrollments
     mismatch the mission's time_slots" do
       let(:mission_params) do

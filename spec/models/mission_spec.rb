@@ -46,6 +46,16 @@ RSpec.describe Mission do
   it { is_expected.to have_and_belong_to_many(:productors) }
   it { is_expected.to have_and_belong_to_many(:addresses) }
 
+  context 'with an invalid enrollment' do
+    subject(:mission) do
+      create(:mission) do |mission|
+        mission.enrollments.build attributes_for(:enrollment, mission:, start_time: mission.start_date - 1.day)
+      end
+    end
+
+    it { is_expected.not_to be_valid }
+  end
+
   describe '#selectable_time_slots' do
     subject(:selectable_time_slots) { mission.selectable_time_slots }
 
