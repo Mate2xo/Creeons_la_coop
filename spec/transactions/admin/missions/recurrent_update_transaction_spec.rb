@@ -80,7 +80,7 @@ RSpec.describe Admin::Missions::RecurrentUpdateTransaction do
     end
 
     it "doesn't update pasts missions that match the same week day, hour, and genre" do
-      other_mission = create(:mission, start_date: mission.start_date - 2.days)
+      other_mission = create(:mission, start_date: mission.start_date - 2.days, recurrent: true)
 
       transaction
 
