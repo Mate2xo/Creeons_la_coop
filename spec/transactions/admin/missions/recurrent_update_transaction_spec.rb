@@ -5,13 +5,66 @@ require 'rails_helper'
 RSpec.describe Admin::Missions::RecurrentUpdateTransaction do
   subject(:transaction) { described_class.new.call(params:, old_mission: mission) }
 
+  context 'with a falsy :recurrent_change param' do
+    let(:params) do
+      ActionController::Parameters.new(
+        {
+          'name' => 'updated_mission',
+          'start_date(1i)' => mission.start_date.year.to_s,
+          'start_date(2i)' => mission.start_date.month.to_s,
+          'start_date(3i)' => mission.start_date.day.to_s,
+          'start_date(4i)' => (mission.start_date.hour + 3).to_s,
+          'start_date(5i)' => mission.start_date.min.to_s,
+          'due_date(1i)' => mission.due_date.year.to_s,
+          'due_date(2i)' => mission.due_date.month.to_s,
+          'due_date(3i)' => mission.due_date.day.to_s,
+          'due_date(4i)' => (mission.due_date.hour + 3).to_s,
+          'due_date(5i)' => mission.due_date.min.to_s,
+          'recurrent_change' => '0'
+        }
+      ).permit!
+    end
+
+    let(:mission) { create(:mission) }
+
+    it 'does not update futures missions that match the same week day, hour, and genre' do
+      other_missions = create_future_missions_with_matching_time_and_weekday(mission)
+
+      transaction
+
+      other_missions.each do |mission|
+        expect(mission.reload.name).not_to eq 'updated_mission'
+      end
+    end
+
+    it "updates the given mission's attributes" do
+      expect { transaction }.to(change { mission.reload.name })
+    end
+
+    it "updates the given mission's :start_date and :due_date" do
+      expect { transaction }.to change { mission.reload.start_date }
+        .and(change { mission.reload.due_date })
+    end
+  end
+
   context 'with a truthy :recurrent_change param' do
     let(:params) do
-      attributes_for(:mission,
-                     name: 'updated_mission',
-                     recurrent_change: true,
-                     start_date: mission.start_date + 3.hours,
-                     due_date: mission.due_date + 3.hours)
+      ActionController::Parameters.new(
+        {
+          'name' => 'updated_mission',
+          'start_date(1i)' => mission.start_date.year.to_s,
+          'start_date(2i)' => mission.start_date.month.to_s,
+          'start_date(3i)' => mission.start_date.day.to_s,
+          'start_date(4i)' => (mission.start_date.hour + 3).to_s,
+          'start_date(5i)' => mission.start_date.min.to_s,
+          'due_date(1i)' => mission.due_date.year.to_s,
+          'due_date(2i)' => mission.due_date.month.to_s,
+          'due_date(3i)' => mission.due_date.day.to_s,
+          'due_date(4i)' => (mission.due_date.hour + 3).to_s,
+          'due_date(5i)' => mission.due_date.min.to_s,
+          'recurrent_change' => '1'
+        }
+      ).permit!
     end
 
     let(:mission) { create(:mission) }
@@ -40,7 +93,7 @@ RSpec.describe Admin::Missions::RecurrentUpdateTransaction do
 
       transaction
 
-      other_missions.each &:reload
+      other_missions.each(&:reload)
       expect(other_missions.pluck(:start_date)).to eq original_start_dates
     end
 
@@ -50,7 +103,7 @@ RSpec.describe Admin::Missions::RecurrentUpdateTransaction do
 
       transaction
 
-      other_missions.each &:reload
+      other_missions.each(&:reload)
       expect(other_missions.pluck(:due_date)).to eq original_due_dates
     end
   end

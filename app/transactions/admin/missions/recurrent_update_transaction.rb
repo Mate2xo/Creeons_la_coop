@@ -8,7 +8,7 @@ module Admin
 
       around :rollback_if_failure
 
-      step :get_missions_to_update
+      map :get_missions_to_update
       step :update_all_missions
 
       private
@@ -25,39 +25,58 @@ module Admin
         result
       end
 
-      def get_missions_to_update(input)
-        old_mission, params = input.values_at(:old_mission, :params)
-
-        input.merge!({all_missions: missions_to_change(old_mission, params)})
-        Success(input)
-      end
-
-      def update_all_missions(input)
-        all_missions = input[:all_missions]
-        params = input[:params][:recurrent_change] ? input[:params].except(:start_date, :due_date) : input[:params]
-
-        all_missions.each do |current_mission|
-          next if current_mission.update(params)
-
-          return Failure(current_mission.errors.full_messages.join(', '))
-        end
-        Success(input)
-      end
-
       # If `:recurrent_change` is not set in the parameters, returns only the original mission.
       # Otherwise returns all missions with the same genre
       # and a start date on or after the original mission's start date,
       # further filtered to those matching the original mission's start time and weekday.
       # @param old_mission [Mission] The original mission to update.
-      # @param params [Hash] Parameters that may include the `:recurrent_change` flag.
-      # @return [Array<Mission>] The missions to be updated.
-      def missions_to_change(old_mission, params)
-        return [old_mission] unless params[:recurrent_change]
+      # @param params [Hash] Controller parameters.
+      # @return [Hash]
+      def get_missions_to_update(params:, old_mission:)
+        recurrent_change = params[:recurrent_change] == '1'
+        missions = if recurrent_change
+                     Mission.where('start_date >= :mission_start_date AND genre = :mission_genre',
+                                   mission_start_date: old_mission.start_date,
+                                   mission_genre: Mission.genres[old_mission.genre])
+                            .select do |current_mission|
+                       current_mission.start_date.strftime('%R%u') == old_mission.start_date.strftime('%R%u')
+                     end
+                   else
+                     [old_mission]
+                   end
 
-        all_missions = Mission.where('start_date >= :mission_start_date AND genre = :mission_genre',
-                                     mission_start_date: old_mission.start_date,
-                                     mission_genre: Mission.genres[old_mission.genre])
-        all_missions.select do |current_mission|
+        {params:, missions:, recurrent_change:}
+      end
+
+      def update_all_missions(params:, missions:, recurrent_change:)
+        if recurrent_change
+          params = params.except('start_date(1i)',
+                                 'start_date(2i)',
+                                 'start_date(3i)',
+                                 'start_date(4i)',
+                                 'start_date(5i)',
+                                 'due_date(1i)',
+                                 'due_date(2i)',
+                                 'due_date(3i)',
+                                 'due_date(4i)',
+                                 'due_date(5i)')
+        end
+
+        missions.each do |current_mission|
+          next if current_mission.update(params)
+
+          return Failure(current_mission.errors.full_messages.join(', '))
+        end
+        Success(params:, missions:, recurrent_change:)
+      end
+
+      def missions_to_change(old_mission, params)
+        return [old_mission] unless params[:recurrent_change] == '1'
+
+        missions = Mission.where('start_date >= :mission_start_date AND genre = :mission_genre',
+                                 mission_start_date: old_mission.start_date,
+                                 mission_genre: Mission.genres[old_mission.genre])
+        missions.select do |current_mission|
           current_mission.start_date.strftime('%R%u') == old_mission.start_date.strftime('%R%u')
         end
       end
