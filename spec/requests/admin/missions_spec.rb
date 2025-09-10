@@ -71,64 +71,37 @@ RSpec.describe 'admin/missions' do
   end
 
   describe 'PUT /:id' do
-    subject(:put_mission) { put admin_mission_path(mission.id), params: {mission: mission_params} }
-
-    let(:mission) { create(:mission, start_date: DateTime.current + 2.days) }
-    let(:mission_params) do
-      attributes_for(:mission,
-                     name: 'updated_mission',
-                     start_date: mission.start_date + 3.hours,
-                     due_date: mission.start_date + 6.hours)
-    end
-
-    let!(:expected_params) do
-      {name: 'updated_mission', start_date: mission.start_date + 3.hours, due_date: mission.due_date + 3.hours}
-    end
+    subject(:put_mission) { put admin_mission_path(mission.id), params: }
 
     before { allow(DateTime).to receive(:current).and_return DateTime.new(2020, 2, 3, 9) }
 
-    it 'updates the mission' do
-      put_mission
+    let(:mission) { create(:mission, start_date: DateTime.current + 2.days, genre: :regulated) }
 
-      expect(mission.reload.attributes).to include(expected_params.stringify_keys)
+    let(:params) do
+      {mission: attributes_for(:mission,
+                               name: 'updated_mission',
+                               start_date: mission.start_date + 3.hours,
+                               due_date: mission.due_date + 6.hours,
+                               genre: 'standard')}
     end
 
-    it 'confirms the updates' do
+    it 'sets a :notice flash' do
       put_mission
       follow_redirect!
 
       expect(controller.flash[:notice]).to include(I18n.t('missions.update.confirm_update'))
     end
 
-    context 'when the mission is :regulated and the params standard is passed' do
-      let(:mission) { create(:mission, start_date: DateTime.current + 2.days, genre: 'regulated') }
-
-      let(:mission_params) do
-        attributes_for(:mission,
-                       name: 'updated_mission',
-                       start_date: mission.start_date,
-                       due_date: mission.due_date,
-                       genre: 'standard')
-      end
-
-      it 'confirms the update' do
-        put_mission
-        follow_redirect!
-
-        expect(response.body).to include(I18n.t('missions.update.confirm_update'))
-      end
-
-      it 'updates the mission with the params' do
-        put_mission
-        follow_redirect!
-
-        expect(mission.reload.attributes).to include(mission_params.except(:enrollments).stringify_keys)
-      end
+    it 'updates the mission with the given params' do
+      put_mission
+      expect(mission.reload.attributes).to include(params[:mission].except(:enrollments).stringify_keys)
     end
 
     context 'with invalid params' do
-      let(:mission_params) do
-        attributes_for(:mission, start_date: DateTime.current, due_date: DateTime.current - 5.minutes)
+      let(:params) do
+        {
+          mission: attributes_for(:mission, start_date: DateTime.current, due_date: DateTime.current - 5.minutes)
+        }
       end
 
       it 'sets an error feedback flash' do
@@ -136,15 +109,6 @@ RSpec.describe 'admin/missions' do
 
         expect(controller.flash[:error]).to be_present
       end
-    end
-  end
-
-  # helpers
-
-  def create_history_of_generated_schedule_for_n_months(months_count)
-    (1..months_count).each do |n|
-      create(:history_of_generated_schedule,
-             month_number: (DateTime.current + n.month).at_beginning_of_month)
     end
   end
 end
