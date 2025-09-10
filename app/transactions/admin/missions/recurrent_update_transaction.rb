@@ -34,10 +34,11 @@ module Admin
       # @return [Hash]
       def get_missions_to_update(params:, old_mission:)
         recurrent_change = params[:recurrent_change] == '1'
-        missions = if recurrent_change
+        missions = if recurrent_change && old_mission.recurrent?
                      Mission.where('start_date >= :mission_start_date AND genre = :mission_genre',
                                    mission_start_date: old_mission.start_date,
-                                   mission_genre: Mission.genres[old_mission.genre])
+                                   mission_genre: Mission.genres[old_mission.genre],
+                                   recurrent: true)
                             .select do |current_mission|
                        current_mission.start_date.strftime('%R%u') == old_mission.start_date.strftime('%R%u')
                      end
