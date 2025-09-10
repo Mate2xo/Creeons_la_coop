@@ -69,17 +69,6 @@ module Admin
         end
         Success(params:, missions:, recurrent_change:)
       end
-
-      def missions_to_change(old_mission, params)
-        return [old_mission] unless params[:recurrent_change] == '1'
-
-        missions = Mission.where('start_date >= :mission_start_date AND genre = :mission_genre',
-                                 mission_start_date: old_mission.start_date,
-                                 mission_genre: Mission.genres[old_mission.genre])
-        missions.select do |current_mission|
-          current_mission.start_date.strftime('%R%u') == old_mission.start_date.strftime('%R%u')
-        end
-      end
     end
   end
 end
