@@ -146,7 +146,7 @@ def create_future_missions_with_matching_time_and_weekday(mission)
   occurrence_date = mission.start_date + 7.days
   other_missions = []
   4.times do
-    other_missions << create(:mission, start_date: occurrence_date, genre: mission.genre)
+    other_missions << create(:mission, start_date: occurrence_date, genre: mission.genre, recurrent: mission.recurrent)
     occurrence_date += 7.days
   end
   other_missions
