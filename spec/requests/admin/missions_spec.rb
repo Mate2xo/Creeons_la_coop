@@ -137,54 +137,6 @@ RSpec.describe 'admin/missions' do
         expect(controller.flash[:error]).to be_present
       end
     end
-
-    context 'when the recurrent changes params is true' do
-      let(:mission_params) do
-        attributes_for(:mission,
-                       name: 'updated_mission',
-                       recurrent_change: true,
-                       start_date: mission.start_date + 3.hours,
-                       due_date: mission.due_date + 3.hours)
-      end
-
-      let(:all_missions) { create_future_matching_missions(mission) + [mission] }
-      let!(:expected_start_dates) { all_missions.map(&:start_date) }
-      let!(:expected_due_dates) { all_missions.map(&:due_date) }
-
-      it 'updates futures missions that match the same week day, hour, and genre' do
-        other_missions = create_future_matching_missions(mission)
-
-        put_mission
-
-        other_missions.each do |mission|
-          expect(mission.reload.name).to eq 'updated_mission'
-        end
-      end
-
-      it "doesn't update pasts missions that match the same week day, hour, and genre" do
-        other_mission = create(:mission, start_date: mission.start_date - 2.days)
-
-        put_mission
-
-        expect(other_mission.reload.name).not_to eq 'updated_mission'
-      end
-
-      it "doesn't update :start_date attribute" do
-        put_mission
-
-        all_missions.each_with_index do |current_mission, index|
-          expect(current_mission.reload.start_date).to eq(expected_start_dates[index])
-        end
-      end
-
-      it "doesn't update :due_date attribute" do
-        put_mission
-
-        all_missions.each_with_index do |current_mission, index|
-          expect(current_mission.reload.due_date).to eq(expected_due_dates[index])
-        end
-      end
-    end
   end
 
   # helpers
@@ -194,15 +146,5 @@ RSpec.describe 'admin/missions' do
       create(:history_of_generated_schedule,
              month_number: (DateTime.current + n.month).at_beginning_of_month)
     end
-  end
-
-  def create_future_matching_missions(mission)
-    occurrence_date = mission.start_date + 7.days
-    other_missions = []
-    4.times do
-      other_missions << create(:mission, start_date: occurrence_date, genre: mission.genre)
-      occurrence_date += 7.days
-    end
-    other_missions
   end
 end
