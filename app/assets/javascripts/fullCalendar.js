@@ -71,7 +71,7 @@ document.addEventListener('turbolinks:load', () => {
       }
 
       // Show enrolled members
-      const memberCount = document.createTextNode(`${info.event.extendedProps.members.length} inscrit(s)`);
+      const memberCount = document.createTextNode(` - ${info.event.extendedProps.members.length} inscrit(s)`);
       eventEl.appendChild(memberCount);
 
       const memberList = document.createElement('ul');

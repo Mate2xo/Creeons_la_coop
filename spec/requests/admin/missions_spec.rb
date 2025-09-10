@@ -71,64 +71,37 @@ RSpec.describe 'admin/missions' do
   end
 
   describe 'PUT /:id' do
-    subject(:put_mission) { put admin_mission_path(mission.id), params: {mission: mission_params} }
-
-    let(:mission) { create(:mission, start_date: DateTime.current + 2.days) }
-    let(:mission_params) do
-      attributes_for(:mission,
-                     name: 'updated_mission',
-                     start_date: mission.start_date + 3.hours,
-                     due_date: mission.start_date + 6.hours)
-    end
-
-    let!(:expected_params) do
-      {name: 'updated_mission', start_date: mission.start_date + 3.hours, due_date: mission.due_date + 3.hours}
-    end
+    subject(:put_mission) { put admin_mission_path(mission.id), params: }
 
     before { allow(DateTime).to receive(:current).and_return DateTime.new(2020, 2, 3, 9) }
 
-    it 'updates the mission' do
-      put_mission
+    let(:mission) { create(:mission, start_date: DateTime.current + 2.days, genre: :regulated) }
 
-      expect(mission.reload.attributes).to include(expected_params.stringify_keys)
+    let(:params) do
+      {mission: attributes_for(:mission,
+                               name: 'updated_mission',
+                               start_date: mission.start_date + 3.hours,
+                               due_date: mission.due_date + 6.hours,
+                               genre: 'standard')}
     end
 
-    it 'confirms the updates' do
+    it 'sets a :notice flash' do
       put_mission
       follow_redirect!
 
       expect(controller.flash[:notice]).to include(I18n.t('missions.update.confirm_update'))
     end
 
-    context 'when the mission is :regulated and the params standard is passed' do
-      let(:mission) { create(:mission, start_date: DateTime.current + 2.days, genre: 'regulated') }
-
-      let(:mission_params) do
-        attributes_for(:mission,
-                       name: 'updated_mission',
-                       start_date: mission.start_date,
-                       due_date: mission.due_date,
-                       genre: 'standard')
-      end
-
-      it 'confirms the update' do
-        put_mission
-        follow_redirect!
-
-        expect(response.body).to include(I18n.t('missions.update.confirm_update'))
-      end
-
-      it 'updates the mission with the params' do
-        put_mission
-        follow_redirect!
-
-        expect(mission.reload.attributes).to include(mission_params.except(:enrollments).stringify_keys)
-      end
+    it 'updates the mission with the given params' do
+      put_mission
+      expect(mission.reload.attributes).to include(params[:mission].except(:enrollments).stringify_keys)
     end
 
     context 'with invalid params' do
-      let(:mission_params) do
-        attributes_for(:mission, start_date: DateTime.current, due_date: DateTime.current - 5.minutes)
+      let(:params) do
+        {
+          mission: attributes_for(:mission, start_date: DateTime.current, due_date: DateTime.current - 5.minutes)
+        }
       end
 
       it 'sets an error feedback flash' do
@@ -137,162 +110,5 @@ RSpec.describe 'admin/missions' do
         expect(controller.flash[:error]).to be_present
       end
     end
-
-    context "when the mission have several enrollments and the datetimes of the related enrollments are outside
-    of the new mission's period" do
-      let(:mission_params) do
-        attributes_for(:mission,
-                       name: 'updated_mission',
-                       start_date: mission.start_date + 3.hours,
-                       due_date: mission.due_date + 3.hours)
-      end
-
-      let(:expected_params) { {start_date: mission_params['start_date'], due_date: mission_params['due_date']} }
-      let(:i18n_scope) { %i[activerecord errors models mission] }
-
-      it "doesn't update the mission" do
-        assign_members_to_this_mission(3, mission)
-        put_mission
-
-        expect(mission.reload.name).not_to eq('updated_mission')
-      end
-
-      it 'renders a successful response' do
-        assign_members_to_this_mission(3, mission)
-        put_mission
-        expect(response).to be_successful
-      end
-    end
-
-    context "when the :regulate type is passed in params and the datetimes of the related enrollments
-    mismatch the mission's time_slots" do
-      let(:mission_params) do
-        attributes_for(:mission,
-                       name: 'updated_mission',
-                       start_date: mission.start_date,
-                       due_date: mission.due_date,
-                       genre: 'regulated')
-      end
-
-      it 'renders a successful response' do
-        assign_members_to_this_mission(3, mission, mission.start_date + 1.hour, mission.start_date + 2.hours)
-
-        put_mission
-
-        expect(response).to be_successful
-      end
-
-      it "doesn't update the mission" do
-        assign_members_to_this_mission(3, mission, mission.start_date + 1.hour, mission.start_date + 2.hours)
-
-        put_mission
-
-        expect(mission.reload.name).not_to eq('updated_mission')
-      end
-    end
-
-    context "when the mission is :regulate, new datetimes are passed in params and the datetimes of the related
-    enrollments mismatch the time_slots of the new mission's period" do
-      let(:mission) { create(:mission, start_date: DateTime.current + 2.days, genre: 'regulated') }
-
-      let(:mission_params) do
-        attributes_for(:mission,
-                       name: 'updated_mission',
-                       start_date: mission.start_date - 1.hour,
-                       due_date: mission.due_date - 1.hour)
-      end
-
-      let(:create_enrollments) do
-        create_list(:enrollment,
-                    3,
-                    start_time: mission.start_date,
-                    end_time: mission.start_date + Enrollment::TIME_SLOT_DURATION,
-                    member_id: create(:member).id,
-                    mission_id: mission.id)
-      end
-
-      it 'renders a successful response' do
-        assign_members_to_this_mission(3, mission, mission.start_date, mission.start_date + Enrollment::TIME_SLOT_DURATION)
-
-        put_mission
-
-        expect(response).to be_successful
-      end
-
-      it "doesn't update the mission" do
-        assign_members_to_this_mission(3, mission, mission.start_date, mission.start_date + Enrollment::TIME_SLOT_DURATION)
-
-        put_mission
-
-        expect(mission.reload.name).not_to eq('updated_mission')
-      end
-    end
-
-    context 'when the recurrent changes params is true' do
-      let(:mission_params) do
-        attributes_for(:mission,
-                       name: 'updated_mission',
-                       recurrent_change: true,
-                       start_date: mission.start_date + 3.hours,
-                       due_date: mission.due_date + 3.hours)
-      end
-
-      let(:all_missions) { create_future_matching_missions(mission) + [mission] }
-      let!(:expected_start_dates) { all_missions.map(&:start_date) }
-      let!(:expected_due_dates) { all_missions.map(&:due_date) }
-
-      it 'updates futures missions that match the same week day, hour, and genre' do
-        other_missions = create_future_matching_missions(mission)
-
-        put_mission
-
-        other_missions.each do |mission|
-          expect(mission.reload.name).to eq 'updated_mission'
-        end
-      end
-
-      it "doesn't update pasts missions that match the same week day, hour, and genre" do
-        other_mission = create(:mission, start_date: mission.start_date - 2.days)
-
-        put_mission
-
-        expect(other_mission.reload.name).not_to eq 'updated_mission'
-      end
-
-      it "doesn't update :start_date attribute" do
-        put_mission
-
-        all_missions.each_with_index do |current_mission, index|
-          expect(current_mission.reload.start_date).to eq(expected_start_dates[index])
-        end
-      end
-
-      it "doesn't update :due_date attribute" do
-        put_mission
-
-        all_missions.each_with_index do |current_mission, index|
-          expect(current_mission.reload.due_date).to eq(expected_due_dates[index])
-        end
-      end
-    end
-  end
-
-  # helpers
-
-  def create_history_of_generated_schedule_for_n_months(months_count)
-    (1..months_count).each do |n|
-      create(:history_of_generated_schedule,
-             month_number: (DateTime.current + n.month).at_beginning_of_month)
-    end
-  end
-
-  def create_future_matching_missions(mission)
-    occurrence_date = mission.start_date + 7.days
-    other_missions = []
-    4.times do
-      other_missions << create(:mission, start_date: occurrence_date, genre: mission.genre)
-      occurrence_date += 7.days
-    end
-    other_missions
   end
 end

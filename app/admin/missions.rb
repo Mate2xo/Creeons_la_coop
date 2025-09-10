@@ -56,7 +56,7 @@ ActiveAdmin.register Mission do
       f.input :start_date
       f.input :due_date
       f.input :cash_register_close_out_required
-      f.input :recurrent_change, as: :boolean if f.object.persisted?
+      f.input :recurrent_change, as: :boolean if f.object.persisted? && f.object.recurrent?
       f.input :delivery_expected
     end
 
