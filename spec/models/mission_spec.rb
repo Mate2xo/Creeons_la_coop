@@ -49,7 +49,7 @@ RSpec.describe Mission do
   context 'with an invalid enrollment' do
     subject(:mission) do
       create(:mission) do |mission|
-        mission.enrollments.build attributes_for(:enrollment, mission:, start_time: mission.start_date - 1.day)
+        mission.enrollments.build attributes_for(:enrollment, start_time: mission.start_date - 1.day)
       end
     end
 
