@@ -61,6 +61,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'active_record_query_trace'
   gem 'annotate', '~> 3.1'
   gem 'letter_opener', '~> 1.10.0'
   gem 'listen', '~> 3.9' # Access an interactive console on exception pages or by calling 'console' anywhere in the code
