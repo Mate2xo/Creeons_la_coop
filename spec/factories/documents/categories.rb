@@ -9,6 +9,10 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  index_documents_categories_on_name  (name) UNIQUE
+#
 FactoryBot.define do
   factory :documents_category, class: 'Documents::Category' do
     sequence(:name) { |i| "Category nª#{i}" }

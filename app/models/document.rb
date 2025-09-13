@@ -5,13 +5,21 @@
 # Table name: documents
 #
 #  id          :bigint           not null, primary key
+#  category    :string           default("weekly_orders")
+#  date        :date
+#  name        :string
+#  published   :boolean          default(FALSE)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  published   :boolean          default(FALSE)
-#  category    :string           default("weekly_orders")
-#  name        :string
-#  date        :date
 #  category_id :bigint
+#
+# Indexes
+#
+#  index_documents_on_category_id  (category_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (category_id => documents_categories.id)
 #
 
 # Various uploaded files, that any member can access

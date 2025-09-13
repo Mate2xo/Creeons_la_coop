@@ -5,15 +5,25 @@
 # Table name: addresses
 #
 #  id            :bigint           not null, primary key
-#  postal_code   :string
 #  city          :string           not null
+#  coordinates   :float            is an Array
+#  postal_code   :string
 #  street_name_1 :string
 #  street_name_2 :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  productor_id  :bigint
 #  member_id     :bigint
-#  coordinates   :float            is an Array
+#  productor_id  :bigint
+#
+# Indexes
+#
+#  index_addresses_on_member_id     (member_id)
+#  index_addresses_on_productor_id  (productor_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (member_id => members.id)
+#  fk_rails_...  (productor_id => productors.id)
 #
 
 class Address < ApplicationRecord

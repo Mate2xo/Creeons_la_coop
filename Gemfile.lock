@@ -102,9 +102,9 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
-    annotate (3.2.0)
-      activerecord (>= 3.2, < 8.0)
-      rake (>= 10.4, < 14.0)
+    annotaterb (4.19.0)
+      activerecord (>= 6.0.0)
+      activesupport (>= 6.0.0)
     appsignal (4.5.13)
       logger
       rack (>= 2.0.0)
@@ -701,7 +701,7 @@ DEPENDENCIES
   active_storage_validations (~> 1.4)
   activeadmin (~> 3.3)
   addressable (~> 2.8.0)
-  annotate (~> 3.1)
+  annotaterb (~> 4.19)
   appsignal (~> 4.5)
   aws-sdk-s3
   bootsnap (~> 1.18.0)
