@@ -72,6 +72,7 @@ group :development do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'rubocop-rspec_rails', require: false
+  gem 'rubycritic', require: false
   gem 'solargraph', '~> 0.54', require: false # LSP provinding app documention through IDE
   gem 'solargraph-rails', require: false
   gem 'solargraph-reek', require: false
