@@ -3,6 +3,7 @@ fr:
     index:
       title: Documents
       all_categories: Toutes les categories
+      all_sub_categories: Toutes les sous-categories
       placeholder:
         name: Nom
       search: Rechercher

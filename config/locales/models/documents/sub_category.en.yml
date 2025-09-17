@@ -1,0 +1,15 @@
+en:
+  activerecord:
+    attributes:
+      documents/sub_category:
+        name: Name
+    errors:
+      models:
+        document:
+          attributes:
+            sub_category:
+              not_belonging_to_category: does not belong to the associated category
+    models:
+      documents/sub_category:
+        one: Sub-category
+        other: Sub-categories

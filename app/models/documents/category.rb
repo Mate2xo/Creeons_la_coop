@@ -15,7 +15,9 @@
 #
 module Documents
   class Category < ApplicationRecord # rubocop:disable Style/Documentation
-    has_many :documents, dependent: :nullify
+    has_many :documents, dependent: :restrict_with_error
+    has_many :sub_categories, dependent: :destroy
+    accepts_nested_attributes_for :sub_categories, reject_if: :all_blank, allow_destroy: true
 
     validates :name, presence: true, uniqueness: true
 
@@ -35,7 +37,7 @@ module Documents
 
       case auth_object.user&.role&.to_sym
       when :super_admin, :admin
-        [:documents]
+        %i[documents sub_categories]
       else
         []
       end

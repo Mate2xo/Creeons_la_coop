@@ -8,6 +8,7 @@ fr:
         name: Nom
         preview: Aperçu
         published: Publié
+        sub_category: Sous-categorie
   enumerize:
     document:
       category:
