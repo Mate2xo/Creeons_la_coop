@@ -23,9 +23,7 @@ ActiveAdmin.register Document do
     end
     column :category
     column :published
-    actions do |document|
-      link_to t('main_app.views.application.buttons.edit'), edit_admin_document_path(document)
-    end
+    actions
   end
 
   form do |f|
