@@ -4,7 +4,7 @@
 class CreateDocumentsSubCategories < ActiveRecord::Migration[7.1]
   def change
     create_table :documents_sub_categories do |t|
-      t.string :name
+      t.string :name, null: false
       t.references :category, null: false, foreign_key: {to_table: :documents_categories}
 
       t.timestamps
