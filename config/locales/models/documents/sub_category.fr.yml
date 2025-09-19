@@ -11,5 +11,5 @@ fr:
               not_belonging_to_category: ne correspond pas à la catégorie associée
     models:
       documents/sub_category:
-        one: Sous-categorie
-        other: Sous-categories
+        one: Sous-catégorie
+        other: Sous-catégories

@@ -2,8 +2,8 @@ fr:
   documents:
     index:
       title: Documents
-      all_categories: Toutes les categories
-      all_sub_categories: Toutes les sous-categories
+      all_categories: Toutes les catégories
+      all_sub_categories: Toutes les sous-catégories
       placeholder:
         name: Nom
       search: Rechercher

@@ -5,5 +5,5 @@ fr:
         name: Nom
     models:
       documents/category:
-        one: Categorie
-        other: Categories
+        one: Catégorie
+        other: Catégories
