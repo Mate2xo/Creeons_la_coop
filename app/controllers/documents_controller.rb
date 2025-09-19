@@ -9,6 +9,8 @@ class DocumentsController < ApplicationController
     @q = scope.ransack params[:q], auth_object: policy(Document)
     @q.sorts = 'date desc' if @q.sorts.empty?
     @pagy, @documents = pagy @q.result.includes(file_attachment: :blob)
+    @category_options = Documents::Category.pluck(:name, :id)
+    @sub_category_options = Documents::SubCategory.pluck(:name, :id)
   end
 
   def destroy
