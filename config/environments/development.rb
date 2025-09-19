@@ -92,4 +92,8 @@ Rails.application.configure do
 
     Redis.raise_deprecations = true
   end
+
+  ActiveRecordQueryTrace.enabled = true
+  ActiveRecordQueryTrace.level = :app
+  ActiveRecordQueryTrace.colorize = :white
 end

@@ -738,7 +738,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_record_query_trace
+  active_record_query_trace (~> 1.8)
   active_storage_validations (~> 1.4)
   activeadmin (~> 3.3)
   addressable (~> 2.8.0)
