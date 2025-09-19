@@ -28,9 +28,10 @@ module Documents
     validates :name, presence: true, uniqueness: {scope: :category_id}
 
     def self.ransackable_attributes(auth_object = nil)
-      return [] unless auth_object
+      role = auth_object&.user&.role
+      return [] unless role
 
-      case auth_object.user.role.to_sym
+      case role.to_sym
       when :super_admin, :admin
         authorizable_ransackable_attributes + _ransackers.keys
       else
@@ -39,9 +40,10 @@ module Documents
     end
 
     def self.ransackable_associations(auth_object = nil)
-      return [] unless auth_object
+      role = auth_object&.user&.role
+      return [] unless role
 
-      case auth_object.user&.role&.to_sym
+      case role.to_sym
       when :super_admin, :admin
         %i[category documents]
       else
