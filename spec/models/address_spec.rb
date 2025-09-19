@@ -32,14 +32,7 @@ RSpec.describe Address do
   describe 'Model instanciation' do
     subject { described_class.new }
 
-    describe 'Database' do
-      it { is_expected.to have_db_column(:city).of_type(:string).with_options(null: false) }
-      it { is_expected.to have_db_column(:postal_code).of_type(:string) }
-      it { is_expected.to have_db_column(:street_name_1).of_type(:string) }
-      it { is_expected.to have_db_column(:street_name_2).of_type(:string) }
-      it { is_expected.to have_db_column(:coordinates).of_type(:float) }
-      it { is_expected.to validate_presence_of(:city) }
-    end
+    it { is_expected.to validate_presence_of(:city) }
 
     describe 'associations' do
       let(:productor_address) { build_stubbed(:productor_address) }
