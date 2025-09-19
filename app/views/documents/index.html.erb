@@ -18,8 +18,14 @@
 
       <%= f.label :category_id_eq, class: 'sr-only' %>
       <%= f.select :category_id_eq,
-                   Documents::Category.pluck(:name, :id),
+                   @category_options,
                    {include_blank: t('.all_categories')},
+                   {class: 'custom-select mx-sm-2'} %>
+
+      <%= f.label :sub_category_id_eq, class: 'sr-only' %>
+      <%= f.select :sub_category_id_eq,
+                   @sub_category_options,
+                   {include_blank: t('.all_sub_categories')},
                    {class: 'custom-select mx-sm-2'} %>
 
       <%= f.submit t('.search'), class: 'btn btn-success' %>

@@ -61,7 +61,8 @@ group :development, :test do
 end
 
 group :development do
-  gem 'annotate', '~> 3.1'
+  gem 'active_record_query_trace', '~> 1.8'
+  gem 'annotaterb', '~> 4.19'
   gem 'letter_opener', '~> 1.10.0'
   gem 'listen', '~> 3.9' # Access an interactive console on exception pages or by calling 'console' anywhere in the code
   gem 'rubocop', require: false
@@ -71,6 +72,7 @@ group :development do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'rubocop-rspec_rails', require: false
+  gem 'rubycritic', require: false
   gem 'solargraph', '~> 0.54', require: false # LSP provinding app documention through IDE
   gem 'solargraph-rails', require: false
   gem 'solargraph-reek', require: false

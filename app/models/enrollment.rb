@@ -5,12 +5,16 @@
 # Table name: enrollments
 #
 #  id             :bigint           not null, primary key
+#  end_time       :datetime
+#  old_end_time   :time
+#  old_start_time :time
+#  start_time     :datetime
 #  member_id      :bigint           not null
 #  mission_id     :bigint           not null
-#  old_start_time :time
-#  old_end_time   :time
-#  start_time     :datetime
-#  end_time       :datetime
+#
+# Indexes
+#
+#  index_enrollments_on_mission_id  (mission_id)
 #
 
 # Represents a member enrolling to a given Mission

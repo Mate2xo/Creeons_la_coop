@@ -2,7 +2,7 @@
 
 ActiveAdmin.register Document do
   menu if: proc { authorized? :index, Document }
-  permit_params :published, :file, :category_id, :name, :date
+  permit_params :published, :file, :category_id, :sub_category_id, :name, :date
   actions :all, except: [:show]
   includes :category, file_attachment: :blob
 
@@ -23,14 +23,13 @@ ActiveAdmin.register Document do
     end
     column :category
     column :published
-    actions do |document|
-      link_to t('main_app.views.application.buttons.edit'), edit_admin_document_path(document)
-    end
+    actions
   end
 
   form do |f|
     f.inputs do
       f.input :category
+      f.input :sub_category, collection: resource.category&.sub_categories
       f.input :name
       f.input :date, start_year: 2018, end_year: Date.current.year + 2
       f.input :published

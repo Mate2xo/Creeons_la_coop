@@ -4,14 +4,25 @@
 #
 # Table name: documents
 #
-#  id          :bigint           not null, primary key
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  published   :boolean          default(FALSE)
-#  category    :string           default("weekly_orders")
-#  name        :string
-#  date        :date
-#  category_id :bigint
+#  id              :bigint           not null, primary key
+#  category        :string           default("weekly_orders")
+#  date            :date
+#  name            :string
+#  published       :boolean          default(FALSE)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  category_id     :bigint
+#  sub_category_id :bigint
+#
+# Indexes
+#
+#  index_documents_on_category_id      (category_id)
+#  index_documents_on_sub_category_id  (sub_category_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (category_id => documents_categories.id)
+#  fk_rails_...  (sub_category_id => documents_sub_categories.id)
 #
 
 # Various uploaded files, that any member can access
@@ -20,6 +31,7 @@ class Document < ApplicationRecord
 
   has_one_attached :file
   belongs_to :category, class_name: 'Documents::Category'
+  belongs_to :sub_category, class_name: 'Documents::SubCategory', optional: true
 
   validates :date, :name, presence: true
   validates :file, attached: true, size: {less_than: 20.megabytes}, content_type: [
@@ -31,6 +43,7 @@ class Document < ApplicationRecord
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', # .xlsx
     'text/plain'
   ]
+  validate :sub_category_belongs_to_associated_category, if: :sub_category
 
   def self.ransackable_attributes(auth_object = nil)
     return [] unless auth_object
@@ -39,9 +52,17 @@ class Document < ApplicationRecord
     when :super_admin, :admin
       column_names + _ransackers.keys
     else
-      %i[date name category_id]
+      %w[date name category_id sub_category_id]
     end
   end
 
   def self.ransackable_associations(_auth_object = nil) = []
+
+  private
+
+  def sub_category_belongs_to_associated_category
+    return if sub_category.category == category
+
+    errors.add(:sub_category, :not_belonging_to_category)
+  end
 end

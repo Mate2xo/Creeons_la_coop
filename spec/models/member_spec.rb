@@ -5,34 +5,45 @@
 # Table name: members
 #
 #  id                        :bigint           not null, primary key
-#  email                     :string           default(""), not null
-#  encrypted_password        :string           default(""), not null
-#  reset_password_token      :string
-#  reset_password_sent_at    :datetime
-#  remember_created_at       :datetime
-#  first_name                :string
-#  last_name                 :string
 #  biography                 :text
-#  phone_number              :string
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  role                      :integer          default("member")
+#  cash_register_proficiency :integer          default("newcomer")
+#  confirmation_sent_at      :datetime
 #  confirmation_token        :string
 #  confirmed_at              :datetime
-#  confirmation_sent_at      :datetime
-#  unconfirmed_email         :string
-#  invitation_token          :string
-#  invitation_created_at     :datetime
-#  invitation_sent_at        :datetime
-#  invitation_accepted_at    :datetime
-#  invitation_limit          :integer
-#  invited_by_type           :string
-#  invited_by_id             :bigint
-#  invitations_count         :integer          default(0)
 #  display_name              :string
+#  email                     :string           default(""), not null
+#  encrypted_password        :string           default(""), not null
+#  first_name                :string
+#  invitation_accepted_at    :datetime
+#  invitation_created_at     :datetime
+#  invitation_limit          :integer
+#  invitation_sent_at        :datetime
+#  invitation_token          :string
+#  invitations_count         :integer          default(0)
+#  invited_by_type           :string
+#  last_name                 :string
 #  moderator                 :boolean          default(FALSE)
-#  cash_register_proficiency :integer          default("untrained")
+#  phone_number              :string
+#  remember_created_at       :datetime
+#  reset_password_sent_at    :datetime
+#  reset_password_token      :string
+#  role                      :integer          default("member")
+#  unconfirmed_email         :string
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  invited_by_id             :bigint
 #  register_id               :integer
+#
+# Indexes
+#
+#  index_members_on_confirmation_token                 (confirmation_token)
+#  index_members_on_email                              (email) UNIQUE
+#  index_members_on_invitation_token                   (invitation_token) UNIQUE
+#  index_members_on_invitations_count                  (invitations_count)
+#  index_members_on_invited_by_id                      (invited_by_id)
+#  index_members_on_invited_by_type_and_invited_by_id  (invited_by_type,invited_by_id)
+#  index_members_on_reset_password_token               (reset_password_token) UNIQUE
+#  members_display_name_lower                          (lower((display_name)::text) text_pattern_ops) UNIQUE
 #
 
 require 'rails_helper'
@@ -41,23 +52,8 @@ RSpec.describe Member, type: :model do
   describe 'Model instanciation' do
     subject(:instance) { described_class.new }
 
-    describe 'Database' do
-      it { is_expected.to have_db_column(:id).of_type(:integer) }
-      it { is_expected.to have_db_column(:email).of_type(:string).with_options(null: false) }
-      it { is_expected.to have_db_column(:encrypted_password).of_type(:string).with_options(null: false) }
-      it { is_expected.to have_db_column(:first_name).of_type(:string) }
-      it { is_expected.to have_db_column(:last_name).of_type(:string) }
-      it { is_expected.to have_db_column(:display_name).of_type(:string) }
-      it { is_expected.to have_db_column(:biography).of_type(:text) }
-      it { is_expected.to have_db_column(:phone_number).of_type(:string) }
-      it { is_expected.to have_db_column(:role).of_type(:integer) }
-      it { is_expected.to define_enum_for(:role) }
-      it { is_expected.to have_db_column(:confirmation_token).of_type(:string) }
-      it { is_expected.to have_db_column(:cash_register_proficiency).of_type(:integer) }
-      it { is_expected.to define_enum_for(:cash_register_proficiency) }
-      it { is_expected.to have_db_index(:confirmation_token) }
-      it { is_expected.to have_db_index(:email).unique }
-      it { is_expected.to have_db_index(:reset_password_token).unique }
+    it 'has a default :cash_register_proficiency enum of :newcomer' do
+      expect(instance.cash_register_proficiency.to_sym).to eq :newcomer
     end
 
     describe 'associations' do

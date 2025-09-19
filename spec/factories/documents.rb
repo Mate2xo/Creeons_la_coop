@@ -4,14 +4,25 @@
 #
 # Table name: documents
 #
-#  id          :bigint           not null, primary key
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  published   :boolean          default(FALSE)
-#  category    :string           default("weekly_orders")
-#  name        :string
-#  date        :date
-#  category_id :bigint
+#  id              :bigint           not null, primary key
+#  category        :string           default("weekly_orders")
+#  date            :date
+#  name            :string
+#  published       :boolean          default(FALSE)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  category_id     :bigint
+#  sub_category_id :bigint
+#
+# Indexes
+#
+#  index_documents_on_category_id      (category_id)
+#  index_documents_on_sub_category_id  (sub_category_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (category_id => documents_categories.id)
+#  fk_rails_...  (sub_category_id => documents_sub_categories.id)
 #
 
 FactoryBot.define do

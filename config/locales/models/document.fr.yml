@@ -2,12 +2,13 @@ fr:
   activerecord:
     attributes:
       document:
-        category: Categorie
+        category: Catégorie
         date: Date
         file: Fichier
         name: Nom
         preview: Aperçu
         published: Publié
+        sub_category: Sous-catégorie
   enumerize:
     document:
       category:

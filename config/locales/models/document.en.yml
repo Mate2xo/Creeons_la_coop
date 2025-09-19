@@ -8,6 +8,7 @@ en:
         name: Name
         preview: Preview
         published: Published
+        sub_category: Sub-category
   enumerize:
     document:
       category:

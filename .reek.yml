@@ -1,0 +1,4 @@
+---
+# Directories and files below will not be scanned at all
+exclude_paths:
+  - db/schema.rb

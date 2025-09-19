@@ -5,13 +5,21 @@
 # Table name: infos
 #
 #  id         :bigint           not null, primary key
+#  category   :string
 #  content    :text
+#  published  :boolean          default(FALSE)
 #  title      :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  author_id  :bigint
-#  category   :string
-#  published  :boolean          default(FALSE)
+#
+# Indexes
+#
+#  index_infos_on_author_id  (author_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (author_id => members.id)
 #
 
 FactoryBot.define do
