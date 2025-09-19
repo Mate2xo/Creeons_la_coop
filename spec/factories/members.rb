@@ -6,7 +6,7 @@
 #
 #  id                        :bigint           not null, primary key
 #  biography                 :text
-#  cash_register_proficiency :integer          default("untrained")
+#  cash_register_proficiency :integer          default("newcomer")
 #  confirmation_sent_at      :datetime
 #  confirmation_token        :string
 #  confirmed_at              :datetime

@@ -6,7 +6,7 @@
 #
 #  id                        :bigint           not null, primary key
 #  biography                 :text
-#  cash_register_proficiency :integer          default("untrained")
+#  cash_register_proficiency :integer          default("newcomer")
 #  confirmation_sent_at      :datetime
 #  confirmation_token        :string
 #  confirmed_at              :datetime
@@ -51,6 +51,10 @@ require 'rails_helper'
 RSpec.describe Member, type: :model do
   describe 'Model instanciation' do
     subject(:instance) { described_class.new }
+
+    it 'has a default :cash_register_proficiency enum of :newcomer' do
+      expect(instance.cash_register_proficiency.to_sym).to eq :newcomer
+    end
 
     describe 'associations' do
       it { is_expected.to accept_nested_attributes_for(:address).allow_destroy(true) }
